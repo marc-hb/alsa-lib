@@ -66,8 +66,8 @@ install-indep: build-stamp-indep
 	dh_clean -k
 	dh_installdirs -i
 	
-	install -d -m 0755 debian/tmp/usr/share/doc/libasound2-dev/
-	cp -r doc/doxygen/html debian/tmp/usr/share/doc/libasound2-dev/
+	install -d -m 0755 debian/tmp/usr/share/doc/libasound2-doc/
+	cp -r doc/doxygen/html debian/tmp/usr/share/doc/libasound2-doc/
 
 	dh_install -i
 	dh_installdocs -i
