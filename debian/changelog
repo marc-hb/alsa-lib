@@ -7,9 +7,9 @@ alsa-lib (1.0.7-1~unreleased2) unstable; urgency=low
   * Thomas Hood
     - Really add examples/asound.conf_dmix
     - Patches:
-      + 01_aclocal_underquote_warning   Delete
-      + 01_aserver_options              Remove
-      + 01_conf_backslash               Remove
+      + 01_aclocal_underquote_warning   Delete unused
+      + 01_aserver_options              Remove obsolete
+      + 01_conf_backslash               Remove obsolete
       + 01_alpha_versioned_symbols      Leave
       + 02_aclocal_libs_fix             Leave
     - libasound2.NEWS:
