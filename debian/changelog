@@ -1,5 +1,6 @@
-alsa-lib (1.0.8-3~beta1) unstable; urgency=low
+alsa-lib (1.0.8-3~beta1) unstable; urgency=high
 
+  * Documentation changes only
   * Free Ekanayaka:
 
  -- Thomas Hood <jdthood@yahoo.co.uk>  Fri, 18 Feb 2005 09:10:32 +0100
