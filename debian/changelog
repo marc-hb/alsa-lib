@@ -1,3 +1,9 @@
+alsa-lib (1.0.6-4) unstable; urgency=low
+
+  * Unreleased
+
+ -- Thomas Hood <jdthood@yahoo.co.uk>  Wed, 20 Oct 2004 21:49:14 +0200
+
 alsa-lib (1.0.6-3) unstable; urgency=medium
 
   * Jordi Mallach:
