@@ -1,19 +1,38 @@
 # Example /etc/asound.conf or ~/.asoundrc file showing how
 # to configure ALSA so that dmix is used by default
+#
+# This isn't very well tested.  Bug reports and suggestions for
+# improvement are welcome.
+#
 
 # N.B. pcm.dmix is already defined in /usr/share/alsa/alsa.conf
 # with configurable slave device, format and rate
 
-# Make ALSA apps default to using dmix
-pcm.!default { 
-	type plug 
-	slave.pcm "dmix" 
+# We define another one here
+pcm.ossdmix {
+ 	type dmix
+ 	ipc_key 4339      # A unique number
+ 	slave {
+ 		pcm "hw:0,0"
+ 		period_time 0
+ 		period_size 1024  # a power of 2 for OSS compatibility
+ 		buffer_size 8192  # a power of 2 for OSS compatibility
+ 		#format "S32_LE"
+ 		#periods 128      # a power of 2 for OSS compatibility
+ 		#rate 8000
+ 	}
 }
 
-# Make OSS apps default to using dmix
+# Make ALSA apps default to using it
+pcm.!default { 
+	type plug 
+	slave.pcm "ossdmix" 
+}
+
+# Make OSS apps default to using it
 pcm.dsp0 {
 	type plug
-	slave.pcm "dmix"
+	slave.pcm "ossdmix"
 }
 
 ctl.mixer0 {
@@ -21,19 +40,3 @@ ctl.mixer0 {
 	card 0
 }
 
-
-# We could also define a custom dmixer named "mymix" as follows and
-# then we could specify 'slave.pcm "mymix"' above.
-# pcm.mymix
-# 	type dmix
-# 	ipc_key 4339      # A unique number
-# 	slave {
-# 		pcm "hw:0,0"
-# 		period_time 0
-# 		period_size 1024  # a power of 2
-# 		buffer_size 8192  # a power of 2
-# 		#format "S32_LE"
-# 		#periods 128      # a power of 2
-# 		#rate 8000
-# 	}
-# }
