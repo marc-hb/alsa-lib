@@ -2,8 +2,13 @@ alsa-lib (1.0.6-2) unstable; urgency=low
 
   * Unreleased. 
   * Thomas Hood
+    - conf.c
+      + Add 01_conf_backslash.dpatch:
+        Make backslash a LOCAL_UNEXPECTED_CHAR
+        Patch backported from CVS
     - aserver.c
-      + Terminate long_options structure  (Closes: #211893)
+      + Add 01_aserver_options.dpatch:
+        Terminate long_options structure  (Closes: #211893)
         Thanks to Clement Stenac for the patch
 
  -- Jordi Mallach <jordi@debian.org>  Wed, 22 Sep 2004 23:22:01 +0200
