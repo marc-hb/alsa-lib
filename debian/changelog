@@ -1,6 +1,6 @@
-alsa-lib (1.0.7-1~unreleased7) unstable; urgency=low
+alsa-lib (1.0.7-1~unreleased8) unstable; urgency=low
 
-  * Status: Needs testing
+  * Status: Ready for release
   * New upstream release
     - Closes: #273498  "Rhythmbox won't playback on ICE1712 card"
     - Closes: #280543  "emu10k1: sound cut when passthru enabled"
