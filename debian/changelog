@@ -4,7 +4,7 @@ alsa-lib (1.0.6-1) unstable; urgency=low
   * Jordi Mallach:
     - debian/control: add Thomas Hood <jdthood@aglu.demon.nl> to Uploaders.
 
- -- Jordi Mallach <jordi@debian.org>  Mon, 20 Sep 2004 14:43:25 +020
+ -- Jordi Mallach <jordi@debian.org>  Wed, 22 Sep 2004 22:24:00 +0200
 
 alsa-lib (1.0.5-1) unstable; urgency=low
 
