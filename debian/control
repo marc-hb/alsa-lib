@@ -13,8 +13,7 @@ Depends: ${shlibs:Depends}
 Replaces: alsalib0.3.0, alsalib0.3.2, alsalib
 Conflicts: alsalib0.1.3, alsalib0.3.0, alsalib0.3.2, alsalib
 Description: ALSA library
- This package contains the binaries of alsa-lib,
- the ALSA library.
+ This package contains the ALSA library files.
  .
  ALSA is the Advanced Linux Sound Architecture.
 
@@ -28,7 +27,7 @@ Replaces: alsalib0.3.0-dev, alsalib0.3.2-dev, libasound0 (<= 0.4.1-2), libasound
 Conflicts: libasound-dev
 Description: ALSA library development files
  This package contains files required for developing software
- that makes use of alsa-lib, the ALSA library.
+ that makes use of libasound2, the ALSA library.
  .
  ALSA is the Advanced Linux Sound Architecture.
 
@@ -36,7 +35,6 @@ Package: libasound2-doc
 Architecture: all
 Section: libdevel
 Description: ALSA library developer documentation
- This package contains documentation for alsa-lib,
- the ALSA library.
+ This package contains documentation for the ALSA library.
  .
  ALSA is the Advanced Linux Sound Architecture.

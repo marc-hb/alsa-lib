@@ -12,6 +12,7 @@ alsa-lib (1.0.8+1.0.9rc2-1~alpha1) experimental; urgency=low
     - debian/NOTES:
       + Add note about what to do if we ever have libasound3
       + Remove note about building libasound2-plugins
+    - Tweak descriptions
 
  -- Thomas Hood <jdthood@yahoo.co.uk>  Sat, 26 Feb 2005 17:32:05 +0100
 
