@@ -90,7 +90,7 @@ install-indep: build-indep-stamp
 	dh_installdirs -i
 	dh_install -i
 	dh_installdocs -i
-	dh_installexamples -plibasound2-base debian/examples/asound.conf_dmix
+	dh_installexamples -plibasound2-data debian/examples/asound.conf_dmix
 	cp -r doc/doxygen/html debian/libasound2-doc/usr/share/doc/libasound2-doc
 	dh_installchangelogs -i
 	dh_compress -i
