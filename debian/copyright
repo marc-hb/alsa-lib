@@ -1,0 +1,17 @@
+This package was debianized by Wichert Akkerman <wakkerma@debian.org> on
+Sun,  7 Jun 1998 16:55:07 +0200.
+Masato Taruishi <taru@debian.org> took over the package on
+Sun, 17 Oct 1999 05:11:17 +0900.
+Since Sun, 08 Sep 2002 17:48:12 +0200, it's maintained by "The ALSA psychos",
+also known as Jordi Mallach <jordi@debian.org>,
+Steve Kowalik <stevenk@debian.org> and David B. Harris <dbharris@debian.org>.
+
+It was downloaded from the ALSA homepage at http://www.alsa-project.org/
+
+Upstream author: Jarsolav Kysela <perex@suse.cz> and others
+
+Copyright:
+alsa-lib is copyrighted under the terms of the GNU Lesser General Public
+License.
+On Debian systems, the complete text of the GNU Lesser General Public License
+can be found in /usr/share/common-licenses/LGPL.
