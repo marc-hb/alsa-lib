@@ -2,7 +2,7 @@
 set -e
 
 case "$1" in
-configure)
+purge)
 	# Remove very old cruft
 	if [ -L /usr/doc/alsalib0.3.0 ]; then
 		rm -f /usr/doc/alsalib0.3.0

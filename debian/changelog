@@ -1,3 +1,13 @@
+alsa-lib (1.0.7-2~unreleased1) unstable; urgency=low
+
+  * Status: releasable
+  * Urgency: low
+  * Thomas Hood
+    - libasound2.postinst: Remove cruft only on configure
+    - libasound2.postrm: Add to remove cruft on purge too
+
+ -- Thomas Hood <jdthood@yahoo.co.uk>  Mon,  6 Dec 2004 11:01:02 +0100
+
 alsa-lib (1.0.7-1) unstable; urgency=low
 
   * New upstream release
