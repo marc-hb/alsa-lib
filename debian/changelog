@@ -2,11 +2,14 @@ alsa-lib (1.0.6-4) unstable; urgency=low
 
   * Unreleased
   * Thomas Hood:
-    - Tweak descriptions
+    - debian/control:
+      + Tweak descriptions
   * Jordi Mallach:
-    - debian/rules: install doxygen docs in /usr/share/doc/libasound2-doc,
-      not .../libasound2-dev (closes: #277837).
-    - debian/libasound2-doc.doc-base: new file to register the doxygen docs.
+    - debian/rules:
+      + install doxygen docs in /usr/share/doc/libasound2-doc, not in
+        .../libasound2-dev  (Closes: #277837)
+    - debian/libasound2-doc.doc-base:
+      + new file to register the doxygen docs
 
  -- Thomas Hood <jdthood@yahoo.co.uk>  Wed, 20 Oct 2004 21:49:14 +0200
 
