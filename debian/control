@@ -14,7 +14,8 @@ Replaces: alsalib0.3.0, alsalib0.3.2, alsalib
 Conflicts: alsalib0.1.3, alsalib0.3.0, alsalib0.3.2, alsalib
 Suggests: libasound2-plugins
 Description: ALSA library
- This package contains the ALSA library files.
+ This package contains the ALSA library and its standard
+ plugins.
  .
  ALSA is the Advanced Linux Sound Architecture.
 
