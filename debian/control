@@ -25,8 +25,8 @@ Section: libdevel
 Depends: libasound2 (= ${Source-Version}), libc6-dev | libc-dev
 Suggests: libasound2-doc
 Provides: alsalib-dev
-Replaces: alsalib0.3.0-dev, alsalib0.3.2-dev, libasound0 (<= 0.4.1-2), libasound2 (<< 0.9.0rc7-2), alsa-headers
-Conflicts: alsalib-dev, alsa-headers
+Replaces: alsalib0.3.0-dev, alsalib0.3.2-dev, libasound0 (<= 0.4.1-2), libasound2 (<< 0.9.0rc7-2)
+Conflicts: alsalib-dev
 Description: ALSA library development files
  This package contains files required for developing software that
  makes use of alsa-lib, the ALSA library.
