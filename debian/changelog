@@ -1,6 +1,5 @@
-alsa-lib (1.0.7-1~unreleased8) unstable; urgency=low
+alsa-lib (1.0.7-1) unstable; urgency=low
 
-  * Status: Ready for release
   * New upstream release
     - Closes: #273498  "Rhythmbox won't playback on ICE1712 card"
     - Closes: #280543  "emu10k1: sound cut when passthru enabled"
@@ -21,7 +20,7 @@ alsa-lib (1.0.7-1~unreleased8) unstable; urgency=low
     - libasound2.NEWS:
       + Update
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Sun, 21 Nov 2004 17:34:33 +0100
+ -- Jordi Mallach <jordi@debian.org>  Tue, 30 Nov 2004 14:56:11 +0100
 
 alsa-lib (1.0.6-5) unstable; urgency=medium
 
