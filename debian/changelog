@@ -1,15 +1,19 @@
-alsa-lib (1.0.7-5) unstable; urgency=low
+alsa-lib (1.0.8-1) unstable; urgency=low
 
-  * Thomas Hood:
+  * New upstream release
+    (Closes: #290034 "libasound2 1.0.7 causing problems with XMMS")
+  * Thomas Hood
+    - Eliminate 10_pcm_wait_assertion.dpatch (applied upstream)
     - examples/asound.conf_dmix
       + Simplify
       + Mention /usr/share/doc/libasound2-doc/html/conf.html
     - debian/rules 
+      + Eliminate debian/libasound2.shlibs; use dh_makeshibs -V
       + Add -n option to dh_makeshlibs -plibasound2-plugins so that
         no ldconfig is done in libasound2-plugins's post(rm|inst).
         Eliminates lintian warning postinst-has-useless-call-to-ldconfig
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Fri, 17 Dec 2004 13:01:09 +0100
+ -- Thomas Hood <jdthood@yahoo.co.uk>  Sun, 16 Jan 2005 12:33:19 +0100
 
 alsa-lib (1.0.7-4) unstable; urgency=high
 
