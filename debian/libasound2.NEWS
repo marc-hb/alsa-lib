@@ -1,4 +1,4 @@
-alsa-lib (1.0.6-3) unstable; urgency=low
+alsa-lib (1.0.6-3) unstable; urgency=high
 
   Some users might encounter problems getting their sound cards to work
   when using alsa-lib version 1.0.6 along with Linux kernel 2.6.8.1.
