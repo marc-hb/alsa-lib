@@ -2,7 +2,7 @@ alsa-lib (1.0.6-4~unreleased3) unstable; urgency=medium
 
   * Status: ready for release, I think
   * Thomas Hood:
-    - /usr/share/doc/examples/asound.conf
+    - /usr/share/doc/libasound2/examples/asound.conf
       + Add
     - debian/control:
       + Tweak Descriptions
