@@ -12,6 +12,8 @@ alsa-lib (1.0.6-3) unstable; urgency=medium
       + Tweak Description
       + Don't Depend on alsa-headers which doesn't exist any more.
         Conflict with and Replace alsa-headers instead.
+      + Build-Depend on doxygen >> 1.3.8-20040913-1 in order to
+        prevent build segfault
 
  -- Jordi Mallach <jordi@debian.org>  Sun, 26 Sep 2004 20:30:24 +0200
 
