@@ -1,6 +1,6 @@
 alsa-lib (1.0.7-1~unreleased1) experimental; urgency=low
 
-  * Status: In progress
+  * Status: Ready for release (really!)
   * Thomas Hood: 
     - Checked patches:
       + 01_aserver_options: remove cuz applied upstream
@@ -8,7 +8,9 @@ alsa-lib (1.0.7-1~unreleased1) experimental; urgency=low
       + 01_alpha_versioned_symbols: left as-is
       + 02_aclocal_libs_fix: left as-is
     - Deleted old patches:
-      01_aclocal_underquote_warning.dpatch
+      + 01_aclocal_underquote_warning.dpatch
+    - libasound2.NEWS:
+      + Update
 
  -- Jordi Mallach <jordi@irati>  Wed, 17 Nov 2004 10:51:40 +0100
 
