@@ -54,7 +54,6 @@ install-arch: build-arch-stamp
 	dh_clean -k
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 	dh_installdirs -a
-	install -d -m 755 debian/tmp/usr/lib/alsa-lib
 	dh_install -a
 	dh_installdocs -a
 	dh_installexamples -a
