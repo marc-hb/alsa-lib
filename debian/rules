@@ -106,7 +106,7 @@ endif
 
 	dh_install -a
 	dh_installdocs -a
-	dh_installexamples -a
+	dh_installexamples -plibasound2 debian/examples/asound.conf_dmix
 	dh_installchangelogs -a
 	dh_strip -a
 	dh_link -a

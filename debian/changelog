@@ -5,6 +5,7 @@ alsa-lib (1.0.7-1~unreleased1) unstable; urgency=low
     - Closes: #273498  "Rhythmbox won't playback on ICE1712 card"
     - Closes: #280543  "emu10k1: sound cut when passthru enabled"
   * Thomas Hood
+    - Really add examples/asound.conf_dmix
     - Patches:
       + 01_aclocal_underquote_warning.dpatch: delete
       + 01_aserver_options: remove cuz applied upstream
