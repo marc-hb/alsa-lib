@@ -17,6 +17,7 @@ alsa-lib (1.0.7-1) unstable; urgency=low
       + 02_aclocal_libs_fix             Leave
     - debian/control
       + Eliminate duplicate dependencies from Build-Depends-Indep
+    - debian/watch: update
     - libasound2.NEWS:
       + Update
   * Jordi Mallach:
