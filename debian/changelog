@@ -1,6 +1,6 @@
-alsa-lib (1.0.6-4~unreleased1) unstable; urgency=medium
+alsa-lib (1.0.6-4~unreleased2) unstable; urgency=medium
 
-  * Status: ready for release but low priority
+  * Status: work in progress
   * Thomas Hood:
     - /usr/share/doc/examples/asound.conf
       + Add
@@ -15,14 +15,13 @@ alsa-lib (1.0.6-4~unreleased1) unstable; urgency=medium
     - debian/libasound2-doc.doc-base:
       + Add this file to register the doxygen docs
     - debian/rules:
-      + Implement an easy way to disable the build of the jack plugin, to
-        allow an easy breaking of the circular dependency between
-        jack-audio-connection-kit and alsa-lib. Porters trying to bootstrap
-        a new Debian architecture should use "no-jack-dep" in
-        $DEB_BUILD_OPTIONS. Please see the details in README.build. Thanks
-        to Colin Watson for the suggestion. (Closes: #222677)
+      + Implement an easy way to disable the build of the jack plugin,
+        thus allowing breaking of the circular dependency between
+        jack-audio-connection-kit and alsa-lib development packages.
+        Please see README.build.  (Closes: #222677)
+	Thanks to Colin Watson for the suggestion.
     - debian/README.build: Added, with instructions on how to build
-      alsa-lib without libjack-dev.
+      alsa-lib without libjack0.80.0-dev.
 
  -- Thomas Hood <jdthood@yahoo.co.uk>  Wed, 20 Oct 2004 21:49:14 +0200
 
