@@ -1,4 +1,4 @@
-alsa-lib (1.0.8-1~alpha1) unstable; urgency=low
+alsa-lib (1.0.8-1~rc1) unstable; urgency=low
 
   * New upstream release
     (Closes: #290034 "libasound2 1.0.7 causing problems with XMMS")
