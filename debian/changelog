@@ -1,3 +1,10 @@
+alsa-lib (1.0.7-3) unstable; urgency=low
+
+  * debian/control: move doxygen to Build-Depends, to avoid our old
+    "policy vs. reality" conflict. Thanks LaMont for the live help. :)
+
+ -- Jordi Mallach <jordi@debian.org>  Thu,  9 Dec 2004 20:08:24 +0100
+
 alsa-lib (1.0.7-2) unstable; urgency=medium
 
   * Thomas Hood:
