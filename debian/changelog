@@ -7,9 +7,9 @@ alsa-lib (1.0.6-3) unstable; urgency=medium
     - debian/control: require debhelper (>= 4.1.51) for NEWS.Debian
       support
   * Thomas Hood:
-    - Tweak Description
     - Fix up copyright file
     - debian/control:
+      + Tweak Description
       + Don't Depend on alsa-headers which doesn't exist any more.
         Conflict with and Replace alsa-headers instead.
 
