@@ -1,4 +1,4 @@
-alsa-lib (1.0.6-4) unstable; urgency=low
+alsa-lib (1.0.6-4) unstable; urgency=medium
 
   * Unreleased
   * Thomas Hood:
@@ -8,8 +8,8 @@ alsa-lib (1.0.6-4) unstable; urgency=low
       + Tweak descriptions
   * Jordi Mallach:
     - debian/rules:
-      + Install doxygen docs in /usr/share/doc/libasound2-doc, not in
-        .../libasound2-dev  (Closes: #277837)
+      + Install doxygen docs in /usr/share/doc/libasound2-doc/,
+        not in .../libasound2-dev/  (Closes: #277837)
     - debian/libasound2-doc.doc-base:
       + Add this file to register the doxygen docs
 
