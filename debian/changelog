@@ -5,8 +5,8 @@ alsa-lib (1.0.7-1~unreleased1) experimental; urgency=low
     - Checked patches:
       + 01_aserver_options: remove cuz applied upstream
       + 01_conf_backslash: remove cuz applied upstream
-      + 01_alpha_versioned_symbols: left as-is
-      + 02_aclocal_libs_fix: left as-is
+      + 01_alpha_versioned_symbols: leave as-is
+      + 02_aclocal_libs_fix: leave as-is
     - Deleted old patches:
       + 01_aclocal_underquote_warning.dpatch
     - libasound2.NEWS:
