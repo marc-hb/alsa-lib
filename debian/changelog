@@ -1,11 +1,10 @@
-alsa-lib (1.0.6-5~unreleased1) unstable; urgency=medium
+alsa-lib (1.0.6-5) unstable; urgency=medium
 
-  * Status: ready for release
   * Thomas Hood:
     - debian/control:
       + Add libjack0.80.0-dev back to Build-Depends  (Closes: #281685)
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Wed, 17 Nov 2004 09:59:52 +0100
+ -- Jordi Mallach <jordi@debian.org>  Wed, 17 Nov 2004 10:24:10 +0100
 
 alsa-lib (1.0.6-4) unstable; urgency=medium
 
