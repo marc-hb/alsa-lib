@@ -1,3 +1,12 @@
+alsa-lib (1.0.7-4~unreleased1) unstable; urgency=high
+
+  * Status: Releasable
+  * Thomas Hood:
+    - debian/patches/
+      + Add 10_pcm_wait_assertion  (Closes: #284555)
+
+ -- Thomas Hood <jdthood@yahoo.co.uk>  Sun, 12 Dec 2004 14:13:13 +0100
+
 alsa-lib (1.0.7-3) unstable; urgency=low
 
   * debian/control: move doxygen to Build-Depends, to avoid our old

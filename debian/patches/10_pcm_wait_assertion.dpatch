@@ -1,0 +1,20 @@
+#! /bin/sh /usr/share/dpatch/dpatch-run
+## 10_pcm_wait_assertion.dpatch by  <jdthood@yahoo.co.uk>
+##
+## All lines beginning with `## DP:' are a description of the patch.
+## DP: pcm.c: Return on error returned by snd_pcm_poll_descriptors()
+## DP: Backported from cvs pre 1.0.8
+
+@DPATCH@
+diff -urNad alsa-lib-1.0.7/src/pcm/pcm.c /tmp/dpep.j9GTrV/alsa-lib-1.0.7/src/pcm/pcm.c
+--- alsa-lib-1.0.7/src/pcm/pcm.c	2004-10-29 12:56:13.000000000 +0200
++++ /tmp/dpep.j9GTrV/alsa-lib-1.0.7/src/pcm/pcm.c	2004-12-12 14:17:29.000000000 +0100
+@@ -2094,6 +2094,8 @@
+ 		}
+ 	}
+ 	err = snd_pcm_poll_descriptors(pcm, &pfd, 1);
++	if (err < 0)
++		return err;
+ 	assert(err == 1);
+       __retry:
+ 	err_poll = poll(&pfd, 1, timeout);
