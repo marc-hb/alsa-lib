@@ -1,21 +1,24 @@
 alsa-lib (1.0.6-3) unstable; urgency=low
 
-  Some users might have problems to get their sound cards working
-  when using the alsa-lib 1.0.6 packages shipped with Sid and the
-  Debian kernel 2.6.8. Users of Linux 2.4.27 are not affected by this
-  problem.
+  Some users might encounter problems getting their sound cards to work
+  when using alsa-lib version 1.0.6 along with Linux kernel 2.6.8.1.
+  (The latter is the kernel that Debian plans to ship with sarge.)
+  Users of Linux 2.4 are not affected by this problem because Linux 2.4
+  does not contain any ALSA drivers.)  The reason is that Linux 2.6.8.1
+  includes ALSA drivers at version level 1.0.4 and these appear to be
+  incompatible in some cases with the ALSA libraries at version 1.0.6.
+  As of this writing, we know the emu10k driver is affected by this,
+  but for all we know there might be others.
 
-  Linux 2.6.8 includes a copy of ALSA drivers 1.0.4, which appear to
-  be incompatible with the sound card configurations included in
-  alsa-lib 1.0.6. As of this writing, we know the emu10k driver is
-  affected by this, but there might be others.
+  There is an easy fix for the problem with the emu10k driver.  Simply
+  do one of the following:
 
-  To fix this specific case, there are several options:
-
-  - Downgrade to kernel 2.4.x.
-  - Upgrade to kernel 2.6.9, which includes newer ALSA drivers.
-  - Fix the configuration file for emu10k, by applying the following
-    change to the /usr/share/alsa/cards/EMU10K1.conf file:
+  - Use Linux 2.4.x and a matching alsa-modules package.
+  - Use Linux 2.6.8.1 but don't use the ALSA drivers that come with it.
+    Instead, create an alsa-modules package for Linux 2.6.8.1 using
+    the make-kpkg utility and the alsa-source package.
+  - Use Linux 2.6.9 or higher.  These kernels include the latest ALSA drivers.
+  - Apply the following patch to fix the configuration file for emu10k:
 
     --- /usr/share/alsa/cards/EMU10K1.conf~ 2004-09-26 19:17:05.000000000 +0200
     +++ /usr/share/alsa/cards/EMU10K1.conf  2004-10-08 22:29:14.000000000 +0200
@@ -29,10 +32,7 @@ alsa-lib (1.0.6-3) unstable; urgency=low
             hooks.0 {
                     type ctl_elems
 
-  - Create a new alsa-modules package for Linux 2.6.8, which would sync
-    the versions of the ALSA drivers with alsa-lib.
 
-  See http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=275573 for more
-  information.
+  See http://bugs.debian.org/275573 for more information.
 
  -- Jordi Mallach <jordi@debian.org>  Wed, 13 Oct 2004 11:19:56 +0200
