@@ -10,7 +10,7 @@ alsa-lib (1.0.8-1~rc1) unstable; urgency=low
     - debian/rules 
       + Eliminate debian/libasound2.shlibs; instead, use
            dh_makeshibs -V'libasound2 (>> 1.0.8)'
-	(Version bumped up from 1.0.5)
+        (Version bumped up from 1.0.5)
       + Add -n option to dh_makeshlibs -plibasound2-plugins so that
         no ldconfig is done in libasound2-plugins's post(rm|inst).
         Eliminates lintian warning postinst-has-useless-call-to-ldconfig
