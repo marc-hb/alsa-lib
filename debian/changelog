@@ -1,13 +1,14 @@
-alsa-lib (1.0.7-1~unreleased5) unstable; urgency=low
+alsa-lib (1.0.7-1~unreleased6) unstable; urgency=low
 
   * Status: Needs testing
   * New upstream release
     - Closes: #273498  "Rhythmbox won't playback on ICE1712 card"
     - Closes: #280543  "emu10k1: sound cut when passthru enabled"
+  * Arch-indep files have been moved from libasound2 to libasound2-base
+    (Closes: #281389)
   * Thomas Hood
     - debian/rules
-      + Make extensive changes in order to build libasound2-base
-    - examples/asound.conf_dmix is now in libasound2-base
+      + Extensive changes because of introduction of libasound2-base
     - debian/patches/
       + 01_aclocal_underquote_warning   Delete unused
       + 01_aserver_options              Remove obsolete
