@@ -6,7 +6,7 @@ alsa-lib (1.0.7-1~unreleased2) unstable; urgency=low
     - Closes: #280543  "emu10k1: sound cut when passthru enabled"
   * Thomas Hood
     - Really add examples/asound.conf_dmix
-    - Patches:
+    - debian/patches/
       + 01_aclocal_underquote_warning   Delete unused
       + 01_aserver_options              Remove obsolete
       + 01_conf_backslash               Remove obsolete
