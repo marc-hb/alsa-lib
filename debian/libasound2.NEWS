@@ -2,7 +2,7 @@ alsa-lib (1.0.6-3) unstable; urgency=high
 
   Some users might encounter problems getting their sound cards to work
   when using alsa-lib version 1.0.6 along with Linux kernel 2.6.8.1.
-  (The latter is the kernel that Debian plans to ship with sarge.)
+  (The latter is the kernel that Debian plans to ship with sarge.
   Users of Linux 2.4 are not affected by this problem because Linux 2.4
   does not contain any ALSA drivers.)  The reason is that Linux 2.6.8.1
   includes ALSA drivers at version level 1.0.4 and these appear to be
