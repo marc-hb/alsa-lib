@@ -1,5 +1,6 @@
 alsa-lib (1.0.6-4~unreleased1) unstable; urgency=medium
 
+  * Status: ready for release
   * Thomas Hood:
     - /usr/share/doc/examples/asound.conf
       + Add
