@@ -10,6 +10,8 @@ alsa-lib (1.0.6-4~unreleased1) unstable; urgency=medium
     - debian/rules:
       + Install doxygen docs in /usr/share/doc/libasound2-doc/,
         not in .../libasound2-dev/  (Closes: #277837)
+    - debian/libasound2-doc.install:
+      + Update html docs path
     - debian/libasound2-doc.doc-base:
       + Add this file to register the doxygen docs
 
