@@ -1,4 +1,4 @@
-alsa-lib (1.0.8-2~alpha1) unstable; urgency=medium
+alsa-lib (1.0.8-2) unstable; urgency=medium
 
   * Thomas Hood:
     - Add 10_conf-space-fix.dpatch so that libasound2 works with sound
