@@ -4,6 +4,10 @@ alsa-lib (1.0.6-3) unstable; urgency=high
   * Thomas Hood:
     - Tweak Description
     - Fix up copyright file
+  * Jordi Mallach:
+    - debian/libasound2.NEWS: document the emu10k vs. Linux 2.6.8 issue
+      raised in #275573.
+    - debian/control: require debhelper (>= 4.1.51) for NEWS.Debian support.
 
  -- Jordi Mallach <jordi@debian.org>  Sun, 26 Sep 2004 20:30:24 +0200
 
