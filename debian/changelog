@@ -3,7 +3,7 @@ alsa-lib (1.0.7-1) unstable; urgency=low
   * New upstream release
     - Closes: #273498  "Rhythmbox won't playback on ICE1712 card"
     - Closes: #280543  "emu10k1: sound cut when passthru enabled"
-  * Thomas Hood
+  * Thomas Hood:
     - Move arch-indep files from libasound2 to libasound2-data
       (Closes: #281389)
     - debian/rules
@@ -19,8 +19,11 @@ alsa-lib (1.0.7-1) unstable; urgency=low
       + Eliminate duplicate dependencies from Build-Depends-Indep
     - libasound2.NEWS:
       + Update
+  * Jordi Mallach:
+    - debian/control
+      + Make libasound2-data replace libasound2 (<< 1.0.7)
 
- -- Jordi Mallach <jordi@debian.org>  Tue, 30 Nov 2004 14:56:11 +0100
+ -- Jordi Mallach <jordi@debian.org>  Wed,  1 Dec 2004 18:42:14 +0100
 
 alsa-lib (1.0.6-5) unstable; urgency=medium
 

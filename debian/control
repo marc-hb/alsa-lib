@@ -11,6 +11,7 @@ Package: libasound2-data
 Architecture: all
 Section: libs
 Suggests: alsa-base
+Replaces: libasound2 (<< 1.0.7)
 Description: ALSA library configuration files
  This package contains configuration files the ALSA library.
  .
