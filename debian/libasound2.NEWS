@@ -1,7 +1,7 @@
 alsa-lib (1.0.7-1) unstable; urgency=high
 
 * Most architecture-independent files have been moved to the
-  new libasound2-base package.
+  new libasound2-data package.
 
 * Some users might encounter problems getting their sound cards to work
   when using alsa-lib version 1.0.6 or 1.0.7 along with Linux kernel
