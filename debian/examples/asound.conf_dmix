@@ -5,38 +5,21 @@
 # /usr/share/doc/libasound2-doc/html/conf.html in the libasound2-doc
 # package.
 #
-# This isn't very well tested.  Bug reports and suggestions for
-# improvement are welcome.
-#
+# This isn't well tested.
+# Bug reports and suggestions for improvement are welcome.
 
 # N.B. pcm.dmix is already defined in /usr/share/alsa/alsa.conf
-# with configurable slave device, format and rate
-
-# We define another one here
-pcm.ossdmix {
- 	type dmix
- 	ipc_key 4339      # A unique number
- 	slave {
- 		pcm "hw:0,0"
- 		period_time 0
- 		period_size 1024  # a power of 2 for OSS compatibility
- 		buffer_size 8192  # a power of 2 for OSS compatibility
- 		#format "S32_LE"
- 		#periods 128      # a power of 2 for OSS compatibility
- 		#rate 8000
- 	}
-}
 
 # Make ALSA apps default to using it
 pcm.!default { 
 	type plug 
-	slave.pcm "ossdmix" 
+	slave.pcm "dmix" 
 }
 
 # Make OSS apps default to using it
 pcm.dsp0 {
 	type plug
-	slave.pcm "ossdmix"
+	slave.pcm "dmix"
 }
 
 ctl.mixer0 {
