@@ -3,7 +3,7 @@ Section: libs
 Priority: optional
 Maintainer: Debian ALSA Maintainers <pkg-alsa-devel@lists.alioth.debian.org>
 Uploaders: Jordi Mallach <jordi@debian.org>, Steve Kowalik <stevenk@debian.org>, David B. Harris <dbharris@debian.org>, Thomas Hood <jdthood@aglu.demon.nl>
-Build-Depends: debhelper (>= 4.1.51), dpatch, autotools-dev, libjack0.80.0-dev, doxygen
+Build-Depends: debhelper (>= 4.1.51), dpatch, autotools-dev, doxygen
 Standards-Version: 3.6.1.0
 
 Package: libasound2
@@ -29,18 +29,6 @@ Conflicts: libasound-dev
 Description: ALSA library development files
  This package contains files required for developing software
  that makes use of alsa-lib, the ALSA library.
- .
- ALSA is the Advanced Linux Sound Architecture.
-
-Package: libasound2-plugins
-Architecture: any
-Section: libs
-Depends: ${shlibs:Depends}, libasound2 (= ${Source-Version})
-Description: ALSA library plugins
- This package contains plugins for the ALSA library that not
- included in the main libasound2 package.
- .
- Currently only the JACK plugin is included.
  .
  ALSA is the Advanced Linux Sound Architecture.
 

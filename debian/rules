@@ -17,12 +17,6 @@ else
 	CFLAGS += -O2
 endif
 
-ifeq (,$(findstring no-jack-dep,$(DEB_BUILD_OPTIONS)))
-NO_JACK_DEP := no
-else
-NO_JACK_DEP := yes
-endif
-
 configure-stamp: patch-stamp
 	dh_testdir
 	-rm -f config.sub config.guess
@@ -41,9 +35,6 @@ configure: configure-stamp
 build-arch-stamp: configure-stamp
 	dh_testdir
 	$(MAKE) CFLAGS="$(CFLAGS)"
-ifneq ($(NO_JACK_DEP),yes)
-	$(MAKE) -C src/pcm/ext jack CFLAGS="$(CFLAGS)"
-endif
 	touch build-arch-stamp
 
 build-arch: build-arch-stamp
@@ -64,15 +55,6 @@ install-arch: build-arch-stamp
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 	dh_installdirs -a
 	install -d -m 755 debian/tmp/usr/lib/alsa-lib
-ifneq ($(NO_JACK_DEP),yes)
-#	Install real plugin
-#	Upstream makefile is broken ...
-#	$(MAKE) -C src/pcm/ext install-jack DESTDIR=$(CURDIR)/debian/tmp
-	install -m 0644 -p -D src/pcm/ext/.libs/libasound_module_pcm_jack.so.2.0.0 debian/tmp/usr/lib/alsa-lib/libasound_module_pcm_jack.so.2.0.0
-else
-#	Install null plugin (to make dh_install happy)
-	touch debian/tmp/usr/lib/alsa-lib/libasound_module_pcm_jack.so.2.0.0
-endif
 	dh_install -a
 	dh_installdocs -a
 	dh_installexamples -a
@@ -98,7 +80,6 @@ install-indep: build-indep-stamp
 
 binary-arch: build-arch-stamp install-arch
 	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.8)'
-	dh_makeshlibs -plibasound2-plugins -n
 	dh_installdeb -a
 	dh_shlibdeps -a
 	dh_gencontrol -a
