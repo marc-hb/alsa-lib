@@ -3,9 +3,9 @@ alsa-lib (1.0.6-4) unstable; urgency=medium
   * Unreleased
   * Thomas Hood:
     - /usr/share/doc/examples/asound.conf
-      + Add from #199226
+      + Add
     - debian/control:
-      + Tweak descriptions
+      + Tweak Descriptions
   * Jordi Mallach:
     - debian/rules:
       + Install doxygen docs in /usr/share/doc/libasound2-doc/,
