@@ -19,7 +19,7 @@ alsa-lib (1.0.6-4~unreleased2) unstable; urgency=medium
         thus allowing breaking of the circular dependency between
         jack-audio-connection-kit and alsa-lib development packages.
         Please see README.build.  (Closes: #222677)
-	Thanks to Colin Watson for the suggestion.
+        Thanks to Colin Watson for the suggestion.
     - debian/README.build: Added, with instructions on how to build
       alsa-lib without libjack0.80.0-dev.
 
