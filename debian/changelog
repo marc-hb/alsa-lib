@@ -21,11 +21,10 @@ alsa-lib (1.0.6-4~unreleased3) unstable; urgency=medium
 	the README.build file for more information.  (Closes: #222677)
         Thanks to Colin Watson for the suggestion.
     - debian/README.build:
-      + Added, with instructions on how to build alsa-lib without
-        libjack0.80.0-dev.  This is not included in any of the
-	binary packages.
+      + Added (to the source package) with instructions on how
+        to build alsa-lib without libjack0.80.0-dev.
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Wed, 20 Oct 2004 21:49:14 +0200
+ -- Thomas Hood <jdthood@yahoo.co.uk>  Wed,  5 Nov 2004 19:00:00 +0200
 
 alsa-lib (1.0.6-3) unstable; urgency=medium
 
