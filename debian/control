@@ -37,17 +37,17 @@ Package: libasound2-plugins
 Architecture: any
 Section: libs
 Depends: libasound2 (= ${Source-Version}), ${shlibs:Depends}
-Description: ALSA plugins
- This package contains plugins for libasound2 that not included in
- the main libasound2 package. Currently only the JACK plugin is
- included.
+Description: ALSA library plugins
+ This package contains plugins for the ALSA library that not
+ included in the main libasound2 package. Currently only the JACK
+ plugin is included.
  .
  ALSA is the Advanced Linux Sound Architecture.
 
 Package: libasound2-doc
 Architecture: all
 Section: libdevel
-Description: ALSA developer documentation
+Description: ALSA library developer documentation
  This package contains documentation for alsa-lib, the ALSA library.
  .
  ALSA is the Advanced Linux Sound Architecture.
