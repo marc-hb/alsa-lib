@@ -1,7 +1,7 @@
 alsa-lib (1.0.6-2) unstable; urgency=medium
 
-  * Unreleased. 
-  * Thomas Hood
+  * Unreleased
+  * Thomas Hood:
     - conf.c
       + Add 01_conf_backslash.dpatch:
         Make backslash a LOCAL_UNEXPECTED_CHAR
