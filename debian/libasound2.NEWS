@@ -1,6 +1,9 @@
 alsa-lib (1.0.7-1) unstable; urgency=high
 
-  Some users might encounter problems getting their sound cards to work
+* Most architecture-independent files have been moved to the
+  new libasound2-base package.
+
+* Some users might encounter problems getting their sound cards to work
   when using alsa-lib version 1.0.6 or 1.0.7 along with Linux kernel
   2.6.8.1.  (The latter is the kernel that Debian plans to ship with
   sarge.  Users of Linux 2.4 are not affected by this problem because
