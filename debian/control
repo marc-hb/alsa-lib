@@ -22,7 +22,7 @@ Description: ALSA library
 Package: libasound2-dev
 Architecture: any
 Section: libdevel
-Depends: libasound2 (= ${Source-Version}), libc6-dev | libc-dev
+Depends: libc6-dev | libc-dev, libasound2 (= ${Source-Version})
 Suggests: libasound2-doc
 Provides: alsalib-dev
 Replaces: alsalib0.3.0-dev, alsalib0.3.2-dev, libasound0 (<= 0.4.1-2), libasound2 (<< 0.9.0rc7-2)
@@ -36,7 +36,7 @@ Description: ALSA library development files
 Package: libasound2-plugins
 Architecture: any
 Section: libs
-Depends: libasound2 (= ${Source-Version}), ${shlibs:Depends}
+Depends: ${shlibs:Depends}, libasound2 (= ${Source-Version})
 Description: ALSA library plugins
  This package contains plugins for the ALSA library that not
  included in the main libasound2 package. Currently only the JACK
