@@ -1,3 +1,10 @@
+alsa-lib (1.0.8-2~alpha1) unstable; urgency=medium
+
+  * Add 10_conf-space-fix.dpatch so that libasound2 works with sound
+    card names containing spaces  (Closes: #294880, #293907)
+
+ -- Thomas Hood <jdthood@yahoo.co.uk>  Sat, 12 Feb 2005 17:29:33 +0100
+
 alsa-lib (1.0.8-1) unstable; urgency=low
 
   * New upstream release
