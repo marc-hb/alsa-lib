@@ -1,17 +1,22 @@
 Debian alsa-lib build notes
 ---------------------------
 
-alsa-lib includes a jack-audio-connection-kit plugin, distributed in the
-libasound2-plugins package.  In order to build this, alsa-lib needs to
-Build-Depend on libjack0.80.0-dev whose source package at the same time
-Build-Depends on libasound2-dev.  This circular build dependency cannot
-be satisified when bootstrapping Debian for a new architecture.
+alsa-lib includes a jack-audio-connection-kit plugin, distributed in
+the libasound2-plugins package.  In order to build this, alsa-lib needs
+to Build-Depend on libjack0.80.0-dev whose source package at the same
+time Build-Depends on libasound2-dev.  This circular build dependency
+cannot be satisified when bootstrapping Debian for a new architecture.
+(Note that "libjack0.80.0-dev" may have been renamed to something with
+a higher version number by the time you read this.)
 
 To work around this problem and build alsa-lib without installing
 libjack0.80.0-dev, set the DEB_BUILD_OPTIONS environment variable to
 include the string "no-jack-dep" and temporarily remove
-libjack0.80.0-dev from the Build-Depends list.  Once libasound2 and
-libasound2-dev have been built, jack-audio-connection-kit can be built,
-and then you can rebuild alsa-lib without "no-jack-dep".
+"libjack0.80.0-dev" from the Build-Depends list.  The result will be
+that the libasound2-plugins package contains a bogus empty
+libasound_module_pcm_jack library.  Once libasound2 and libasound2-dev
+have been built this way, jack-audio-connection-kit can be built,
+providing libjack0.80.0-dev, and then you can rebuild alsa-lib without
+"no-jack-dep".
 
  -- Jordi Mallach <jordi@debian.org>  Fri,  5 Nov 2004 14:00:00 +0100

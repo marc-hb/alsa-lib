@@ -3,7 +3,7 @@ Section: libs
 Priority: optional
 Maintainer: Debian ALSA Maintainers <pkg-alsa-devel@lists.alioth.debian.org>
 Uploaders: Jordi Mallach <jordi@debian.org>, Steve Kowalik <stevenk@debian.org>, David B. Harris <dbharris@debian.org>, Thomas Hood <jdthood@aglu.demon.nl>
-Build-Depends: debhelper (>= 4.1.51), dpatch, libjack0.80.0-dev, autotools-dev
+Build-Depends: debhelper (>= 4.1.51), dpatch, autotools-dev
 Build-Depends-Indep: debhelper (>= 4.0.0), dpatch, doxygen (>> 1.3.8-20040913-1), autotools-dev
 Standards-Version: 3.6.1.0
 

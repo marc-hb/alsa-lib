@@ -1,6 +1,6 @@
-alsa-lib (1.0.6-4~unreleased2) unstable; urgency=medium
+alsa-lib (1.0.6-4~unreleased3) unstable; urgency=medium
 
-  * Status: work in progress
+  * Status: ready for release, I think
   * Thomas Hood:
     - /usr/share/doc/examples/asound.conf
       + Add
