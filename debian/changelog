@@ -1,9 +1,11 @@
-alsa-lib (1.0.6-4~unreleased3) unstable; urgency=medium
+alsa-lib (1.0.6-4~unreleased4) unstable; urgency=medium
 
   * Status: Ready for release
   * Thomas Hood:
-    - /usr/share/doc/libasound2/examples/asound.conf
-      + Add
+    - /usr/share/doc/libasound2/examples/asound.conf_dmix
+      + Add as an example of how to set up /etc/asound.conf
+        or ~/.asoundrc so that the dmix plugin is used to
+        mix together multiple sound sources
     - debian/control:
       + Tweak Descriptions
   * Jordi Mallach:
