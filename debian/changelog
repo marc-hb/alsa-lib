@@ -1,6 +1,9 @@
 alsa-lib (1.0.9rc1-1~alpha1) unstable; urgency=low
 
   * New upstream release
+    - Closes: #291533 "ttable in .asoundrc do not accept fractions"
+    - Closes: #293928 "wrong routings of channels for 5.1 ICH5"
+    - Closes: #299423 "Please include asound_fm.h"
   * Thomas Hood
     - Drop dpatch applied upstream: 10_conf-space-fix
     - debian/NOTES:
