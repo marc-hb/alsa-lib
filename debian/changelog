@@ -1,4 +1,4 @@
-alsa-lib (1.0.8-1~rc1) unstable; urgency=low
+alsa-lib (1.0.8-1) unstable; urgency=low
 
   * New upstream release
     (Closes: #290034 "libasound2 1.0.7 causing problems with XMMS")
@@ -17,7 +17,7 @@ alsa-lib (1.0.8-1~rc1) unstable; urgency=low
   * Jordi Mallach:
     - debian/rules: minor simplification.
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Sun, 16 Jan 2005 12:33:19 +0100
+ -- Jordi Mallach <jordi@debian.org>  Sun, 16 Jan 2005 19:34:04 +0100
 
 alsa-lib (1.0.7-4) unstable; urgency=high
 
