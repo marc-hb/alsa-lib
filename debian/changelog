@@ -17,8 +17,8 @@ alsa-lib (1.0.6-4~unreleased3) unstable; urgency=medium
     - debian/rules:
       + Implement an easy way to disable the build of the jack plugin,
         thus allowing breaking of the circular build dependency
-	between jack-audio-connection-kit and alsa-lib.  Please see
-	the README.build file for more information.  (Closes: #222677)
+        between jack-audio-connection-kit and alsa-lib.  Please see
+        the README.build file for more information.  (Closes: #222677)
         Thanks to Colin Watson for the suggestion.
     - debian/README.build:
       + Added (to the source package) with instructions on how
