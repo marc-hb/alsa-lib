@@ -1,14 +1,16 @@
-alsa-lib (1.0.7-1~unreleased1) experimental; urgency=low
+alsa-lib (1.0.7-1~unreleased1) unstable; urgency=low
 
-  * Status: Ready for release (really!)
-  * Thomas Hood: 
-    - Checked patches:
+  * Status: Ready for release
+  * New upstream release
+    - Closes: #273498  "Rhythmbox won't playback on ICE1712 card"
+    - Closes: #280543  "emu10k1: sound cut when passthru enabled"
+  * Thomas Hood
+    - Patches:
+      + 01_aclocal_underquote_warning.dpatch: delete
       + 01_aserver_options: remove cuz applied upstream
       + 01_conf_backslash: remove cuz applied upstream
       + 01_alpha_versioned_symbols: leave as-is
       + 02_aclocal_libs_fix: leave as-is
-    - Deleted old patches:
-      + 01_aclocal_underquote_warning.dpatch
     - libasound2.NEWS:
       + Update
 
