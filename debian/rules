@@ -63,15 +63,14 @@ install-arch: build-arch-stamp
 	dh_clean -k
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 	dh_installdirs -a
+	install -d -m 755 debian/tmp/usr/lib/alsa-lib
 ifneq ($(NO_JACK_DEP),yes)
 #	Install real plugin
 #	Upstream makefile is broken ...
 #	$(MAKE) -C src/pcm/ext install-jack DESTDIR=$(CURDIR)/debian/tmp
-	install -d -m 755 debian/tmp/usr/lib/alsa-lib
 	install -m 0644 -p -D src/pcm/ext/.libs/libasound_module_pcm_jack.so.2.0.0 debian/tmp/usr/lib/alsa-lib/libasound_module_pcm_jack.so.2.0.0
 else
 #	Install null plugin (to make dh_install happy)
-	install -d -m 755 debian/tmp/usr/lib/alsa-lib
 	touch debian/tmp/usr/lib/alsa-lib/libasound_module_pcm_jack.so.2.0.0
 endif
 	dh_install -a
