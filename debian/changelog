@@ -1,6 +1,8 @@
 alsa-lib (1.0.6-3) unstable; urgency=low
 
   * Unreleased. 
+  * Thomas Hood
+    - Fix up copyright file
 
  -- Jordi Mallach <jordi@debian.org>  Sun, 26 Sep 2004 20:30:24 +0200
 
