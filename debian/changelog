@@ -1,6 +1,14 @@
-alsa-lib (1.0.7-1~unreleased1) unstable; urgency=low
+alsa-lib (1.0.7-1~unreleased1) experimental; urgency=low
 
-  * Status: so much to do. :)
+  * Status: In progress
+  * Thomas Hood: 
+    - Checked patches:
+      + 01_aserver_options: remove cuz applied upstream
+      + 01_conf_backslash: remove cuz applied upstream
+      + 01_alpha_versioned_symbols: left as-is
+      + 02_aclocal_libs_fix: left as-is
+    - Deleted old patches:
+      01_aclocal_underquote_warning.dpatch
 
  -- Jordi Mallach <jordi@irati>  Wed, 17 Nov 2004 10:51:40 +0100
 
