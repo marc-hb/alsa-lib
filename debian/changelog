@@ -2,6 +2,8 @@ alsa-lib (1.0.6-4) unstable; urgency=low
 
   * Unreleased
   * Thomas Hood:
+    - /usr/share/doc/examples/asound.conf
+      + Add from #199226
     - debian/control:
       + Tweak descriptions
   * Jordi Mallach:
