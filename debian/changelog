@@ -14,6 +14,13 @@ alsa-lib (1.0.6-4~unreleased1) unstable; urgency=medium
       + Update html docs path
     - debian/libasound2-doc.doc-base:
       + Add this file to register the doxygen docs
+    - debian/rules:
+      + Implement an easy way to disable the build of the jack plugin, to
+        allow an easy breaking of the circular dependency between
+        jack-audio-connection-kit and alsa-lib. Porters trying to bootstrap
+        a new Debian architecture should use "no-jack-dep" in
+        $DEB_BUILD_OPTIONS. Please see the details in README.build. Thanks
+        to Colin Watson for the suggestion. (Closes: #222677)
 
  -- Thomas Hood <jdthood@yahoo.co.uk>  Wed, 20 Oct 2004 21:49:14 +0200
 

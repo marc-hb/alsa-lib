@@ -17,6 +17,11 @@ else
 	CFLAGS += -O2
 endif
 
+ifeq (,$(findstring no-jack-dep,$(DEB_BUILD_OPTIONS)))
+NO_JACK_DEP := no
+else
+NO_JACK_DEP := yes
+endif
 
 configure: configure-stamp
 configure-stamp:
@@ -39,7 +44,10 @@ build-stamp-arch: patch-stamp configure-stamp
 	dh_testdir
 
 	$(MAKE) CFLAGS="$(CFLAGS)"
+
+ifneq ($(NO_JACK_DEP),yes)
 	$(MAKE) -C src/pcm/ext jack CFLAGS="$(CFLAGS)"
+endif
 
 	touch build-stamp-arch
 build-stamp-indep: patch-stamp configure-stamp
@@ -85,10 +93,16 @@ install-arch: build-stamp-arch
 	dh_installdirs -a
 
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
+ifneq ($(NO_JACK_DEP),yes)
 #	Broken upstream makefile...
 #	$(MAKE) -C src/pcm/ext install-jack DESTDIR=$(CURDIR)/debian/tmp
 	install -d -m 755 debian/tmp/usr/lib/alsa-lib
 	install -m 0644 -p src/pcm/ext/.libs/libasound_module_pcm_jack.so.2.0.0 debian/tmp/usr/lib/alsa-lib/libasound_module_pcm_jack.so.2.0.0
+else
+#	Empty file so dh_install is happy.
+	install -d -m 755 debian/tmp/usr/lib/alsa-lib
+	touch debian/tmp/usr/lib/alsa-lib/libasound_module_pcm_jack.so.2.0.0
+endif
 
 	dh_install -a
 	dh_installdocs -a
