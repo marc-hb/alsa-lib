@@ -1,7 +1,9 @@
-alsa-lib (1.0.7-5~unreleased1) unstable; urgency=low
+alsa-lib (1.0.7-5~unreleased2) unstable; urgency=low
 
   * Status: releasable
   * Thomas Hood:
+    - examples/asound.conf_dmix
+      + Add reference to /usr/share/doc/libasound2-doc/html/conf.html
     - debian/rules 
       + Add -n option to dh_makeshlibs -plibasound2-plugins so that
         no ldconfig is done in libasound2-plugins's post(rm|inst).

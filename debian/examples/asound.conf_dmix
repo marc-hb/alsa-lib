@@ -1,6 +1,10 @@
 # Example /etc/asound.conf or ~/.asoundrc file showing how
 # to configure ALSA so that dmix is used by default
 #
+# The syntax of alsa-lib configuration files is described in
+# /usr/share/doc/libasound2-doc/html/conf.html in the libasound2-doc
+# package.
+#
 # This isn't very well tested.  Bug reports and suggestions for
 # improvement are welcome.
 #
