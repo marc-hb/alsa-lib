@@ -1,4 +1,4 @@
-alsa-lib (1.0.9rc1-1~alpha1) unstable; urgency=low
+alsa-lib (1.0.9rc1-1~alpha2) experimental; urgency=low
 
   * New upstream release
     - Closes: #291533 "ttable in .asoundrc do not accept fractions"
