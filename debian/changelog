@@ -1,6 +1,8 @@
-alsa-lib (1.0.8-4~alpha1) unstable; urgency=low
+alsa-lib (1.0.9rc1-1~alpha1) unstable; urgency=low
 
+  * New upstream release
   * Thomas Hood
+    - Drop dpatch applied upstream: 10_conf-space-fix
     - debian/NOTES:
       + Add note about what to do if we ever have libasound3
 
