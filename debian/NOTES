@@ -1,6 +1,20 @@
-Debian alsa-lib build notes
----------------------------
+            MAINTAINER NOTES
+	    for alsa-lib
+            ----------------
 
+libasound3
+----------
+libasound2 includes /usr/bin/aserver which should be in a libasound2-bin
+package.
+
+We build libasound2-dev, making it appear that we are prepared to
+support multiple simultaneous -dev packages in the future.  However,
+libasound2-dev uses generically named directories such as
+/usr/include/alsa/.  A future libasound3-dev should probably use
+/usr/include/asound3/ instead.
+
+jack
+----
 alsa-lib includes a jack-audio-connection-kit plugin, distributed in
 the libasound2-plugins package.  In order to build this, alsa-lib needs
 to Build-Depend on libjack0.80.0-dev whose source package at the same
