@@ -6,7 +6,7 @@ alsa-lib (1.0.7-2) unstable; urgency=medium
   * Jordi Mallach:
     - revert modifications made for libasound2-data, as that didn't
       get past ftpmasters. Not providing an upgrade path as this never
-      hit the archive. No beer for Kinisson! ;)
+      hit the archive. No beer for Kinnison! ;)
 
  -- Jordi Mallach <jordi@debian.org>  Thu,  9 Dec 2004 13:04:40 +0100
 
