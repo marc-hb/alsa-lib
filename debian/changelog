@@ -1,9 +1,10 @@
-alsa-lib (1.0.8+1.0.9rc2-1~beta1) experimental; urgency=low
+alsa-lib (1.0.8+1.0.9rc3-1~beta1) experimental; urgency=low
 
   * New upstream release
     - Closes: #291533 "ttable in .asoundrc do not accept fractions"
     - Closes: #293928 "wrong routings of channels for 5.1 ICH5"
     - Closes: #299423 "Please include asound_fm.h"
+    - Closes: #300792 "FTBFS (ppc64/gcc-4.0): static declaration ..."
     - libasound2-plugins now belongs to the (new) alsa-plugins source
       package
   * Thomas Hood
