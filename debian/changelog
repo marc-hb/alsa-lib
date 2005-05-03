@@ -17,7 +17,7 @@ alsa-lib (1.0.8+1.0.9rc3-1~beta1) experimental; urgency=low
       + Remove note about building libasound2-plugins
     - Tweak descriptions
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Sat, 26 Feb 2005 17:32:05 +0100
+ -- Thomas Hood <jdthood@yahoo.co.uk>  Sat,  3 May 2005 12:00:00 +0200
 
 alsa-lib (1.0.8-3) unstable; urgency=medium
 
