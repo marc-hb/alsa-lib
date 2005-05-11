@@ -1,4 +1,4 @@
-alsa-lib (1.0.8+1.0.9rc3-1~beta1) experimental; urgency=low
+alsa-lib (1.0.8+1.0.9rc3-1) experimental; urgency=low
 
   * New upstream release
     - Closes: #291533 "ttable in .asoundrc do not accept fractions"
@@ -16,7 +16,7 @@ alsa-lib (1.0.8+1.0.9rc3-1~beta1) experimental; urgency=low
       + Remove note about building libasound2-plugins
     - Tweak descriptions
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Sat,  3 May 2005 12:00:00 +0200
+ -- Jordi Mallach <jordi@sindominio.net>  Wed, 11 May 2005 13:32:05 +0200
 
 alsa-lib (1.0.8-3) unstable; urgency=medium
 
