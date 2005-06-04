@@ -5,7 +5,7 @@ alsa-lib (1.0.9-1~beta3) unstable; urgency=low
       (RedHat bug #144518)  (Closes: #301164)
     - Fixes related to mplayer (Possibly fixes #310189)
 
- -- Jordi Mallach <jordi@debian.org>  Mon, 30 May 2005 22:51:56 +0200
+ -- Jordi Mallach <jordi@debian.org>  Mon,  4 Jun 2005 13:00:00 +0200
 
 alsa-lib (1.0.8+1.0.9rc3-1) experimental; urgency=low
 
