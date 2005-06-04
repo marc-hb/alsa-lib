@@ -1,6 +1,6 @@
 alsa-lib (1.0.9-1~beta3) unstable; urgency=low
 
-  * New upstream release.
+  * New upstream release
     - Fix bug that disabled stack protection (CAN-2005-0087)
       (RedHat bug #144518)  (Closes: #301164)
     - Fixes related to mplayer (Possibly fixes #310189)
