@@ -78,7 +78,7 @@ install-indep: build-indep-stamp
 	dh_fixperms -i
 
 binary-arch: build-arch-stamp install-arch
-	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.8)'
+	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.9)'
 	dh_installdeb -a
 	dh_shlibdeps -a
 	dh_gencontrol -a
