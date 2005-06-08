@@ -1,8 +1,9 @@
-alsa-lib (1.0.9-2~1) unstable; urgency=low
+alsa-lib (1.0.9-2) unstable; urgency=low
 
-  * Conflict with pre-1.0.9 libasound2-plugins
+  * Thomas Hood
+    - Conflict with pre-1.0.9 libasound2-plugins
 
- -- Thomas Hood <jdthood@aglu.demon.nl>  Mon,  6 Jun 2005 11:17:47 +0200
+ -- Jordi Mallach <jordi@debian.org>  Wed,  8 Jun 2005 15:20:32 +0200
 
 alsa-lib (1.0.9-1) unstable; urgency=low
 
