@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Debian ALSA Maintainers <pkg-alsa-devel@lists.alioth.debian.org>
 Uploaders: Jordi Mallach <jordi@debian.org>, Steve Kowalik <stevenk@debian.org>, David B. Harris <dbharris@debian.org>, Thomas Hood <jdthood@aglu.demon.nl>
 Build-Depends: debhelper (>= 4.1.51), dpatch, autotools-dev, doxygen
-Standards-Version: 3.6.1.0
+Standards-Version: 3.6.2.0
 
 Package: libasound2
 Architecture: any
