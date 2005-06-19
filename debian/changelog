@@ -1,7 +1,7 @@
 alsa-lib (1.0.9-3~1) unstable; urgency=low
 
   * Thomas Hood
-    - Bump Standards-Version to 3.6.2.0; no changes required
+    - Bump Standards-Version to 3.6.2.1; no changes required
 
  -- Thomas Hood <jdthood@aglu.demon.nl>  Fri, 17 Jun 2005 09:59:30 +0200
 
