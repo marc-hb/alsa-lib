@@ -2,11 +2,22 @@
 	      for alsa-lib
             ----------------
 
-libasound3
-----------
+aserver
+-------
 libasound2 includes /usr/bin/aserver which should be in a libasound2-bin
 package.
 
+Also, aserver should have a man page.
+
+
+set-default-soundcard
+---------------------
+Can also be put in libasound2-bin.  If python-minimal becomes required
+then set-default-soundcard should probably go in alsa-base.
+
+
+libasound3
+----------
 We build libasound2-dev, making it appear that we are prepared to
 support multiple simultaneous -dev packages in the future.  However,
 libasound2-dev uses generically named directories such as
