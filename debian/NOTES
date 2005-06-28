@@ -1,6 +1,19 @@
-            MAINTAINER NOTES
-	      for alsa-lib
-            ----------------
+                     MAINTAINER NOTES
+                     for alsa-lib
+
+
+TODO in next release
+~~~~~~~~~~~~~~~~~~~~
+
+
+TODO each time
+~~~~~~~~~~~~~~
+* Check Ubuntu patches at http://people.ubuntulinux.org/~scott/patches/
+* Update debian/ChangeLog from release announcement
+
+
+NOTES
+~~~~~
 
 aserver
 -------
