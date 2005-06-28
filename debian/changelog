@@ -1,10 +1,11 @@
-alsa-lib (1.0.9-3~2) unstable; urgency=low
+alsa-lib (1.0.9-3~3) unstable; urgency=low
 
   * N.B. In the next upstream version the following bugs are fixed:
     #277539
   * Thomas Hood
     - Bump Standards-Version to 3.6.2.1; no changes required
     - control: libasound2-dev Conflict with alsa-headers (dummy pkg)
+    - Add upstream changelog
 
  -- Thomas Hood <jdthood@yahoo.co.uk>  Fri, 17 Jun 2005 09:59:30 +0200
 

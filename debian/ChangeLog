@@ -1,0 +1,347 @@
+(http://www.alsa-project.org/changes/v1-0-8--v1-0-9.txt)
+Changelog between 1.0.8 and 1.0.9 releases
+*******************************************
+
+* alsa-lib
+  + Core
+    - fix some file paths in comments
+    - Add resmgr support
+    - Fix resmgr support
+    - Add --disable-aload configure option
+    - Fix a typo
+    - Support dl-object cache
+    - move the Jack plugin to alsa-plugins
+    - release: 1.0.9rc1
+    - Fix a typo
+    - release: 1.0.9rc2
+    - Added snd_pcm_hw_params_set_rate_resample function
+    - release: 1.0.9rc3
+    - - Fedora 4 patch - fix for alpha arch
+    - API for device name lists and timer enhancements
+    - added full async interface to timer API
+    - Add snd_pcm_hw_params_get/set_export_buffer()
+    - release: 1.0.9rc4
+    - release: 1.0.9
+  + Config API
+    - fix some file paths in comments
+    - API for device name lists and timer enhancements
+    - Fix doxygen documents
+  + Control API
+    - fix some file paths in comments
+    - Add resmgr support
+    - Fix resmgr support
+    - Add --disable-aload configure option
+    - Fix invalid free
+    - Fedora 4 patch - gcc4 fixes
+    - Fix doxygen documents
+  + Device Name API
+    - API for device name lists and timer enhancements
+  + HWDEP API
+    - fix some file paths in comments
+    - Add resmgr support
+    - Fix resmgr support
+    - usb-audio - add Extigy/Audigy 2 NX remote control support
+    - Fedora 4 patch - gcc4 fixes
+  + I/O API
+    - fix some file paths in comments
+  + Instrument API
+    - fix some file paths in comments
+  + Mixer API
+    - Fix memory leak
+    - fix some file paths in comments
+    - stack protection (CAN-2005-0087)
+    - Use bag_for_each_safe() for event handling loop
+    - Add Side controls in the weight list
+    - Fix snd_mixer_sort()
+  + PCM API
+    - Use snd_config_get_bool()
+    - Fix a typo
+    - Fixed compile warning
+    - Fix compile warning
+    - improved stream linking and plugin code cleanups
+    - Add pcm_generic.h
+    - The stream linking problem for pcm_multi.c should be fixed now
+    - Use snd_config_get_bool()
+    - Fix the available formats
+    - Add resmgr support
+    - start pcm when draining in prepared state
+    - Split arch-dependent codes of dmix
+    - Fix hw_params of lfloat plugin
+    - Add external PCM plugin SDK (draft version)
+    - Fix compile warnings
+    - Fix resmgr support
+    - Add filter-type external plugin SDK
+    - Code clean-up
+    - Accept string type card
+    - Remove JACK plugin
+    - Initialize structs for ioctls
+    - fix the file plugin
+    - Add snd_pcm_parse_control_id()
+    - Small code clean up
+    - Fix resume of dmix, dsnoop and dshare plugins
+    - Fix compilation with gcc-4.0
+    - Fix noises in rate exapnsion
+    - Fix noises on exapnd
+    - Delayed start for dmix
+    - Do hwsync of slave PCM on dmix
+    - Generic architecture support
+    - Check PCM format aliases
+    - Stop timer at XRUN
+    - Fix segfault with downsampling
+    - Fix channel_info callbacks of hooks, file and plug plugins
+    - More fixes for 100% CPU hang with dmix
+    - Compile warning fixes
+    - Fix compile warning
+    - Fix more CPU hang-up bugs in dmix
+    - Added snd_pcm_hw_params_set_rate_resample function
+    - Move old PCM API to pcm_old.h
+    - Add verbose hw_params debugging
+    - Suppress verbose debug messages
+    - Check timer protocol number for direct plugins
+    - Fix timer read in non-TREAD mode
+    - Fix segfault
+    - Read $LIBASOUND_DEBUG as integer
+    - Fix ATTRIBUTE_UNUSED
+    - Show verbose errors for invalid sw_params
+    - Fix CPU hog with combination of rate plugin
+    - Fedora 4 patch - gcc4 fixes
+    - remove broken *_step initialization (caused by previous Fedora 4 patch)
+    - Fix possible problems of playback drain with rate plugin
+    - Fix partial commit in drain
+    - Fix playback start with sync_ptr mode
+    - Fix blocking during draining in dmix
+    - Check timer version for read-block workaround
+    - Propagate pcm->info
+    - Set up pcm->info properly
+    - Remove pause and fix timer initialization in prepare
+    - Fix drain of dmix without data
+    - Add poll_descriptors and poll_descriptors_count callbacks
+    - Use snd_pcm_generic_t and its callbacks
+    - Add protocl version check
+    - Remove poll_ask callback
+    - Fix snd_pcm_wait() for multiple pollfd's
+    - Add perm option
+    - Fix possible noises and optimization with dmix
+    - Revert the shmget permission
+    - More strict permission for IPC shm and sem
+    - Fix bugs in perm option
+    - Fix generic channel_info callbacks
+    - Add snd_pcm_hw_params_get/set_export_buffer()
+    - Fix poll after XRUN with dmix
+    - Minor clean up of dmix codes
+    - Fix dshare plugin codes
+    - Fix semaphore deadlocks
+    - Fix poll of dsnoop plugin
+    - Add area synchronization in poll_rsync of rate plugin
+    - Move poll_* callbacks to fast_ops
+    - Minor clean up
+    - Fix compile without debug option
+  + RawMidi API
+    - Add resmgr support
+    - Fix resmgr support
+    - rawmidi_virt: fix hang on invalid MIDI data
+    - Fedora 4 patch - gcc4 fixes
+  + Sequencer API
+    - Add resmgr support
+    - Fix resmgr support
+    - Add --disable-aload configure option
+    - Added snd_seq_ev_set_tag() macro
+    - Fix the device-open check
+    - fix snd_seq_query_next_client documentation
+    - Fedora 4 patch - gcc4 fixes
+    - Fix doxygen documents
+  + Timer API
+    - Add resmgr support
+    - Fix resmgr support
+    - Fedora 4 patch - gcc4 fixes
+    - API for device name lists and timer enhancements
+    - added full async interface to timer API
+    - Change some timer ioctls due to confliction
+    - Fix doxygen documents
+  + /include/Makefile.am
+    - Add external PCM plugin SDK (draft version)
+    - Add filter-type external plugin SDK
+    - Move old PCM API to pcm_old.h
+  + /src/Makefile.am
+    - API for device name lists and timer enhancements
+  + ALSA Lisp
+    - Fix compile warning
+  + Configuration
+    - Fix the bogus return values
+    - Make dmix card-specific
+    - Add config for HDA-Intel
+    - Check error values
+    - Fix a typo in default period size
+    - Make dsnoop card-specific
+    - Use dmix/dsnoop for default PCM
+    - Add config file for PC-Speaker driver
+    - Remove routing of 5.1 output
+    - Fix the parse of filenames with spaces
+    - use "C" locale when parsing floating point numbers
+    - Support dl-object cache
+    - Fixed rear PCM (mono output)
+    - Use softvol for default PCM
+    - Add config file for CMI8768
+    - Fix card type to string
+    - Fix SPDIF device
+    - Fix rear/center_lfe subdevice mismatch
+    - Fix AC3 output on alsa-lib ca0106.conf
+    - Fixes AC3 output on Audigy2 sound cards
+    - Enable slowptr option as default
+    - Fix compile with gcc-4.0
+    - Evaluate CARD argument
+    - Do hwsync of slave PCM on dmix
+    - Use S16 for default format
+    - Use dmix/dsnoop as default
+    - Remove Azalia.conf
+    - Use 'Channel Mode' control
+    - Add PMac Toonie configuration
+    - Make surround config backward compatible
+    - Add configuration for AACI driver
+    - Implement surround71 output for SB Live 24 bit.
+  + Documentation
+    - Remove JACK plugin
+    - Add a note on FC3
+    - More doxygen comments
+    - Add external PCM plugin
+    - Read $LIBASOUND_DEBUG as integer
+    - Fix documentation of external PCM plugin SDK
+    - Fix doxygen documents
+  + Dynamic Loader helpers
+    - Support dl-object cache
+  + Error handler
+    - Read $LIBASOUND_DEBUG as integer
+  + External PCM Filter Plugin SDK
+    - More doxygen comments
+    - Add protocl version check
+    - Fix documentation of external PCM plugin SDK
+  + External PCM I/O Plugin SDK
+    - Support dl-object cache
+    - Add protocl version check
+  + External PCM Plugin SDK
+    - Add external PCM plugin SDK (draft version)
+    - Add filter-type external plugin SDK
+    - Add snd_pcm_parse_control_id()
+    - Fix documentation of external PCM plugin SDK
+  + I/O subsystem
+    - undef gets in case it's a macro
+    - Remove invalid ATTRIBUTE_UNUSED
+  + Kernel Headers
+    - Added asound_fm.h
+    - Update user land emu10k1.h with changes from kernel emu10k1.h
+    - Added snd_pcm_hw_params_set_rate_resample function
+    - Increase timer protocol number
+    - usb-audio - add Extigy/Audigy 2 NX remote control support
+    - Change some timer ioctls due to confliction
+    - Add snd_pcm_hw_params_get/set_export_buffer()
+  + SHM helpers
+    - Fix a typo
+  + Test/Example code
+    - latency test - Added -B and -E options
+    - Added snd_pcm_hw_params_set_rate_resample function
+    - midiloop - remove running status test
+    - added full async interface to timer API
+  + Utils
+    - Fix the include path
+    - Add $include/alsa to the include path
+
+
+(http://music.columbia.edu/pipermail/linux-audio-announce/2005-January/000522.html)
+1.0.8
+-----
+
+* alsa-lib
+  + Core
+    - Change error message handling
+    - release: 1.0.8-rc1
+    - release: 1.0.8rc1
+    - Add accessor to user control elements
+    - release: 1.0.8rc2
+    - Add inclusion of time.h
+    - release: 1.0.8
+  + Control API
+    - Add accessor to user control elements
+  + Instrument API
+    - Fix compilation with 2.6.9 kernel (glibc headers)
+  + Mixer API
+    - Add Front control to weight list
+  + PCM API
+    - Return correct error in snd_pcm_wait() after snd_pcm_poll_descriptors() call
+    - appl_ptr sync fix when status/control structures are not mmaped
+    - fix for capture for case when status/control structures are not mmaped
+    - Fixes variable shadow problem in capture direction
+    - Fixed few typos in documentation.
+    - Add preamble value configuration for iec958 plugin
+    - Change error message handling
+    - fix changed error message handling
+    - Add softvol PCM plugin
+    - Add accessor to user control elements
+    - Change the behavior with hardware volume controls
+    - Set max volume as default for softvol
+    - Fix missing declaration
+    - Support stereo volume control
+    - Performance optimization
+    - Clear sw_params struct at initialization
+    - Fix handling of DISCONNECT state
+    - Fix compile warning
+  + Configuration
+    - Rename AudigyLS -> CA0106
+    - Disable 'duplicate front' switch for rear
+    - Add preamble value configuration for iec958 plugin
+    - Add default for refer function
+    - Make "default" PCM card-specific
+    - Use softvol for PCM outputs
+    - New config for ES1968 and Maestro3
+    - New config for Azalia (intel HD audio) driver
+    - Add new config files
+  + Documentation
+    - Change error message handling
+    - Add softvol PCM plugin
+  + Error handler
+    - Change error message handling
+  + I/O subsystem
+    - fix miscalculation of buffer size in snd_output_buffer_need()
+    - Removed wrong ATTRIBUTE_UNUSED
+  + Kernel Headers
+    - Sync with the driver (EFX code structure)
+
+
+(http://music.columbia.edu/pipermail/linux-audio-announce/2004-November/000484.html)
+1.0.7
+-----
+
+* alsa-lib
+  - fixed endless loop when parsing backslash inside bad configuration file
+  - suppress PAUSE and RESUME for direct plugins
+  - dmix plugin - dont forget to return -EINVAL on errors
+  - rate plugin - Fix the downsampling noise problem
+  - Avoid zero division (sw_params)
+
+
+(http://music.columbia.edu/pipermail/linux-audio-announce/2004-August/000435.html)
+1.0.6a
+------
+
+* alsa-lib
+  - emu10k1 config
+    - Added surround71 and side pcm definitions.
+    - Added the support of side speakers on Audigy 2 ZS.
+  - ice1724
+    - Fixed iec958 capture using asym plugin.
+    - Added the support of side and surround71 PCM types.
+  - pcm_rate plugin
+    - This patch fixes a number of different bugs in pcm_rate.c.
+  - pcm_plug plugin
+    - Fixed problem with the route plugin and ttable
+
+
+(http://music.columbia.edu/pipermail/linux-audio-announce/2004-May/000396.html)
+1.0.5
+-----
+
+* alsa-lib
+  - added snd_asoundlib_version()
+  - added a new plugin "iec958" to convert IEC958 subframes
+  - added SYNC_PTR ioctl support for pcm_hw plugin
+  - dmix plugin - fixed wrong jump for 32-bit mixing
+
