@@ -2,8 +2,9 @@
                      for alsa-lib
 
 
-TODO in next release
-~~~~~~~~~~~~~~~~~~~~
+TODO in release after 1.0.9
+~~~~~~~~~~~~~~~~~~~~~~~~~~~
+* Close: #277539
 
 
 TODO each time
