@@ -1,6 +1,9 @@
 alsa-lib (1.0.9-3~3) unstable; urgency=low
 
   * Thomas Hood
+    - New package libasound2-utils containing:
+      + aserver
+      + set-default-soundcard
     - Bump Standards-Version to 3.6.2.1; no changes required
     - control: libasound2-dev Conflict with alsa-headers (dummy pkg)
     - Add upstream changelog
