@@ -10,9 +10,8 @@ Package: libasound2
 Architecture: any
 Section: libs
 Depends: ${shlibs:Depends}
-Replaces: alsalib0.3.0, alsalib0.3.2, alsalib
-Conflicts: alsalib0.1.3, alsalib0.3.0, alsalib0.3.2, alsalib, libasound2-plugins (<< 1.0.9)
-Suggests: libasound2-plugins
+Suggests: libasound2-plugins (>= 1.0.9)
+Conflicts: libasound2-plugins (<< 1.0.9)
 Description: ALSA library
  This package contains the ALSA library and its standard
  plugins.
@@ -22,11 +21,11 @@ Description: ALSA library
 Package: libasound2-dev
 Architecture: any
 Section: libdevel
+Provides: libasound-dev
 Depends: libc6-dev | libc-dev, libasound2 (= ${Source-Version})
 Suggests: libasound2-doc
-Provides: libasound-dev
-Replaces: alsalib0.3.0-dev, alsalib0.3.2-dev, libasound0 (<= 0.4.1-2), libasound2 (<< 0.9.0rc7-2)
 Conflicts: libasound-dev, alsa-headers
+Replaces: libasound2 (<< 0.9.0rc7-2), alsa-headers
 Description: ALSA library development files
  This package contains files required for developing software
  that makes use of libasound2, the ALSA library.
