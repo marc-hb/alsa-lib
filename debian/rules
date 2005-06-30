@@ -53,6 +53,8 @@ install-arch: build-arch-stamp
 	dh_testroot
 	dh_clean -k
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
+#	install $(INSTALL_UAG) -m755 debian/set-default-soundcard \
+#		debian/libasound2-utils/usr/bin
 	dh_installdirs -a
 	dh_install -a
 	dh_installdocs -a
