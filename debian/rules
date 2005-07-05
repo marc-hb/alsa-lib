@@ -4,7 +4,6 @@
 export DH_VERBOSE=1
 
 PACKAGE:= alsa-lib
-INSTALL_UAG := -o root -g audio
 include /usr/share/dpatch/dpatch.make
 
 export DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
@@ -56,8 +55,6 @@ install-arch: build-arch-stamp
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 	dh_installdirs -a
 	dh_install -a
-	install $(INSTALL_UAG) -m755 debian/set-default-soundcard \
-		debian/libasound2-utils/usr/bin
 	dh_installdocs -a
 	dh_installexamples -a
 	dh_installchangelogs -a debian/ChangeLog

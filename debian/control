@@ -10,7 +10,6 @@ Package: libasound2
 Architecture: any
 Section: libs
 Depends: ${shlibs:Depends}
-Recommends: libasound2-utils
 Suggests: libasound2-plugins (>= 1.0.9)
 Conflicts: libasound2-plugins (<< 1.0.9)
 Description: ALSA library
@@ -30,16 +29,6 @@ Replaces: libasound2 (<< 0.9.0rc7-2), alsa-headers
 Description: ALSA library development files
  This package contains files required for developing software
  that makes use of libasound2, the ALSA library.
- .
- ALSA is the Advanced Linux Sound Architecture.
-
-Package: libasound2-utils
-Architecture: any
-Section: sound
-Depends: ${shlibs:Depends}, python2.4
-Description: ALSA library utilities
- This package contains utility programs for use with
- the ALSA library.
  .
  ALSA is the Advanced Linux Sound Architecture.
 
