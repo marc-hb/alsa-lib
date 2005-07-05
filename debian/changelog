@@ -4,8 +4,8 @@ alsa-lib (1.0.9-3~4) unstable; urgency=low
     - Bump Standards-Version to 3.6.2.1; no changes required
     - control: libasound2-dev Conflict with alsa-headers (dummy pkg)
     - Add upstream changelog
-    - Drop aserver program  (Closes: #290735, #285320)
-      If you need this program, please file a bug report.
+    - Drop aserver program  (Closes: #290735, #285320).
+      If you need this program, please file a wish in the Debian BTS.
     - Eliminate obsolete dependencies
 
  -- Thomas Hood <jdthood@yahoo.co.uk>  Fri, 17 Jun 2005 09:59:30 +0200
