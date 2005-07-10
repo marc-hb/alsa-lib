@@ -1,10 +1,10 @@
-This package was debianized by Wichert Akkerman <wakkerma@debian.org> on
-Sun,  7 Jun 1998 16:55:07 +0200.
-Masato Taruishi took over on Sun, 17 Oct 1999 05:16:38 +0900.
+This package was debianized by Wichert Akkerman 7 Jun 1998.
+Masato Taruishi took over on 17 Oct 1999.
 Since September 2002 it has been maintained by "The ALSA psychos":
 
   Jordi Mallach <jordi@debian.org>, Steve Kowalik <stevenk@debian.org>,
-  David B. Harris <dbharris@debian.org>, Thomas Hood <jdthood@yahoo.co.uk>
+  David B. Harris <dbharris@debian.org>, Thomas Hood <jdthood@yahoo.co.uk>,
+  Mikael Magnusson <mikma@users.sourceforge.net>
 
 Bugs in the source code (as opposed to bugs in the packaging) are best
 reported to the upstream bug tracking system:
