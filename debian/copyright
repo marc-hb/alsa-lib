@@ -11,12 +11,12 @@ reported to the upstream bug tracking system:
 
   https://bugtrack.alsa-project.org/alsa-bug
 
-alsa-lib
---------
 The source code was downloaded from the ALSA homepage:
 
   http://alsa.sourceforge.net
 
+alsa-lib
+--------
 Copyright, Jarsolav Kysela <perex@suse.cz> and others.
 
   This library is free software; you can redistribute it and/or
