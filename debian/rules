@@ -55,7 +55,7 @@ install-arch: build-arch-stamp
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 	dh_installdirs -a
 	dh_install -a
-	dh_installdocs -a
+	dh_installdocs -plibasound2
 	dh_installexamples -a
 	dh_installchangelogs -plibasound2 debian/changelog.ALSA
 	dh_strip -a
