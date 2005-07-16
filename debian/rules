@@ -58,6 +58,7 @@ install-arch: build-arch-stamp
 	dh_installdocs -a
 	dh_installexamples -a
 	dh_installchangelogs -plibasound2 debian/changelog.ALSA
+	dh_installchangelogs -plibasound2-dev
 	dh_strip -a
 	dh_link -a
 	dh_compress -a
@@ -72,7 +73,6 @@ install-indep: build-indep-stamp
 	dh_install -i
 	dh_installdocs -i
 	dh_installexamples -i
-	dh_installchangelogs -plibasound2-dev
 	dh_installchangelogs -plibasound2-doc debian/changelog.ALSA
 	cp -r doc/doxygen/html debian/libasound2-doc/usr/share/doc/libasound2-doc
 	dh_compress -i
