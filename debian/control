@@ -23,7 +23,7 @@ Architecture: any
 Section: libdevel
 Provides: libasound-dev
 Depends: libc6-dev | libc-dev, libasound2 (= ${Source-Version})
-Suggests: libasound2-doc
+Recommends: libasound2-doc
 Conflicts: libasound-dev, alsa-headers
 Replaces: libasound2 (<< 0.9.0rc7-2), alsa-headers
 Description: ALSA library development files
@@ -35,7 +35,7 @@ Description: ALSA library development files
 Package: libasound2-doc
 Architecture: all
 Section: libdevel
-Suggests: libasound2-dev
+Recommends: libasound2-dev
 Description: ALSA library developer documentation
  This package contains documentation for the ALSA library.
  .
