@@ -1,3 +1,9 @@
+alsa-lib (1.0.9-4~1) UNRELEASED; urgency=low
+
+  * Thomas Hood
+
+ -- Thomas Hood <jdthood@aglu.demon.nl>  Sat, 16 Jul 2005 09:11:26 +0200
+
 alsa-lib (1.0.9-3) unstable; urgency=low
 
   * Thomas Hood
