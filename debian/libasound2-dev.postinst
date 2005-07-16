@@ -4,8 +4,13 @@ set -e
 
 case "$1" in
   configure)
-	# Work around dpkg bug
-	rmdir /usr/share/doc/libasound2-dev >/dev/null 2>&1 && ln -s libasound2 /usr/share/doc/libasound2-dev
+	D=/usr/share/doc/libasound2-dev
+	if [ -d "$D" ] && ! [ -L "$D" ] ; then
+		# Work around dpkg's refusal to replace a dir by a symlink
+		if rmdir "$D" >/dev/null 2>&1 ; then
+			ln -sf libasound2 "$D"
+		fi
+	fi
 	;;
 esac
 
