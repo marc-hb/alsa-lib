@@ -10,7 +10,7 @@ TODO in release after 1.0.9
 TODO each time
 ~~~~~~~~~~~~~~
 * Check Ubuntu patches at http://people.ubuntulinux.org/~scott/patches/
-* Update debian/ChangeLog from release announcement
+* Update debian/changelog.ALSA from release announcement
 
 
 NOTES

@@ -57,7 +57,7 @@ install-arch: build-arch-stamp
 	dh_install -a
 	dh_installdocs -a
 	dh_installexamples -a
-	dh_installchangelogs -a debian/ChangeLog
+	dh_installchangelogs -a debian/changelog.ALSA
 	dh_strip -a
 	dh_link -a
 	dh_compress -a
