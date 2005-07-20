@@ -74,6 +74,8 @@ install-indep: build-indep-stamp
 	dh_installexamples -i
 	dh_installchangelogs -plibasound2-doc debian/changelog.ALSA
 	cp -r doc/doxygen/html debian/libasound2-doc/usr/share/doc/libasound2-doc
+	install -p -m 0644 -o root -g root debian/libasound2.lintian-overrides \
+		debian/libasound2/usr/share/lintian/overrides/libasound2
 	dh_compress -i
 	dh_fixperms -i
 
