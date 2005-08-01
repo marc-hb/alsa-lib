@@ -3,7 +3,7 @@ alsa-lib (1.0.9-4~2) UNRELEASED; urgency=low
   * Thomas Hood
     - Put upstream change log and NOTES in -doc
     - Replace -dev's doc dir with a symlink
-    - Make -dev and -doc Recommend each other
+    - Make -dev and -doc Suggest each other
 
  -- Thomas Hood <jdthood@aglu.demon.nl>  Sat, 16 Jul 2005 09:11:26 +0200
 
