@@ -1,4 +1,4 @@
-alsa-lib (1.0.9-4~2) UNRELEASED; urgency=low
+alsa-lib (1.0.9-4~3) UNRELEASED; urgency=low
 
   * Thomas Hood
     - Put upstream change log and NOTES in -doc
