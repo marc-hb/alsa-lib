@@ -2,9 +2,8 @@ alsa-lib (1.0.10rc1-1~1) UNRELEASED; urgency=low
 
   * New upstream release
     - Closes: #277539 (allow control of shm gid)
-    - Update upstream changelog
   * Thomas Hood
-    - Put upstream change log and NOTES in -doc
+    - Update upstream changelog; put it and NOTES in -doc
     - Replace -dev's doc dir with a symlink
     - Make -dev and -doc Suggest each other
 
