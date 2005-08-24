@@ -1,5 +1,115 @@
-(http://www.alsa-project.org/changes/v1-0-8--v1-0-9.txt)
+Changelog between 1.0.9 and 1.0.10rc1 releases
+(http://alsa-project.org/changes/v1-0-9b--v1-0-10rc1.txt)
+**********************************************
+
+* alsa-lib
+  + Core
+    - Remove obsolete ordinary_* entries from configure.in
+    - big simple mixer update
+    - Added snd_mixer_selem_compare
+    - initial & empty smixer-ac97.so module (only the build framework)
+    - Add external control plugin SDK
+    - more simple mixer - basic abstraction - work
+    - The simple mixer abstraction - more work
+    - release 1.0.10rc1
+  + Config API
+    - name clash (WINE, icc), interface -> iface renamed
+  + Control API
+    - Add external shared object support
+    - Add external control plugin SDK
+    - Fix _snd_ctl_hw_open() mode argument
+    - Add detailed documentation for external control plugin SDK
+    - Fix the return value of snd_card_load()
+    - Fix compile warnings with gcc-4
+  + Device Name API
+    - name clash (WINE, icc) interface -> iface rename
+    - Implemented the top-level redirector code for simple mixer
+  + HWDEP API
+    - Fix compile warnings with gcc-4
+  + Instrument API
+    - Fix compile warnings with gcc-4
+  + Mixer API
+    - a bit reordered code to fix bug #838
+    - big simple mixer update
+    - mixer - fix typo and memory leak
+    - Implemented the top-level redirector code for simple mixer
+    - initial & empty smixer-ac97.so module (only the build framework)
+    - more simple mixer - basic abstraction - work
+    - fix compilation with C++
+    - fix file name for Doxygen
+    - Fixed #include statements
+    - Fix bug when a sound card had a stereo mute element and would
+      fail to unmute the right channel.
+    - The simple mixer abstraction - more work
+    - Add -avoid-version for smixer plugins
+    - simple mixer: fix compilation with gcc 2.x
+    - Add missing header files
+  + Mixer Abstraction API
+    - big simple mixer update
+    - more simple mixer - basic abstraction - work
+    - Add function declaration
+  + Mixer Ordinary API
+    - removed ordinary stuff
+  + PCM API
+    - added ipc_gid for direct plugins
+    - Fix bugs in the last change of ipc_gid option
+    - Change .so module name and installation patch (/usr/lib/alsa-lib/scopes)
+    - pcm_multi: Increased maximum slave channels to 64
+    - Fix boundary overlap
+    - Remove the check of start_threshold in sw_params
+    - Fix direct plugins running on 32bit emulation with 64bit arch
+    - direct plugins (dmix) - suspend/resume fixes
+    - direct plugins - added graceful shutdown for the resource server
+    - Misc fixes
+    - PCM direct plugins - handle EINTR in the resource server
+  + PCM Ordinary API
+    - removed ordinary stuff
+  + Timer API
+    - timer_hw - Changed TIMER_VERSION_MAX to 2.0.5
+    - direct plugins (dmix) - suspend/resume fixes
+  + /include/Makefile.am
+    - Remove obsolete *_ordinary.h files
+    - big simple mixer update
+    - Add external control plugin SDK
+    - Fix compilation on a system with old alsa-lib headers
+  + /src/Makefile.am
+    - removed ordinary stuff
+    - Remove obsolete ordinary_* entries
+  + Configuration
+    - use ipc_gid for dmix and dsnoop
+    - fix warnings (bug #829)
+    - big simple mixer update
+    - initial & empty smixer-ac97.so module (only the build framework)
+    - fix typo
+    - Fix compile warnings with gcc-4
+    - The simple mixer abstraction - more work
+    - adjust control references in config files
+    - adjust control references in config files
+    - use PCM interface for IEC958 controls
+    - Fix surroundX PCM
+    - Clean up string parser
+    - Fix invalid read in setlocale()
+  + Documentation
+    - Added ipc_gid
+    - Corrected ipc_gid
+    - Add description for perm option of file plugin
+    - initial & empty smixer-ac97.so module (only the build framework)
+    - Add detailed documentation for external control plugin SDK
+  + Dynamic Loader helpers
+    - Fix compile warning
+  + External Control Plugin SDK
+    - Add external control plugin SDK
+    - Add detailed documentation for external control plugin SDK
+  + I/O subsystem
+    - Fix compile warnings with gcc-4
+  + Kernel Headers
+    - sync with alsa-kernel - timer SUSPEND / RESUME events
+    - direct plugins (dmix) - suspend/resume fixes
+  + Test/Example code
+    - added support for more sample widths
+
 Changelog between 1.0.8 and 1.0.9 releases
+(http://www.alsa-project.org/changes/v1-0-8--v1-0-9.txt)
 *******************************************
 
 * alsa-lib

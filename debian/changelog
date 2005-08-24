@@ -1,11 +1,14 @@
-alsa-lib (1.0.9-4~3) UNRELEASED; urgency=low
+alsa-lib (1.0.10rc1-1~1) UNRELEASED; urgency=low
 
+  * New upstream release
+    - Closes: #277539 (allow control of shm gid)
+    - Update upstream changelog
   * Thomas Hood
     - Put upstream change log and NOTES in -doc
     - Replace -dev's doc dir with a symlink
     - Make -dev and -doc Suggest each other
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Sat, 16 Jul 2005 09:11:26 +0200
+ -- Thomas Hood <jdthood@yahoo.co.uk>  Wed, 24 Aug 2005 17:12:01 +0200
 
 alsa-lib (1.0.9-3) unstable; urgency=low
 
