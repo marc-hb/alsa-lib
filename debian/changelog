@@ -6,6 +6,8 @@ alsa-lib (1.0.9+1.0.10rc1-1) experimental; urgency=low
     - Update upstream changelog; put it and NOTES in -doc
     - Replace -dev's doc dir with a symlink
     - Make -dev and -doc Suggest each other
+  * Jordi Mallach
+    - Bump shlibs
 
  -- Jordi Mallach <jordi@debian.org>  Mon, 19 Sep 2005 21:32:10 +0200
 
