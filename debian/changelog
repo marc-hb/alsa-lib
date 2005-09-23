@@ -1,3 +1,11 @@
+alsa-lib (1.0.9+1.0.10rc1-2~1) UNRELEASED; urgency=low
+
+  * Thomas Hood
+    - debian/control: s/Architecture: any/Architecture: $LINUX_ARCHES/
+      (Closes: #327186)
+
+ -- Thomas Hood <jdthood@yahoo.co.uk>  Fri, 23 Sep 2005 12:02:11 +0200
+
 alsa-lib (1.0.9+1.0.10rc1-1) experimental; urgency=low
 
   * New upstream release
