@@ -1,3 +1,64 @@
+Changelog between 1.0.10rc1 and 1.0.10rc2 releases
+(http://alsa-project.org/changes/v1-0-10rc1--v1-0-10rc2.txt)
+***********************************************
+
+* alsa-lib
+  + Core
+    - moved simple mixer abstraction modules to modules/mixer/simple directory
+    - mixer API - extend simple enumerated controls for direction tests
+    - Fix type-punning
+    - release 1.0.10rc2
+  + Mixer API
+    - mixer API - extend simple enumerated controls for direction tests
+  + Mixer Abstraction API
+    - moved simple mixer abstraction modules to modules/mixer/simple directory
+    - mixer API - extend simple enumerated controls for direction tests
+  + PCM API
+    - PCM API - handle EINTR from poll() in snd_pcm_wait() function
+    - Fix call of semctl IPC_RMID
+    - Workaround for crash with knotify
+    - Fix buffer allocation and mmap with plugins
+    - Fix compile warnings
+    - direct plugins - change group according ipc_gid for the socket file
+    - fix segfault then hooks list is empty
+    - Don't return error if chown() fails
+    - Removed unused function
+    - Fix endianess with dmix plugin
+    - pcm - Add SOFTVOL pcm type
+    - PCM add missing pcm types - DSNOOP, IEC958, IOPLUG, EXTPLUG
+    - fixed typo in comment
+    - Fix type-punning
+    - Fix mmap and channel_info of hook plugin
+  + Sequencer API
+    - Fix type-punning
+  + /Makefile.am
+    - moved simple mixer abstraction modules to modules/mixer/simple directory
+  + /include/Makefile.am
+    - Allow separate build and source trees
+  + /modules/Makefile.am
+    - moved simple mixer abstraction modules to modules/mixer/simple directory
+  + /src/Makefile.am
+    - Allow separate build and source trees
+  + Configuration
+    - Fix configuration for ICE1724
+    - dmix and dsnoop configuration - added ipc_perm 0660 (to handle all users
+with audio group)
+    - modem's pcm "two device" config
+    - Add modem pcm definition for hda-intel driver
+    - emu10k1: Front channels via fxbus 8 and 9
+    - Use S16_LE as default for dmix
+    - Fix endianess of PMac driver
+    -  New @func - pcm_args_by_class
+    - use dmix/dsnoop for default PCM on ca0106
+  + Kernel Headers
+    - Fix type-punning
+  + Simple Abstraction Mixer Modules
+    - Allow separate build and source trees
+  + Test/Example code
+    - pcm.c test / example - Added EINTR handling
+    - test/pcm.c - remove -EINTR handling (a job for alsa-lib)
+
+
 Changelog between 1.0.9 and 1.0.10rc1 releases
 (http://alsa-project.org/changes/v1-0-9b--v1-0-10rc1.txt)
 **********************************************
