@@ -1,11 +1,11 @@
-alsa-lib (1.0.9+1.0.10rc2-1~1) UNRELEASED; urgency=low
+alsa-lib (1.0.9+1.0.10rc2-1) experimental; urgency=low
 
   * New upstream release candidate
   * Thomas Hood
     - debian/control: s/Architecture: any/Architecture: <Linux arches>/
       (Closes: #327186)
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Wed, 12 Oct 2005 12:09:46 +0200
+ -- Jordi Mallach <jordi@debian.org>  Tue, 25 Oct 2005 10:25:11 +0200
 
 alsa-lib (1.0.9+1.0.10rc1-1) experimental; urgency=low
 
