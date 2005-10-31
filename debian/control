@@ -7,7 +7,7 @@ Build-Depends: debhelper (>= 4.1.51), dpatch, autotools-dev, doxygen
 Standards-Version: 3.6.2.1
 
 Package: libasound2
-Architecture: i386 ia64 alpha amd64 arm hppa m32r m68k mips mipsel powerpc ppc64 s390 s390x sh3 sh3eb sh4 sh4eb sparc
+Architecture: i386 ia64 alpha amd64 arm armeb hppa m32r m68k mips mipsel powerpc ppc64 s390 s390x sh3 sh3eb sh4 sh4eb sparc
 Section: libs
 Depends: ${shlibs:Depends}
 Suggests: libasound2-plugins (>= 1.0.9)

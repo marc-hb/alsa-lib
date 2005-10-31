@@ -1,3 +1,12 @@
+alsa-lib (1.0.9+1.0.10rc2-2~1) UNRELEASED; urgency=low
+
+  * Thomas Hood
+    - Conflict with pre-1.0.9 libasound2-plugins
+  * Jordi Mallach
+    - Add "armeb" to our static list of target architectures.
+
+ -- Jordi Mallach <jordi@debian.org>  Mon, 31 Oct 2005 09:50:18 +0100
+
 alsa-lib (1.0.9+1.0.10rc2-1) experimental; urgency=low
 
   * New upstream release candidate
