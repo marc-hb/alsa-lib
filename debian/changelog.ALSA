@@ -1,3 +1,33 @@
+Changelog between 1.0.10rc2 and 1.0.10rc3 releases
+(http://www.alsa-project.org/changes/v1-0-10rc2--v1-0-10rc3.txt)
+**************************************************
+
+* alsa-lib
+  + Core
+    - release 1.0.10rc3
+  + Mixer API
+    - fix doxygen warnings
+  + PCM API
+    - file plugin: fix various bugs
+    - Fix channel_info callback of plugins
+    - direct pcm plugins - fixed dump output name for dshare and dsnoop
+  + Configuration
+    - fix doxygen warnings
+* alsa-utils
+  + Core
+    - release 1.0.10rc3
+  + Speaker Test
+    - Fix compile with --disable-nls
+  + aconnect
+    - Fix compile with --disable-nls
+  + aplay/arecord
+    - Fix VU meter for S24_3 and big-endian
+    - Use strtol() instead of atoi()
+    - Fix compile with --disable-nls
+  + aseqnet
+    - Fix compile with --disable-nls
+
+
 Changelog between 1.0.10rc1 and 1.0.10rc2 releases
 (http://alsa-project.org/changes/v1-0-10rc1--v1-0-10rc2.txt)
 ***********************************************
