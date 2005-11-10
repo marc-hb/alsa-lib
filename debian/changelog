@@ -1,4 +1,4 @@
-alsa-lib (1.0.9+1.0.10rc3-1~1) UNRELEASED; urgency=low
+alsa-lib (1.0.9+1.0.10rc3-1) experimental; urgency=low
 
   * New upstream release candidate
   * Thomas Hood
@@ -6,7 +6,7 @@ alsa-lib (1.0.9+1.0.10rc3-1~1) UNRELEASED; urgency=low
   * Jordi Mallach
     - Add "armeb" to our static list of target architectures.
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Tue,  8 Nov 2005 22:26:08 +0100
+ -- Jordi Mallach <jordi@debian.org>  Thu, 10 Nov 2005 17:18:45 -0500
 
 alsa-lib (1.0.9+1.0.10rc2-1) experimental; urgency=low
 
