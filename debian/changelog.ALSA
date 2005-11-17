@@ -1,3 +1,16 @@
+Changelog between 1.0.10rc3 and 1.0.10 releases
+(http://www.alsa-project.org/changes/v1-0-10rc3--v1-0-10.txt)
+**************************************************
+
+* alsa-lib
+  + Core
+    - release 1.0.10
+  + Control API
+    - control - fixed crash when dynamic library is not present
+  + PCM API
+    - pcm_ladspa - fix locale issues
+
+
 Changelog between 1.0.10rc2 and 1.0.10rc3 releases
 (http://www.alsa-project.org/changes/v1-0-10rc2--v1-0-10rc3.txt)
 **************************************************
