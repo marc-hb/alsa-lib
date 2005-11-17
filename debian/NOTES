@@ -2,6 +2,10 @@
                      for alsa-lib
 
 
+TODO next time
+~~~~~~~~~~~~~~
+* See whether #336115 has been fixed
+
 TODO for each new upstream release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Check Ubuntu patches at http://people.ubuntulinux.org/~scott/patches/
