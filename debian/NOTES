@@ -2,10 +2,6 @@
                      for alsa-lib
 
 
-TODO for 1.0.10 release
-~~~~~~~~~~~~~~~~~~~~~~~
-Close bugs: ## 336110, 336111, 336115, 273125
-
 TODO for each new upstream release
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 * Check Ubuntu patches at http://people.ubuntulinux.org/~scott/patches/
