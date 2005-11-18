@@ -1,10 +1,7 @@
 This package was debianized by Wichert Akkerman 7 Jun 1998.
 Masato Taruishi took over on 17 Oct 1999.
-Since September 2002 it has been maintained by "The ALSA psychos":
-
-  Jordi Mallach <jordi@debian.org>, Steve Kowalik <stevenk@debian.org>,
-  David B. Harris <dbharris@debian.org>, Thomas Hood <jdthood@yahoo.co.uk>,
-  Mikael Magnusson <mikma@users.sourceforge.net>
+Since September 2002 it has been maintained by the participants in
+the pkg-alsa project at alioth.debian.org.
 
 Bugs in the source code (as opposed to bugs in the packaging) are best
 reported to the upstream bug tracking system:
