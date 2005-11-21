@@ -1,10 +1,10 @@
-alsa-lib (1.0.10-1~1) unstable; urgency=low
+alsa-lib (1.0.10-1) unstable; urgency=low
 
   * New upstream release
     Closes: #336110 Fails to read config when locale delim not '.'
     Closes: #336111 LADSPA plugins no work when locale delim not '.'
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Thu, 17 Nov 2005 12:31:23 +0100
+ -- Jordi Mallach <jordi@debian.org>  Mon, 21 Nov 2005 20:11:12 +0100
 
 alsa-lib (1.0.9+1.0.10rc3-1) experimental; urgency=low
 
