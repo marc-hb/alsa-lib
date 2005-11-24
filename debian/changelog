@@ -1,3 +1,10 @@
+alsa-lib (1.0.10-2~1) UNRELEASED; urgency=low
+
+  [ Thomas Hood ]
+  * Build biarch packages  (Closes: #339443)
+
+ -- Thomas Hood <jdthood@yahoo.co.uk>  Thu, 24 Nov 2005 13:03:59 +0100
+
 alsa-lib (1.0.10-1) unstable; urgency=low
 
   * New upstream release
