@@ -1,7 +1,8 @@
 alsa-lib (1.0.10-2~1) UNRELEASED; urgency=low
 
   [ Thomas Hood ]
-  * Build biarch packages  (Closes: #339443)
+  * Add biarch packages  (Closes: #339443)
+    As a result, alsa-lib currently doesn't build.
 
  -- Thomas Hood <jdthood@yahoo.co.uk>  Thu, 24 Nov 2005 13:03:59 +0100
 
