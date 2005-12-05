@@ -3,7 +3,7 @@ alsa-lib (1.0.10-2~1) UNRELEASED; urgency=low
   [ Thomas Hood ]
   * Remove obsolete .asoundrc example for enabling dmix.  dmix is now
     enabled by default for all sound cards that support it
-    (Closes: #340763)
+    (Closes: #340763, #342026)
 
  -- Thomas Hood <jdthood@yahoo.co.uk>  Thu, 24 Nov 2005 13:03:59 +0100
 
