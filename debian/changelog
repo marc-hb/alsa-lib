@@ -4,8 +4,10 @@ alsa-lib (1.0.10-2~1) UNRELEASED; urgency=low
   * Remove obsolete .asoundrc example for enabling dmix.  dmix is now
     enabled by default for all sound cards that support it
     (Closes: #340763, #342026)
+  [ Mikael Magnusson ]
+  * Fix broken doxygen links in pcm.c and rawmidi.c. (Closes: #337251)
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Thu, 24 Nov 2005 13:03:59 +0100
+ -- Mikael Magnusson <mikma@users.sourceforge.net>  Sat, 10 Dec 2005 22:35:30 +0100
 
 alsa-lib (1.0.10-1) unstable; urgency=low
 
