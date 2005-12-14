@@ -2,7 +2,7 @@ Source: alsa-lib
 Section: libs
 Priority: optional
 Maintainer: Debian ALSA Maintainers <pkg-alsa-devel@lists.alioth.debian.org>
-Uploaders: Jordi Mallach <jordi@debian.org>
+Uploaders: Jordi Mallach <jordi@debian.org>, Thomas Hood <jdthood@yahoo.co.uk>
 Build-Depends: debhelper (>= 4.1.51), dpatch, autotools-dev, doxygen
 Standards-Version: 3.6.2.1
 
