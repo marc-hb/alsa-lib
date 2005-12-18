@@ -1,3 +1,53 @@
+Changelog between 1.0.10 and 1.0.11rc1 releases
+(http://www.alsa-project.org/changes/v1-0-10--v1-0-11rc1.txt)
+**************************************************
+
+* alsa-lib
+  + Core
+    - Check wordexp.h for ulibc
+    - Allow partial build with selected components
+    - release 1.0.11rc1
+  + Mixer API
+    - Fix the handling of stereo capture source
+  + PCM API
+    - Fix generation of IEC958 subframes
+    - fix compilation with gcc 2
+    - abort snd_pcm_dmix_drain when state is SND_PCM_STATE_XRU
+    - Abort from snd_pcm_dshare_drain in XRUN state
+    - Fix segfault of iec958 plugin with preamble
+    - Use snd_user_file() in pcm_ladpsa.c
+    - Move snd_is_local() to socket.c
+    - Allow partial build with selected components
+    - Minor optimization on mmap
+    - direct plugins - fixed ipc_gid initialization when gid specified
+      as number
+    - pcm_ladspa plugin - more verbose output
+    - pcm dump() routines update: use spaces to indent texts
+  + Sequencer API
+    - remove SND_SEQ_CLIENT_{DUMMY,OSS} symbols
+  + /Makefile.am
+    - Allow partial build with selected components
+  + /modules/Makefile.am
+    - Allow partial build with selected components
+  + /src/Makefile.am
+    - Allow partial build with selected components
+  + Configuration
+    - Fix free of uninitialized pointer
+    - Remove superfluous wordexp.h inclusion
+    - Fix a missing line in PMacToonie.conf
+  + Documentation
+    - Add description for new configure options
+  + Filename helpers
+    - Add a workaround for systems without wordexp
+    - Fixed compilation when HAVE_WORDEXP_H is not defined
+  + Kernel Headers
+    - seq: reorganize sequencer client numbers
+  + Socket helpers
+    - Move snd_is_local() to socket.c
+  + Test/Example code
+    - Fix compile errors/warnings
+    - Remove code from check_PROGRAMS
+
 Changelog between 1.0.10rc3 and 1.0.10 releases
 (http://www.alsa-project.org/changes/v1-0-10rc3--v1-0-10.txt)
 **************************************************
