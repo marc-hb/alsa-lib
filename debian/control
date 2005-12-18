@@ -34,7 +34,7 @@ Description: ALSA library development files
 
 Package: libasound2-doc
 Architecture: all
-Section: libdevel
+Section: doc
 Suggests: libasound2-dev
 Description: ALSA library developer documentation
  This package contains documentation for the ALSA library.
