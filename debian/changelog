@@ -1,4 +1,4 @@
-alsa-lib (1.0.10+1.0.11rc1-1~1) unstable; urgency=low
+alsa-lib (1.0.10+1.0.11rc1-1~1) experimental; urgency=low
 
   * New upstream release candidate
     Closes: #340478 "Breaks PMacToonie.conf"
