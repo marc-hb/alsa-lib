@@ -1,3 +1,32 @@
+Changelog between 1.0.11rc1 and 1.0.11rc2 releases
+(http://www.alsa-project.org/changes/v1-0-11rc1--v1-0-11rc2.txt)
+**************************************************
+
+* alsa-lib
+  + Core
+    - release 1.0.11rc2
+  + Mixer API
+    - Fix compile warnings
+  + PCM API
+    - big ALSA LADSPA plugin rewrite for multiple channel LADSPA plugins
+    - ladspa plugin - SIGSEGV fix when label is not specified
+    - Fix compile warnings
+    - dmix: add S24_3LE support
+    - dmix: fix interleaved check
+    - Fix meter plugin
+    - pcm - fix the buffer allocation for NONINTERLEAVED mmap access
+  + PCM Plugin API
+    - Fix declaration of snd_pcm_ladspa_open()
+  + Sequencer API
+    - Fix compile warnings
+  + Configuration
+    - snd-ca0106 Fixed SPDIF output.
+    - Make dmix/dsnoop as default PCM for ICE1724
+    - snd-ca0106: update mixer controls names from SPDIF to IEC958
+  + Simple Abstraction Mixer Modules
+    - Fix compile warnings
+
+
 Changelog between 1.0.10 and 1.0.11rc1 releases
 (http://www.alsa-project.org/changes/v1-0-10--v1-0-11rc1.txt)
 **************************************************
