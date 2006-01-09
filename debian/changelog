@@ -1,10 +1,11 @@
-alsa-lib (1.0.10+1.0.11rc2-1~1) experimental; urgency=low
+alsa-lib (1.0.10+1.0.11rc2-1) experimental; urgency=low
 
+  [ Thomas Hood ]
   * New upstream release candidate
     Closes: #336115 LADSPA plugin rewrite for multiple channel LADSPA
     plugins
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Mon,  2 Jan 2006 23:43:31 +0100
+ -- Jordi Mallach <jordi@debian.org>  Tue, 10 Jan 2006 00:49:33 +0100
 
 alsa-lib (1.0.10+1.0.11rc1-1) experimental; urgency=low
 
