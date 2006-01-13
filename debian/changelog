@@ -1,7 +1,7 @@
 alsa-lib (1.0.10+1.0.11rc2-2~1) experimental; urgency=low
 
   [ Jordi Mallach ]
-  * Apply Matthias Klose's patch to build biarch packages.
+  * Apply Matthias Klose's patch to build biarch packages (closes: #339443)
 
  -- Jordi Mallach <jordi@debian.org>  Tue, 10 Jan 2006 09:48:57 +0100
 
