@@ -2,3 +2,4 @@
 02_aclocal_libs_fix
 03_configure_cross_compile
 04_doxygen_links
+05_multiarch
