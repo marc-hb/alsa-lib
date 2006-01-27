@@ -38,7 +38,7 @@ Section: libs
 Depends: libasound2 (= ${Source-Version}), ${shlibs:Depends}, ${bilib:depends}
 Suggests: libasound2-plugins (>= 1.0.9)
 Conflicts: libasound2-plugins (<< 1.0.9)
-Description: ALSA library (64bit)
+Description: ALSA library (64 bit)
  This package contains the ALSA library (64 bit) and its standard
  plugins.
  .
@@ -51,7 +51,7 @@ Depends: lib64asound2 (= ${Source-Version}), libasound2-dev (= ${Source-Version}
 Suggests: libasound2-doc
 Description: ALSA library development files (64 bit)
  This package contains files required for developing software
- that makes use of lib64asound2, the ALSA library.
+ that makes use of lib64asound2, the ALSA library (64 bit).
  .
  ALSA is the Advanced Linux Sound Architecture.
 
@@ -61,7 +61,7 @@ Section: libs
 Depends: libasound2 (= ${Source-Version}), ${shlibs:Depends}, ${bilib:depends}
 Suggests: libasound2-plugins (>= 1.0.9)
 Conflicts: libasound2-plugins (<< 1.0.9)
-Description: ALSA library (32bit)
+Description: ALSA library (32 bit)
  This package contains the ALSA library (32 bit) and its standard
  plugins.
  .
@@ -74,7 +74,7 @@ Depends: lib32asound2 (= ${Source-Version}), libasound2-dev (= ${Source-Version}
 Suggests: libasound2-doc
 Description: ALSA library development files (32 bit)
  This package contains files required for developing software
- that makes use of lib32asound2, the ALSA library.
+ that makes use of lib32asound2, the ALSA library (32 bit).
  .
  ALSA is the Advanced Linux Sound Architecture.
 
