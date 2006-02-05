@@ -1,3 +1,38 @@
+Changelog between 1.0.11rc2 and 1.0.11rc3 releases
+http://www.alsa-project.org/changes/v1-0-11rc2--v1-0-11rc3.txt)
+**************************************************
+
+* alsa-lib
+  + Core
+    - implementation of pcm simple helper function
+    - Skip resmgr when EAGAIN or EBUSY
+    - release 1.0.11rc3
+  + PCM API
+    - implementation of pcm simple helper function
+    - Fix S24_BE format conversions
+    - Fix compile warnings
+    - Add "nonblock" option for hw layer
+    - Support multi-card/device for direct plugins
+    - pcm laspa plugin - Added credits to MediaNet AG
+    - LADSPA plugin: fix compilation
+    - pcm_ladspa - setup control outputs all times
+  + Configuration
+    - Make dmix/dsnoop as default for ICE1712
+    - Add "nonblock" option for hw layer
+    - Add missing alias entries
+    - Fix configuration for Aureon and Prodigy71 boards
+    - remove duplicate parameter
+    - Support multi-card/device for direct plugins
+    - Remove bad assert
+  + Filename helpers
+    - snd_user_file - keep doxygen happy
+  + Test/Example code
+    - Added pcm_min test & example - minimalistic pcm output
+    - pcm_min - blocking mode is default
+              - remove extra snd_pcm_nonblock() call
+    - pcm_min.c example - corrected comment
+
+
 Changelog between 1.0.11rc1 and 1.0.11rc2 releases
 (http://www.alsa-project.org/changes/v1-0-11rc1--v1-0-11rc2.txt)
 **************************************************
