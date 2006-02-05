@@ -1,7 +1,10 @@
-alsa-lib (1.0.10+1.0.11rc2-3~1) experimental; urgency=low
+alsa-lib (1.0.10+1.0.11rc2-3~2) experimental; urgency=low
 
   [ Jordi Mallach ]
   * Tweak descriptions.
+
+  [ Thomas Hood ]
+  * debhelper compatibility level to 5 -- no changes required
 
  -- Jordi Mallach <jordi@debian.org>  Fri, 27 Jan 2006 11:09:46 +0100
 
