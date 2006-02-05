@@ -1,4 +1,6 @@
-alsa-lib (1.0.10+1.0.11rc2-3~2) experimental; urgency=low
+alsa-lib (1.0.10+1.0.11rc3-1~1) experimental; urgency=low
+
+  * New upstream release candidate
 
   [ Jordi Mallach ]
   * Tweak descriptions.
