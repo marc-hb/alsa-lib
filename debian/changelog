@@ -1,4 +1,4 @@
-alsa-lib (1.0.10+1.0.11rc3-1~1) experimental; urgency=low
+alsa-lib (1.0.10+1.0.11rc3-1~2) experimental; urgency=low
 
   * New upstream release candidate
 
@@ -6,7 +6,7 @@ alsa-lib (1.0.10+1.0.11rc3-1~1) experimental; urgency=low
   * Tweak descriptions.
 
   [ Thomas Hood ]
-  * debhelper compatibility level to 5 -- no changes required
+  * Don't require a particular debhelper compatibility level
 
  -- Jordi Mallach <jordi@debian.org>  Fri, 27 Jan 2006 11:09:46 +0100
 
