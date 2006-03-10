@@ -24,18 +24,16 @@ ifneq (,$(biarch_cpu))
   endif
   ifneq (,$(findstring /$(DEB_HOST_ARCH)/, /amd64/ppc64/))
     bi = 32
-    bilibdir = emul/ia32-linux/usr/lib # amd64 unstable only!
     bilibdir = usr/lib32
+    ifeq ($(DEB_HOST_ARCH),amd64)
+      bilibdir = emul/ia32-linux/usr/lib # amd64 unstable only!
+    endif
   endif
   configure_biarch_stamp = configure-biarch-stamp
   build_biarch_stamp = build-biarch-stamp
   BIARCH_CC = gcc -m$(bi)
   dpkg_ctrl_args = -- '-Vbilib:depends=libc6-$(biarch_cpu)' \
 	'-Vbidev:depends=libc6-dev-$(biarch_cpu)'
-  ifeq ($(DEB_HOST_ARCH),amd64)
-  dpkg_ctrl_args = -- '-Vbilib:depends=libc6-$(biarch_cpu) | ia32-libs' \
-	'-Vbidev:depends=libc6-dev-$(biarch_cpu) | ia32-libs-dev'
-  endif
 endif
 
 CFLAGS = -g -Wall
