@@ -4,6 +4,85 @@ http://www.alsa-project.org/changes/v1-0-11rc2--v1-0-11rc3.txt)
 
 * alsa-lib
   + Core
+    - Fix infinite parse of recursive definitions
+    - Avoid unnecesasry call of resmgr
+    - allow changing of device directory path
+    - Portability fix for alsa-lib on mips
+    - Change autoconf requirement to 2.59
+    - release 1.0.11rc4
+  + Control API
+    - Fix memory leaks
+    - Fix compile warnings
+    - remove superfluous free() checks
+    - allow changing of device directory path
+  + Device Name API
+    - remove superfluous free() checks
+  + HWDEP API
+    - Do not abort in snd_xxx_close() functions
+    - remove superfluous free() checks
+    - allow changing of device directory path
+  + Mixer API
+    - Fix the description of snd_mixer_handle_events()
+  + PCM API
+    - Fix infinite parse of recursive definitions
+    - snd_pcm_set_params() - added workaround for vortex driver
+    - Fixed snd_pcm_set_params() error code
+    - Fix check of nonblock option
+    - Fix fullduplex with dmix/dsnoop
+    - Fix plug conversion of non-linear formats
+    - Remove bogus ATTRIBUTE_UNUSED
+    - Fix infinite loop in snd_pcm_wait()
+    - Do not abort in snd_xxx_close() functions
+    - allow changing of device directory path
+    - Fix segfault with PCM rate plugin
+    - return ENODEV for disconnected devices
+    - rate plugin: optimize calculation of the continuous buffer part
+    - rate plugin: fix fragment size calculation
+    - rate plugin: wait for data to be drained
+    - alsa-lib - added pcm_errors section
+    - alsa-lib - added ENOTTY and ENODEV to pcm_errors section
+    - Fix double free in rate plugin
+    - Add restriction parameters to pcm hw layer
+    - Fix restoration of PCM open mode
+    - Add init callback to extplug
+    - Fixes S16 byte swapping with generic dmix code
+    - dmix - Allow more flexible buffer sizes
+    - Fix extplug->channels initialization
+    - Fix timer read from 32bit user-space on 64bit kernel
+    - Add support for S32_3LE and byte-swapped S16/S32 to softvol
+  + RawMidi API
+    - Fix infinite parse of recursive definitions
+    - alsa-lib virtual rawmidi device: fixed typo (NONBLOCK mode)
+    - Do not abort in snd_xxx_close() functions
+    - allow changing of device directory path
+  + Sequencer API
+    - Fix infinite parse of recursive definitions
+    - Do not abort in snd_xxx_close() functions
+    - fix a typo
+    - allow changing of device directory path
+  + Timer API
+    - Do not abort in snd_xxx_close() functions
+    - allow changing of device directory path
+    - Suppress warning messages from old timer
+  + ALSA Lisp
+    - remove superfluous free() checks
+  + Configuration
+    - Fix infinite parse of recursive definitions
+    - Fix check of nonblock option
+    - remove superfluous free() checks
+    - Add channels parameter to surround40/51 definitions
+    - dmix - Allow more flexible buffer sizes
+  + Documentation
+    - Add description about non-blocking behavior
+  + External PCM Filter Plugin SDK
+    - Add init callback to extplug
+
+Changelog between 1.0.11rc2 and 1.0.11rc3 releases
+http://www.alsa-project.org/changes/v1-0-11rc2--v1-0-11rc3.txt)
+**************************************************
+
+* alsa-lib
+  + Core
     - implementation of pcm simple helper function
     - Skip resmgr when EAGAIN or EBUSY
     - release 1.0.11rc3
