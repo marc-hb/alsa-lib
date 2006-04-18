@@ -1,9 +1,12 @@
-alsa-lib (1.0.10+1.0.11rc3-2~1) experimental; urgency=low
+alsa-lib (1.0.10+1.0.11rc5-1~1) experimental; urgency=low
 
-  [ Matthias Klose / TH ]
+  [ Jordi Mallach ]
+  * New upstream release candidate
+
+  [ Matthias Klose / Thomas Hood ]
   * amd64: Drop dependencies on ia32-libs*, install into /emul/ia32-linux
 
- -- Thomas Hood <jdthood@yahoo.co.uk>  Fri, 10 Mar 2006 19:05:14 +0100
+ -- Jordi Mallach <jordi@debian.org>  Tue, 18 Apr 2006 17:53:55 +0200
 
 alsa-lib (1.0.10+1.0.11rc3-1) experimental; urgency=low
 

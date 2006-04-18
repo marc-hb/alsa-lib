@@ -1,3 +1,33 @@
+Changelog between 1.0.11rc4 and 1.0.11rc5 releases
+http://www.alsa-project.org/changes/v1-0-11rc4--v1-0-11rc5.txt)
+**************************************************
+
+* alsa-lib
+  + Core
+    - release 1.0.11rc5
+  + PCM API
+    - Fix snd_pcm_write*() return values at start up
+    - Fix PCM auto-start conditions
+    - Fix noisy output of dmix with two periods
+    - Fix compile warnings
+    - Fix PCM without control/status mmap
+    - Fix errors in partial reads/writes with rate plugin
+    - Make plugin functions static
+    - Fix buffer size handling of direct plugins
+    - Fix 32/64bit problem with multi plugin
+    - Finer sync of dmix in delay callback
+    - Allow negative coefficients in route plugin
+    - Fix compilation with assert()
+  + PCM Plugin API
+    - Create rate converter plugin SDK
+  + /include/Makefile.am
+    - Create rate converter plugin SDK
+  + Configuration
+    - Fix buffer size handling of direct plugins
+    - Add PCM definitions dpl and dpl2
+  + External Rate Converter Plugin SDK
+    - Create rate converter plugin SDK
+
 Changelog between 1.0.11rc3 and 1.0.11rc4 releases
 http://www.alsa-project.org/changes/v1-0-11rc3--v1-0-11rc4.txt)
 **************************************************
