@@ -1,225 +1,178 @@
-Changelog between 1.0.11rc4 and 1.0.11rc5 releases
-http://www.alsa-project.org/changes/v1-0-11rc4--v1-0-11rc5.txt)
-**************************************************
-
-* alsa-lib
-  + Core
-    - release 1.0.11rc5
-  + PCM API
-    - Fix snd_pcm_write*() return values at start up
-    - Fix PCM auto-start conditions
-    - Fix noisy output of dmix with two periods
-    - Fix compile warnings
-    - Fix PCM without control/status mmap
-    - Fix errors in partial reads/writes with rate plugin
-    - Make plugin functions static
-    - Fix buffer size handling of direct plugins
-    - Fix 32/64bit problem with multi plugin
-    - Finer sync of dmix in delay callback
-    - Allow negative coefficients in route plugin
-    - Fix compilation with assert()
-  + PCM Plugin API
-    - Create rate converter plugin SDK
-  + /include/Makefile.am
-    - Create rate converter plugin SDK
-  + Configuration
-    - Fix buffer size handling of direct plugins
-    - Add PCM definitions dpl and dpl2
-  + External Rate Converter Plugin SDK
-    - Create rate converter plugin SDK
-
-Changelog between 1.0.11rc3 and 1.0.11rc4 releases
-http://www.alsa-project.org/changes/v1-0-11rc3--v1-0-11rc4.txt)
-**************************************************
-
-* alsa-lib
-  + Core
-    - Fix infinite parse of recursive definitions
-    - Avoid unnecesasry call of resmgr
-    - allow changing of device directory path
-    - Portability fix for alsa-lib on mips
-    - Change autoconf requirement to 2.59
-    - release 1.0.11rc4
-  + Control API
-    - Fix memory leaks
-    - Fix compile warnings
-    - remove superfluous free() checks
-    - allow changing of device directory path
-  + Device Name API
-    - remove superfluous free() checks
-  + HWDEP API
-    - Do not abort in snd_xxx_close() functions
-    - remove superfluous free() checks
-    - allow changing of device directory path
-  + Mixer API
-    - Fix the description of snd_mixer_handle_events()
-  + PCM API
-    - Fix infinite parse of recursive definitions
-    - snd_pcm_set_params() - added workaround for vortex driver
-    - Fixed snd_pcm_set_params() error code
-    - Fix check of nonblock option
-    - Fix fullduplex with dmix/dsnoop
-    - Fix plug conversion of non-linear formats
-    - Remove bogus ATTRIBUTE_UNUSED
-    - Fix infinite loop in snd_pcm_wait()
-    - Do not abort in snd_xxx_close() functions
-    - allow changing of device directory path
-    - Fix segfault with PCM rate plugin
-    - return ENODEV for disconnected devices
-    - rate plugin: optimize calculation of the continuous buffer part
-    - rate plugin: fix fragment size calculation
-    - rate plugin: wait for data to be drained
-    - alsa-lib - added pcm_errors section
-    - alsa-lib - added ENOTTY and ENODEV to pcm_errors section
-    - Fix double free in rate plugin
-    - Add restriction parameters to pcm hw layer
-    - Fix restoration of PCM open mode
-    - Add init callback to extplug
-    - Fixes S16 byte swapping with generic dmix code
-    - dmix - Allow more flexible buffer sizes
-    - Fix extplug->channels initialization
-    - Fix timer read from 32bit user-space on 64bit kernel
-    - Add support for S32_3LE and byte-swapped S16/S32 to softvol
-  + RawMidi API
-    - Fix infinite parse of recursive definitions
-    - alsa-lib virtual rawmidi device: fixed typo (NONBLOCK mode)
-    - Do not abort in snd_xxx_close() functions
-    - allow changing of device directory path
-  + Sequencer API
-    - Fix infinite parse of recursive definitions
-    - Do not abort in snd_xxx_close() functions
-    - fix a typo
-    - allow changing of device directory path
-  + Timer API
-    - Do not abort in snd_xxx_close() functions
-    - allow changing of device directory path
-    - Suppress warning messages from old timer
-  + ALSA Lisp
-    - remove superfluous free() checks
-  + Configuration
-    - Fix infinite parse of recursive definitions
-    - Fix check of nonblock option
-    - remove superfluous free() checks
-    - Add channels parameter to surround40/51 definitions
-    - dmix - Allow more flexible buffer sizes
-  + Documentation
-    - Add description about non-blocking behavior
-  + External PCM Filter Plugin SDK
-    - Add init callback to extplug
-
-Changelog between 1.0.11rc2 and 1.0.11rc3 releases
-http://www.alsa-project.org/changes/v1-0-11rc2--v1-0-11rc3.txt)
-**************************************************
+Changelog between 1.0.10 and 1.0.11 releases
+(http://www.alsa-project.org/changes/v1-0-10--v1-0-11.txt)
+********************************************
 
 * alsa-lib
   + Core
     - implementation of pcm simple helper function
     - Skip resmgr when EAGAIN or EBUSY
-    - release 1.0.11rc3
-  + PCM API
-    - implementation of pcm simple helper function
-    - Fix S24_BE format conversions
+    - Portability fix for alsa-lib on mips
+    - Avoid unnecesasry call of resmgr
+    - allow changing of device directory path
+    - Fix infinite parse of recursive definitions
+    - Fix permission of cvscompile
+    - Changed permissions for scripts and added .hgignore file
+    - Check wordexp.h for ulibc
+    - Allow partial build with selected components
+  + Control API
     - Fix compile warnings
+    - remove superfluous free() checks
+    - allow changing of device directory path
+    - Fix memory leaks
+  + HWDEP API
+    - Do not abort in snd_xxx_close() functions
+    - remove superfluous free() checks
+    - allow changing of device directory path
+  + Instrument API
+    - remove superfluous free() checks
+  + Mixer API
+    - Fix the handling of stereo capture source
+    - Fix compile warnings
+    - remove superfluous free() checks
+    - Fix the description of snd_mixer_handle_events()
+  + PCM API
+    - Fix compile warnings
+    - Fix check of nonblock option
+    - Fix fullduplex with dmix/dsnoop
+    - Fix plug conversion of non-linear formats
+    - implementation of pcm simple helper function
     - Add "nonblock" option for hw layer
+    - pcm_ladspa - setup control outputs all times
+    - return ENODEV for disconnected devices
+    - Fix double free in rate plugin
+    - Add restriction parameters to pcm hw layer
+    - Fix snd_pcm_write*() return values at start up
+    - Fix PCM auto-start conditions
+    - Fix noisy output of dmix with two periods
+    - Fix compilation with assert()
+    - pcm_ladspa plugin - more verbose output
+    - dmix: add S24_3LE support
+    - dmix: fix interleaved check
+    - Remove bogus ATTRIBUTE_UNUSED
+    - Fix infinite loop in snd_pcm_wait()
+    - Do not abort in snd_xxx_close() functions
+    - allow changing of device directory path
+    - pcm - fix the buffer allocation for NONINTERLEAVED mmap access
+    - Fix S24_BE format conversions
     - Support multi-card/device for direct plugins
     - pcm laspa plugin - Added credits to MediaNet AG
+    - Fix infinite parse of recursive definitions
+    - rate plugin: optimize calculation of the continuous buffer part
+    - rate plugin: fix fragment size calculation
+    - rate plugin: wait for data to be drained
+    - Fix restoration of PCM open mode
+    - Add init callback to extplug
+    - Fixes S16 byte swapping with generic dmix code
+    - abort snd_pcm_dmix_drain when state is SND_PCM_STATE_XRU
+    - Abort from snd_pcm_dshare_drain in XRUN state
+    - direct plugins - fixed ipc_gid initialization when gid specified as number
+    - pcm dump() routines update: use spaces to indent texts
+    - fix compilation with gcc 2
+    - Fix buffer size handling of direct plugins
+    - Fix 32/64bit problem with multi plugin
+    - Finer sync of dmix in delay callback
+    - Allow negative coefficients in route plugin
+    - Fix meter plugin
     - LADSPA plugin: fix compilation
-    - pcm_ladspa - setup control outputs all times
-  + Configuration
-    - Make dmix/dsnoop as default for ICE1712
-    - Add "nonblock" option for hw layer
-    - Add missing alias entries
-    - Fix configuration for Aureon and Prodigy71 boards
-    - remove duplicate parameter
-    - Support multi-card/device for direct plugins
-    - Remove bad assert
-  + Filename helpers
-    - snd_user_file - keep doxygen happy
-  + Test/Example code
-    - Added pcm_min test & example - minimalistic pcm output
-    - pcm_min - blocking mode is default
-              - remove extra snd_pcm_nonblock() call
-    - pcm_min.c example - corrected comment
-
-
-Changelog between 1.0.11rc1 and 1.0.11rc2 releases
-(http://www.alsa-project.org/changes/v1-0-11rc1--v1-0-11rc2.txt)
-**************************************************
-
-* alsa-lib
-  + Core
-    - release 1.0.11rc2
-  + Mixer API
-    - Fix compile warnings
-  + PCM API
+    - Fix segfault with PCM rate plugin
+    - Fix generation of IEC958 subframes
+    - Fix compile error
     - big ALSA LADSPA plugin rewrite for multiple channel LADSPA plugins
     - ladspa plugin - SIGSEGV fix when label is not specified
     - Fix compile warnings
-    - dmix: add S24_3LE support
-    - dmix: fix interleaved check
-    - Fix meter plugin
-    - pcm - fix the buffer allocation for NONINTERLEAVED mmap access
-  + PCM Plugin API
-    - Fix declaration of snd_pcm_ladspa_open()
-  + Sequencer API
-    - Fix compile warnings
-  + Configuration
-    - snd-ca0106 Fixed SPDIF output.
-    - Make dmix/dsnoop as default PCM for ICE1724
-    - snd-ca0106: update mixer controls names from SPDIF to IEC958
-  + Simple Abstraction Mixer Modules
-    - Fix compile warnings
-
-
-Changelog between 1.0.10 and 1.0.11rc1 releases
-(http://www.alsa-project.org/changes/v1-0-10--v1-0-11rc1.txt)
-**************************************************
-
-* alsa-lib
-  + Core
-    - Check wordexp.h for ulibc
-    - Allow partial build with selected components
-    - release 1.0.11rc1
-  + Mixer API
-    - Fix the handling of stereo capture source
-  + PCM API
-    - Fix generation of IEC958 subframes
-    - fix compilation with gcc 2
-    - abort snd_pcm_dmix_drain when state is SND_PCM_STATE_XRU
-    - Abort from snd_pcm_dshare_drain in XRUN state
-    - Fix segfault of iec958 plugin with preamble
+    - snd_pcm_set_params() - added workaround for vortex driver
+    - dmix - Allow more flexible buffer sizes
+    - Fix extplug->channels initialization
+    - Fix timer read from 32bit user-space on 64bit kernel
+    - Add support for S32_3LE and byte-swapped S16/S32 to softvol
     - Use snd_user_file() in pcm_ladpsa.c
+    - Revert the last fix: finer sync of dmix in delay callback
+    - Fixed snd_pcm_set_params() error code
+    - alsa-lib - added pcm_errors section
+    - alsa-lib - added ENOTTY and ENODEV to pcm_errors section
+    - Fix compile warnings
+    - Fix PCM without control/status mmap
+    - Fix errors in partial reads/writes with rate plugin
+    - Make plugin functions static
+    - Fix segfault of iec958 plugin with preamble
     - Move snd_is_local() to socket.c
     - Allow partial build with selected components
     - Minor optimization on mmap
-    - direct plugins - fixed ipc_gid initialization when gid specified
-      as number
-    - pcm_ladspa plugin - more verbose output
-    - pcm dump() routines update: use spaces to indent texts
+  + PCM Plugin API
+    - Create rate converter plugin SDK
+    - Fix declaration of snd_pcm_ladspa_open()
+  + RawMidi API
+    - Do not abort in snd_xxx_close() functions
+    - allow changing of device directory path
+    - Fix infinite parse of recursive definitions
+    - alsa-lib virtual rawmidi device: fixed typo (NONBLOCK mode)
   + Sequencer API
+    - Fix compile warnings
+    - Do not abort in snd_xxx_close() functions
+    - fix a typo
+    - allow changing of device directory path
+    - Fix infinite parse of recursive definitions
     - remove SND_SEQ_CLIENT_{DUMMY,OSS} symbols
+  + Timer API
+    - Do not abort in snd_xxx_close() functions
+    - allow changing of device directory path
+    - Suppress warning messages from old timer
   + /Makefile.am
     - Allow partial build with selected components
+  + /alsalisp/Makefile.am
+    - Don't install alsalisp
+  + /include/Makefile.am
+    - Create rate converter plugin SDK
   + /modules/Makefile.am
     - Allow partial build with selected components
   + /src/Makefile.am
     - Allow partial build with selected components
+  + ALSA Lisp
+    - remove superfluous free() checks
   + Configuration
-    - Fix free of uninitialized pointer
-    - Remove superfluous wordexp.h inclusion
     - Fix a missing line in PMacToonie.conf
+    - snd-ca0106: update mixer controls names from SPDIF to IEC958
+    - Fix check of nonblock option
+    - Add "nonblock" option for hw layer
+    - Add missing alias entries
+    - Fix configuration for Aureon and Prodigy71 boards
+    - remove duplicate parameter
+    - Remove bad assert
+    - Add channels parameter to surround40/51 definitions
+    - Fix free of uninitialized pointer
+    - remove superfluous free() checks
+    - Support multi-card/device for direct plugins
+    - Fix infinite parse of recursive definitions
+    - Remove superfluous wordexp.h inclusion
+    - Fix buffer size handling of direct plugins
+    - Add PCM definitions dpl and dpl2
+    - snd-ca0106 Fixed SPDIF output.
+    - dmix - Allow more flexible buffer sizes
+    - Make dmix/dsnoop as default PCM for ICE1724
+    - Make dmix/dsnoop as default for ICE1712
   + Documentation
+    - Add description about non-blocking behavior
     - Add description for new configure options
+  + External PCM Filter Plugin SDK
+    - Add init callback to extplug
+  + External Rate Converter Plugin SDK
+    - Create rate converter plugin SDK
   + Filename helpers
-    - Add a workaround for systems without wordexp
     - Fixed compilation when HAVE_WORDEXP_H is not defined
-  + Kernel Headers
-    - seq: reorganize sequencer client numbers
+    - snd_user_file - keep doxygen happy
+    - Add a workaround for systems without wordexp
+  + Simple Abstraction Mixer Modules
+    - Fix compile warnings
   + Socket helpers
     - Move snd_is_local() to socket.c
   + Test/Example code
+    - Added pcm_min test & example - minimalistic pcm output
+    - pcm_min - blocking mode is default - remove extra snd_pcm_nonblock() call
     - Fix compile errors/warnings
+    - pcm_min.c example - corrected comment
     - Remove code from check_PROGRAMS
+  + Utils
+    - Changed permissions for scripts and added .hgignore file
 
 Changelog between 1.0.10rc3 and 1.0.10 releases
 (http://www.alsa-project.org/changes/v1-0-10rc3--v1-0-10.txt)
