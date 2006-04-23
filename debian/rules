@@ -26,7 +26,8 @@ ifneq (,$(biarch_cpu))
     bi = 32
     bilibdir = usr/lib32
     ifeq ($(DEB_HOST_ARCH),amd64)
-      bilibdir = emul/ia32-linux/usr/lib # amd64 unstable only!
+      # amd64 unstable only!
+      bilibdir = emul/ia32-linux/usr/lib
     endif
   endif
   configure_biarch_stamp = configure-biarch-stamp
@@ -156,7 +157,7 @@ install-indep: build-indep-stamp
 	dh_fixperms -i
 
 binary-arch: build-arch-stamp install-arch
-	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.10)'
+	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.11)'
 	dh_installdeb -s
 	dh_shlibdeps -s -Nlib64asound2
 	dh_gencontrol -s

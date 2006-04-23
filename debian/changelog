@@ -1,3 +1,11 @@
+alsa-lib (1.0.11-2) unstable; urgency=low
+
+  * debian/rules:
+    - bump shlibs to 1.0.11.
+    - move a comment to a variable assignment that was breaking amd64 builds.
+
+ -- Jordi Mallach <jordi@debian.org>  Sun, 23 Apr 2006 18:31:11 +0200
+
 alsa-lib (1.0.11-1) unstable; urgency=low
 
   [ Jordi Mallach ]
