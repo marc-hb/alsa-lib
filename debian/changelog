@@ -1,3 +1,10 @@
+alsa-lib (1.0.11-3) unstable; urgency=low
+
+  * debian/control: make lib32asound2 Replace/Conflict ia32-libs (<< 1.9),
+    by suggestion of Frederik Schueler.
+
+ -- Jordi Mallach <jordi@debian.org>  Tue, 25 Apr 2006 13:57:08 +0200
+
 alsa-lib (1.0.11-2) unstable; urgency=low
 
   * debian/rules:

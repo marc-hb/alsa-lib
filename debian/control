@@ -60,7 +60,8 @@ Architecture: amd64 ppc64
 Section: libs
 Depends: libasound2 (= ${Source-Version}), ${shlibs:Depends}, ${bilib:depends}
 Suggests: libasound2-plugins (>= 1.0.9)
-Conflicts: libasound2-plugins (<< 1.0.9)
+Conflicts: libasound2-plugins (<< 1.0.9), ia32-libs (<< 1.9)
+Replaces: ia32-libs (<< 1.9)
 Description: ALSA library (32 bit)
  This package contains the ALSA library (32 bit) and its standard
  plugins.
