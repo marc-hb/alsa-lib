@@ -3,3 +3,4 @@
 03_configure_cross_compile
 04_doxygen_links
 05_multiarch
+06_pcm_rate_hwptr_update
