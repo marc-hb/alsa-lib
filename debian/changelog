@@ -1,11 +1,11 @@
-alsa-lib (1.0.11-4) UNRELEASED; urgency=low
+alsa-lib (1.0.11-4) unstable; urgency=low
 
   * debian/patches/06_pcm_rate_hwptr_update.dpatch: Fix the update of hwptr
     in rate plugin to avoid bad sounds on Ekiga and other applications
     (closes: #367524).
   * Bumped Standard-Version to 3.7.2; no changes needed.
 
- -- Jordi Mallach <jordi@debian.org>  Wed, 17 May 2006 18:19:37 +0200
+ -- Jordi Mallach <jordi@debian.org>  Fri, 19 May 2006 00:36:26 +0200
 
 alsa-lib (1.0.11-3) unstable; urgency=low
 
