@@ -1,7 +1,7 @@
-alsa-lib (1.0.11-5) unstable; urgency=low
+alsa-lib (1.0.11-5) unstable; urgency=medium
 
-  * debian/rules: Run dh_makeshlibs for the biarch libraries. Thanks Matthias
-    Klose (closes: #366277).
+  * debian/rules: Run dh_makeshlibs for the biarch libraries. Thanks,
+    Matthias Klose (closes: #366277).
 
  -- Jordi Mallach <jordi@debian.org>  Wed, 24 May 2006 17:57:03 +0200
 
