@@ -158,6 +158,10 @@ install-indep: build-indep-stamp
 
 binary-arch: build-arch-stamp install-arch
 	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.11)'
+ifneq (,$(build_biarch_stamp))
+	dh_makeshlibs -plib$(bi)asound2  -V'lib$(bi)asound2 (>> 1.0.11)'
+endif
+
 	dh_installdeb -s
 	dh_shlibdeps -s -Nlib64asound2
 	dh_gencontrol -s
