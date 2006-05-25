@@ -1,3 +1,9 @@
+alsa-lib (1.0.11-6) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Jordi Mallach <jordi@debian.org>  Wed, 24 May 2006 19:02:45 +0200
+
 alsa-lib (1.0.11-5) unstable; urgency=medium
 
   * debian/rules: Run dh_makeshlibs for the biarch libraries. Thanks,
