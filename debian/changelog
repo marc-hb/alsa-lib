@@ -3,10 +3,12 @@ alsa-lib (1.0.11-5) unstable; urgency=medium
   * debian/rules: Run dh_makeshlibs for the biarch libraries. Thanks,
     Matthias Klose (closes: #366277).
   * Fix FTBFS on systems with automake & autoconf installed, via adding
-    AM_MAINTAINER_MODE to configure.in, and a full relibtoolisation patch
+    AM_MAINTAINER_MODE to configure.in, a full relibtoolisation patch, and
+    applying the cross-compiling patch after relibtoolisation
     (thanks Loïc Minier, closes: #368260).
     [debian/rules, debian/patches/05_multiarch.dpatch,
-    debian/patches/10_add-maintainer-mode.dpatch, 40_relibtoolise.dpatch]
+    debian/patches/10_add-maintainer-mode.dpatch, 40_relibtoolise.dpatch,
+    41_configure_cross_compile.dpatch]
 
  -- Jordi Mallach <jordi@debian.org>  Wed, 26 May 2006 10:57:03 +0200
 
