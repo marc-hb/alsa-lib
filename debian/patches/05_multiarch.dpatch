@@ -24,32 +24,6 @@ esac
 exit 0
 
 @DPATCH@
-diff -ur orig/alsa-lib-1.0.10+1.0.11rc1/configure alsa-lib-1.0.10+1.0.11rc1/configure
---- orig/alsa-lib-1.0.10+1.0.11rc1/configure	2005-12-13 10:07:43.000000000 +0100
-+++ alsa-lib-1.0.10+1.0.11rc1/configure	2006-01-16 22:14:59.000000000 +0100
-@@ -20514,12 +20514,6 @@
- fi
- 
- 
--rm -f src/pcm/pcm_symbols_list.c
--for t in $PCM_PLUGIN_LIST; do
--  if eval test \$build_pcm_$t = yes; then
--    echo \&_snd_module_pcm_$t, >> src/pcm/pcm_symbols_list.c
--  fi
--done
- 
- if test ! -L include/alsa ; then
-   echo "Making a symlink include/alsa"
-@@ -22307,3 +22301,9 @@
-   $ac_cs_success || { (exit 1); exit 1; }
- fi
- 
-+rm -f src/pcm/pcm_symbols_list.c
-+for t in $PCM_PLUGIN_LIST; do
-+  if eval test \$build_pcm_$t = yes; then
-+    echo \&_snd_module_pcm_$t, >> src/pcm/pcm_symbols_list.c
-+  fi
-+done
 diff -ur orig/alsa-lib-1.0.10+1.0.11rc1/configure.in alsa-lib-1.0.10+1.0.11rc1/configure.in
 --- orig/alsa-lib-1.0.10+1.0.11rc1/configure.in	2005-12-13 08:51:52.000000000 +0100
 +++ alsa-lib-1.0.10+1.0.11rc1/configure.in	2006-01-16 21:35:11.000000000 +0100

@@ -4,3 +4,5 @@
 04_doxygen_links
 05_multiarch
 06_pcm_rate_hwptr_update
+10_add-maintainer-mode
+40_relibtoolise

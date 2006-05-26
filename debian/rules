@@ -54,7 +54,7 @@ configure-stamp: patch-stamp $(configure_biarch_stamp)
 		    --mandir=\$${prefix}/share/man \
 		    --infodir=\$${prefix}/share/info \
 		    --build=$(DEB_BUILD_GNU_TYPE) \
-		    --enable-static
+		    --enable-static --disable-maintainer-mode
 	touch configure-stamp
 
 configure-biarch-stamp: patch-stamp
@@ -69,7 +69,7 @@ configure-biarch-stamp: patch-stamp
 		    --mandir=\$${prefix}/share/man \
 		    --infodir=\$${prefix}/share/info \
 		    --host=$(DEB_HOST_GNU_TYPE) \
-		    --enable-static
+		    --enable-static --disable-maintainer-mode
 	ln -sf . include/alsa
 	rm -f bibuild/include/alsa
 	ln -s . bibuild/include/alsa
