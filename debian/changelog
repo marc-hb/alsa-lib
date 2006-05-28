@@ -1,4 +1,4 @@
-alsa-lib (1.0.11-6) UNRELEASED; urgency=low
+alsa-lib (1.0.11-6) unstable; urgency=high
 
   * debian/patches/11_libtool_version: correctly detect libtool version in
     configure, avoiding some libasound symbols from becoming weak.
