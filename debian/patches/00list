@@ -4,5 +4,6 @@
 05_multiarch
 06_pcm_rate_hwptr_update
 10_add-maintainer-mode
+11_libtool_version
 40_relibtoolise
 41_configure_cross_compile
