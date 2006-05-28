@@ -53,6 +53,7 @@ configure-stamp: patch-stamp $(configure_biarch_stamp)
 	./configure --prefix=/usr \
 		    --mandir=\$${prefix}/share/man \
 		    --infodir=\$${prefix}/share/info \
+		    --datadir=\$${prefix}/share \
 		    --build=$(DEB_BUILD_GNU_TYPE) \
 		    --enable-static --disable-maintainer-mode
 	touch configure-stamp
@@ -68,6 +69,7 @@ configure-biarch-stamp: patch-stamp
 	cd bibuild && CC="$(BIARCH_CC)" ../configure --prefix=/usr \
 		    --mandir=\$${prefix}/share/man \
 		    --infodir=\$${prefix}/share/info \
+		    --datadir=\$${prefix}/share \
 		    --host=$(DEB_HOST_GNU_TYPE) \
 		    --enable-static --disable-maintainer-mode
 	ln -sf . include/alsa

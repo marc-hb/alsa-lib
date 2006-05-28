@@ -1,3 +1,10 @@
+alsa-lib (1.0.11-7) unstable; urgency=low
+
+  * Introduced --datadir=\$${prefix}/share in debian/rules. Otherwise soundapps
+    are looking in $BUILDDIR/${prefix}/share.
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 28 May 2006 18:29:55 +0200
+
 alsa-lib (1.0.11-6) unstable; urgency=high
 
   * debian/patches/11_libtool_version: correctly detect libtool version in
