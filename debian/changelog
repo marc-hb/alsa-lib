@@ -1,9 +1,10 @@
-alsa-lib (1.0.11-7) unstable; urgency=low
+alsa-lib (1.0.11-7) unstable; urgency=medium
 
+  [ Elimar Riesebieter ]
   * Introduced --datadir=\$${prefix}/share in debian/rules. Otherwise soundapps
     are looking in $BUILDDIR/${prefix}/share.
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 28 May 2006 18:29:55 +0200
+ -- Jordi Mallach <jordi@debian.org>  Sun, 28 May 2006 22:02:37 +0200
 
 alsa-lib (1.0.11-6) unstable; urgency=high
 
