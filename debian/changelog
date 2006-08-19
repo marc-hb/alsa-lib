@@ -1,6 +1,7 @@
-alsa-lib (1.0.12~rc2-1) unstable; urgency=low
+alsa-lib (1.0.12~rc2-1) experimental; urgency=low
 
   * New upstream release candidate
+  * Removed 06_pcm_rate_hwptr_update.dpatch. Applied upstream
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Sat, 19 Aug 2006 13:52:41 +0200
 
