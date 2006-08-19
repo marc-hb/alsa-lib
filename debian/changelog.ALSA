@@ -1,3 +1,82 @@
+Changelog between 1.0.12rc1 and 1.0.12rc2 releases
+(http://www.alsa-project.org/changes/v1-0-12rc1--v1-0-12rc2.txt)
+********************************************
+
+* alsa-lib
+  + Core
+    - Fix default install libpath and datapath.
+    - Control API - add TLV support
+    - release 1.0.12rc1
+  + Control API
+    - Move dB parser to mixer abstraction
+    - Implement support for dB gain display in alsamixer.
+    - mixer - cleanups for dB scale parsing
+    - Fix examples for PCM API. Fix dogygen warnings.
+    - Control API - add TLV support
+  + Instrument API
+    - Remove dependencies with kernel headers from instrument layer codes
+  + Mixer API
+    - Move dB parser to mixer abstraction
+    - Implement support for dB gain display in alsamixer.
+    - mixer - cleanups for dB scale parsing
+  + PCM API
+    - Fix examples for PCM API. Fix dogygen warnings.
+    - Fix bogus pause flag on dmix
+    - Fix segfault with bindings parameters of dmix/dshare
+  + Configuration
+    - Turn on iec958 capture of iec1724 boards with spdif PCM
+    - Add config for new snd-aoa driver
+    - Fixed driver alias of Aureon 7.1 Universe
+  + Documentation
+    - Fix examples for PCM API. Fix dogygen warnings.
+  + Kernel Headers
+    - Remove dependencies with kernel headers from instrument layer codes
+    - Control API - add TLV support
+
+Changelog between 1.0.11 and 1.0.12rc1 releases
+(http://www.alsa-project.org/changes/v1-0-11--v1-0-12rc1.txt)
+********************************************
+
+* alsa-lib
+  + Core
+    - Add hgcompile script and fix INSTALL document
+  + Control API
+    - Make snd_hctl_wait() respect the API
+  + HWDEP API
+    - Add missing snd_dlclose() in snd_hwdep_close()
+  + PCM API
+    - Use O_APPEND mode with dmix & co plugins
+    - Initialize all fields of slave PCM instance of direct plugins
+    - Fix division-by-zero in snd_pcm_dump_hw_setup()
+    - Fix a typo in pcm_file.c
+    - Correction for fixing alsa-lib static build
+    - Addition of "infile" parameter (virtual mic) to the file plugin
+    - Allow ioplugins to override snd_pcm_delay()
+    - Fix delayed start with rate plugin
+    - Fix the error path of snd_pcm_hook_add_conf()
+    - Add missing snd_dlclose() in pcm_meter.c
+    - Fix segfault with dshare plugin
+    - Add check of binding ranges in direct plugins
+    - Fix hwptr update in rate plugin
+  + Sequencer API
+    - Fix missing snd_dlclose() in sequencer
+    - clarify SND_SEQ_PORT_TYPE_xxx documentation
+  + Timer API
+    - Fix missing snd_dlclose() in timer handlers
+  + /Makefile.am
+    - Add hgcompile script and fix INSTALL document
+  + Configuration
+    - Add default dmix rate and format definitions in alsa.conf
+    - Fix surround40 config for ens1370
+    - Fix device number of ICH4 iec958 controls
+    - Fix the description of return value of snd_config_search_definition()
+  + Documentation
+    - Add hgcompile script and fix INSTALL document
+  + External PCM I/O Plugin SDK
+    - Allow ioplugins to override snd_pcm_delay()
+  + Kernel Headers
+    - Remove enum from kernel API
+
 Changelog between 1.0.10 and 1.0.11 releases
 (http://www.alsa-project.org/changes/v1-0-10--v1-0-11.txt)
 ********************************************
