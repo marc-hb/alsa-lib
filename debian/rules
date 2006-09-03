@@ -133,7 +133,7 @@ endif
 	dh_installdocs -plibasound2
 	dh_installexamples -s
 	dh_installchangelogs -plibasound2 debian/changelog.ALSA
-	install -p -m 0644 -o root -g root debian/lib64asound2.lintian-overrides \
+	install -D -p -m 0644 -o root -g root debian/lib64asound2.lintian-overrides \
 		debian/lib64asound2/usr/share/lintian/overrides/lib64asound2
 	dh_strip -s
 	dh_link -s
@@ -150,6 +150,7 @@ install-indep: build-indep-stamp
 	dh_installdocs -i
 	dh_installexamples -i
 	dh_installchangelogs -plibasound2-doc debian/changelog.ALSA
+	cp -r doc/doxygen/html debian/libasound2-doc/usr/share/doc/libasound2-doc
 	dh_compress -i
 	dh_fixperms -i
 
