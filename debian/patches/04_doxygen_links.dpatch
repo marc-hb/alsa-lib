@@ -5,10 +5,10 @@
 ## DP: Fix broken doxygen links in pcm.c and rawmidi.c.
 
 @DPATCH@
-diff -urNad --exclude=CVS --exclude=.svn ./src/pcm/pcm.c /tmp/dpep-work.Hjt6Nc/alsa-lib-1.0.10/src/pcm/pcm.c
---- ./src/pcm/pcm.c	2005-12-10 22:31:19.000000000 +0100
-+++ /tmp/dpep-work.Hjt6Nc/alsa-lib-1.0.10/src/pcm/pcm.c	2005-12-10 22:32:16.000000000 +0100
-@@ -883,7 +883,7 @@
+diff -urNad alsa-lib-1.0.12~/src/pcm/pcm.c alsa-lib-1.0.12/src/pcm/pcm.c
+--- alsa-lib-1.0.12~/src/pcm/pcm.c	2006-09-03 15:33:45.000000000 +0200
++++ alsa-lib-1.0.12/src/pcm/pcm.c	2006-09-03 15:32:36.000000000 +0200
+@@ -926,7 +926,7 @@
   * \return PCM state #snd_pcm_state_t of given PCM handle
   *
   * This is a faster way to obtain only the PCM state without calling
@@ -17,7 +17,7 @@ diff -urNad --exclude=CVS --exclude=.svn ./src/pcm/pcm.c /tmp/dpep-work.Hjt6Nc/a
   */
  snd_pcm_state_t snd_pcm_state(snd_pcm_t *pcm)
  {
-@@ -945,7 +945,7 @@
+@@ -988,7 +988,7 @@
   *
   * This function can be used when the stream is in the suspend state
   * to do the fine resume from this state. Not all hardware supports
@@ -26,7 +26,7 @@ diff -urNad --exclude=CVS --exclude=.svn ./src/pcm/pcm.c /tmp/dpep-work.Hjt6Nc/a
   * function to recovery.
   */
  int snd_pcm_resume(snd_pcm_t *pcm)
-@@ -1013,7 +1013,7 @@
+@@ -1056,7 +1056,7 @@
   * This function stops the PCM <i>immediately</i>.
   * The pending samples on the buffer are ignored.
   *
@@ -35,7 +35,7 @@ diff -urNad --exclude=CVS --exclude=.svn ./src/pcm/pcm.c /tmp/dpep-work.Hjt6Nc/a
   * instead.
   */
  int snd_pcm_drop(snd_pcm_t *pcm)
-@@ -1036,7 +1036,7 @@
+@@ -1079,7 +1079,7 @@
   * the PCM.
   * For capture stop PCM permitting to retrieve residual frames.
   *
@@ -44,7 +44,7 @@ diff -urNad --exclude=CVS --exclude=.svn ./src/pcm/pcm.c /tmp/dpep-work.Hjt6Nc/a
   * instead.
   */
  int snd_pcm_drain(snd_pcm_t *pcm)
-@@ -1056,7 +1056,7 @@
+@@ -1099,7 +1099,7 @@
   * \return 0 on success otherwise a negative error code
   *
   * Note that this function works only on the hardware which supports
@@ -53,7 +53,7 @@ diff -urNad --exclude=CVS --exclude=.svn ./src/pcm/pcm.c /tmp/dpep-work.Hjt6Nc/a
   * function.
   */
  int snd_pcm_pause(snd_pcm_t *pcm, int enable)
-@@ -1293,16 +1293,16 @@
+@@ -1336,16 +1336,16 @@
   *
   * This function fills the given poll descriptor structs for the specified
   * PCM handle.  The poll desctiptor array should have the size returned by
@@ -73,9 +73,9 @@ diff -urNad --exclude=CVS --exclude=.svn ./src/pcm/pcm.c /tmp/dpep-work.Hjt6Nc/a
   * does the right "demangling".
   *
   * You can use output from this function as arguments for the select()
-diff -urNad --exclude=CVS --exclude=.svn ./src/rawmidi/rawmidi.c /tmp/dpep-work.Hjt6Nc/alsa-lib-1.0.10/src/rawmidi/rawmidi.c
---- ./src/rawmidi/rawmidi.c	2005-12-10 22:31:19.000000000 +0100
-+++ /tmp/dpep-work.Hjt6Nc/alsa-lib-1.0.10/src/rawmidi/rawmidi.c	2005-12-10 22:32:16.000000000 +0100
+diff -urNad alsa-lib-1.0.12~/src/rawmidi/rawmidi.c alsa-lib-1.0.12/src/rawmidi/rawmidi.c
+--- alsa-lib-1.0.12~/src/rawmidi/rawmidi.c	2006-09-03 15:33:45.000000000 +0200
++++ alsa-lib-1.0.12/src/rawmidi/rawmidi.c	2006-09-03 15:32:36.000000000 +0200
 @@ -82,7 +82,7 @@
  
  The ALSA library uses a generic string representation for names of devices.

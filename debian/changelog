@@ -1,9 +1,14 @@
-alsa-lib (1.0.12~rc2-1) experimental; urgency=low
+alsa-lib (1.0.12-1) unstable; urgency=low
 
-  * New upstream release candidate
+  * New upstream release
+
+  [ Elimar Riesebieter ]
   * Removed 06_pcm_rate_hwptr_update.dpatch. Applied upstream
+  * Bumped compat to 5 and debhelper version >=5.0.37
+  * Cleaned out fuzzes and offsets in patches/*
+  * Rebuild patches/40_relibtoolise.dpatch
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Sat, 19 Aug 2006 13:52:41 +0200
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 03 Sep 2006 15:23:31 +0200
 
 alsa-lib (1.0.11-7) unstable; urgency=medium
 

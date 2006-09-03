@@ -24,10 +24,10 @@ esac
 exit 0
 
 @DPATCH@
-diff -ur orig/alsa-lib-1.0.10+1.0.11rc1/configure.in alsa-lib-1.0.10+1.0.11rc1/configure.in
---- orig/alsa-lib-1.0.10+1.0.11rc1/configure.in	2005-12-13 08:51:52.000000000 +0100
-+++ alsa-lib-1.0.10+1.0.11rc1/configure.in	2006-01-16 21:35:11.000000000 +0100
-@@ -328,13 +328,6 @@
+diff -ur alsa-lib-1.0.12~/configure.in alsa-lib-1.0.12/configure.in
+--- alsa-lib-1.0.12~/configure.in	2006-09-03 15:36:40.000000000 +0200
++++ alsa-lib-1.0.12/configure.in	2006-09-03 15:35:26.000000000 +0200
+@@ -352,13 +352,6 @@
  fi
  
  
@@ -41,7 +41,7 @@ diff -ur orig/alsa-lib-1.0.10+1.0.11rc1/configure.in alsa-lib-1.0.10+1.0.11rc1/c
  
  dnl Make a symlink for inclusion of alsa/xxx.h
  if test ! -L include/alsa ; then
-@@ -355,3 +348,11 @@
+@@ -379,3 +372,11 @@
  	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
  	  alsalisp/Makefile aserver/Makefile test/Makefile utils/Makefile \
            utils/alsa-lib.spec utils/alsa.pc)

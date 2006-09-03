@@ -4,15 +4,15 @@
 ## DP: Remove check that the compiler produces executables we can run. 
 
 @DPATCH@
-diff -urNad alsa-lib-1.0.11~/configure alsa-lib-1.0.11/configure
---- alsa-lib-1.0.11~/configure	2006-05-26 20:00:16.000000000 +0200
-+++ alsa-lib-1.0.11/configure	2006-05-26 20:00:39.000000000 +0200
-@@ -2503,7 +2503,7 @@
- echo $ECHO_N "checking whether the C compiler works... $ECHO_C" >&6
+diff -urNad alsa-lib-1.0.12~/configure alsa-lib-1.0.12/configure
+--- alsa-lib-1.0.12~/configure	2006-09-03 15:43:47.000000000 +0200
++++ alsa-lib-1.0.12/configure	2006-09-03 15:43:02.000000000 +0200
+@@ -3100,7 +3100,7 @@
+ echo $ECHO_N "checking whether the C compiler works... $ECHO_C" >&6; }
  # FIXME: These cross compiler hacks should be removed for Autoconf 3.0
  # If not cross compiling, check that we can run a simple program.
 -if test "$cross_compiling" != yes; then
 +if false && test "$cross_compiling" != yes; then
    if { ac_try='./$ac_file'
-   { (eval echo "$as_me:$LINENO: \"$ac_try\"") >&5
-   (eval $ac_try) 2>&5
+   { (case "(($ac_try" in
+   *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;

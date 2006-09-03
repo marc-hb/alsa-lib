@@ -22,9 +22,9 @@ esac
 exit 0
 
 @DPATCH@
-diff -urNad /home/jordi/deb/alsa/alsa-lib/utils/alsa.m4 alsa-lib/utils/alsa.m4
---- /home/jordi/deb/alsa/alsa-lib/utils/alsa.m4	2004-01-20 14:31:15.000000000 +0100
-+++ alsa-lib/utils/alsa.m4	2004-01-20 14:35:41.000000000 +0100
+diff -urNad alsa-lib-1.0.12~/utils/alsa.m4 alsa-lib-1.0.12/utils/alsa.m4
+--- alsa-lib-1.0.12~/utils/alsa.m4	2006-09-03 15:28:21.000000000 +0200
++++ alsa-lib-1.0.12/utils/alsa.m4	2006-09-03 15:27:35.000000000 +0200
 @@ -43,6 +43,7 @@
  	CFLAGS="$CFLAGS -I$alsa_inc_prefix"
  fi
@@ -33,9 +33,9 @@ diff -urNad /home/jordi/deb/alsa/alsa-lib/utils/alsa.m4 alsa-lib/utils/alsa.m4
  
  dnl add any special lib dirs
  AC_MSG_CHECKING(for ALSA LDFLAGS)
-@@ -121,19 +122,15 @@
- 	 alsa_found=no]
+@@ -119,19 +120,15 @@
  )
+ fi
  
 +LDFLAGS="$alsa_save_LDFLAGS"
 +LIBS="$alsa_save_LIBS"
