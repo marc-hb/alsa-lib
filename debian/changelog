@@ -1,17 +1,17 @@
 alsa-lib (1.0.12-1) unstable; urgency=low
 
-  * New upstream release
+  * New upstream release.
 
   [ Elimar Riesebieter ]
-  * Removed 06_pcm_rate_hwptr_update.dpatch. Applied upstream
-  * Bumped compat to 5 and debhelper version >=5.0.37
+  * Removed 06_pcm_rate_hwptr_update.dpatch. Applied upstream.
+  * Bumped compat to 5 and debhelper version >=5.0.37.
   * Cleaned out fuzzes and offsets in patches/*
-  * Rebuild patches/40_relibtoolise.dpatch
+  * Rebuild patches/40_relibtoolise.dpatch.
   * Removed description-synopsis-starts-with-a-capital-letter lintian overrides.
-    No longer needed
+    No longer needed.
   * Added lib64asound2.lintian-overrides.
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 03 Sep 2006 15:23:31 +0200
+ -- Jordi Mallach <jordi@debian.org>  Wed,  6 Sep 2006 20:29:35 +0200
 
 alsa-lib (1.0.11-7) unstable; urgency=medium
 
