@@ -7,11 +7,11 @@ alsa-lib (1.0.12-1) unstable; urgency=low
   * Bumped compat to 5 and debhelper version >=5.0.37.
   * Cleaned out fuzzes and offsets in patches/*
   * Rebuild patches/40_relibtoolise.dpatch.
-  * Removed description-synopsis-starts-with-a-capital-letter lintian overrides.
-    No longer needed.
+  * Removed description-synopsis-starts-with-a-capital-letter lintian
+    overrides. No longer needed.
   * Added lib64asound2.lintian-overrides.
 
- -- Jordi Mallach <jordi@debian.org>  Wed,  6 Sep 2006 20:29:35 +0200
+ -- Jordi Mallach <jordi@debian.org>  Mon, 11 Sep 2006 10:51:11 +0200
 
 alsa-lib (1.0.11-7) unstable; urgency=medium
 
