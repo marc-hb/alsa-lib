@@ -11,7 +11,10 @@ alsa-lib (1.0.12-1) unstable; urgency=low
     overrides. No longer needed.
   * Added lib64asound2.lintian-overrides.
 
- -- Jordi Mallach <jordi@debian.org>  Mon, 11 Sep 2006 10:51:11 +0200
+  [ Jordi Mallach ]
+  * Bump shlibs due to newly added symbols.
+
+ -- Jordi Mallach <jordi@debian.org>  Mon, 11 Sep 2006 11:14:58 +0200
 
 alsa-lib (1.0.11-7) unstable; urgency=medium
 
