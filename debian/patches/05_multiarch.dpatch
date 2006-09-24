@@ -27,7 +27,7 @@ exit 0
 diff -ur alsa-lib-1.0.12~/configure.in alsa-lib-1.0.12/configure.in
 --- alsa-lib-1.0.12~/configure.in	2006-09-03 15:36:40.000000000 +0200
 +++ alsa-lib-1.0.12/configure.in	2006-09-03 15:35:26.000000000 +0200
-@@ -352,13 +352,6 @@
+@@ -356,13 +356,6 @@
  fi
  
  
@@ -41,7 +41,7 @@ diff -ur alsa-lib-1.0.12~/configure.in alsa-lib-1.0.12/configure.in
  
  dnl Make a symlink for inclusion of alsa/xxx.h
  if test ! -L include/alsa ; then
-@@ -379,3 +372,11 @@
+@@ -383,3 +376,11 @@
  	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
  	  alsalisp/Makefile aserver/Makefile test/Makefile utils/Makefile \
            utils/alsa-lib.spec utils/alsa.pc)

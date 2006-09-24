@@ -1,3 +1,40 @@
+Changelog between 1.0.13rc1 and 1.0.13rc2 releases
+(http://www.alsa-project.org/changes/v1-0-13rc1--v1-0-13rc2.txt)
+********************************************
+
+* alsa-lib
+  + Core
+    - Add --disable-alisp configure option
+  + Control API
+    - Add support of dB range compound TLV
+  + Mixer API
+    - Fix wrong scales in linear volume calculation
+    - Add support of dB range compound TLV
+  + /Makefile.am
+    - Add --disable-alisp configure option
+  + /src/Makefile.am
+    - Fix a typo
+    - Add --disable-alisp configure option
+  + Configuration
+    - Add --disable-alisp configure option
+
+Changelog between 1.0.12 and 1.0.13rc1 releases
+(http://www.alsa-project.org/changes/v1-0-12--v1-0-13rc1.txt)
+********************************************
+
+* alsa-lib
+  + Control API
+    - Fix bogus value when no user TLV is defined
+    - Add dB range information to PCM softvol plugin
+    - Add handling of linear volume in simple mixer
+  + Mixer API
+    - Add dB_range ops for simple mixer
+    - Add set_dB ops to simple mixer
+    - Add handling of linear volume in simple mixer
+    - Fix segfault when invalid TLV is passed
+  + PCM API
+    - Add dB range information to PCM softvol plugin
+
 Changelog between 1.0.11 and 1.0.12 releases
 (http://www.alsa-project.org/changes/v1-0-11--v1-0-12.txt)
 ********************************************
