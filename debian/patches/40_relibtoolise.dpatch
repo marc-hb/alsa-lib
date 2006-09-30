@@ -8,8 +8,8 @@
 
 @DPATCH@
 diff -urNad a/aclocal.m4 b/aclocal.m4
---- a/aclocal.m4	2006-09-12 15:43:42.000000000 +0200
-+++ b/aclocal.m4	2006-09-24 17:03:55.000000000 +0200
+--- a/aclocal.m4	2006-09-29 13:43:17.000000000 +0200
++++ b/aclocal.m4	2006-09-30 15:28:33.000000000 +0200
 @@ -13,7 +13,7 @@
  
  # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
@@ -249,8 +249,8 @@ diff -urNad a/aclocal.m4 b/aclocal.m4
  
  # Copyright (C) 2001, 2002, 2003, 2005  Free Software Foundation, Inc.
 diff -urNad a/alsalisp/Makefile.in b/alsalisp/Makefile.in
---- a/alsalisp/Makefile.in	2006-09-12 15:44:13.000000000 +0200
-+++ b/alsalisp/Makefile.in	2006-09-24 17:05:13.000000000 +0200
+--- a/alsalisp/Makefile.in	2006-09-29 13:43:46.000000000 +0200
++++ b/alsalisp/Makefile.in	2006-09-30 15:29:13.000000000 +0200
 @@ -165,6 +165,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -347,8 +347,8 @@ diff -urNad a/alsalisp/Makefile.in b/alsalisp/Makefile.in
  
  clean-noinstPROGRAMS:
 diff -urNad a/aserver/Makefile.in b/aserver/Makefile.in
---- a/aserver/Makefile.in	2006-09-12 15:44:14.000000000 +0200
-+++ b/aserver/Makefile.in	2006-09-24 17:05:13.000000000 +0200
+--- a/aserver/Makefile.in	2006-09-29 13:43:47.000000000 +0200
++++ b/aserver/Makefile.in	2006-09-30 15:29:13.000000000 +0200
 @@ -167,6 +167,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -445,8 +445,8 @@ diff -urNad a/aserver/Makefile.in b/aserver/Makefile.in
  install-binPROGRAMS: $(bin_PROGRAMS)
  	@$(NORMAL_INSTALL)
 diff -urNad a/configure b/configure
---- a/configure	2006-09-12 15:44:44.000000000 +0200
-+++ b/configure	2006-09-24 17:04:57.000000000 +0200
+--- a/configure	2006-09-29 13:44:11.000000000 +0200
++++ b/configure	2006-09-30 15:29:02.000000000 +0200
 @@ -1,8 +1,9 @@
  #! /bin/sh
  # Guess values for system-dependent variables and create Makefiles.
@@ -1172,7 +1172,7 @@ diff -urNad a/configure b/configure
  # include <unistd.h>
  #endif"
  
--ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar INSTALL_M4_TRUE INSTALL_M4_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE LN_S EGREP ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CPP CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP F77 FFLAGS ac_ct_F77 LIBTOOL ALSA_HSEARCH_R_TRUE ALSA_HSEARCH_R_FALSE SND_LIB_VERSION SND_LIB_MAJOR SND_LIB_MINOR SND_LIB_SUBMINOR SND_LIB_EXTRAVER LIBTOOL_VERSION_INFO VERSIONED_SYMBOLS_TRUE VERSIONED_SYMBOLS_FALSE BUILD_MIXER_TRUE BUILD_MIXER_FALSE BUILD_PCM_TRUE BUILD_PCM_FALSE BUILD_RAWMIDI_TRUE BUILD_RAWMIDI_FALSE BUILD_HWDEP_TRUE BUILD_HWDEP_FALSE BUILD_SEQ_TRUE BUILD_SEQ_FALSE BUILD_INSTR_TRUE BUILD_INSTR_FALSE BUILD_ALISP_TRUE BUILD_ALISP_FALSE BUILD_PCM_PLUGIN_TRUE BUILD_PCM_PLUGIN_FALSE BUILD_PCM_PLUGIN_COPY_TRUE BUILD_PCM_PLUGIN_COPY_FALSE BUILD_PCM_PLUGIN_LINEAR_TRUE BUILD_PCM_PLUGIN_LINEAR_FALSE BUILD_PCM_PLUGIN_ROUTE_TRUE BUILD_PCM_PLUGIN_ROUTE_FALSE BUILD_PCM_PLUGIN_MULAW_TRUE BUILD_PCM_PLUGIN_MULAW_FALSE BUILD_PCM_PLUGIN_ALAW_TRUE BUILD_PCM_PLUGIN_ALAW_FALSE BUILD_PCM_PLUGIN_ADPCM_TRUE BUILD_PCM_PLUGIN_ADPCM_FALSE BUILD_PCM_PLUGIN_RATE_TRUE BUILD_PCM_PLUGIN_RATE_FALSE BUILD_PCM_PLUGIN_PLUG_TRUE BUILD_PCM_PLUGIN_PLUG_FALSE BUILD_PCM_PLUGIN_MULTI_TRUE BUILD_PCM_PLUGIN_MULTI_FALSE BUILD_PCM_PLUGIN_SHM_TRUE BUILD_PCM_PLUGIN_SHM_FALSE BUILD_PCM_PLUGIN_FILE_TRUE BUILD_PCM_PLUGIN_FILE_FALSE BUILD_PCM_PLUGIN_NULL_TRUE BUILD_PCM_PLUGIN_NULL_FALSE BUILD_PCM_PLUGIN_SHARE_TRUE BUILD_PCM_PLUGIN_SHARE_FALSE BUILD_PCM_PLUGIN_METER_TRUE BUILD_PCM_PLUGIN_METER_FALSE BUILD_PCM_PLUGIN_HOOKS_TRUE BUILD_PCM_PLUGIN_HOOKS_FALSE BUILD_PCM_PLUGIN_LFLOAT_TRUE BUILD_PCM_PLUGIN_LFLOAT_FALSE BUILD_PCM_PLUGIN_LADSPA_TRUE BUILD_PCM_PLUGIN_LADSPA_FALSE BUILD_PCM_PLUGIN_DMIX_TRUE BUILD_PCM_PLUGIN_DMIX_FALSE BUILD_PCM_PLUGIN_DSHARE_TRUE BUILD_PCM_PLUGIN_DSHARE_FALSE BUILD_PCM_PLUGIN_DSNOOP_TRUE BUILD_PCM_PLUGIN_DSNOOP_FALSE BUILD_PCM_PLUGIN_ASYM_TRUE BUILD_PCM_PLUGIN_ASYM_FALSE BUILD_PCM_PLUGIN_IEC958_TRUE BUILD_PCM_PLUGIN_IEC958_FALSE BUILD_PCM_PLUGIN_SOFTVOL_TRUE BUILD_PCM_PLUGIN_SOFTVOL_FALSE BUILD_PCM_PLUGIN_EXTPLUG_TRUE BUILD_PCM_PLUGIN_EXTPLUG_FALSE BUILD_PCM_PLUGIN_IOPLUG_TRUE BUILD_PCM_PLUGIN_IOPLUG_FALSE LIBOBJS LTLIBOBJS'
+-ac_subst_vars='SHELL PATH_SEPARATOR PACKAGE_NAME PACKAGE_TARNAME PACKAGE_VERSION PACKAGE_STRING PACKAGE_BUGREPORT exec_prefix prefix program_transform_name bindir sbindir libexecdir datadir sysconfdir sharedstatedir localstatedir libdir includedir oldincludedir infodir mandir build_alias host_alias target_alias DEFS ECHO_C ECHO_N ECHO_T LIBS build build_cpu build_vendor build_os host host_cpu host_vendor host_os target target_cpu target_vendor target_os INSTALL_PROGRAM INSTALL_SCRIPT INSTALL_DATA CYGPATH_W PACKAGE VERSION ACLOCAL AUTOCONF AUTOMAKE AUTOHEADER MAKEINFO install_sh STRIP ac_ct_STRIP INSTALL_STRIP_PROGRAM mkdir_p AWK SET_MAKE am__leading_dot AMTAR am__tar am__untar INSTALL_M4_TRUE INSTALL_M4_FALSE CC CFLAGS LDFLAGS CPPFLAGS ac_ct_CC EXEEXT OBJEXT DEPDIR am__include am__quote AMDEP_TRUE AMDEP_FALSE AMDEPBACKSLASH CCDEPMODE am__fastdepCC_TRUE am__fastdepCC_FALSE CPP LN_S EGREP ECHO AR ac_ct_AR RANLIB ac_ct_RANLIB CXX CXXFLAGS ac_ct_CXX CXXDEPMODE am__fastdepCXX_TRUE am__fastdepCXX_FALSE CXXCPP F77 FFLAGS ac_ct_F77 LIBTOOL ALSA_HSEARCH_R_TRUE ALSA_HSEARCH_R_FALSE SND_LIB_VERSION SND_LIB_MAJOR SND_LIB_MINOR SND_LIB_SUBMINOR SND_LIB_EXTRAVER LIBTOOL_VERSION_INFO VERSIONED_SYMBOLS_TRUE VERSIONED_SYMBOLS_FALSE BUILD_MIXER_TRUE BUILD_MIXER_FALSE BUILD_PCM_TRUE BUILD_PCM_FALSE BUILD_RAWMIDI_TRUE BUILD_RAWMIDI_FALSE BUILD_HWDEP_TRUE BUILD_HWDEP_FALSE BUILD_SEQ_TRUE BUILD_SEQ_FALSE BUILD_INSTR_TRUE BUILD_INSTR_FALSE BUILD_ALISP_TRUE BUILD_ALISP_FALSE BUILD_PCM_PLUGIN_TRUE BUILD_PCM_PLUGIN_FALSE BUILD_PCM_PLUGIN_COPY_TRUE BUILD_PCM_PLUGIN_COPY_FALSE BUILD_PCM_PLUGIN_LINEAR_TRUE BUILD_PCM_PLUGIN_LINEAR_FALSE BUILD_PCM_PLUGIN_ROUTE_TRUE BUILD_PCM_PLUGIN_ROUTE_FALSE BUILD_PCM_PLUGIN_MULAW_TRUE BUILD_PCM_PLUGIN_MULAW_FALSE BUILD_PCM_PLUGIN_ALAW_TRUE BUILD_PCM_PLUGIN_ALAW_FALSE BUILD_PCM_PLUGIN_ADPCM_TRUE BUILD_PCM_PLUGIN_ADPCM_FALSE BUILD_PCM_PLUGIN_RATE_TRUE BUILD_PCM_PLUGIN_RATE_FALSE BUILD_PCM_PLUGIN_PLUG_TRUE BUILD_PCM_PLUGIN_PLUG_FALSE BUILD_PCM_PLUGIN_MULTI_TRUE BUILD_PCM_PLUGIN_MULTI_FALSE BUILD_PCM_PLUGIN_SHM_TRUE BUILD_PCM_PLUGIN_SHM_FALSE BUILD_PCM_PLUGIN_FILE_TRUE BUILD_PCM_PLUGIN_FILE_FALSE BUILD_PCM_PLUGIN_NULL_TRUE BUILD_PCM_PLUGIN_NULL_FALSE BUILD_PCM_PLUGIN_SHARE_TRUE BUILD_PCM_PLUGIN_SHARE_FALSE BUILD_PCM_PLUGIN_METER_TRUE BUILD_PCM_PLUGIN_METER_FALSE BUILD_PCM_PLUGIN_HOOKS_TRUE BUILD_PCM_PLUGIN_HOOKS_FALSE BUILD_PCM_PLUGIN_LFLOAT_TRUE BUILD_PCM_PLUGIN_LFLOAT_FALSE BUILD_PCM_PLUGIN_LADSPA_TRUE BUILD_PCM_PLUGIN_LADSPA_FALSE BUILD_PCM_PLUGIN_DMIX_TRUE BUILD_PCM_PLUGIN_DMIX_FALSE BUILD_PCM_PLUGIN_DSHARE_TRUE BUILD_PCM_PLUGIN_DSHARE_FALSE BUILD_PCM_PLUGIN_DSNOOP_TRUE BUILD_PCM_PLUGIN_DSNOOP_FALSE BUILD_PCM_PLUGIN_ASYM_TRUE BUILD_PCM_PLUGIN_ASYM_FALSE BUILD_PCM_PLUGIN_IEC958_TRUE BUILD_PCM_PLUGIN_IEC958_FALSE BUILD_PCM_PLUGIN_SOFTVOL_TRUE BUILD_PCM_PLUGIN_SOFTVOL_FALSE BUILD_PCM_PLUGIN_EXTPLUG_TRUE BUILD_PCM_PLUGIN_EXTPLUG_FALSE BUILD_PCM_PLUGIN_IOPLUG_TRUE BUILD_PCM_PLUGIN_IOPLUG_FALSE LIBOBJS LTLIBOBJS'
 +ac_subst_vars='SHELL
 +PATH_SEPARATOR
 +PACKAGE_NAME
@@ -1264,13 +1264,13 @@ diff -urNad a/configure b/configure
 +CCDEPMODE
 +am__fastdepCC_TRUE
 +am__fastdepCC_FALSE
++CPP
 +LN_S
 +GREP
 +EGREP
 +ECHO
 +AR
 +RANLIB
-+CPP
 +CXX
 +CXXFLAGS
 +ac_ct_CXX
@@ -4022,7 +4022,133 @@ diff -urNad a/configure b/configure
  CCDEPMODE=depmode=$am_cv_CC_dependencies_compiler_type
  
  
-@@ -3179,8 +3839,8 @@
+@@ -3171,8 +3831,8 @@
+ ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
+ ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
+ ac_compiler_gnu=$ac_cv_c_compiler_gnu
+-echo "$as_me:$LINENO: checking how to run the C preprocessor" >&5
+-echo $ECHO_N "checking how to run the C preprocessor... $ECHO_C" >&6
++{ echo "$as_me:$LINENO: checking how to run the C preprocessor" >&5
++echo $ECHO_N "checking how to run the C preprocessor... $ECHO_C" >&6; }
+ # On Suns, sometimes $CPP names a directory.
+ if test -n "$CPP" && test -d "$CPP"; then
+   CPP=
+@@ -3206,8 +3866,13 @@
+ #endif
+ 		     Syntax error
+ _ACEOF
+-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
++if { (ac_try="$ac_cpp conftest.$ac_ext"
++case "(($ac_try" in
++  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
++  *) ac_try_echo=$ac_try;;
++esac
++eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
++  (eval "$ac_cpp conftest.$ac_ext") 2>conftest.er1
+   ac_status=$?
+   grep -v '^ *+' conftest.er1 >conftest.err
+   rm -f conftest.er1
+@@ -3232,9 +3897,10 @@
+   # Broken: fails on valid input.
+ continue
+ fi
++
+ rm -f conftest.err conftest.$ac_ext
+ 
+-  # OK, works on sane cases.  Now check whether non-existent headers
++  # OK, works on sane cases.  Now check whether nonexistent headers
+   # can be detected and how.
+   cat >conftest.$ac_ext <<_ACEOF
+ /* confdefs.h.  */
+@@ -3244,8 +3910,13 @@
+ /* end confdefs.h.  */
+ #include <ac_nonexistent.h>
+ _ACEOF
+-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
++if { (ac_try="$ac_cpp conftest.$ac_ext"
++case "(($ac_try" in
++  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
++  *) ac_try_echo=$ac_try;;
++esac
++eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
++  (eval "$ac_cpp conftest.$ac_ext") 2>conftest.er1
+   ac_status=$?
+   grep -v '^ *+' conftest.er1 >conftest.err
+   rm -f conftest.er1
+@@ -3272,6 +3943,7 @@
+ ac_preproc_ok=:
+ break
+ fi
++
+ rm -f conftest.err conftest.$ac_ext
+ 
+ done
+@@ -3289,8 +3961,8 @@
+ else
+   ac_cv_prog_CPP=$CPP
+ fi
+-echo "$as_me:$LINENO: result: $CPP" >&5
+-echo "${ECHO_T}$CPP" >&6
++{ echo "$as_me:$LINENO: result: $CPP" >&5
++echo "${ECHO_T}$CPP" >&6; }
+ ac_preproc_ok=false
+ for ac_c_preproc_warn_flag in '' yes
+ do
+@@ -3313,8 +3985,13 @@
+ #endif
+ 		     Syntax error
+ _ACEOF
+-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
++if { (ac_try="$ac_cpp conftest.$ac_ext"
++case "(($ac_try" in
++  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
++  *) ac_try_echo=$ac_try;;
++esac
++eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
++  (eval "$ac_cpp conftest.$ac_ext") 2>conftest.er1
+   ac_status=$?
+   grep -v '^ *+' conftest.er1 >conftest.err
+   rm -f conftest.er1
+@@ -3339,9 +4016,10 @@
+   # Broken: fails on valid input.
+ continue
+ fi
++
+ rm -f conftest.err conftest.$ac_ext
+ 
+-  # OK, works on sane cases.  Now check whether non-existent headers
++  # OK, works on sane cases.  Now check whether nonexistent headers
+   # can be detected and how.
+   cat >conftest.$ac_ext <<_ACEOF
+ /* confdefs.h.  */
+@@ -3351,8 +4029,13 @@
+ /* end confdefs.h.  */
+ #include <ac_nonexistent.h>
+ _ACEOF
+-if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
+-  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
++if { (ac_try="$ac_cpp conftest.$ac_ext"
++case "(($ac_try" in
++  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
++  *) ac_try_echo=$ac_try;;
++esac
++eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
++  (eval "$ac_cpp conftest.$ac_ext") 2>conftest.er1
+   ac_status=$?
+   grep -v '^ *+' conftest.er1 >conftest.err
+   rm -f conftest.er1
+@@ -3379,6 +4062,7 @@
+ ac_preproc_ok=:
+ break
+ fi
++
+ rm -f conftest.err conftest.$ac_ext
+ 
+ done
+@@ -3413,8 +4097,8 @@
  # SVR4 /usr/ucb/install, which tries to use the nonexistent group "staff"
  # OS/2's system install, which has a completely different semantic
  # ./install, which can be erroneously created by make from ./install.sh.
@@ -4033,7 +4159,7 @@ diff -urNad a/configure b/configure
  if test -z "$INSTALL"; then
  if test "${ac_cv_path_install+set}" = set; then
    echo $ECHO_N "(cached) $ECHO_C" >&6
-@@ -3202,7 +3862,7 @@
+@@ -3436,7 +4120,7 @@
      # by default.
      for ac_prog in ginstall scoinst install; do
        for ac_exec_ext in '' $ac_executable_extensions; do
@@ -4042,7 +4168,7 @@ diff -urNad a/configure b/configure
  	  if test $ac_prog = install &&
  	    grep dspmsg "$as_dir/$ac_prog$ac_exec_ext" >/dev/null 2>&1; then
  	    # AIX install.  It has an incompatible calling convention.
-@@ -3221,21 +3881,22 @@
+@@ -3455,21 +4139,22 @@
      ;;
  esac
  done
@@ -4070,7 +4196,7 @@ diff -urNad a/configure b/configure
  
  # Use test -z because SunOS4 sh mishandles braces in ${var-val}.
  # It thinks the first close brace ends the variable substitution.
-@@ -3245,21 +3906,20 @@
+@@ -3479,21 +4164,20 @@
  
  test -z "$INSTALL_DATA" && INSTALL_DATA='${INSTALL} -m 644'
  
@@ -4100,7 +4226,7 @@ diff -urNad a/configure b/configure
      case $enableval in
      yes) enable_static=yes ;;
      no) enable_static=no ;;
-@@ -3278,15 +3938,15 @@
+@@ -3512,15 +4196,15 @@
      esac
  else
    enable_static=no
@@ -4120,7 +4246,7 @@ diff -urNad a/configure b/configure
      case $enableval in
      yes) enable_shared=yes ;;
      no) enable_shared=no ;;
-@@ -3305,12 +3965,12 @@
+@@ -3539,12 +4223,12 @@
      esac
  else
    enable_shared=yes
@@ -4137,7 +4263,7 @@ diff -urNad a/configure b/configure
      case $enableval in
      yes) enable_fast_install=yes ;;
      no) enable_fast_install=no ;;
-@@ -3329,10 +3989,11 @@
+@@ -3563,10 +4247,11 @@
      esac
  else
    enable_fast_install=yes
@@ -4152,7 +4278,7 @@ diff -urNad a/configure b/configure
  if test "${lt_cv_path_SED+set}" = set; then
    echo $ECHO_N "(cached) $ECHO_C" >&6
  else
-@@ -3385,37 +4046,184 @@
+@@ -3619,37 +4304,184 @@
  fi
  
  SED=$lt_cv_path_SED
@@ -4226,29 +4352,29 @@ diff -urNad a/configure b/configure
 +IFS=$as_save_IFS
 +
 +
- fi
--echo "$as_me:$LINENO: result: $ac_cv_prog_egrep" >&5
--echo "${ECHO_T}$ac_cv_prog_egrep" >&6
-- EGREP=$ac_cv_prog_egrep
- 
++fi
++
 +GREP="$ac_cv_path_GREP"
 +if test -z "$GREP"; then
 +  { { echo "$as_me:$LINENO: error: no acceptable $ac_prog_name could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" >&5
 +echo "$as_me: error: no acceptable $ac_prog_name could be found in $PATH$PATH_SEPARATOR/usr/xpg4/bin" >&2;}
 +   { (exit 1); exit 1; }; }
 +fi
- 
++
 +else
 +  ac_cv_path_GREP=$GREP
-+fi
+ fi
+-echo "$as_me:$LINENO: result: $ac_cv_prog_egrep" >&5
+-echo "${ECHO_T}$ac_cv_prog_egrep" >&6
+- EGREP=$ac_cv_prog_egrep
  
--# Check whether --with-gnu-ld or --without-gnu-ld was given.
-+
+ 
 +fi
 +{ echo "$as_me:$LINENO: result: $ac_cv_path_GREP" >&5
 +echo "${ECHO_T}$ac_cv_path_GREP" >&6; }
 + GREP="$ac_cv_path_GREP"
-+
+ 
+-# Check whether --with-gnu-ld or --without-gnu-ld was given.
 +
 +{ echo "$as_me:$LINENO: checking for egrep" >&5
 +echo $ECHO_N "checking for egrep... $ECHO_C" >&6; }
@@ -4354,7 +4480,7 @@ diff -urNad a/configure b/configure
    case $host in
    *-*-mingw*)
      # gcc leaves a trailing carriage return which upsets mingw
-@@ -3444,11 +4252,11 @@
+@@ -3678,11 +4510,11 @@
      ;;
    esac
  elif test "$with_gnu_ld" = yes; then
@@ -4370,7 +4496,7 @@ diff -urNad a/configure b/configure
  fi
  if test "${lt_cv_path_LD+set}" = set; then
    echo $ECHO_N "(cached) $ECHO_C" >&6
-@@ -3481,17 +4289,17 @@
+@@ -3715,17 +4547,17 @@
  
  LD="$lt_cv_path_LD"
  if test -n "$LD"; then
@@ -4394,7 +4520,7 @@ diff -urNad a/configure b/configure
  if test "${lt_cv_prog_gnu_ld+set}" = set; then
    echo $ECHO_N "(cached) $ECHO_C" >&6
  else
-@@ -3505,20 +4313,20 @@
+@@ -3739,20 +4571,20 @@
    ;;
  esac
  fi
@@ -4421,7 +4547,7 @@ diff -urNad a/configure b/configure
  reload_flag=$lt_cv_ld_reload_flag
  case $reload_flag in
  "" | " "*) ;;
-@@ -3535,8 +4343,8 @@
+@@ -3769,8 +4601,8 @@
      ;;
  esac
  
@@ -4432,7 +4558,7 @@ diff -urNad a/configure b/configure
  if test "${lt_cv_path_NM+set}" = set; then
    echo $ECHO_N "(cached) $ECHO_C" >&6
  else
-@@ -3584,12 +4392,12 @@
+@@ -3818,12 +4650,12 @@
    test -z "$lt_cv_path_NM" && lt_cv_path_NM=nm
  fi
  fi
@@ -4449,7 +4575,7 @@ diff -urNad a/configure b/configure
  if test "${lt_cv_deplibs_check_method+set}" = set; then
    echo $ECHO_N "(cached) $ECHO_C" >&6
  else
-@@ -3639,7 +4447,7 @@
+@@ -3873,7 +4705,7 @@
    lt_cv_deplibs_check_method=pass_all
    ;;
  
@@ -4458,7 +4584,7 @@ diff -urNad a/configure b/configure
    if echo __ELF__ | $CC -E - | grep __ELF__ > /dev/null; then
      case $host_cpu in
      i*86 )
-@@ -3693,11 +4501,11 @@
+@@ -3927,11 +4759,11 @@
    ;;
  
  # This must be Linux ELF.
@@ -4472,7 +4598,7 @@ diff -urNad a/configure b/configure
    if echo __ELF__ | $CC -E - | grep __ELF__ > /dev/null; then
      lt_cv_deplibs_check_method='match_pattern /lib[^/]+(\.so\.[0-9]+\.[0-9]+|_pic\.a)$'
    else
-@@ -3764,8 +4572,8 @@
+@@ -3998,8 +4830,8 @@
  esac
  
  fi
@@ -4483,7 +4609,7 @@ diff -urNad a/configure b/configure
  file_magic_cmd=$lt_cv_file_magic_cmd
  deplibs_check_method=$lt_cv_deplibs_check_method
  test -z "$deplibs_check_method" && deplibs_check_method=unknown
-@@ -3783,11 +4591,11 @@
+@@ -4017,11 +4849,11 @@
  compiler=$CC
  
  
@@ -4498,16 +4624,16 @@ diff -urNad a/configure b/configure
  test "x$enable_libtool_lock" != xno && enable_libtool_lock=yes
  
  # Some flags need to be propagated to the compiler or linker for good
-@@ -3814,7 +4622,7 @@
+@@ -4048,7 +4880,7 @@
    ;;
  *-*-irix6*)
    # Find out which ABI we are using.
--  echo '#line 3817 "configure"' > conftest.$ac_ext
-+  echo '#line 4625 "configure"' > conftest.$ac_ext
+-  echo '#line 4051 "configure"' > conftest.$ac_ext
++  echo '#line 4883 "configure"' > conftest.$ac_ext
    if { (eval echo "$as_me:$LINENO: \"$ac_compile\"") >&5
    (eval $ac_compile) 2>&5
    ac_status=$?
-@@ -3899,8 +4707,8 @@
+@@ -4133,8 +4965,8 @@
    # On SCO OpenServer 5, we need -belf to get full-featured binaries.
    SAVE_CFLAGS="$CFLAGS"
    CFLAGS="$CFLAGS -belf"
@@ -4518,7 +4644,7 @@ diff -urNad a/configure b/configure
  if test "${lt_cv_cc_needs_belf+set}" = set; then
    echo $ECHO_N "(cached) $ECHO_C" >&6
  else
-@@ -3926,24 +4734,36 @@
+@@ -4160,24 +4992,36 @@
  }
  _ACEOF
  rm -f conftest.$ac_objext conftest$ac_exeext
@@ -4563,7 +4689,7 @@ diff -urNad a/configure b/configure
    ac_status=$?
    echo "$as_me:$LINENO: \$? = $ac_status" >&5
    (exit $ac_status); }; }; then
-@@ -3952,9 +4772,10 @@
+@@ -4186,9 +5030,10 @@
    echo "$as_me: failed program was:" >&5
  sed 's/^/| /' conftest.$ac_ext >&5
  
@@ -4576,7 +4702,7 @@ diff -urNad a/configure b/configure
        conftest$ac_exeext conftest.$ac_ext
       ac_ext=c
  ac_cpp='$CPP $CPPFLAGS'
-@@ -3963,8 +4784,8 @@
+@@ -4197,8 +5042,8 @@
  ac_compiler_gnu=$ac_cv_c_compiler_gnu
  
  fi
@@ -4587,134 +4713,8 @@ diff -urNad a/configure b/configure
    if test x"$lt_cv_cc_needs_belf" != x"yes"; then
      # this is probably gcc 2.8.0, egcs 1.0 or newer; no need for -belf
      CFLAGS="$SAVE_CFLAGS"
-@@ -4001,8 +4822,8 @@
- ac_compile='$CC -c $CFLAGS $CPPFLAGS conftest.$ac_ext >&5'
- ac_link='$CC -o conftest$ac_exeext $CFLAGS $CPPFLAGS $LDFLAGS conftest.$ac_ext $LIBS >&5'
- ac_compiler_gnu=$ac_cv_c_compiler_gnu
--echo "$as_me:$LINENO: checking how to run the C preprocessor" >&5
--echo $ECHO_N "checking how to run the C preprocessor... $ECHO_C" >&6
-+{ echo "$as_me:$LINENO: checking how to run the C preprocessor" >&5
-+echo $ECHO_N "checking how to run the C preprocessor... $ECHO_C" >&6; }
- # On Suns, sometimes $CPP names a directory.
- if test -n "$CPP" && test -d "$CPP"; then
-   CPP=
-@@ -4036,8 +4857,13 @@
- #endif
- 		     Syntax error
- _ACEOF
--if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
--  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-+if { (ac_try="$ac_cpp conftest.$ac_ext"
-+case "(($ac_try" in
-+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-+  *) ac_try_echo=$ac_try;;
-+esac
-+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
-+  (eval "$ac_cpp conftest.$ac_ext") 2>conftest.er1
-   ac_status=$?
-   grep -v '^ *+' conftest.er1 >conftest.err
-   rm -f conftest.er1
-@@ -4062,9 +4888,10 @@
-   # Broken: fails on valid input.
- continue
- fi
-+
- rm -f conftest.err conftest.$ac_ext
- 
--  # OK, works on sane cases.  Now check whether non-existent headers
-+  # OK, works on sane cases.  Now check whether nonexistent headers
-   # can be detected and how.
-   cat >conftest.$ac_ext <<_ACEOF
- /* confdefs.h.  */
-@@ -4074,8 +4901,13 @@
- /* end confdefs.h.  */
- #include <ac_nonexistent.h>
- _ACEOF
--if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
--  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-+if { (ac_try="$ac_cpp conftest.$ac_ext"
-+case "(($ac_try" in
-+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-+  *) ac_try_echo=$ac_try;;
-+esac
-+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
-+  (eval "$ac_cpp conftest.$ac_ext") 2>conftest.er1
-   ac_status=$?
-   grep -v '^ *+' conftest.er1 >conftest.err
-   rm -f conftest.er1
-@@ -4102,6 +4934,7 @@
- ac_preproc_ok=:
- break
- fi
-+
- rm -f conftest.err conftest.$ac_ext
- 
- done
-@@ -4119,8 +4952,8 @@
- else
-   ac_cv_prog_CPP=$CPP
- fi
--echo "$as_me:$LINENO: result: $CPP" >&5
--echo "${ECHO_T}$CPP" >&6
-+{ echo "$as_me:$LINENO: result: $CPP" >&5
-+echo "${ECHO_T}$CPP" >&6; }
- ac_preproc_ok=false
- for ac_c_preproc_warn_flag in '' yes
- do
-@@ -4143,8 +4976,13 @@
- #endif
- 		     Syntax error
- _ACEOF
--if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
--  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-+if { (ac_try="$ac_cpp conftest.$ac_ext"
-+case "(($ac_try" in
-+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-+  *) ac_try_echo=$ac_try;;
-+esac
-+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
-+  (eval "$ac_cpp conftest.$ac_ext") 2>conftest.er1
-   ac_status=$?
-   grep -v '^ *+' conftest.er1 >conftest.err
-   rm -f conftest.er1
-@@ -4169,9 +5007,10 @@
-   # Broken: fails on valid input.
- continue
- fi
-+
- rm -f conftest.err conftest.$ac_ext
- 
--  # OK, works on sane cases.  Now check whether non-existent headers
-+  # OK, works on sane cases.  Now check whether nonexistent headers
-   # can be detected and how.
-   cat >conftest.$ac_ext <<_ACEOF
- /* confdefs.h.  */
-@@ -4181,8 +5020,13 @@
- /* end confdefs.h.  */
- #include <ac_nonexistent.h>
- _ACEOF
--if { (eval echo "$as_me:$LINENO: \"$ac_cpp conftest.$ac_ext\"") >&5
--  (eval $ac_cpp conftest.$ac_ext) 2>conftest.er1
-+if { (ac_try="$ac_cpp conftest.$ac_ext"
-+case "(($ac_try" in
-+  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
-+  *) ac_try_echo=$ac_try;;
-+esac
-+eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
-+  (eval "$ac_cpp conftest.$ac_ext") 2>conftest.er1
-   ac_status=$?
-   grep -v '^ *+' conftest.er1 >conftest.err
-   rm -f conftest.er1
-@@ -4209,6 +5053,7 @@
- ac_preproc_ok=:
- break
- fi
-+
- rm -f conftest.err conftest.$ac_ext
- 
- done
 @@ -4231,8 +5076,8 @@
- ac_compiler_gnu=$ac_cv_c_compiler_gnu
+ 
  
  
 -echo "$as_me:$LINENO: checking for ANSI C header files" >&5
@@ -9893,7 +9893,7 @@ diff -urNad a/configure b/configure
  
  
  
-@@ -19281,19 +20609,19 @@
+@@ -19281,16 +20609,16 @@
  _ACEOF
  
  
@@ -9915,11 +9915,7 @@ diff -urNad a/configure b/configure
 +
  if test "$versioned" = "yes"; then
    # it seems that GNU ld versions since 2.10 are not broken
--  xres=`grep '^VERSION=' $ac_aux_dir/libtool | cut -d = -f 2`
-+  xres=`grep '^VERSION=' $ac_aux_dir/libtool | cut -d = -f 2 | tr -d \"`
-   major=`echo $xres | cut -d . -f 1`
-   minor=`echo $xres | cut -d . -f 2`
-   pass=0
+   xres=`grep '^VERSION=' $ac_aux_dir/libtool | cut -d = -f 2 | cut -d \" -f 2`
 @@ -19310,15 +20638,15 @@
  #define VERSIONED_SYMBOLS
  _ACEOF
@@ -9942,9 +9938,25 @@ diff -urNad a/configure b/configure
  fi
  
  
-@@ -19331,106 +20659,106 @@
+@@ -19331,8 +20659,8 @@
  fi
  
+ 
+-echo "$as_me:$LINENO: checking for custom symbol prefixes" >&5
+-echo $ECHO_N "checking for custom symbol prefixes... $ECHO_C" >&6
++{ echo "$as_me:$LINENO: checking for custom symbol prefixes" >&5
++echo $ECHO_N "checking for custom symbol prefixes... $ECHO_C" >&6; }
+ SYMBOL_PREFIX=` \
+ 	echo "PREFIX=__USER_LABEL_PREFIX__" \
+ 		| ${CPP-${CC-gcc} -E} - 2>&1 \
+@@ -19343,109 +20671,109 @@
+ #define __SYMBOL_PREFIX "$SYMBOL_PREFIX"
+ _ACEOF
+ 
+-echo "$as_me:$LINENO: result: $SYMBOL_PREFIX" >&5
+-echo "${ECHO_T}$SYMBOL_PREFIX" >&6
++{ echo "$as_me:$LINENO: result: $SYMBOL_PREFIX" >&5
++echo "${ECHO_T}$SYMBOL_PREFIX" >&6; }
  
 -echo "$as_me:$LINENO: checking for debug" >&5
 -echo $ECHO_N "checking for debug... $ECHO_C" >&6
@@ -10095,7 +10107,7 @@ diff -urNad a/configure b/configure
    echo "No atomic operations supported.."
    ;;
  esac
-@@ -19439,18 +20767,19 @@
+@@ -19454,18 +20782,19 @@
  for ac_header in wordexp.h
  do
  as_ac_Header=`echo "ac_cv_header_$ac_header" | $as_tr_sh`
@@ -10123,7 +10135,7 @@ diff -urNad a/configure b/configure
  cat >conftest.$ac_ext <<_ACEOF
  /* confdefs.h.  */
  _ACEOF
-@@ -19461,24 +20790,36 @@
+@@ -19476,24 +20805,36 @@
  #include <$ac_header>
  _ACEOF
  rm -f conftest.$ac_objext
@@ -10168,7 +10180,7 @@ diff -urNad a/configure b/configure
    ac_status=$?
    echo "$as_me:$LINENO: \$? = $ac_status" >&5
    (exit $ac_status); }; }; then
-@@ -19487,15 +20828,16 @@
+@@ -19502,15 +20843,16 @@
    echo "$as_me: failed program was:" >&5
  sed 's/^/| /' conftest.$ac_ext >&5
  
@@ -10191,7 +10203,7 @@ diff -urNad a/configure b/configure
  cat >conftest.$ac_ext <<_ACEOF
  /* confdefs.h.  */
  _ACEOF
-@@ -19504,8 +20846,13 @@
+@@ -19519,8 +20861,13 @@
  /* end confdefs.h.  */
  #include <$ac_header>
  _ACEOF
@@ -10207,7 +10219,7 @@ diff -urNad a/configure b/configure
    ac_status=$?
    grep -v '^ *+' conftest.er1 >conftest.err
    rm -f conftest.er1
-@@ -19529,9 +20876,10 @@
+@@ -19544,9 +20891,10 @@
  
    ac_header_preproc=no
  fi
@@ -10220,7 +10232,7 @@ diff -urNad a/configure b/configure
  
  # So?  What about this header?
  case $ac_header_compiler:$ac_header_preproc:$ac_c_preproc_warn_flag in
-@@ -19555,25 +20903,19 @@
+@@ -19570,25 +20918,19 @@
  echo "$as_me: WARNING: $ac_header: proceeding with the preprocessor's result" >&2;}
      { echo "$as_me:$LINENO: WARNING: $ac_header: in the future, the compiler will take precedence" >&5
  echo "$as_me: WARNING: $ac_header: in the future, the compiler will take precedence" >&2;}
@@ -10253,7 +10265,7 @@ diff -urNad a/configure b/configure
  
  fi
  if test `eval echo '${'$as_ac_Header'}'` = yes; then
-@@ -19586,21 +20928,21 @@
+@@ -19601,21 +20943,21 @@
  done
  
  
@@ -10285,7 +10297,7 @@ diff -urNad a/configure b/configure
  if test "${ac_cv_lib_resmgr_rsm_open_device+set}" = set; then
    echo $ECHO_N "(cached) $ECHO_C" >&6
  else
-@@ -19613,40 +20955,52 @@
+@@ -19628,40 +20970,52 @@
  cat >>conftest.$ac_ext <<_ACEOF
  /* end confdefs.h.  */
  
@@ -10350,7 +10362,7 @@ diff -urNad a/configure b/configure
    ac_status=$?
    echo "$as_me:$LINENO: \$? = $ac_status" >&5
    (exit $ac_status); }; }; then
-@@ -19655,14 +21009,15 @@
+@@ -19670,14 +21024,15 @@
    echo "$as_me: failed program was:" >&5
  sed 's/^/| /' conftest.$ac_ext >&5
  
@@ -10370,7 +10382,7 @@ diff -urNad a/configure b/configure
  if test $ac_cv_lib_resmgr_rsm_open_device = yes; then
    cat >>confdefs.h <<_ACEOF
  #define HAVE_LIBRESMGR 1
-@@ -19683,17 +21038,17 @@
+@@ -19698,17 +21053,17 @@
  
  fi
  
@@ -10396,7 +10408,7 @@ diff -urNad a/configure b/configure
  if test "$aload" = "yes"; then
  
  cat >>confdefs.h <<\_ACEOF
-@@ -19702,16 +21057,16 @@
+@@ -19717,16 +21072,16 @@
  
  fi
  
@@ -10419,7 +10431,7 @@ diff -urNad a/configure b/configure
  if echo "$alsa_dev_dir" | grep -v '/$' > /dev/null; then
    alsa_dev_dir="$alsa_dev_dir/"
  fi
-@@ -19720,19 +21075,19 @@
+@@ -19735,19 +21090,19 @@
  #define ALSA_DEVICE_DIRECTORY "$alsa_dev_dir"
  _ACEOF
  
@@ -10447,7 +10459,7 @@ diff -urNad a/configure b/configure
  if echo "$aload_dev_dir" | grep -v '/$' > /dev/null; then
    aload_dev_dir="$aload_dev_dir/"
  fi
-@@ -19741,58 +21096,58 @@
+@@ -19756,58 +21111,58 @@
  #define ALOAD_DEVICE_DIRECTORY "$aload_dev_dir"
  _ACEOF
  
@@ -10536,7 +10548,7 @@ diff -urNad a/configure b/configure
  
  if test "$build_seq" != "yes"; then
    build_instr="no"
-@@ -19908,13 +21263,13 @@
+@@ -19923,13 +21278,13 @@
  
  if test "$build_pcm" = "yes"; then
  
@@ -10554,7 +10566,7 @@ diff -urNad a/configure b/configure
  else
  pcm_plugins=""
  fi
-@@ -20250,12 +21605,6 @@
+@@ -20265,12 +21620,6 @@
  fi
  
  
@@ -10567,7 +10579,7 @@ diff -urNad a/configure b/configure
  
  if test ! -L include/alsa ; then
    echo "Making a symlink include/alsa"
-@@ -20263,7 +21612,8 @@
+@@ -20278,7 +21627,8 @@
    ln -sf . include/alsa
  fi
  
@@ -10577,7 +10589,7 @@ diff -urNad a/configure b/configure
  cat >confcache <<\_ACEOF
  # This file is a shell script that caches the results of configure
  # tests run on this system so they can be shared between configure
-@@ -20282,39 +21632,58 @@
+@@ -20297,39 +21647,58 @@
  
  # The following way of writing the cache mishandles newlines in values,
  # but we know of no workaround that is simple, portable, and efficient.
@@ -10652,7 +10664,7 @@ diff -urNad a/configure b/configure
    fi
  fi
  rm -f confcache
-@@ -20323,32 +21692,18 @@
+@@ -20338,32 +21707,18 @@
  # Let make expand exec_prefix.
  test "x$exec_prefix" = xNONE && exec_prefix='${prefix}'
  
@@ -10691,7 +10703,7 @@ diff -urNad a/configure b/configure
  done
  LIBOBJS=$ac_libobjs
  
-@@ -20362,6 +21717,13 @@
+@@ -20377,6 +21732,13 @@
  Usually this means the macro was only invoked conditionally." >&2;}
     { (exit 1); exit 1; }; }
  fi
@@ -10705,7 +10717,7 @@ diff -urNad a/configure b/configure
  if test -z "${AMDEP_TRUE}" && test -z "${AMDEP_FALSE}"; then
    { { echo "$as_me:$LINENO: error: conditional \"AMDEP\" was never defined.
  Usually this means the macro was only invoked conditionally." >&5
-@@ -20659,11 +22021,35 @@
+@@ -20674,11 +22036,35 @@
    # Zsh 3.x and 4.x performs word splitting on ${1+"$@"}, which
    # is contrary to our usage.  Disable this feature.
    alias -g '${1+"$@"}'='"$@"'
@@ -10743,7 +10755,7 @@ diff -urNad a/configure b/configure
  # Support unset when possible.
  if ( (MAIL=60; unset MAIL) || exit) >/dev/null 2>&1; then
    as_unset=unset
-@@ -20672,8 +22058,43 @@
+@@ -20687,8 +22073,43 @@
  fi
  
  
@@ -10788,7 +10800,7 @@ diff -urNad a/configure b/configure
  PS1='$ '
  PS2='> '
  PS4='+ '
-@@ -20687,18 +22108,19 @@
+@@ -20702,18 +22123,19 @@
    if (set +x; test -z "`(eval $as_var=C; export $as_var) 2>&1`"); then
      eval $as_var=C; export $as_var
    else
@@ -10811,7 +10823,7 @@ diff -urNad a/configure b/configure
    as_basename=basename
  else
    as_basename=false
-@@ -20706,159 +22128,120 @@
+@@ -20721,159 +22143,120 @@
  
  
  # Name of the executable.
@@ -11042,7 +11054,7 @@ diff -urNad a/configure b/configure
  
  if mkdir -p . 2>/dev/null; then
    as_mkdir_p=:
-@@ -20867,7 +22250,19 @@
+@@ -20882,7 +22265,19 @@
    as_mkdir_p=false
  fi
  
@@ -11063,7 +11075,7 @@ diff -urNad a/configure b/configure
  
  # Sed expression to map a string onto a valid CPP name.
  as_tr_cpp="eval sed 'y%*$as_cr_letters%P$as_cr_LETTERS%;s%[^_$as_cr_alnum]%_%g'"
-@@ -20876,31 +22271,14 @@
+@@ -20891,31 +22286,14 @@
  as_tr_sh="eval sed 'y%*+%pp%;s%[^_$as_cr_alnum]%_%g'"
  
  
@@ -11099,7 +11111,7 @@ diff -urNad a/configure b/configure
  
    CONFIG_FILES    = $CONFIG_FILES
    CONFIG_HEADERS  = $CONFIG_HEADERS
-@@ -20908,30 +22286,20 @@
+@@ -20923,30 +22301,20 @@
    CONFIG_COMMANDS = $CONFIG_COMMANDS
    $ $0 $@
  
@@ -11138,7 +11150,7 @@ diff -urNad a/configure b/configure
  ac_cs_usage="\
  \`$as_me' instantiates files from templates according to the
  current configuration.
-@@ -20939,7 +22307,7 @@
+@@ -20954,7 +22322,7 @@
  Usage: $0 [OPTIONS] [FILE]...
  
    -h, --help       print this help, then exit
@@ -11147,7 +11159,7 @@ diff -urNad a/configure b/configure
    -q, --quiet      do not print progress messages
    -d, --debug      don't remove temporary files
        --recheck    update $as_me by reconfiguring in the same conditions
-@@ -20958,19 +22326,21 @@
+@@ -20973,19 +22341,21 @@
  $config_commands
  
  Report bugs to <bug-autoconf@gnu.org>."
@@ -11175,7 +11187,7 @@ diff -urNad a/configure b/configure
  _ACEOF
  
  cat >>$CONFIG_STATUS <<\_ACEOF
-@@ -20981,39 +22351,24 @@
+@@ -20996,39 +22366,24 @@
  do
    case $1 in
    --*=*)
@@ -11221,7 +11233,7 @@ diff -urNad a/configure b/configure
      debug=: ;;
    --file | --fil | --fi | --f )
      $ac_shift
-@@ -21023,18 +22378,24 @@
+@@ -21038,18 +22393,24 @@
      $ac_shift
      CONFIG_HEADERS="$CONFIG_HEADERS $ac_optarg"
      ac_need_defaults=false;;
@@ -11251,7 +11263,7 @@ diff -urNad a/configure b/configure
  
    esac
    shift
-@@ -21050,65 +22411,77 @@
+@@ -21065,65 +22426,77 @@
  _ACEOF
  cat >>$CONFIG_STATUS <<_ACEOF
  if \$ac_cs_recheck; then
@@ -11368,7 +11380,7 @@ diff -urNad a/configure b/configure
  # If the user did not use the arguments to specify the items to instantiate,
  # then the envvar interface is used.  Set only those that are not.
  # We use the long form for the default assignment because of an extremely
-@@ -21120,682 +22493,673 @@
+@@ -21135,682 +22508,673 @@
  fi
  
  # Have a temporary directory for convenience.  Make it in the build tree
@@ -11504,6 +11516,7 @@ diff -urNad a/configure b/configure
 -s,@CCDEPMODE@,$CCDEPMODE,;t t
 -s,@am__fastdepCC_TRUE@,$am__fastdepCC_TRUE,;t t
 -s,@am__fastdepCC_FALSE@,$am__fastdepCC_FALSE,;t t
+-s,@CPP@,$CPP,;t t
 -s,@LN_S@,$LN_S,;t t
 -s,@EGREP@,$EGREP,;t t
 -s,@ECHO@,$ECHO,;t t
@@ -11511,7 +11524,6 @@ diff -urNad a/configure b/configure
 -s,@ac_ct_AR@,$ac_ct_AR,;t t
 -s,@RANLIB@,$RANLIB,;t t
 -s,@ac_ct_RANLIB@,$ac_ct_RANLIB,;t t
--s,@CPP@,$CPP,;t t
 -s,@CXX@,$CXX,;t t
 -s,@CXXFLAGS@,$CXXFLAGS,;t t
 -s,@ac_ct_CXX@,$ac_ct_CXX,;t t
@@ -11738,12 +11750,12 @@ diff -urNad a/configure b/configure
 +CCDEPMODE!$CCDEPMODE$ac_delim
 +am__fastdepCC_TRUE!$am__fastdepCC_TRUE$ac_delim
 +am__fastdepCC_FALSE!$am__fastdepCC_FALSE$ac_delim
++CPP!$CPP$ac_delim
 +LN_S!$LN_S$ac_delim
 +GREP!$GREP$ac_delim
 +EGREP!$EGREP$ac_delim
 +ECHO!$ECHO$ac_delim
 +AR!$AR$ac_delim
-+RANLIB!$RANLIB$ac_delim
 +_ACEOF
 +
 +  if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
@@ -11767,7 +11779,7 @@ diff -urNad a/configure b/configure
 +cat >>$CONFIG_STATUS <<_ACEOF
 +cat >"\$tmp/subs-1.sed" <<\CEOF$ac_eof
 +/@[a-zA-Z_][a-zA-Z_0-9]*@/!b
- _ACEOF
++_ACEOF
 +sed '
 +s/[,\\&]/\\&/g; s/@/@|#_!!_#|/g
 +s/^/s,@/; s/!/@,|#_!!_#|/
@@ -11780,13 +11792,13 @@ diff -urNad a/configure b/configure
 +rm -f conf$$subs.sed
 +cat >>$CONFIG_STATUS <<_ACEOF
 +CEOF$ac_eof
-+_ACEOF
+ _ACEOF
 +
 +
 +ac_delim='%!_!# '
 +for ac_last_try in false false false false false :; do
 +  cat >conf$$subs.sed <<_ACEOF
-+CPP!$CPP$ac_delim
++RANLIB!$RANLIB$ac_delim
 +CXX!$CXX$ac_delim
 +CXXFLAGS!$CXXFLAGS$ac_delim
 +ac_ct_CXX!$ac_ct_CXX$ac_delim
@@ -12627,7 +12639,7 @@ diff -urNad a/configure b/configure
  # Compute $ac_file's index in $config_headers.
  _am_stamp_count=1
  for _am_header in $config_headers :; do
-@@ -21806,135 +23170,39 @@
+@@ -21821,135 +23185,39 @@
        _am_stamp_count=`expr $_am_stamp_count + 1` ;;
    esac
  done
@@ -12789,7 +12801,7 @@ diff -urNad a/configure b/configure
    # Strip MF so we end up with the name of the file.
    mf=`echo "$mf" | sed -e 's/:.*$//'`
    # Check whether this is an Automake generated Makefile or not.
-@@ -21944,18 +23212,29 @@
+@@ -21959,18 +23227,29 @@
    # each Makefile.in and add a new line on top of each file to say so.
    # So let's grep whole file.
    if grep '^#.*generated by automake' $mf > /dev/null 2>&1; then
@@ -12827,7 +12839,7 @@ diff -urNad a/configure b/configure
    else
      continue
    fi
-@@ -21977,53 +23256,79 @@
+@@ -21992,53 +23271,79 @@
         sed -e 's/\$(DEPDIR)/'"$DEPDIR"'/g' -e 's/\$U/'"$U"'/g'`; do
      # Make sure the directory exists.
      test -f "$dirpart/$file" && continue
@@ -12936,7 +12948,7 @@ diff -urNad a/configure b/configure
  
  { (exit 0); exit 0; }
  _ACEOF
-@@ -22052,3 +23357,10 @@
+@@ -22067,3 +23372,10 @@
    $ac_cs_success || { (exit 1); exit 1; }
  fi
  
@@ -12948,8 +12960,8 @@ diff -urNad a/configure b/configure
 +  fi
 +done
 diff -urNad a/doc/Makefile.in b/doc/Makefile.in
---- a/doc/Makefile.in	2006-09-12 15:44:15.000000000 +0200
-+++ b/doc/Makefile.in	2006-09-24 17:05:13.000000000 +0200
+--- a/doc/Makefile.in	2006-09-29 13:43:47.000000000 +0200
++++ b/doc/Makefile.in	2006-09-30 15:29:14.000000000 +0200
 @@ -155,6 +155,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -13046,8 +13058,8 @@ diff -urNad a/doc/Makefile.in b/doc/Makefile.in
  
  mostlyclean-libtool:
 diff -urNad a/doc/pictures/Makefile.in b/doc/pictures/Makefile.in
---- a/doc/pictures/Makefile.in	2006-09-12 15:44:15.000000000 +0200
-+++ b/doc/pictures/Makefile.in	2006-09-24 17:05:14.000000000 +0200
+--- a/doc/pictures/Makefile.in	2006-09-29 13:43:48.000000000 +0200
++++ b/doc/pictures/Makefile.in	2006-09-30 15:29:14.000000000 +0200
 @@ -146,6 +146,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -13144,8 +13156,8 @@ diff -urNad a/doc/pictures/Makefile.in b/doc/pictures/Makefile.in
  
  mostlyclean-libtool:
 diff -urNad a/include/Makefile.in b/include/Makefile.in
---- a/include/Makefile.in	2006-09-12 15:44:16.000000000 +0200
-+++ b/include/Makefile.in	2006-09-24 17:05:14.000000000 +0200
+--- a/include/Makefile.in	2006-09-29 13:43:49.000000000 +0200
++++ b/include/Makefile.in	2006-09-30 15:29:14.000000000 +0200
 @@ -167,6 +167,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -13251,8 +13263,8 @@ diff -urNad a/include/Makefile.in b/include/Makefile.in
  	rm -f stamp-h1
  	touch $@
 diff -urNad a/include/sound/Makefile.in b/include/sound/Makefile.in
---- a/include/sound/Makefile.in	2006-09-12 15:44:17.000000000 +0200
-+++ b/include/sound/Makefile.in	2006-09-24 17:05:14.000000000 +0200
+--- a/include/sound/Makefile.in	2006-09-29 13:43:49.000000000 +0200
++++ b/include/sound/Makefile.in	2006-09-30 15:29:14.000000000 +0200
 @@ -159,6 +159,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -13385,8 +13397,8 @@ diff -urNad a/ltmain.sh b/ltmain.sh
  	  ;;
  	no)
 diff -urNad a/Makefile.in b/Makefile.in
---- a/Makefile.in	2006-09-12 15:44:40.000000000 +0200
-+++ b/Makefile.in	2006-09-24 17:05:20.000000000 +0200
+--- a/Makefile.in	2006-09-29 13:44:07.000000000 +0200
++++ b/Makefile.in	2006-09-30 15:29:20.000000000 +0200
 @@ -172,6 +172,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -13471,8 +13483,8 @@ diff -urNad a/Makefile.in b/Makefile.in
  
  mostlyclean-libtool:
 diff -urNad a/modules/Makefile.in b/modules/Makefile.in
---- a/modules/Makefile.in	2006-09-12 15:44:17.000000000 +0200
-+++ b/modules/Makefile.in	2006-09-24 17:05:14.000000000 +0200
+--- a/modules/Makefile.in	2006-09-29 13:43:50.000000000 +0200
++++ b/modules/Makefile.in	2006-09-30 15:29:15.000000000 +0200
 @@ -155,6 +155,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -13569,8 +13581,8 @@ diff -urNad a/modules/Makefile.in b/modules/Makefile.in
  
  mostlyclean-libtool:
 diff -urNad a/modules/mixer/Makefile.in b/modules/mixer/Makefile.in
---- a/modules/mixer/Makefile.in	2006-09-12 15:44:18.000000000 +0200
-+++ b/modules/mixer/Makefile.in	2006-09-24 17:05:15.000000000 +0200
+--- a/modules/mixer/Makefile.in	2006-09-29 13:43:51.000000000 +0200
++++ b/modules/mixer/Makefile.in	2006-09-30 15:29:15.000000000 +0200
 @@ -155,6 +155,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -13667,8 +13679,8 @@ diff -urNad a/modules/mixer/Makefile.in b/modules/mixer/Makefile.in
  
  mostlyclean-libtool:
 diff -urNad a/modules/mixer/simple/Makefile.in b/modules/mixer/simple/Makefile.in
---- a/modules/mixer/simple/Makefile.in	2006-09-12 15:44:19.000000000 +0200
-+++ b/modules/mixer/simple/Makefile.in	2006-09-24 17:05:15.000000000 +0200
+--- a/modules/mixer/simple/Makefile.in	2006-09-29 13:43:52.000000000 +0200
++++ b/modules/mixer/simple/Makefile.in	2006-09-30 15:29:15.000000000 +0200
 @@ -183,6 +183,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -13765,8 +13777,8 @@ diff -urNad a/modules/mixer/simple/Makefile.in b/modules/mixer/simple/Makefile.i
  install-pkglibLTLIBRARIES: $(pkglib_LTLIBRARIES)
  	@$(NORMAL_INSTALL)
 diff -urNad a/src/alisp/Makefile.in b/src/alisp/Makefile.in
---- a/src/alisp/Makefile.in	2006-09-12 15:44:21.000000000 +0200
-+++ b/src/alisp/Makefile.in	2006-09-24 17:05:16.000000000 +0200
+--- a/src/alisp/Makefile.in	2006-09-29 13:43:53.000000000 +0200
++++ b/src/alisp/Makefile.in	2006-09-30 15:29:16.000000000 +0200
 @@ -165,6 +165,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -13863,8 +13875,8 @@ diff -urNad a/src/alisp/Makefile.in b/src/alisp/Makefile.in
  libalisp.la: $(libalisp_la_OBJECTS) $(libalisp_la_DEPENDENCIES) 
  	$(LINK)  $(libalisp_la_LDFLAGS) $(libalisp_la_OBJECTS) $(libalisp_la_LIBADD) $(LIBS)
 diff -urNad a/src/compat/Makefile.in b/src/compat/Makefile.in
---- a/src/compat/Makefile.in	2006-09-12 15:44:22.000000000 +0200
-+++ b/src/compat/Makefile.in	2006-09-24 17:05:16.000000000 +0200
+--- a/src/compat/Makefile.in	2006-09-29 13:43:54.000000000 +0200
++++ b/src/compat/Makefile.in	2006-09-30 15:29:16.000000000 +0200
 @@ -167,6 +167,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -13961,8 +13973,8 @@ diff -urNad a/src/compat/Makefile.in b/src/compat/Makefile.in
  
  clean-noinstLTLIBRARIES:
 diff -urNad a/src/conf/cards/Makefile.in b/src/conf/cards/Makefile.in
---- a/src/conf/cards/Makefile.in	2006-09-12 15:44:24.000000000 +0200
-+++ b/src/conf/cards/Makefile.in	2006-09-24 17:05:16.000000000 +0200
+--- a/src/conf/cards/Makefile.in	2006-09-29 13:43:56.000000000 +0200
++++ b/src/conf/cards/Makefile.in	2006-09-30 15:29:17.000000000 +0200
 @@ -158,6 +158,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -14059,8 +14071,8 @@ diff -urNad a/src/conf/cards/Makefile.in b/src/conf/cards/Makefile.in
  
  mostlyclean-libtool:
 diff -urNad a/src/conf/Makefile.in b/src/conf/Makefile.in
---- a/src/conf/Makefile.in	2006-09-12 15:44:23.000000000 +0200
-+++ b/src/conf/Makefile.in	2006-09-24 17:05:16.000000000 +0200
+--- a/src/conf/Makefile.in	2006-09-29 13:43:55.000000000 +0200
++++ b/src/conf/Makefile.in	2006-09-30 15:29:16.000000000 +0200
 @@ -166,6 +166,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -14157,8 +14169,8 @@ diff -urNad a/src/conf/Makefile.in b/src/conf/Makefile.in
  
  mostlyclean-libtool:
 diff -urNad a/src/conf/pcm/Makefile.in b/src/conf/pcm/Makefile.in
---- a/src/conf/pcm/Makefile.in	2006-09-12 15:44:25.000000000 +0200
-+++ b/src/conf/pcm/Makefile.in	2006-09-24 17:05:17.000000000 +0200
+--- a/src/conf/pcm/Makefile.in	2006-09-29 13:43:56.000000000 +0200
++++ b/src/conf/pcm/Makefile.in	2006-09-30 15:29:17.000000000 +0200
 @@ -156,6 +156,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -14255,8 +14267,8 @@ diff -urNad a/src/conf/pcm/Makefile.in b/src/conf/pcm/Makefile.in
  
  mostlyclean-libtool:
 diff -urNad a/src/control/Makefile.in b/src/control/Makefile.in
---- a/src/control/Makefile.in	2006-09-12 15:44:26.000000000 +0200
-+++ b/src/control/Makefile.in	2006-09-24 17:05:17.000000000 +0200
+--- a/src/control/Makefile.in	2006-09-29 13:43:57.000000000 +0200
++++ b/src/control/Makefile.in	2006-09-30 15:29:17.000000000 +0200
 @@ -167,6 +167,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -14353,8 +14365,8 @@ diff -urNad a/src/control/Makefile.in b/src/control/Makefile.in
  libcontrol.la: $(libcontrol_la_OBJECTS) $(libcontrol_la_DEPENDENCIES) 
  	$(LINK)  $(libcontrol_la_LDFLAGS) $(libcontrol_la_OBJECTS) $(libcontrol_la_LIBADD) $(LIBS)
 diff -urNad a/src/hwdep/Makefile.in b/src/hwdep/Makefile.in
---- a/src/hwdep/Makefile.in	2006-09-12 15:44:27.000000000 +0200
-+++ b/src/hwdep/Makefile.in	2006-09-24 17:05:17.000000000 +0200
+--- a/src/hwdep/Makefile.in	2006-09-29 13:43:58.000000000 +0200
++++ b/src/hwdep/Makefile.in	2006-09-30 15:29:17.000000000 +0200
 @@ -165,6 +165,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -14451,8 +14463,8 @@ diff -urNad a/src/hwdep/Makefile.in b/src/hwdep/Makefile.in
  libhwdep.la: $(libhwdep_la_OBJECTS) $(libhwdep_la_DEPENDENCIES) 
  	$(LINK)  $(libhwdep_la_LDFLAGS) $(libhwdep_la_OBJECTS) $(libhwdep_la_LIBADD) $(LIBS)
 diff -urNad a/src/instr/Makefile.in b/src/instr/Makefile.in
---- a/src/instr/Makefile.in	2006-09-12 15:44:28.000000000 +0200
-+++ b/src/instr/Makefile.in	2006-09-24 17:05:17.000000000 +0200
+--- a/src/instr/Makefile.in	2006-09-29 13:43:59.000000000 +0200
++++ b/src/instr/Makefile.in	2006-09-30 15:29:18.000000000 +0200
 @@ -162,6 +162,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -14549,8 +14561,8 @@ diff -urNad a/src/instr/Makefile.in b/src/instr/Makefile.in
  libinstr.la: $(libinstr_la_OBJECTS) $(libinstr_la_DEPENDENCIES) 
  	$(LINK)  $(libinstr_la_LDFLAGS) $(libinstr_la_OBJECTS) $(libinstr_la_LIBADD) $(LIBS)
 diff -urNad a/src/Makefile.in b/src/Makefile.in
---- a/src/Makefile.in	2006-09-12 15:44:20.000000000 +0200
-+++ b/src/Makefile.in	2006-09-24 17:05:15.000000000 +0200
+--- a/src/Makefile.in	2006-09-29 13:43:53.000000000 +0200
++++ b/src/Makefile.in	2006-09-30 15:29:15.000000000 +0200
 @@ -207,6 +207,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -14647,8 +14659,8 @@ diff -urNad a/src/Makefile.in b/src/Makefile.in
  install-libLTLIBRARIES: $(lib_LTLIBRARIES)
  	@$(NORMAL_INSTALL)
 diff -urNad a/src/mixer/Makefile.in b/src/mixer/Makefile.in
---- a/src/mixer/Makefile.in	2006-09-12 15:44:29.000000000 +0200
-+++ b/src/mixer/Makefile.in	2006-09-24 17:05:18.000000000 +0200
+--- a/src/mixer/Makefile.in	2006-09-29 13:43:59.000000000 +0200
++++ b/src/mixer/Makefile.in	2006-09-30 15:29:18.000000000 +0200
 @@ -166,6 +166,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -14745,8 +14757,8 @@ diff -urNad a/src/mixer/Makefile.in b/src/mixer/Makefile.in
  libmixer.la: $(libmixer_la_OBJECTS) $(libmixer_la_DEPENDENCIES) 
  	$(LINK)  $(libmixer_la_LDFLAGS) $(libmixer_la_OBJECTS) $(libmixer_la_LIBADD) $(LIBS)
 diff -urNad a/src/pcm/Makefile.in b/src/pcm/Makefile.in
---- a/src/pcm/Makefile.in	2006-09-12 15:44:33.000000000 +0200
-+++ b/src/pcm/Makefile.in	2006-09-24 17:05:18.000000000 +0200
+--- a/src/pcm/Makefile.in	2006-09-29 13:44:01.000000000 +0200
++++ b/src/pcm/Makefile.in	2006-09-30 15:29:18.000000000 +0200
 @@ -250,6 +250,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -14843,8 +14855,8 @@ diff -urNad a/src/pcm/Makefile.in b/src/pcm/Makefile.in
  libpcm.la: $(libpcm_la_OBJECTS) $(libpcm_la_DEPENDENCIES) 
  	$(LINK)  $(libpcm_la_LDFLAGS) $(libpcm_la_OBJECTS) $(libpcm_la_LIBADD) $(LIBS)
 diff -urNad a/src/pcm/scopes/Makefile.in b/src/pcm/scopes/Makefile.in
---- a/src/pcm/scopes/Makefile.in	2006-09-12 15:44:34.000000000 +0200
-+++ b/src/pcm/scopes/Makefile.in	2006-09-24 17:05:19.000000000 +0200
+--- a/src/pcm/scopes/Makefile.in	2006-09-29 13:44:02.000000000 +0200
++++ b/src/pcm/scopes/Makefile.in	2006-09-30 15:29:19.000000000 +0200
 @@ -172,6 +172,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -14941,8 +14953,8 @@ diff -urNad a/src/pcm/scopes/Makefile.in b/src/pcm/scopes/Makefile.in
  install-pkglibLTLIBRARIES: $(pkglib_LTLIBRARIES)
  	@$(NORMAL_INSTALL)
 diff -urNad a/src/rawmidi/Makefile.in b/src/rawmidi/Makefile.in
---- a/src/rawmidi/Makefile.in	2006-09-12 15:44:35.000000000 +0200
-+++ b/src/rawmidi/Makefile.in	2006-09-24 17:05:19.000000000 +0200
+--- a/src/rawmidi/Makefile.in	2006-09-29 13:44:03.000000000 +0200
++++ b/src/rawmidi/Makefile.in	2006-09-30 15:29:19.000000000 +0200
 @@ -170,6 +170,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -15039,8 +15051,8 @@ diff -urNad a/src/rawmidi/Makefile.in b/src/rawmidi/Makefile.in
  librawmidi.la: $(librawmidi_la_OBJECTS) $(librawmidi_la_DEPENDENCIES) 
  	$(LINK)  $(librawmidi_la_LDFLAGS) $(librawmidi_la_OBJECTS) $(librawmidi_la_LIBADD) $(LIBS)
 diff -urNad a/src/seq/Makefile.in b/src/seq/Makefile.in
---- a/src/seq/Makefile.in	2006-09-12 15:44:35.000000000 +0200
-+++ b/src/seq/Makefile.in	2006-09-24 17:05:19.000000000 +0200
+--- a/src/seq/Makefile.in	2006-09-29 13:44:04.000000000 +0200
++++ b/src/seq/Makefile.in	2006-09-30 15:29:19.000000000 +0200
 @@ -166,6 +166,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -15137,8 +15149,8 @@ diff -urNad a/src/seq/Makefile.in b/src/seq/Makefile.in
  libseq.la: $(libseq_la_OBJECTS) $(libseq_la_DEPENDENCIES) 
  	$(LINK)  $(libseq_la_LDFLAGS) $(libseq_la_OBJECTS) $(libseq_la_LIBADD) $(LIBS)
 diff -urNad a/src/timer/Makefile.in b/src/timer/Makefile.in
---- a/src/timer/Makefile.in	2006-09-12 15:44:36.000000000 +0200
-+++ b/src/timer/Makefile.in	2006-09-24 17:05:20.000000000 +0200
+--- a/src/timer/Makefile.in	2006-09-29 13:44:05.000000000 +0200
++++ b/src/timer/Makefile.in	2006-09-30 15:29:19.000000000 +0200
 @@ -166,6 +166,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -15235,8 +15247,8 @@ diff -urNad a/src/timer/Makefile.in b/src/timer/Makefile.in
  libtimer.la: $(libtimer_la_OBJECTS) $(libtimer_la_DEPENDENCIES) 
  	$(LINK)  $(libtimer_la_LDFLAGS) $(libtimer_la_OBJECTS) $(libtimer_la_LIBADD) $(LIBS)
 diff -urNad a/test/Makefile.in b/test/Makefile.in
---- a/test/Makefile.in	2006-09-12 15:44:38.000000000 +0200
-+++ b/test/Makefile.in	2006-09-24 17:05:20.000000000 +0200
+--- a/test/Makefile.in	2006-09-29 13:44:06.000000000 +0200
++++ b/test/Makefile.in	2006-09-30 15:29:20.000000000 +0200
 @@ -198,6 +198,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@
@@ -15333,8 +15345,8 @@ diff -urNad a/test/Makefile.in b/test/Makefile.in
  
  clean-checkPROGRAMS:
 diff -urNad a/utils/Makefile.in b/utils/Makefile.in
---- a/utils/Makefile.in	2006-09-12 15:44:39.000000000 +0200
-+++ b/utils/Makefile.in	2006-09-24 17:05:20.000000000 +0200
+--- a/utils/Makefile.in	2006-09-29 13:44:06.000000000 +0200
++++ b/utils/Makefile.in	2006-09-30 15:29:20.000000000 +0200
 @@ -159,6 +159,7 @@
  EXEEXT = @EXEEXT@
  F77 = @F77@

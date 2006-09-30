@@ -1,39 +1,47 @@
-Changelog between 1.0.13rc1 and 1.0.13rc2 releases
-(http://www.alsa-project.org/changes/v1-0-13rc1--v1-0-13rc2.txt)
+Changelog between 1.0.12 and 1.0.13 releases
+(http://www.alsa-project.org/changes/v1-0-12--v1-0-13.txt)
 ********************************************
 
 * alsa-lib
   + Core
+    - configure.in - fix "checking for versioned symbols" error in ./configure 
+    - add support for hosts that have custom symbol prefixes
+    - make sure commands in cvs/hg compile scripts worked
     - Add --disable-alisp configure option
   + Control API
+    - Fix bogus value when no user TLV is defined
+    - Add dB range information to PCM softvol plugin
+    - Add handling of linear volume in simple mixer
+    - Check control API protocol version for TLV control
+    - configuration: avoid endless loop when a key refers to itself
     - Add support of dB range compound TLV
+  + Device Name API
+    - remove unneeded headers from src/names.c
   + Mixer API
+    - Add dB_range ops for simple mixer
+    - Add set_dB ops to simple mixer
+    - Add handling of linear volume in simple mixer
     - Fix wrong scales in linear volume calculation
+    - Fix segfault when invalid TLV is passed
     - Add support of dB range compound TLV
+  + PCM API
+    - Add dB range information to PCM softvol plugin
+    - fix parsing of non-decimal integers in configuration files
+    - rate plugin: fix boundary calculations
+  + Timer API
+    - timer_hw: fix file descriptor leak
   + /Makefile.am
     - Add --disable-alisp configure option
   + /src/Makefile.am
     - Fix a typo
     - Add --disable-alisp configure option
+  + ALSA Lisp
+    - remove unneeded headers from alsa-lib/src/alisp/alisp.c
   + Configuration
+    - fix parsing of non-decimal integers in configuration files
+    - configuration: avoid endless loop when a key refers to itself
+    - configuration: added one more alias check to detect a circular configuration
     - Add --disable-alisp configure option
-
-Changelog between 1.0.12 and 1.0.13rc1 releases
-(http://www.alsa-project.org/changes/v1-0-12--v1-0-13rc1.txt)
-********************************************
-
-* alsa-lib
-  + Control API
-    - Fix bogus value when no user TLV is defined
-    - Add dB range information to PCM softvol plugin
-    - Add handling of linear volume in simple mixer
-  + Mixer API
-    - Add dB_range ops for simple mixer
-    - Add set_dB ops to simple mixer
-    - Add handling of linear volume in simple mixer
-    - Fix segfault when invalid TLV is passed
-  + PCM API
-    - Add dB range information to PCM softvol plugin
 
 Changelog between 1.0.11 and 1.0.12 releases
 (http://www.alsa-project.org/changes/v1-0-11--v1-0-12.txt)

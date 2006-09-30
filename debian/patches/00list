@@ -3,6 +3,5 @@
 04_doxygen_links
 05_multiarch
 10_add-maintainer-mode
-11_libtool_version
 40_relibtoolise
 41_configure_cross_compile

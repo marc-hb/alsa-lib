@@ -1,11 +1,13 @@
-alsa-lib (1.0.13~rc2-1) experimental; urgency=low
+alsa-lib (1.0.13-1) unstable; urgency=low
 
-  * New upstream release candidate
+  * New upstream release
 
   [ Elimar Riesebieter ]
   * Rebuild patches/40_relibtoolise.dpatch.
+  * Removed debian/patches/11_libtool_version.dpatch. Applied different from
+    upstream
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 24 Sep 2006 17:09:06 +0200
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Sat, 30 Sep 2006 15:33:05 +0200
 
 alsa-lib (1.0.12-1) unstable; urgency=low
 
