@@ -7,7 +7,7 @@ alsa-lib (1.0.13-1) unstable; urgency=low
   * Removed debian/patches/11_libtool_version.dpatch. Applied different from
     upstream
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Sat, 30 Sep 2006 15:33:05 +0200
+ -- Jordi Mallach <jordi@debian.org>  Tue,  3 Oct 2006 09:53:01 +0200
 
 alsa-lib (1.0.12-1) unstable; urgency=low
 
