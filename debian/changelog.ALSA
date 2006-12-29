@@ -1,3 +1,78 @@
+Changelog between 1.0.13 and 1.0.14rc1 releases
+(http://www.alsa-project.org/changes/v1-0-13--v1-0-14rc1.txt)
+********************************************
+
+* alsa-lib
+  + Core
+    - Add struct timeval and timespec definition when _POSIX_C_SOURCE is not defined
+    - fix various warnings
+    - change iface argument for namehint function to const char *
+    - release 1.0.13
+    - add snd_device_name_get_hint() function, make hints private to alsa-lib (void)
+    - more name hint interace updates
+    - allow building out of tree (sort of)
+    - add snd_device_name_hint() function and initial implementation
+  + Control API
+    - fix various warnings
+    - revert back one diff from changeset 2219 (fix various warnings)
+    - change iface argument for namehint function to const char *
+    - Fix build of static library
+    - namehint changes: longname -> cardname, use get_card_name instead longname
+    - fix string list parameter in snd_device_name_(free_)hint prototypes
+    - Fix device name listing with card = -1
+    - add snd_device_name_get_hint() function, make hints private to alsa-lib (void)
+    - more name hint interace updates
+    - pcm config files cleanups and name hint extension
+    - add snd_device_name_get_hint() prototype to include/control.h
+    - add snd_device_name_hint() function and initial implementation
+    - fix two issues in snd_device_name_hint()
+  + Device Name API
+    - Remove snd_name_list() and snd_name_list_free() functions.
+  + HWDEP API
+    - Fix build of static library
+  + Mixer API
+    - Implements support for capture/playback enums.
+    - simple mixer - fix error recovery path for volume / switch write
+    - add snd_device_name_hint() function and initial implementation
+  + PCM API
+    - fix various warnings
+    - added pcm_empty plugin and .hgignore additions
+    - Fix build of static library
+    - direct pcm plugins: fix channel number selection
+    - direct pcm plugins: fix format selection
+    - pcm: fix ipc offset calculation for direct plugins
+    - more name hint interace updates
+    - pcm direct plugins - fix memory leak (sconf must be deleted)
+    - Fix snd_pcm_open_noupdate() to refer alias
+    - add snd_device_name_hint() function and initial implementation
+  + RawMidi API
+    - rawmidi: do not abort when seeing the hint node
+    - Fix build of static library
+  + Sequencer API
+    - change iface argument for namehint function to const char *
+    - Fix build of static library
+  + Timer API
+    - Fix build of static library
+  + /src/Makefile.am
+    - Compatibility problem with automake 1.10 fixed.
+  + Configuration
+    - Fix CS46xx.conf default capture
+    - Revert dmix.conf and dsnoop.conf
+    - fix a typo
+    - more name hint interace updates
+    - pcm config files cleanups and name hint extension
+    - Use dmix/dsnoop for maestro3 boards
+    - add snd_device_name_hint() function and initial implementation
+    - add card number to ipc key for dmix / dsnoop PCM definitions
+  + Documentation
+    - add snd_device_name_hint() function and initial implementation
+  + Test/Example code
+    - change iface argument for namehint function to const char *
+    - alsa-lib: test dir: make check: static building doesn't work on PIC architectures
+  + Utils
+    - alsa.pc's Libs shouldn't contain -lm -ldl -lpthread
+
+
 Changelog between 1.0.12 and 1.0.13 releases
 (http://www.alsa-project.org/changes/v1-0-12--v1-0-13.txt)
 ********************************************
