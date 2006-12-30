@@ -72,7 +72,7 @@ configure-biarch-stamp: patch-stamp
 		    --datadir=\$${prefix}/share \
 		    --host=$(DEB_HOST_GNU_TYPE) \
 		    --enable-static --disable-maintainer-mode
-	ln -sf . include/alsa
+	#ln -sf . include/alsa
 	rm -f bibuild/include/alsa
 	ln -s . bibuild/include/alsa
 	sed -e '/^SUBDIRS/s/doc//' bibuild/Makefile > bibuild/Makefile.new
