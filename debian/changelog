@@ -1,6 +1,6 @@
 alsa-lib (1.0.14~rc1-1) experimental; urgency=low
 
-  * New upstream release candidate
+  * New upstream release candidate.
 
   [ Elimar Riesebieter ]
   * Added XS-X-Vcs-Svn field in control.
