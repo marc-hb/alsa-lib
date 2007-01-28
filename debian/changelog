@@ -5,6 +5,7 @@ alsa-lib (1.0.14~rc1-1) experimental; urgency=low
   [ Elimar Riesebieter ]
   * Added XS-X-Vcs-Svn field in control.
   * Removed 05_multiarch.dpatch. Applied different from upstream.
+  * Added arch armel to libasound. (closes: #408766)
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Fri, 29 Dec 2006 17:43:48 +0100
 
