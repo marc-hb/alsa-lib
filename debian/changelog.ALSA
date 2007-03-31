@@ -1,3 +1,39 @@
+Changelog between 1.0.14rc2 and 1.0.14rc3 releases
+(http://www.alsa-project.org/changes/v1-0-14rc2--v1-0-14rc3.txt)
+********************************************
+
+* alsa-lib
+  + Core
+    - add support for symbol prefixes in shared libraries
+  + Mixer API
+    - fix SNDERR() format strings/arguments
+  + PCM API
+    - fix SNDERR() format strings/arguments
+  + /src/Makefile.am
+    - add support for symbol prefixes in shared libraries
+  + Configuration
+    - add card_name configuration function
+    - remove superfluous strdup() calls
+    - fix SNDERR() format strings/arguments
+    - enable dmix-ing and proper 5.1 routing for USB audio devices
+    - add USB-Audio.conf to Makefile.am
+  + Kernel Headers
+    - Update emu10k1.h for new version
+
+Changelog between 1.0.14rc1 and 1.0.14rc2 releases
+(http://www.alsa-project.org/changes/v1-0-14rc1--v1-0-14rc2.txt)
+********************************************
+
+* alsa-lib
+  + Control API
+    - remove snd_ctl_iface_conf_name() prototype, namehint doxygen cleanups
+  + PCM API
+    - Fix compile warning with internal function
+    - pcm_ladspa - fix none policy
+  + Timer API
+    - initialize dl handles where it needs to
+    - Fix error code in timer_query.c
+
 Changelog between 1.0.13 and 1.0.14rc1 releases
 (http://www.alsa-project.org/changes/v1-0-13--v1-0-14rc1.txt)
 ********************************************
