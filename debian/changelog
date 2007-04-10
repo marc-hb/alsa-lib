@@ -1,19 +1,29 @@
 alsa-lib (1.0.14~rc3-1) experimental; urgency=low
 
+  [ Elimar Riesebieter ]
   * New upstream release candidate.
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Sat, 31 Mar 2007 16:45:37 +0200
+ -- Jordi Mallach <jordi@debian.org>  Wed, 11 Apr 2007 00:45:26 +0200
 
 alsa-lib (1.0.14~rc1-1) experimental; urgency=low
 
   * New upstream release candidate.
 
   [ Elimar Riesebieter ]
-  * Added XS-X-Vcs-Svn field in control.
-  * Removed 05_multiarch.dpatch. Applied different from upstream.
   * Added arch armel to libasound. (closes: #408766)
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Fri, 29 Dec 2006 17:43:48 +0100
+
+alsa-lib (1.0.13-2) unstable; urgency=medium
+
+  [ Elimar Riesebieter ]
+  * Added XS-X-Vcs-Svn field in control.
+  * Make recording sound on Thinkpad t20 with chip Cirrus Logic CS 4614/22/24
+    work (closes: #410863)
+  * Urgency medium to serve this feature to etch users. This is fixed in 1.0.14
+    version and doesn't need be patched there.
+
+ -- Jordi Mallach <jordi@debian.org>  Mon, 26 Feb 2007 18:20:43 +0100
 
 alsa-lib (1.0.13-1) unstable; urgency=low
 
