@@ -1,3 +1,43 @@
+Changelog between 1.0.14rc3 and 1.0.14rc4 releases
+(http://www.alsa-project.org/changes/v1-0-14rc3--v1-0-14rc4.txt)
+********************************************
+
+* alsa-lib
+  + Core
+    - Check _POSIX_SOURCE for timeval definition
+    - Fix build with no PCM plugin
+    - release 1.0.14rc3
+    - Allow build without libdl and libpthread
+    - Add --enable-symbolic-functions configure option
+    - Add --with-ctl-plugins configure option
+    - Use AS_HELP_STRING in configure.in
+  + Control API
+    - release 1.0.14rc3
+    - Add --with-ctl-plugins configure option
+    - Add missing control_ext entry
+  + PCM API
+    - Improve the sample conversion in plug layer
+    - fix a signedness warning
+    - String array for default rate plugin list
+    - Trivial fix of compile warning
+    - Fix start/stop of multi plugin
+    - More better fix for linked start/stop
+    - Remove _snd_pcm_link_descriptors() and more comments
+    - Define an array of default rate plugins
+    - Fixed an access to uninitialized variable in pcm_rate.c
+  + PCM Plugin API
+    - String array for default rate plugin list
+  + /Makefile.am
+    - Allow build without libdl and libpthread
+  + /src/Makefile.am
+    - Allow build without libdl and libpthread
+    - Add --enable-symbolic-functions configure option
+  + Async helpers
+    - Allow build without libdl and libpthread
+  + Configuration
+    - Add missing smixer.conf for installation
+    - Allow build without libdl and libpthread
+
 Changelog between 1.0.14rc2 and 1.0.14rc3 releases
 (http://www.alsa-project.org/changes/v1-0-14rc2--v1-0-14rc3.txt)
 ********************************************

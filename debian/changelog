@@ -1,8 +1,9 @@
-alsa-lib (1.0.14~rc3-3) UNRELEASED; urgency=low
+alsa-lib (1.0.14~rc4-1) experimental; urgency=low
 
-  * NOT RELEASED YET
+  [ Elimar Riesebieter]
+  * New upstream release candidate.
 
- -- Jordi Mallach <jordi@debian.org>  Wed, 25 Apr 2007 20:55:39 +0200
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 06 May 2007 10:36:59 +0200
 
 alsa-lib (1.0.14~rc3-2) experimental; urgency=low
 

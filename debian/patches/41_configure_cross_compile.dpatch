@@ -7,7 +7,7 @@
 diff -urNad alsa-lib-1.0.12~/configure alsa-lib-1.0.12/configure
 --- alsa-lib-1.0.12~/configure	2006-09-03 15:43:47.000000000 +0200
 +++ alsa-lib-1.0.12/configure	2006-09-03 15:43:02.000000000 +0200
-@@ -3103,7 +3103,7 @@
+@@ -3145,7 +3145,7 @@
  echo $ECHO_N "checking whether the C compiler works... $ECHO_C" >&6; }
  # FIXME: These cross compiler hacks should be removed for Autoconf 3.0
  # If not cross compiling, check that we can run a simple program.
