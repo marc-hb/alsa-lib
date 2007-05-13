@@ -1,3 +1,9 @@
+alsa-lib (1.0.14~rc4-2) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Jordi Mallach <jordi@debian.org>  Sun, 13 May 2007 03:03:36 +0200
+
 alsa-lib (1.0.14~rc4-1) experimental; urgency=low
 
   [ Elimar Riesebieter ]
