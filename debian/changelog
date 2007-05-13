@@ -1,11 +1,11 @@
 alsa-lib (1.0.14~rc4-1) experimental; urgency=low
 
-  [ Elimar Riesebieter]
+  [ Elimar Riesebieter ]
   * New upstream release candidate.
   * Added gcc-multilib to Build-Depends. Thanks Bastian Blank and Matthias
     Klose. (closes: #422513)
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 06 May 2007 10:36:59 +0200
+ -- Jordi Mallach <jordi@debian.org>  Sun, 13 May 2007 02:04:31 +0200
 
 alsa-lib (1.0.14~rc3-2) experimental; urgency=low
 
