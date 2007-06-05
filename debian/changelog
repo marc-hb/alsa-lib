@@ -1,8 +1,11 @@
-alsa-lib (1.0.14~rc4-3) UNRELEASED; urgency=low
+alsa-lib (1.0.14-1) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * New upstream release
 
- -- Jordi Mallach <jordi@debian.org>  Thu, 17 May 2007 02:16:06 +0200
+  [ Elimar Riesebieter ]
+  * Patchmanagement switched to quilt. This is more comfortable.
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Tue, 05 Jun 2007 19:30:13 +0200
 
 alsa-lib (1.0.14~rc4-2) experimental; urgency=low
 

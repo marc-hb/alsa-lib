@@ -4,7 +4,7 @@
 export DH_VERBOSE=1
 
 PACKAGE:= alsa-lib
-include /usr/share/dpatch/dpatch.make
+include /usr/share/quilt/quilt.make
 
 export DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 export DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
@@ -45,7 +45,7 @@ else
 	CFLAGS += -O2
 endif
 
-configure-stamp: patch-stamp $(configure_biarch_stamp)
+configure-stamp: debian/stamp-patched $(configure_biarch_stamp)
 	dh_testdir
 	-rm -f config.sub config.guess
 	ln -s /usr/share/misc/config.sub config.sub
@@ -58,7 +58,7 @@ configure-stamp: patch-stamp $(configure_biarch_stamp)
 		    --enable-static --disable-maintainer-mode
 	touch configure-stamp
 
-configure-biarch-stamp: patch-stamp
+configure-biarch-stamp: debian/stamp-patched
 	dh_testdir
 	-rm -f config.sub config.guess
 	ln -s /usr/share/misc/config.sub config.sub
@@ -185,4 +185,4 @@ clean: unpatch
 	rm -f include/alsa
 	dh_clean
 
-.PHONY: configure build-arch build-indep build install-arch install-indep binary-arch binary-indep binary clean
+.PHONY: configure build-arch build-indep build install-arch install-indep binary-arch binary-indep binary clean stamp-patched

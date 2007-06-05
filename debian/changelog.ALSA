@@ -1,3 +1,23 @@
+Changelog between 1.0.14rc4 and 1.0.14 releases
+(http://www.alsa-project.org/changes/v1-0-14rc4--v1-0-14.txt)
+********************************************
+
+* alsa-lib
+  + Core
+    - Add config and plugin directory options to configure
+  + PCM API
+    - Add support for gain in softvol plugin
+    - dmix/dshare/dsnoop plugin: enable slowptr by default
+    - Revert the wrong change in src/pcm/Makefile.am
+  + ALSA Lisp
+    - Add config and plugin directory options to configure
+  + Configuration
+    - Add support for gain in softvol plugin
+    - Add config and plugin directory options to configure
+    - Specify subdevice number for Maestor3 dmix setting
+  + Simple Abstraction Mixer Modules
+    - Add config and plugin directory options to configure
+
 Changelog between 1.0.14rc3 and 1.0.14rc4 releases
 (http://www.alsa-project.org/changes/v1-0-14rc3--v1-0-14rc4.txt)
 ********************************************

@@ -1,10 +1,5 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 04_doxygen_links.dpatch by  <mikma@users.sourceforge.net>
-##
-## All lines beginning with `## DP:' are a description of the patch.
-## DP: Fix broken doxygen links in pcm.c and rawmidi.c.
-
-@DPATCH@
+# doxygen_links.patch by  <mikma@users.sourceforge.net>
+# Fix broken doxygen links in pcm.c and rawmidi.c.
 diff -urNad alsa-lib-1.0.12~/src/pcm/pcm.c alsa-lib-1.0.12/src/pcm/pcm.c
 --- alsa-lib-1.0.12~/src/pcm/pcm.c	2006-09-03 15:33:45.000000000 +0200
 +++ alsa-lib-1.0.12/src/pcm/pcm.c	2006-09-03 15:32:36.000000000 +0200

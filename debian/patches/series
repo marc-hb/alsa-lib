@@ -1,0 +1,6 @@
+alpha_versioned_symbols.patch
+aclocal_libs_fix.patch
+doxygen_links.patch
+add-maintainer-mode.patch
+relibtoolise.patch
+configure_cross_compile.patch

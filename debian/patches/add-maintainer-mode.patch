@@ -1,10 +1,4 @@
-#! /bin/sh /usr/share/dpatch/dpatch-run
-## 10_add-maintainer-mode.dpatch by Loic Minier <lool@dooz.org>
-##
-## All lines beginning with `## DP:' are a description of the patch.
-## DP: No description.
-
-@DPATCH@
+#add-maintainer-mode.patch by Loic Minier <lool@dooz.org>
 diff -urNad alsa-lib-1.0.11~/configure.in alsa-lib-1.0.11/configure.in
 --- alsa-lib-1.0.11~/configure.in	2006-05-26 10:32:27.000000000 +0200
 +++ alsa-lib-1.0.11/configure.in	2006-05-26 10:32:43.000000000 +0200
