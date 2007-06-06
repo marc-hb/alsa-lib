@@ -3,7 +3,7 @@ alsa-lib (1.0.14-1) unstable; urgency=low
   * New upstream release
 
   [ Elimar Riesebieter ]
-  * Patchmanagement switched to quilt. This is more comfortable.
+  * Patch management switched to quilt. This is more comfortable.
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Tue, 05 Jun 2007 19:30:13 +0200
 
