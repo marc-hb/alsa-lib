@@ -5,7 +5,10 @@ alsa-lib (1.0.14-1) unstable; urgency=low
   [ Elimar Riesebieter ]
   * Patch management switched to quilt. This is more comfortable.
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Tue, 05 Jun 2007 19:30:13 +0200
+  [ Jordi Mallach ]
+  * Bump shlibs to 1.0.14, as new symbols have been added. 
+
+ -- Jordi Mallach <jordi@debian.org>  Sat, 09 Jun 2007 19:17:41 +0200
 
 alsa-lib (1.0.14~rc4-2) experimental; urgency=low
 

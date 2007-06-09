@@ -155,9 +155,9 @@ install-indep: build-indep-stamp
 	dh_fixperms -i
 
 binary-arch: build-arch-stamp install-arch
-	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.12)'
+	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.14)'
 ifneq (,$(build_biarch_stamp))
-	dh_makeshlibs -plib$(bi)asound2  -V'lib$(bi)asound2 (>> 1.0.12)'
+	dh_makeshlibs -plib$(bi)asound2  -V'lib$(bi)asound2 (>> 1.0.14)'
 endif
 
 	dh_installdeb -s
