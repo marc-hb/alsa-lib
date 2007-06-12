@@ -1,3 +1,12 @@
+alsa-lib (1.0.14a-1) unstable; urgency=low
+
+  * New upstream release
+    - Fix plugin directory
+    - Properly disable -Bsymbolic-functions if ld doesn't support
+  * Revert passing --with-plugindir.
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Tue, 12 Jun 2007 19:56:31 +0200
+
 alsa-lib (1.0.14-2) unstable; urgency=low
 
   * debian/rules: pass --with-plugindir to configure, as a typo in

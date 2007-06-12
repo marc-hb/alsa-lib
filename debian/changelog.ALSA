@@ -1,3 +1,14 @@
+Changelog between 1.0.14 and 1.0.14a releases
+(http://www.alsa-project.org/changes/v1-0-14--v1-0-14a.txt)
+*********************************************
+
+* alsa-lib
+  + Core
+    - Fix plugin directory
+    - Properly disable -Bsymbolic-functions if ld doesn't support
+    - release 1.0.14a
+    - release 1.0.14
+
 Changelog between 1.0.14rc4 and 1.0.14 releases
 (http://www.alsa-project.org/changes/v1-0-14rc4--v1-0-14.txt)
 ********************************************
