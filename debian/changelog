@@ -4,7 +4,7 @@ alsa-lib (1.0.14a-2) unstable; urgency=low
   * PCM plugin `lfloat' not built: patch from Mark Wooding. The patch is applied
     upstream and should be disabled next rc release. (closes: #430833)
   * For some reason quilt refreshed relibtoolise.patch.
-  * debian/control: s/${binary:Version}/${Source-Version}/
+  * debian/control: s/${Source-Version}/${binary:Version}/
   * debian/rules: s/-$(MAKE) distclean/[ ! -f Makefile ] || $(MAKE) distclean/
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Thu, 28 Jun 2007 21:09:17 +0200
