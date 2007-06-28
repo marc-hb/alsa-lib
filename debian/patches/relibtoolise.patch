@@ -4,9 +4,10 @@
 # libtoolize -f -c && aclocal-1.9 && (cp config.sub and config.guess
 # from autotools-dev) && autoconf && automake-1.9 &&
 # rm -rf config.sub config.guess autom4te.cache.
-diff -Naurd alsa-lib-1.0.14~/Makefile.in alsa-lib-1.0.14/Makefile.in
---- alsa-lib-1.0.14~/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/Makefile.in	2007-06-04 17:42:49.000000000 +0200
+Index: alsa-lib-1.0.14a/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/Makefile.in	2007-06-11 10:53:25.000000000 +0200
++++ alsa-lib-1.0.14a/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -200,6 +200,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -38,9 +39,10 @@ diff -Naurd alsa-lib-1.0.14~/Makefile.in alsa-lib-1.0.14/Makefile.in
  	cd $(srcdir) && $(ACLOCAL) $(ACLOCAL_AMFLAGS)
  
  mostlyclean-libtool:
-diff -Naurd alsa-lib-1.0.14~/aclocal.m4 alsa-lib-1.0.14/aclocal.m4
---- alsa-lib-1.0.14~/aclocal.m4	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/aclocal.m4	2007-06-04 17:42:35.000000000 +0200
+Index: alsa-lib-1.0.14a/aclocal.m4
+===================================================================
+--- alsa-lib-1.0.14a.orig/aclocal.m4	2007-06-11 10:53:18.000000000 +0200
++++ alsa-lib-1.0.14a/aclocal.m4	2007-06-28 20:43:46.000000000 +0200
 @@ -13,7 +13,7 @@
  
  # libtool.m4 - Configure libtool for the host system. -*-Autoconf-*-
@@ -279,9 +281,10 @@ diff -Naurd alsa-lib-1.0.14~/aclocal.m4 alsa-lib-1.0.14/aclocal.m4
  # Check to see how 'make' treats includes.	            -*- Autoconf -*-
  
  # Copyright (C) 2001, 2002, 2003, 2005  Free Software Foundation, Inc.
-diff -Naurd alsa-lib-1.0.14~/alsalisp/Makefile.in alsa-lib-1.0.14/alsalisp/Makefile.in
---- alsa-lib-1.0.14~/alsalisp/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/alsalisp/Makefile.in	2007-06-04 17:42:41.000000000 +0200
+Index: alsa-lib-1.0.14a/alsalisp/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/alsalisp/Makefile.in	2007-06-11 10:53:22.000000000 +0200
++++ alsa-lib-1.0.14a/alsalisp/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -192,6 +192,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -325,9 +328,10 @@ diff -Naurd alsa-lib-1.0.14~/alsalisp/Makefile.in alsa-lib-1.0.14/alsalisp/Makef
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  
  clean-noinstPROGRAMS:
-diff -Naurd alsa-lib-1.0.14~/aserver/Makefile.in alsa-lib-1.0.14/aserver/Makefile.in
---- alsa-lib-1.0.14~/aserver/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/aserver/Makefile.in	2007-06-04 17:42:41.000000000 +0200
+Index: alsa-lib-1.0.14a/aserver/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/aserver/Makefile.in	2007-06-11 10:53:22.000000000 +0200
++++ alsa-lib-1.0.14a/aserver/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -194,6 +194,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -371,9 +375,10 @@ diff -Naurd alsa-lib-1.0.14~/aserver/Makefile.in alsa-lib-1.0.14/aserver/Makefil
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  install-binPROGRAMS: $(bin_PROGRAMS)
  	@$(NORMAL_INSTALL)
-diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
---- alsa-lib-1.0.14~/configure	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/configure	2007-06-04 17:42:39.000000000 +0200
+Index: alsa-lib-1.0.14a/configure
+===================================================================
+--- alsa-lib-1.0.14a.orig/configure	2007-06-11 10:53:26.000000000 +0200
++++ alsa-lib-1.0.14a/configure	2007-06-28 20:43:46.000000000 +0200
 @@ -1,6 +1,6 @@
  #! /bin/sh
  # Guess values for system-dependent variables and create Makefiles.
@@ -1546,10 +1551,28 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
      ac_cv_prog_ac_ct_F77="$ac_prog"
      echo "$as_me:$LINENO: found $as_dir/$ac_word$ac_exec_ext" >&5
      break 2
-@@ -6489,27 +6257,10 @@
-   rm -f conftest.er1
-   cat conftest.err >&5
-   echo "$as_me:$LINENO: \$? = $ac_status" >&5
+@@ -6471,45 +6239,28 @@
+   cat >conftest.$ac_ext <<_ACEOF
+       program main
+ #ifndef __GNUC__
+-       choke me
+-#endif
+-
+-      end
+-_ACEOF
+-rm -f conftest.$ac_objext
+-if { (ac_try="$ac_compile"
+-case "(($ac_try" in
+-  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+-  *) ac_try_echo=$ac_try;;
+-esac
+-eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
+-  (eval "$ac_compile") 2>conftest.er1
+-  ac_status=$?
+-  grep -v '^ *+' conftest.er1 >conftest.err
+-  rm -f conftest.er1
+-  cat conftest.err >&5
+-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
 -  (exit $ac_status); } &&
 -	 { ac_try='test -z "$ac_f77_werror_flag" || test ! -s conftest.err'
 -  { (case "(($ac_try" in
@@ -1563,13 +1586,25 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
 -  (exit $ac_status); }; } &&
 -	 { ac_try='test -s conftest.$ac_objext'
 -  { (case "(($ac_try" in
--  *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
--  *) ac_try_echo=$ac_try;;
--esac
--eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
++       choke me
++#endif
++
++      end
++_ACEOF
++rm -f conftest.$ac_objext
++if { (ac_try="$ac_compile"
++case "(($ac_try" in
+   *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;
+   *) ac_try_echo=$ac_try;;
+ esac
+ eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
 -  (eval "$ac_try") 2>&5
--  ac_status=$?
--  echo "$as_me:$LINENO: \$? = $ac_status" >&5
++  (eval "$ac_compile") 2>conftest.er1
+   ac_status=$?
++  grep -v '^ *+' conftest.er1 >conftest.err
++  rm -f conftest.er1
++  cat conftest.err >&5
+   echo "$as_me:$LINENO: \$? = $ac_status" >&5
 -  (exit $ac_status); }; }; then
 +  (exit $ac_status); } && {
 +	 test -z "$ac_f77_werror_flag" ||
@@ -2491,10 +2526,12 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
        if echo __ELF__ | $CC -E - | grep __ELF__ >/dev/null; then
  	archive_cmds_F77='$LD -Bshareable $libobjs $deplibs $linker_flags -o $lib'
  	wlarc=
-@@ -15116,27 +14655,11 @@
+@@ -15114,29 +14653,13 @@
+   ac_status=$?
+   grep -v '^ *+' conftest.er1 >conftest.err
    rm -f conftest.er1
-   cat conftest.err >&5
-   echo "$as_me:$LINENO: \$? = $ac_status" >&5
+-  cat conftest.err >&5
+-  echo "$as_me:$LINENO: \$? = $ac_status" >&5
 -  (exit $ac_status); } &&
 -	 { ac_try='test -z "$ac_f77_werror_flag" || test ! -s conftest.err'
 -  { (case "(($ac_try" in
@@ -2514,7 +2551,8 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
 -eval "echo \"\$as_me:$LINENO: $ac_try_echo\"") >&5
 -  (eval "$ac_try") 2>&5
 -  ac_status=$?
--  echo "$as_me:$LINENO: \$? = $ac_status" >&5
++  cat conftest.err >&5
+   echo "$as_me:$LINENO: \$? = $ac_status" >&5
 -  (exit $ac_status); }; }; then
 +  (exit $ac_status); } && {
 +	 test -z "$ac_f77_werror_flag" ||
@@ -3071,7 +3109,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
        conftest$ac_exeext conftest.$ac_ext
  fi
  { echo "$as_me:$LINENO: result: $ac_cv_func_hsearch_r" >&5
-@@ -20890,27 +20258,11 @@
+@@ -20891,27 +20259,11 @@
    rm -f conftest.er1
    cat conftest.err >&5
    echo "$as_me:$LINENO: \$? = $ac_status" >&5
@@ -3104,7 +3142,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
    ac_cv_lib_dl_dlsym=yes
  else
    echo "$as_me: failed program was:" >&5
-@@ -20919,7 +20271,7 @@
+@@ -20920,7 +20272,7 @@
  	ac_cv_lib_dl_dlsym=no
  fi
  
@@ -3113,7 +3151,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
        conftest$ac_exeext conftest.$ac_ext
  LIBS=$ac_check_lib_save_LIBS
  fi
-@@ -21005,27 +20357,11 @@
+@@ -21006,27 +20358,11 @@
    rm -f conftest.er1
    cat conftest.err >&5
    echo "$as_me:$LINENO: \$? = $ac_status" >&5
@@ -3146,7 +3184,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
    ac_cv_lib_pthread_pthread_join=yes
  else
    echo "$as_me: failed program was:" >&5
-@@ -21034,7 +20370,7 @@
+@@ -21035,7 +20371,7 @@
  	ac_cv_lib_pthread_pthread_join=no
  fi
  
@@ -3155,7 +3193,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
        conftest$ac_exeext conftest.$ac_ext
  LIBS=$ac_check_lib_save_LIBS
  fi
-@@ -21140,27 +20476,10 @@
+@@ -21141,27 +20477,10 @@
    rm -f conftest.er1
    cat conftest.err >&5
    echo "$as_me:$LINENO: \$? = $ac_status" >&5
@@ -3187,7 +3225,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
    ac_header_compiler=yes
  else
    echo "$as_me: failed program was:" >&5
-@@ -21196,17 +20515,10 @@
+@@ -21197,17 +20516,10 @@
    rm -f conftest.er1
    cat conftest.err >&5
    echo "$as_me:$LINENO: \$? = $ac_status" >&5
@@ -3209,7 +3247,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
    ac_header_preproc=yes
  else
    echo "$as_me: failed program was:" >&5
-@@ -21321,27 +20633,11 @@
+@@ -21322,27 +20634,11 @@
    rm -f conftest.er1
    cat conftest.err >&5
    echo "$as_me:$LINENO: \$? = $ac_status" >&5
@@ -3242,7 +3280,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
    ac_cv_lib_resmgr_rsm_open_device=yes
  else
    echo "$as_me: failed program was:" >&5
-@@ -21350,7 +20646,7 @@
+@@ -21351,7 +20647,7 @@
  	ac_cv_lib_resmgr_rsm_open_device=no
  fi
  
@@ -3251,7 +3289,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
        conftest$ac_exeext conftest.$ac_ext
  LIBS=$ac_check_lib_save_LIBS
  fi
-@@ -22153,6 +21449,13 @@
+@@ -22154,6 +21450,13 @@
  Usually this means the macro was only invoked conditionally." >&2;}
     { (exit 1); exit 1; }; }
  fi
@@ -3265,7 +3303,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
  if test -z "${AMDEP_TRUE}" && test -z "${AMDEP_FALSE}"; then
    { { echo "$as_me:$LINENO: error: conditional \"AMDEP\" was never defined.
  Usually this means the macro was only invoked conditionally." >&5
-@@ -22485,7 +21788,8 @@
+@@ -22486,7 +21789,8 @@
  ## M4sh Initialization.  ##
  ## --------------------- ##
  
@@ -3275,7 +3313,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
  if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
    emulate sh
    NULLCMD=:
-@@ -22494,10 +21798,13 @@
+@@ -22495,10 +21799,13 @@
    alias -g '${1+"$@"}'='"$@"'
    setopt NO_GLOB_SUBST
  else
@@ -3292,7 +3330,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
  
  
  # PATH needs CR
-@@ -22721,19 +22028,28 @@
+@@ -22722,19 +22029,28 @@
    as_mkdir_p=false
  fi
  
@@ -3332,7 +3370,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
  
  # Sed expression to map a string onto a valid CPP name.
  as_tr_cpp="eval sed 'y%*$as_cr_letters%P$as_cr_LETTERS%;s%[^_$as_cr_alnum]%_%g'"
-@@ -22749,7 +22065,7 @@
+@@ -22750,7 +22066,7 @@
  # values after options handling.
  ac_log="
  This file was extended by $as_me, which was
@@ -3341,7 +3379,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
  
    CONFIG_FILES    = $CONFIG_FILES
    CONFIG_HEADERS  = $CONFIG_HEADERS
-@@ -22778,7 +22094,7 @@
+@@ -22779,7 +22095,7 @@
  Usage: $0 [OPTIONS] [FILE]...
  
    -h, --help       print this help, then exit
@@ -3350,7 +3388,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
    -q, --quiet      do not print progress messages
    -d, --debug      don't remove temporary files
        --recheck    update $as_me by reconfiguring in the same conditions
-@@ -22802,7 +22118,7 @@
+@@ -22803,7 +22119,7 @@
  cat >>$CONFIG_STATUS <<_ACEOF
  ac_cs_version="\\
  config.status
@@ -3359,7 +3397,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
    with options \\"`echo "$ac_configure_args" | sed 's/^ //; s/[\\""\`\$]/\\\\&/g'`\\"
  
  Copyright (C) 2006 Free Software Foundation, Inc.
-@@ -23080,6 +22396,9 @@
+@@ -23081,6 +22397,9 @@
  am__untar!$am__untar$ac_delim
  INSTALL_M4_TRUE!$INSTALL_M4_TRUE$ac_delim
  INSTALL_M4_FALSE!$INSTALL_M4_FALSE$ac_delim
@@ -3369,7 +3407,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
  CC!$CC$ac_delim
  CFLAGS!$CFLAGS$ac_delim
  LDFLAGS!$LDFLAGS$ac_delim
-@@ -23102,9 +22421,6 @@
+@@ -23103,9 +22422,6 @@
  EGREP!$EGREP$ac_delim
  ECHO!$ECHO$ac_delim
  AR!$AR$ac_delim
@@ -3379,7 +3417,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
  _ACEOF
  
    if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
-@@ -23146,6 +22462,9 @@
+@@ -23147,6 +22463,9 @@
  ac_delim='%!_!# '
  for ac_last_try in false false false false false :; do
    cat >conf$$subs.sed <<_ACEOF
@@ -3389,7 +3427,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
  ac_ct_CXX!$ac_ct_CXX$ac_delim
  CXXDEPMODE!$CXXDEPMODE$ac_delim
  am__fastdepCXX_TRUE!$am__fastdepCXX_TRUE$ac_delim
-@@ -23240,9 +22559,6 @@
+@@ -23241,9 +22560,6 @@
  BUILD_PCM_PLUGIN_EXTPLUG_TRUE!$BUILD_PCM_PLUGIN_EXTPLUG_TRUE$ac_delim
  BUILD_PCM_PLUGIN_EXTPLUG_FALSE!$BUILD_PCM_PLUGIN_EXTPLUG_FALSE$ac_delim
  BUILD_PCM_PLUGIN_IOPLUG_TRUE!$BUILD_PCM_PLUGIN_IOPLUG_TRUE$ac_delim
@@ -3399,7 +3437,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
  _ACEOF
  
    if test `sed -n "s/.*$ac_delim\$/X/p" conf$$subs.sed | grep -c X` = 97; then
-@@ -23284,6 +22600,9 @@
+@@ -23285,6 +22601,9 @@
  ac_delim='%!_!# '
  for ac_last_try in false false false false false :; do
    cat >conf$$subs.sed <<_ACEOF
@@ -3409,7 +3447,7 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
  BUILD_CTL_PLUGIN_SHM_TRUE!$BUILD_CTL_PLUGIN_SHM_TRUE$ac_delim
  BUILD_CTL_PLUGIN_SHM_FALSE!$BUILD_CTL_PLUGIN_SHM_FALSE$ac_delim
  BUILD_CTL_PLUGIN_EXT_TRUE!$BUILD_CTL_PLUGIN_EXT_TRUE$ac_delim
-@@ -23292,7 +22611,7 @@
+@@ -23293,7 +22612,7 @@
  LTLIBOBJS!$LTLIBOBJS$ac_delim
  _ACEOF
  
@@ -3418,9 +3456,10 @@ diff -Naurd alsa-lib-1.0.14~/configure alsa-lib-1.0.14/configure
      break
    elif $ac_last_try; then
      { { echo "$as_me:$LINENO: error: could not make $CONFIG_STATUS" >&5
-diff -Naurd alsa-lib-1.0.14~/doc/Makefile.in alsa-lib-1.0.14/doc/Makefile.in
---- alsa-lib-1.0.14~/doc/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/doc/Makefile.in	2007-06-04 17:42:42.000000000 +0200
+Index: alsa-lib-1.0.14a/doc/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/doc/Makefile.in	2007-06-11 10:53:22.000000000 +0200
++++ alsa-lib-1.0.14a/doc/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -182,6 +182,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -3464,9 +3503,10 @@ diff -Naurd alsa-lib-1.0.14~/doc/Makefile.in alsa-lib-1.0.14/doc/Makefile.in
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  
  mostlyclean-libtool:
-diff -Naurd alsa-lib-1.0.14~/doc/pictures/Makefile.in alsa-lib-1.0.14/doc/pictures/Makefile.in
---- alsa-lib-1.0.14~/doc/pictures/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/doc/pictures/Makefile.in	2007-06-04 17:42:42.000000000 +0200
+Index: alsa-lib-1.0.14a/doc/pictures/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/doc/pictures/Makefile.in	2007-06-11 10:53:22.000000000 +0200
++++ alsa-lib-1.0.14a/doc/pictures/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -173,6 +173,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -3510,9 +3550,10 @@ diff -Naurd alsa-lib-1.0.14~/doc/pictures/Makefile.in alsa-lib-1.0.14/doc/pictur
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  
  mostlyclean-libtool:
-diff -Naurd alsa-lib-1.0.14~/include/Makefile.in alsa-lib-1.0.14/include/Makefile.in
---- alsa-lib-1.0.14~/include/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/include/Makefile.in	2007-06-04 17:42:42.000000000 +0200
+Index: alsa-lib-1.0.14a/include/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/include/Makefile.in	2007-06-11 10:53:22.000000000 +0200
++++ alsa-lib-1.0.14a/include/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -194,6 +194,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -3561,13 +3602,14 @@ diff -Naurd alsa-lib-1.0.14~/include/Makefile.in alsa-lib-1.0.14/include/Makefil
  	@rm -f stamp-h1
  	cd $(top_builddir) && $(SHELL) ./config.status include/config.h
 -$(srcdir)/config.h.in:  $(am__configure_deps) 
-+$(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps) 
++$(srcdir)/config.h.in: @MAINTAINER_MODE_TRUE@ $(am__configure_deps)
  	cd $(top_srcdir) && $(AUTOHEADER)
  	rm -f stamp-h1
  	touch $@
-diff -Naurd alsa-lib-1.0.14~/include/sound/Makefile.in alsa-lib-1.0.14/include/sound/Makefile.in
---- alsa-lib-1.0.14~/include/sound/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/include/sound/Makefile.in	2007-06-04 17:42:43.000000000 +0200
+Index: alsa-lib-1.0.14a/include/sound/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/include/sound/Makefile.in	2007-06-11 10:53:23.000000000 +0200
++++ alsa-lib-1.0.14a/include/sound/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -186,6 +186,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -3611,9 +3653,10 @@ diff -Naurd alsa-lib-1.0.14~/include/sound/Makefile.in alsa-lib-1.0.14/include/s
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  
  mostlyclean-libtool:
-diff -Naurd alsa-lib-1.0.14~/ltmain.sh alsa-lib-1.0.14/ltmain.sh
---- alsa-lib-1.0.14~/ltmain.sh	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/ltmain.sh	2006-03-11 19:49:04.000000000 +0100
+Index: alsa-lib-1.0.14a/ltmain.sh
+===================================================================
+--- alsa-lib-1.0.14a.orig/ltmain.sh	2006-11-25 12:04:27.000000000 +0100
++++ alsa-lib-1.0.14a/ltmain.sh	2007-06-28 20:43:46.000000000 +0200
 @@ -43,7 +43,7 @@
  
  PROGRAM=ltmain.sh
@@ -3647,9 +3690,10 @@ diff -Naurd alsa-lib-1.0.14~/ltmain.sh alsa-lib-1.0.14/ltmain.sh
  	  esac
  	  ;;
  	no)
-diff -Naurd alsa-lib-1.0.14~/modules/Makefile.in alsa-lib-1.0.14/modules/Makefile.in
---- alsa-lib-1.0.14~/modules/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/modules/Makefile.in	2007-06-04 17:42:43.000000000 +0200
+Index: alsa-lib-1.0.14a/modules/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/modules/Makefile.in	2007-06-11 10:53:23.000000000 +0200
++++ alsa-lib-1.0.14a/modules/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -182,6 +182,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -3693,9 +3737,10 @@ diff -Naurd alsa-lib-1.0.14~/modules/Makefile.in alsa-lib-1.0.14/modules/Makefil
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  
  mostlyclean-libtool:
-diff -Naurd alsa-lib-1.0.14~/modules/mixer/Makefile.in alsa-lib-1.0.14/modules/mixer/Makefile.in
---- alsa-lib-1.0.14~/modules/mixer/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/modules/mixer/Makefile.in	2007-06-04 17:42:43.000000000 +0200
+Index: alsa-lib-1.0.14a/modules/mixer/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/modules/mixer/Makefile.in	2007-06-11 10:53:23.000000000 +0200
++++ alsa-lib-1.0.14a/modules/mixer/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -182,6 +182,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -3739,9 +3784,10 @@ diff -Naurd alsa-lib-1.0.14~/modules/mixer/Makefile.in alsa-lib-1.0.14/modules/m
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  
  mostlyclean-libtool:
-diff -Naurd alsa-lib-1.0.14~/modules/mixer/simple/Makefile.in alsa-lib-1.0.14/modules/mixer/simple/Makefile.in
---- alsa-lib-1.0.14~/modules/mixer/simple/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/modules/mixer/simple/Makefile.in	2007-06-04 17:42:43.000000000 +0200
+Index: alsa-lib-1.0.14a/modules/mixer/simple/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/modules/mixer/simple/Makefile.in	2007-06-11 10:53:23.000000000 +0200
++++ alsa-lib-1.0.14a/modules/mixer/simple/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -210,6 +210,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -3785,9 +3831,10 @@ diff -Naurd alsa-lib-1.0.14~/modules/mixer/simple/Makefile.in alsa-lib-1.0.14/mo
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  install-pkglibLTLIBRARIES: $(pkglib_LTLIBRARIES)
  	@$(NORMAL_INSTALL)
-diff -Naurd alsa-lib-1.0.14~/src/Makefile.in alsa-lib-1.0.14/src/Makefile.in
---- alsa-lib-1.0.14~/src/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/Makefile.in	2007-06-04 17:42:44.000000000 +0200
+Index: alsa-lib-1.0.14a/src/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/Makefile.in	2007-06-11 10:53:23.000000000 +0200
++++ alsa-lib-1.0.14a/src/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -235,6 +235,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -3831,9 +3878,10 @@ diff -Naurd alsa-lib-1.0.14~/src/Makefile.in alsa-lib-1.0.14/src/Makefile.in
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  Versions: $(top_builddir)/config.status $(srcdir)/Versions.in
  	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
-diff -Naurd alsa-lib-1.0.14~/src/alisp/Makefile.in alsa-lib-1.0.14/src/alisp/Makefile.in
---- alsa-lib-1.0.14~/src/alisp/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/alisp/Makefile.in	2007-06-04 17:42:44.000000000 +0200
+Index: alsa-lib-1.0.14a/src/alisp/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/alisp/Makefile.in	2007-06-11 10:53:23.000000000 +0200
++++ alsa-lib-1.0.14a/src/alisp/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -192,6 +192,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -3877,9 +3925,10 @@ diff -Naurd alsa-lib-1.0.14~/src/alisp/Makefile.in alsa-lib-1.0.14/src/alisp/Mak
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  libalisp.la: $(libalisp_la_OBJECTS) $(libalisp_la_DEPENDENCIES) 
  	$(LINK)  $(libalisp_la_LDFLAGS) $(libalisp_la_OBJECTS) $(libalisp_la_LIBADD) $(LIBS)
-diff -Naurd alsa-lib-1.0.14~/src/compat/Makefile.in alsa-lib-1.0.14/src/compat/Makefile.in
---- alsa-lib-1.0.14~/src/compat/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/compat/Makefile.in	2007-06-04 17:42:44.000000000 +0200
+Index: alsa-lib-1.0.14a/src/compat/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/compat/Makefile.in	2007-06-11 10:53:23.000000000 +0200
++++ alsa-lib-1.0.14a/src/compat/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -194,6 +194,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -3923,9 +3972,10 @@ diff -Naurd alsa-lib-1.0.14~/src/compat/Makefile.in alsa-lib-1.0.14/src/compat/M
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  
  clean-noinstLTLIBRARIES:
-diff -Naurd alsa-lib-1.0.14~/src/conf/Makefile.in alsa-lib-1.0.14/src/conf/Makefile.in
---- alsa-lib-1.0.14~/src/conf/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/conf/Makefile.in	2007-06-04 17:42:45.000000000 +0200
+Index: alsa-lib-1.0.14a/src/conf/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/conf/Makefile.in	2007-06-11 10:53:23.000000000 +0200
++++ alsa-lib-1.0.14a/src/conf/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -194,6 +194,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -3969,9 +4019,10 @@ diff -Naurd alsa-lib-1.0.14~/src/conf/Makefile.in alsa-lib-1.0.14/src/conf/Makef
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  
  mostlyclean-libtool:
-diff -Naurd alsa-lib-1.0.14~/src/conf/cards/Makefile.in alsa-lib-1.0.14/src/conf/cards/Makefile.in
---- alsa-lib-1.0.14~/src/conf/cards/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/conf/cards/Makefile.in	2007-06-04 17:42:45.000000000 +0200
+Index: alsa-lib-1.0.14a/src/conf/cards/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/conf/cards/Makefile.in	2007-06-11 10:53:24.000000000 +0200
++++ alsa-lib-1.0.14a/src/conf/cards/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -185,6 +185,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4015,9 +4066,10 @@ diff -Naurd alsa-lib-1.0.14~/src/conf/cards/Makefile.in alsa-lib-1.0.14/src/conf
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  
  mostlyclean-libtool:
-diff -Naurd alsa-lib-1.0.14~/src/conf/pcm/Makefile.in alsa-lib-1.0.14/src/conf/pcm/Makefile.in
---- alsa-lib-1.0.14~/src/conf/pcm/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/conf/pcm/Makefile.in	2007-06-04 17:42:45.000000000 +0200
+Index: alsa-lib-1.0.14a/src/conf/pcm/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/conf/pcm/Makefile.in	2007-06-11 10:53:24.000000000 +0200
++++ alsa-lib-1.0.14a/src/conf/pcm/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -183,6 +183,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4061,9 +4113,10 @@ diff -Naurd alsa-lib-1.0.14~/src/conf/pcm/Makefile.in alsa-lib-1.0.14/src/conf/p
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  
  mostlyclean-libtool:
-diff -Naurd alsa-lib-1.0.14~/src/control/Makefile.in alsa-lib-1.0.14/src/control/Makefile.in
---- alsa-lib-1.0.14~/src/control/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/control/Makefile.in	2007-06-04 17:42:46.000000000 +0200
+Index: alsa-lib-1.0.14a/src/control/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/control/Makefile.in	2007-06-11 10:53:24.000000000 +0200
++++ alsa-lib-1.0.14a/src/control/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -201,6 +201,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4107,9 +4160,10 @@ diff -Naurd alsa-lib-1.0.14~/src/control/Makefile.in alsa-lib-1.0.14/src/control
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  libcontrol.la: $(libcontrol_la_OBJECTS) $(libcontrol_la_DEPENDENCIES) 
  	$(LINK)  $(libcontrol_la_LDFLAGS) $(libcontrol_la_OBJECTS) $(libcontrol_la_LIBADD) $(LIBS)
-diff -Naurd alsa-lib-1.0.14~/src/hwdep/Makefile.in alsa-lib-1.0.14/src/hwdep/Makefile.in
---- alsa-lib-1.0.14~/src/hwdep/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/hwdep/Makefile.in	2007-06-04 17:42:46.000000000 +0200
+Index: alsa-lib-1.0.14a/src/hwdep/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/hwdep/Makefile.in	2007-06-11 10:53:24.000000000 +0200
++++ alsa-lib-1.0.14a/src/hwdep/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -192,6 +192,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4153,9 +4207,10 @@ diff -Naurd alsa-lib-1.0.14~/src/hwdep/Makefile.in alsa-lib-1.0.14/src/hwdep/Mak
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  libhwdep.la: $(libhwdep_la_OBJECTS) $(libhwdep_la_DEPENDENCIES) 
  	$(LINK)  $(libhwdep_la_LDFLAGS) $(libhwdep_la_OBJECTS) $(libhwdep_la_LIBADD) $(LIBS)
-diff -Naurd alsa-lib-1.0.14~/src/instr/Makefile.in alsa-lib-1.0.14/src/instr/Makefile.in
---- alsa-lib-1.0.14~/src/instr/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/instr/Makefile.in	2007-06-04 17:42:46.000000000 +0200
+Index: alsa-lib-1.0.14a/src/instr/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/instr/Makefile.in	2007-06-11 10:53:24.000000000 +0200
++++ alsa-lib-1.0.14a/src/instr/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -189,6 +189,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4199,9 +4254,10 @@ diff -Naurd alsa-lib-1.0.14~/src/instr/Makefile.in alsa-lib-1.0.14/src/instr/Mak
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  libinstr.la: $(libinstr_la_OBJECTS) $(libinstr_la_DEPENDENCIES) 
  	$(LINK)  $(libinstr_la_LDFLAGS) $(libinstr_la_OBJECTS) $(libinstr_la_LIBADD) $(LIBS)
-diff -Naurd alsa-lib-1.0.14~/src/mixer/Makefile.in alsa-lib-1.0.14/src/mixer/Makefile.in
---- alsa-lib-1.0.14~/src/mixer/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/mixer/Makefile.in	2007-06-04 17:42:46.000000000 +0200
+Index: alsa-lib-1.0.14a/src/mixer/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/mixer/Makefile.in	2007-06-11 10:53:24.000000000 +0200
++++ alsa-lib-1.0.14a/src/mixer/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -193,6 +193,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4245,9 +4301,10 @@ diff -Naurd alsa-lib-1.0.14~/src/mixer/Makefile.in alsa-lib-1.0.14/src/mixer/Mak
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  libmixer.la: $(libmixer_la_OBJECTS) $(libmixer_la_DEPENDENCIES) 
  	$(LINK)  $(libmixer_la_LDFLAGS) $(libmixer_la_OBJECTS) $(libmixer_la_LIBADD) $(LIBS)
-diff -Naurd alsa-lib-1.0.14~/src/pcm/Makefile.in alsa-lib-1.0.14/src/pcm/Makefile.in
---- alsa-lib-1.0.14~/src/pcm/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/pcm/Makefile.in	2007-06-04 17:42:47.000000000 +0200
+Index: alsa-lib-1.0.14a/src/pcm/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/pcm/Makefile.in	2007-06-11 10:53:24.000000000 +0200
++++ alsa-lib-1.0.14a/src/pcm/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -280,6 +280,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4291,9 +4348,10 @@ diff -Naurd alsa-lib-1.0.14~/src/pcm/Makefile.in alsa-lib-1.0.14/src/pcm/Makefil
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  libpcm.la: $(libpcm_la_OBJECTS) $(libpcm_la_DEPENDENCIES) 
  	$(LINK)  $(libpcm_la_LDFLAGS) $(libpcm_la_OBJECTS) $(libpcm_la_LIBADD) $(LIBS)
-diff -Naurd alsa-lib-1.0.14~/src/pcm/scopes/Makefile.in alsa-lib-1.0.14/src/pcm/scopes/Makefile.in
---- alsa-lib-1.0.14~/src/pcm/scopes/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/pcm/scopes/Makefile.in	2007-06-04 17:42:47.000000000 +0200
+Index: alsa-lib-1.0.14a/src/pcm/scopes/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/pcm/scopes/Makefile.in	2007-06-11 10:53:24.000000000 +0200
++++ alsa-lib-1.0.14a/src/pcm/scopes/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -199,6 +199,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4337,9 +4395,10 @@ diff -Naurd alsa-lib-1.0.14~/src/pcm/scopes/Makefile.in alsa-lib-1.0.14/src/pcm/
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  install-pkglibLTLIBRARIES: $(pkglib_LTLIBRARIES)
  	@$(NORMAL_INSTALL)
-diff -Naurd alsa-lib-1.0.14~/src/rawmidi/Makefile.in alsa-lib-1.0.14/src/rawmidi/Makefile.in
---- alsa-lib-1.0.14~/src/rawmidi/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/rawmidi/Makefile.in	2007-06-04 17:42:47.000000000 +0200
+Index: alsa-lib-1.0.14a/src/rawmidi/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/rawmidi/Makefile.in	2007-06-11 10:53:25.000000000 +0200
++++ alsa-lib-1.0.14a/src/rawmidi/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -197,6 +197,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4383,9 +4442,10 @@ diff -Naurd alsa-lib-1.0.14~/src/rawmidi/Makefile.in alsa-lib-1.0.14/src/rawmidi
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  librawmidi.la: $(librawmidi_la_OBJECTS) $(librawmidi_la_DEPENDENCIES) 
  	$(LINK)  $(librawmidi_la_LDFLAGS) $(librawmidi_la_OBJECTS) $(librawmidi_la_LIBADD) $(LIBS)
-diff -Naurd alsa-lib-1.0.14~/src/seq/Makefile.in alsa-lib-1.0.14/src/seq/Makefile.in
---- alsa-lib-1.0.14~/src/seq/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/seq/Makefile.in	2007-06-04 17:42:48.000000000 +0200
+Index: alsa-lib-1.0.14a/src/seq/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/seq/Makefile.in	2007-06-11 10:53:25.000000000 +0200
++++ alsa-lib-1.0.14a/src/seq/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -193,6 +193,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4429,9 +4489,10 @@ diff -Naurd alsa-lib-1.0.14~/src/seq/Makefile.in alsa-lib-1.0.14/src/seq/Makefil
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  libseq.la: $(libseq_la_OBJECTS) $(libseq_la_DEPENDENCIES) 
  	$(LINK)  $(libseq_la_LDFLAGS) $(libseq_la_OBJECTS) $(libseq_la_LIBADD) $(LIBS)
-diff -Naurd alsa-lib-1.0.14~/src/timer/Makefile.in alsa-lib-1.0.14/src/timer/Makefile.in
---- alsa-lib-1.0.14~/src/timer/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/src/timer/Makefile.in	2007-06-04 17:42:48.000000000 +0200
+Index: alsa-lib-1.0.14a/src/timer/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/src/timer/Makefile.in	2007-06-11 10:53:25.000000000 +0200
++++ alsa-lib-1.0.14a/src/timer/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -193,6 +193,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4475,9 +4536,10 @@ diff -Naurd alsa-lib-1.0.14~/src/timer/Makefile.in alsa-lib-1.0.14/src/timer/Mak
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  libtimer.la: $(libtimer_la_OBJECTS) $(libtimer_la_DEPENDENCIES) 
  	$(LINK)  $(libtimer_la_LDFLAGS) $(libtimer_la_OBJECTS) $(libtimer_la_LIBADD) $(LIBS)
-diff -Naurd alsa-lib-1.0.14~/test/Makefile.in alsa-lib-1.0.14/test/Makefile.in
---- alsa-lib-1.0.14~/test/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/test/Makefile.in	2007-06-04 17:42:48.000000000 +0200
+Index: alsa-lib-1.0.14a/test/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/test/Makefile.in	2007-06-11 10:53:25.000000000 +0200
++++ alsa-lib-1.0.14a/test/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -229,6 +229,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@
@@ -4521,9 +4583,10 @@ diff -Naurd alsa-lib-1.0.14~/test/Makefile.in alsa-lib-1.0.14/test/Makefile.in
  	cd $(top_builddir) && $(MAKE) $(AM_MAKEFLAGS) am--refresh
  
  clean-checkPROGRAMS:
-diff -Naurd alsa-lib-1.0.14~/utils/Makefile.in alsa-lib-1.0.14/utils/Makefile.in
---- alsa-lib-1.0.14~/utils/Makefile.in	2007-06-04 17:39:47.000000000 +0200
-+++ alsa-lib-1.0.14/utils/Makefile.in	2007-06-04 17:42:49.000000000 +0200
+Index: alsa-lib-1.0.14a/utils/Makefile.in
+===================================================================
+--- alsa-lib-1.0.14a.orig/utils/Makefile.in	2007-06-11 10:53:25.000000000 +0200
++++ alsa-lib-1.0.14a/utils/Makefile.in	2007-06-28 20:43:46.000000000 +0200
 @@ -186,6 +186,9 @@
  LIBTOOL_VERSION_INFO = @LIBTOOL_VERSION_INFO@
  LN_S = @LN_S@

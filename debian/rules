@@ -177,7 +177,8 @@ binary: binary-arch binary-indep
 clean: unpatch
 	dh_testdir
 	dh_testroot
-	-$(MAKE) distclean
+	#-$(MAKE) distclean
+	[ ! -f Makefile ] || $(MAKE) distclean
 	-rm -f *-stamp
 	-rm -f config.sub config.guess config.status config.cache
 	-rm -rf doc/doxygen
