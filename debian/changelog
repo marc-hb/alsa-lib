@@ -1,3 +1,9 @@
+alsa-lib (1.0.14a-3) UNRELEASED; urgency=low
+
+  * NOT RELEASED YET
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 05 Jul 2007 00:24:10 +0200
+
 alsa-lib (1.0.14a-2) unstable; urgency=low
 
   [ Elimar Riesebieter ]
