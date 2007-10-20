@@ -71,7 +71,8 @@ configure-biarch-stamp: debian/stamp-patched
 		    --infodir=\$${prefix}/share/info \
 		    --datadir=\$${prefix}/share \
 		    --host=$(DEB_HOST_GNU_TYPE) \
-		    --enable-static --disable-maintainer-mode
+		    --enable-static --disable-maintainer-mode \
+		    --disable-python
 	#ln -sf . include/alsa
 	rm -f bibuild/include/alsa
 	ln -s . bibuild/include/alsa
@@ -155,9 +156,9 @@ install-indep: build-indep-stamp
 	dh_fixperms -i
 
 binary-arch: build-arch-stamp install-arch
-	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.14)'
+	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.15)'
 ifneq (,$(build_biarch_stamp))
-	dh_makeshlibs -plib$(bi)asound2  -V'lib$(bi)asound2 (>> 1.0.14)'
+	dh_makeshlibs -plib$(bi)asound2  -V'lib$(bi)asound2 (>> 1.0.15)'
 endif
 
 	dh_installdeb -s

@@ -1,8 +1,9 @@
 # doxygen_links.patch by  <mikma@users.sourceforge.net>
 # Fix broken doxygen links in pcm.c and rawmidi.c.
-diff -urNad alsa-lib-1.0.12~/src/pcm/pcm.c alsa-lib-1.0.12/src/pcm/pcm.c
---- alsa-lib-1.0.12~/src/pcm/pcm.c	2006-09-03 15:33:45.000000000 +0200
-+++ alsa-lib-1.0.12/src/pcm/pcm.c	2006-09-03 15:32:36.000000000 +0200
+Index: alsa-lib-1.0.15/src/pcm/pcm.c
+===================================================================
+--- alsa-lib-1.0.15.orig/src/pcm/pcm.c	2007-10-20 21:47:11.000000000 +0200
++++ alsa-lib-1.0.15/src/pcm/pcm.c	2007-10-20 21:48:11.000000000 +0200
 @@ -925,7 +925,7 @@
   * \return PCM state #snd_pcm_state_t of given PCM handle
   *
@@ -68,9 +69,10 @@ diff -urNad alsa-lib-1.0.12~/src/pcm/pcm.c alsa-lib-1.0.12/src/pcm/pcm.c
   * does the right "demangling".
   *
   * You can use output from this function as arguments for the select()
-diff -urNad alsa-lib-1.0.12~/src/rawmidi/rawmidi.c alsa-lib-1.0.12/src/rawmidi/rawmidi.c
---- alsa-lib-1.0.12~/src/rawmidi/rawmidi.c	2006-09-03 15:33:45.000000000 +0200
-+++ alsa-lib-1.0.12/src/rawmidi/rawmidi.c	2006-09-03 15:32:36.000000000 +0200
+Index: alsa-lib-1.0.15/src/rawmidi/rawmidi.c
+===================================================================
+--- alsa-lib-1.0.15.orig/src/rawmidi/rawmidi.c	2007-10-20 21:47:11.000000000 +0200
++++ alsa-lib-1.0.15/src/rawmidi/rawmidi.c	2007-10-20 21:48:11.000000000 +0200
 @@ -82,7 +82,7 @@
  
  The ALSA library uses a generic string representation for names of devices.

@@ -1,7 +1,8 @@
 # alpha_versioned_symbols.patch by Jordi Mallach <jordi@debian.org>
-diff -urNad a/include/alsa-symbols.h b/include/alsa-symbols.h
---- a/include/alsa-symbols.h	2006-09-29 21:12:43.000000000 +0200
-+++ b/include/alsa-symbols.h	2006-09-29 21:12:01.000000000 +0200
+Index: alsa-lib-1.0.15/include/alsa-symbols.h
+===================================================================
+--- alsa-lib-1.0.15.orig/include/alsa-symbols.h	2007-10-20 21:47:11.000000000 +0200
++++ alsa-lib-1.0.15/include/alsa-symbols.h	2007-10-20 21:48:11.000000000 +0200
 @@ -43,7 +43,7 @@
  	__asm__ (".symver " ASM_NAME(#real) "," ASM_NAME(#name) "@@" #version)
  #endif

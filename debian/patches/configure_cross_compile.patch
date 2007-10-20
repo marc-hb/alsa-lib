@@ -1,10 +1,10 @@
 # configure_cross_compile.patch by Loic Minier <lool@dooz.org>
 # Remove check that the compiler produces executables we can run. 
-Index: alsa-lib-1.0.14/configure
+Index: alsa-lib-1.0.15/configure
 ===================================================================
---- alsa-lib-1.0.14.orig/configure	2007-06-04 20:00:05.000000000 +0200
-+++ alsa-lib-1.0.14/configure	2007-06-04 20:00:05.000000000 +0200
-@@ -3149,7 +3149,7 @@
+--- alsa-lib-1.0.15.orig/configure	2007-10-20 21:48:11.000000000 +0200
++++ alsa-lib-1.0.15/configure	2007-10-20 21:48:11.000000000 +0200
+@@ -3163,7 +3163,7 @@
  echo $ECHO_N "checking whether the C compiler works... $ECHO_C" >&6; }
  # FIXME: These cross compiler hacks should be removed for Autoconf 3.0
  # If not cross compiling, check that we can run a simple program.

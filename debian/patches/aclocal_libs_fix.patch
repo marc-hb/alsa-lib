@@ -1,8 +1,9 @@
 # aclocal_libs_fix.patch by Jordi Mallach <jordi@debian.org>
 # Don't modify LIBS if there's no need to. Patch from Josip Rodin.
-diff -urNad alsa-lib-1.0.12~/utils/alsa.m4 alsa-lib-1.0.12/utils/alsa.m4
---- alsa-lib-1.0.12~/utils/alsa.m4	2006-09-03 15:28:21.000000000 +0200
-+++ alsa-lib-1.0.12/utils/alsa.m4	2006-09-03 15:27:35.000000000 +0200
+Index: alsa-lib-1.0.15/utils/alsa.m4
+===================================================================
+--- alsa-lib-1.0.15.orig/utils/alsa.m4	2007-10-20 21:47:11.000000000 +0200
++++ alsa-lib-1.0.15/utils/alsa.m4	2007-10-20 21:48:11.000000000 +0200
 @@ -43,6 +43,7 @@
  	CFLAGS="$CFLAGS -I$alsa_inc_prefix"
  fi

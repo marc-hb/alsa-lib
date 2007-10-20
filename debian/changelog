@@ -1,8 +1,16 @@
-alsa-lib (1.0.14a-3) UNRELEASED; urgency=low
+alsa-lib (1.0.15-1) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * New upstream release
 
- -- Jordi Mallach <jordi@debian.org>  Thu, 05 Jul 2007 00:24:10 +0200
+  [ Elimar Riesebieter ]
+  * Removed mdw.patch. Applied from upstream.
+  * Added python2.4-dev to BuildDepends.
+  * Added Homepage header in debian/control.
+  * Added --disable-python for crosscompiling 64bit flavour.
+  * Bumped shlibs to 1.0.15: _snd_pcm_mmap_emul_open has been added to
+    symbols.
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Sat, 20 Oct 2007 22:51:01 +0200
 
 alsa-lib (1.0.14a-2) unstable; urgency=low
 

@@ -1,3 +1,62 @@
+Changelog between 1.0.14 and 1.0.15 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.14_v1.0.15)
+(Reformated as ASCII text)
+********************************************
+
+* alsa-lib
+  + Core
+    - improved python detection and added --with-pythonincdir for
+    - configure.in
+    - Allow empty pythonincdir option
+    - Fix plugin directory
+    - Properly disable -Bsymbolic-functions if ld doesn't support
+    - release 1.0.14a
+    - Fix the build of lfloat plugin
+    - release 1.0.14
+    - Fix undefined references in namehint.c
+    - Create asoundlib.h dynamically according to configure options
+    - Fix a typo in configure script
+    - Continue build even if python-config doesn't exist
+    - mixer simple basic abstraction - added python binding
+    - Split mmap-emulation code from hw layer
+    - changed python-incdir to python-includes for configure.in
+  + Control API
+    - Fix undefined references in namehint.c
+  + Mixer API
+    - Handle "Input Source" as a capture element
+    - mixer simple basic abstraction - added python binding
+  + PCM API
+    - remove unused variables
+    - Don't set PCM pointer at error in snd_pcm_hw_open()
+    - fix mmap emulation bug of recording doesn't work
+    - Fix wrong offset calculation in snd_pcm_{read|write}_mmap()
+    - Add support of little-endian on i386/x86_64 dmix
+    - Split mmap-emulation code from hw layer
+  + /include/Makefile.am
+    - Create asoundlib.h dynamically according to configure options
+    - Fix clean-up of header files
+  + Configuration
+    - Fix subdevice number to 0 for dmix/dsnoop
+    - Added PS3 configuration
+    - Use S16_BE as dmix format for PPC drivers
+    - Fix use after free
+    - cmi8788: add alsa-lib config
+    - Add missing CMI8788.conf to Makefile.am
+    - mixer simple basic abstraction - added python binding
+    - PC-Speaker config update
+  + Documentation
+    - Add missing pcm_empty.c in doxygen configuration
+    - Add the missing include/mixer.h to doxygen.cfg
+    - Split mmap-emulation code from hw layer
+  + Simple Abstraction Mixer Modules
+    - improved python detection and added --with-pythonincdir for
+    - configure.in
+    - Fix a typo
+    - alsa simple mixer - python basic abstraction - simplified using
+    - get/setArray
+    - mixer simple basic abstraction - added python binding
+    - changed python-incdir to python-includes for configure.in
+
 Changelog between 1.0.14 and 1.0.14a releases
 (http://www.alsa-project.org/changes/v1-0-14--v1-0-14a.txt)
 *********************************************
