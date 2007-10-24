@@ -30,11 +30,13 @@ ifneq (,$(biarch_cpu))
       bilibdir = emul/ia32-linux/usr/lib
     endif
   endif
-  configure_biarch_stamp = configure-biarch-stamp
-  build_biarch_stamp = build-biarch-stamp
-  BIARCH_CC = gcc -m$(bi)
-  dpkg_ctrl_args = -- '-Vbilib:depends=libc6-$(biarch_cpu)' \
+  ifneq (,$(bi))
+    configure_biarch_stamp = configure-biarch-stamp
+    build_biarch_stamp = build-biarch-stamp
+    BIARCH_CC = gcc -m$(bi)
+    dpkg_ctrl_args = -- '-Vbilib:depends=libc6-$(biarch_cpu)' \
 	'-Vbidev:depends=libc6-dev-$(biarch_cpu)'
+  endif
 endif
 
 CFLAGS = -g -Wall
