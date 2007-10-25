@@ -7,10 +7,10 @@ alsa-lib (1.0.15-1) unstable; urgency=low
   * Added python2.4-dev to BuildDepends.
   * Added Homepage header in debian/control.
   * Added --disable-python for crosscompiling 64bit flavour.
-  * debian/rules biarch code doesn't work for new archictures. Patch from 
+  * debian/rules biarch code doesn't work for new architectures. Patch from
     Martin Michlmayr (closes: #447879)
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Sat, 20 Oct 2007 22:51:01 +0200
+ -- Jordi Mallach <jordi@debian.org>  Thu, 25 Oct 2007 21:27:14 +0200
 
 alsa-lib (1.0.14a-2) unstable; urgency=low
 
