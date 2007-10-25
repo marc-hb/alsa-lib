@@ -7,8 +7,6 @@ alsa-lib (1.0.15-1) unstable; urgency=low
   * Added python2.4-dev to BuildDepends.
   * Added Homepage header in debian/control.
   * Added --disable-python for crosscompiling 64bit flavour.
-  * Bumped shlibs to 1.0.15: _snd_pcm_mmap_emul_open has been added to
-    symbols.
   * debian/rules biarch code doesn't work for new archictures. Patch from 
     Martin Michlmayr (closes: #447879)
 
