@@ -74,7 +74,7 @@ configure-biarch-stamp: debian/stamp-patched
 		    --datadir=\$${prefix}/share \
 		    --host=$(DEB_HOST_GNU_TYPE) \
 		    --enable-static --disable-maintainer-mode \
-		    --disable-python
+		    --disable-python --with-plugindir=/$(bilibdir)/alsa-lib
 	#ln -sf . include/alsa
 	rm -f bibuild/include/alsa
 	ln -s . bibuild/include/alsa
