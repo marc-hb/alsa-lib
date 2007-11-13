@@ -1,9 +1,10 @@
 alsa-lib (1.0.15-2) unstable; urgency=low
 
+  [ Elimar Riesebieter ]
   * Added --with-plugindir=/$(bilibdir)/alsa-lib to config flags.
     (closes: #449418)
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Tue, 06 Nov 2007 16:46:00 +0100
+ -- Jordi Mallach <jordi@debian.org>  Wed, 14 Nov 2007 00:57:45 +0100
 
 alsa-lib (1.0.15-1) unstable; urgency=low
 
