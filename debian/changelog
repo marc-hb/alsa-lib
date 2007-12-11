@@ -1,9 +1,13 @@
-alsa-lib (1.0.15-3) UNRELEASED; urgency=low
+alsa-lib (1.0.15-3) unstable; urgency=medium
 
-  * NOT RELEASED YET
+  [ Jordi Mallach ]
   * Switch to now official Vcs-* control fields.
+  * New patch fix-sampling-bit-shifts.patch, provided by Loïc Minier
+    which reverts broken bit shifts introduced in alsa-lib HG r2264,
+    which were causing lots of clicks and creaking on at least
+    GStreamer-based audio.
 
- -- Jordi Mallach <jordi@debian.org>  Mon, 26 Nov 2007 11:21:07 +0100
+ -- Jordi Mallach <jordi@debian.org>  Tue, 11 Dec 2007 10:55:26 +0100
 
 alsa-lib (1.0.15-2) unstable; urgency=low
 
