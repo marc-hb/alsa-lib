@@ -1,3 +1,120 @@
+Changelog between 1.0.15 and 1.0.16 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.15_v1.0.16)
+(Reformated as ASCII text)
+********************************************
+
+* alsa-lib
+  +  Core
+    - Make local functions really local
+    - Clean up Versions file
+    - Fix wrong exported functions
+    - Remove obsolete instr check in configure
+    - Remove assert from header files
+    - Remove sequencer instrument layer
+    - Re-add assert.h to asoundlib.h
+    - Add support for monotonic timestamps
+    - Fix exported symbols for hooks and functions
+    - Change assert condition in error message handler
+    - Export dB conversion helper functions
+  +  Control API
+    - Make local functions really local
+    - Fix build with --disable-hwdep and co
+    - fix error code when controlC0 device has no enough permissions
+    - Remove assert from header files
+    - Remove indirect control access
+    - Export dB conversion helper functions
+  +  HWDEP API
+    - Remove assert from header files
+  +  Instrument API
+    - Remove assert from header files
+    - Remove sequencer instrument layer
+    - Remove obsolete instr directory
+  +  Mixer API
+    - Make local functions really local
+    - simple mixer: fix calculation of control range
+    - Remove assert from header files
+    - Export dB conversion helper functions
+  +  PCM API
+    - revert revision 2264:23c4c0f5de40
+    - Add snd_pcm_ioplug_set_state() function
+    - Add deprecated attribute to obsolete functions
+    - SND_PCM_TSTAMP_MMAP -> SND_PCM_TSTAMP_ENABLE change
+    - Added possibility to disable also channel and format conversions + softvol.
+    - dmix - Enable auto format detection as default
+    - Fix a memory leak in PCM hook plugin
+    - Fix wrong return values in direct plugins
+    - Fix mmap with multi plugin
+    - Make local functions really local
+    - dmix: rename mix_areas*
+    - dmix: simplify mix_areas()
+    - dmix: add U8 support
+    - Added SNDRV_PCM_IOCTL_TTSTAMP and updated PCM API version to 2.0.9
+    - pcm plug plugin: remove duplicated expression
+    - pcm hw plugin: fix TTSTAMP version check
+    - pcm hw plugin: use TSTAMP only with old drivers
+    - check availability of CLOCK_MONOTONIC
+    - pcm dmix plugin: fix generic direct remixing
+    - Add SND_PCM_TSTAMP_MMAP back
+    - Add missing remix_areas_* for x86-64
+    - ioplug - Fix the refinement of period_* after periods
+    - Remove ugly hack in rate plugin poll_descriptors callback
+    - Set PCM name properly in empty and asym plugins
+    - Fix segfault with strdup(NULL) in softvol
+    - Implemented snd_pcm_rewind() for the dmix plugin
+    - snd_pcm_dmix_close: raise semaphore if unable to discard
+    - Fix gcc compile warnings
+    - Remove assert from header files
+    - Remove PCM xfer_align
+    - Remove sleep_min and tick
+    - Allow pcm slave string references for direct plugins (bug#2893).
+    - Implement missing htimestamp callbacks
+    - pcm - Limit the avail_min minimum size
+    - Fix function declarations with old PCM API
+    - Add support for monotonic timestamps
+    - Impemented snd_pcm_htimestamp() function.
+    - Avoid (null) in printf
+    - Don't use deprecated functions inside
+    - Allow auto-config for dsnoop and dshare plugins
+    - Fix timestamp in status in PCM direct plugins
+    - Clean up using gettimestamp()
+    - softvol - add missing name
+  +  Rawmidi API
+    - Remove assert from header files
+  +  Sequencer API
+    - Remove sequencer instrument layer
+  +  /include/Makefile.am
+    - Remove sequencer instrument layer
+  +  Configuration
+    - Add the missing card alias for Prodigy71Hifi
+    - dmix - Enable auto format detection as default
+    - oxygen: remove softvol plugin
+    - fix memory leak in snd_config_update_r error path
+    - alsa.conf: cosmetic change
+    - oxygen: enhance configuration
+    - fix error path in snd_config_hook_load_for_all_cards()
+    - conf: show path of any missing configuration file
+  +  Documentation
+    - Remove sequencer instrument layer
+    - Remove obsolete instr directory
+    - Change assert condition in error message handler
+  +  Error handler
+    - Change assert condition in error message handler
+  +  External PCM I/O Plugin SDK
+    - Add snd_pcm_ioplug_set_state() function
+    - Add support for monotonic timestamps
+  +  Kernel Headers
+    - SND_PCM_TSTAMP_MMAP -> SND_PCM_TSTAMP_ENABLE change
+    - Added SNDRV_PCM_IOCTL_TTSTAMP and updated PCM API version to 2.0.9
+    - Remove indirect control access
+    - Update asound_fm.h for patch loading over hwdep
+  +  Simple Abstraction Mixer Modules
+    - fix write in simple mixer API - python backends
+  +  Test/Example code
+    - Remove obsolete seq event entries in seq-decoder
+    - midiloop: use blocking mode
+    - Remove PCM xfer_align
+    - Remove sleep_min and tick
+
 Changelog between 1.0.14 and 1.0.15 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.14_v1.0.15)
 (Reformated as ASCII text)

@@ -14,7 +14,7 @@ The source code was downloaded from the ALSA homepage:
 
 alsa-lib
 --------
-Copyright, Jarsolav Kysela <perex@suse.cz> and others.
+Copyright (c) 1998 Jarsolav Kysela <perex@suse.cz> and others.
 
   This library is free software; you can redistribute it and/or
   modify it under the terms of the GNU Lesser General Public

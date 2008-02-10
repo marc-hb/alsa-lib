@@ -164,7 +164,8 @@ ifneq (,$(build_biarch_stamp))
 endif
 
 	dh_installdeb -s
-	dh_shlibdeps -s -Nlib64asound2
+	#dh_shlibdeps -s -Nlib64asound2
+	dh_shlibdeps -s
 	dh_gencontrol -s
 	dh_md5sums -s
 	dh_builddeb -s

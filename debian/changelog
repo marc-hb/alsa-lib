@@ -1,6 +1,15 @@
-alsa-lib (1.0.15-4) UNRELEASED; urgency=low
+alsa-lib (1.0.16-1) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * New upstream release
+
+  [ Elimar Riesebieter ]
+  * Switched to debhelper 6.
+  * Bumped Standard-Version to 3.7.3; no changes needed.
+  * Removed fix-sampling-bit-shifts.patch. Applied from upstream.
+  * debian/rules: Let dh_shlibdeps run with lib64asound2 too.
+  * Removed useless dir files.
+  * Fullified copyright not in copyright file.
+
 
  -- Jordi Mallach <jordi@debian.org>  Tue, 11 Dec 2007 16:18:20 +0100
 
