@@ -1,0 +1,28 @@
+# HG changeset patch
+# User tiwai
+# Date 1205146946 -3600
+# Node ID 82802e01be2387aa08b23b6531db1ab6c2652291
+# Parent eb9af533294549277e4dd757c329feb4108b5ab0
+dmix skipping first set of samples
+
+There was a change in alsa-lib 1.0.16 which looks like it was designed to
+make dmix skip samples in the case of underruns, but it causes the first
+sample to be skipped since dmix->slave_hw_ptr == dmix->slave_appl_ptr.
+The following patch fixes this and fixes a small typo in the comment.
+
+From: Mike Gorse <mgorse@mgorse.dhs.org>
+
+--- a/src/pcm/pcm_dmix.c        Fri Mar 07 17:18:16 2008 +0100
++++ b/src/pcm/pcm_dmix.c        Mon Mar 10 12:02:26 2008 +0100
+@@ -311,9 +311,9 @@ static void snd_pcm_dmix_sync_area(snd_p
+ 	if (size >= pcm->boundary / 2)
+ 		size = pcm->boundary - size;
+ 
+-	/* the slave_app_ptr can be far behing the slave_hw_ptr */
++	/* the slave_app_ptr can be far behind the slave_hw_ptr */
+ 	/* reduce mixing and errors here - just skip not catched writes */
+-	if (dmix->slave_hw_ptr < dmix->slave_appl_ptr)
++	if (dmix->slave_hw_ptr <= dmix->slave_appl_ptr)
+ 		slave_size = dmix->slave_appl_ptr - dmix->slave_hw_ptr;
+ 	else
+ 		slave_size = dmix->slave_appl_ptr + (dmix->slave_boundary - dmix->slave_hw_ptr);

@@ -4,3 +4,4 @@ doxygen_links.patch
 add-maintainer-mode.patch
 relibtoolise.patch
 configure_cross_compile.patch
+dmix_first_set_fix.patch

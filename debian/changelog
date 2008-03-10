@@ -1,6 +1,8 @@
-alsa-lib (1.0.16-2) UNRELEASED; urgency=low
+alsa-lib (1.0.16-2) unstable; urgency=low
 
-  * NOT RELEASED YET
+  [ Elimar Riesebieter ]
+  * Introduced dmix_first_set_fix.patch from ALSA hg repository.
+    (closes: #469064)
 
  -- Jordi Mallach <jordi@debian.org>  Tue, 26 Feb 2008 00:29:59 +0100
 
