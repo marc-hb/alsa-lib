@@ -10,8 +10,6 @@
 # and diffed against orig source.
 # Elimar Riesebieter <riesebie@lxtec.de>  Sun, 20 Jul 2008 20:59:08 +0200
 
-The included hgcompile script does this job for you.
-
 Index: alsa-lib-1.0.17/Makefile.in
 ===================================================================
 --- alsa-lib-1.0.17.orig/Makefile.in	2008-07-14 11:14:23.000000000 +0200
