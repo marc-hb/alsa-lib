@@ -1,8 +1,8 @@
 #add-maintainer-mode.patch by Loic Minier <lool@dooz.org>
-Index: alsa-lib-1.0.16/configure.in
+Index: alsa-lib-1.0.17/configure.in
 ===================================================================
---- alsa-lib-1.0.16.orig/configure.in	2008-02-10 19:06:41.000000000 +0100
-+++ alsa-lib-1.0.16/configure.in	2008-02-10 19:06:43.000000000 +0100
+--- alsa-lib-1.0.17.orig/configure.in	2008-07-14 10:57:56.000000000 +0200
++++ alsa-lib-1.0.17/configure.in	2008-07-20 20:52:33.000000000 +0200
 @@ -16,6 +16,8 @@
  
  AC_PREFIX_DEFAULT(/usr)

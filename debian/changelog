@@ -1,8 +1,25 @@
-alsa-lib (1.0.16-3) UNRELEASED; urgency=low
+alsa-lib (1.0.17-1) unstable; urgency=low
 
-  * NOT RELEASED YET
+  * New upstream release.
+    - The lets cleanup fixed bugs release;)
+    (closes: #473384, #372735, #302227, #342026, #257797, #335046, #312577)
+    (closes: #456643, #274951, #275573, #289206, #317426, #356049, #369530)
+    (closes: #400268, #469641, #470568, #470865, #383054, #477991, #407641)
 
- -- Jordi Mallach <jordi@debian.org>  Tue, 11 Mar 2008 13:37:36 +0100
+  [ Elimar Riesebieter ]
+
+  * Removed patches as they are not needed anymore:
+    - aclocal_libs_fix.patch
+    - alpha_versioned_symbols.patch
+    - dmix_first_set_fix.patch
+    - doxygen_links.patch
+  * Reorganized relibtoolise.patch
+  * Switched to debhelper 7.
+  * Bumped Standard-Version to 3.8.0; no changes needed.
+  * libasound2-doc.doc-base: s/\/Apps//
+
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 20 Jul 2008 18:30:29 +0200
 
 alsa-lib (1.0.16-2) unstable; urgency=medium
 

@@ -1,7 +1,3 @@
-alpha_versioned_symbols.patch
-aclocal_libs_fix.patch
-doxygen_links.patch
-add-maintainer-mode.patch
 relibtoolise.patch
+add-maintainer-mode.patch
 configure_cross_compile.patch
-dmix_first_set_fix.patch
