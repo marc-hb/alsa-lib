@@ -6,6 +6,7 @@
 #	autoheader
 #	automake --foreign --copy --add-missing
 #	autoconf
+#	rm -rf config.sub config.guess autom4te.cache
 #
 # and diffed against orig source.
 # Elimar Riesebieter <riesebie@lxtec.de>  Sun, 20 Jul 2008 20:59:08 +0200
