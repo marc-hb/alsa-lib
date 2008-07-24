@@ -16,7 +16,10 @@ alsa-lib (1.0.17-1) unstable; urgency=low
   * Bumped Standard-Version to 3.8.0; no changes needed.
   * libasound2-doc.doc-base: s/\/Apps//
 
- -- Jordi Mallach <jordi@debian.org>  Thu, 24 Jul 2008 17:41:26 +0200
+  [ Jordi Mallach ]
+  * Bump shlibs to 1.0.17, as new symbols have been added.
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 24 Jul 2008 21:47:08 +0200
 
 alsa-lib (1.0.16-2) unstable; urgency=medium
 
