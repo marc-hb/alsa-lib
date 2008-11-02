@@ -1,72 +1,39 @@
-Changelog between 1.0.16 and 1.0.17 releases
-(http://www.alsa-project.org/main/index.php/Changes_v1.0.16_v1.0.17)
+Changelog between 1.0.17 and 1.0.18 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.17_v1.0.18)
 (Reformated as ASCII text)
 ********************************************
 
 * alsa-lib
   +  Core
-    - Add atomic operation for super-H(sh3,4) architectures
-    - Create doxgen.cfg dynamically
-    - IEC958 definitions for consumer status channel, byte 4
-    - removed .hg files and renamed hgcompile to gitcompile
-    - Release v1.0.17rc1
-    - PCM: allow mmap-access conversion in plug
-    - Release v1.0.17rc2
-    - Release v1.0.17
+    -IEC958 definition for consumer status channel update
+    -Release v1.0.17a
+    -Release v1.0.18rc3
+    -Release v1.0.18
   +  Control API
-    - Fix device number assignment in hints
-    - Don't show non-existing devices in snd_device_name_hint()
-    - Fix cast warning
+    -Replace some assert() with runtime checks
+    -Fix return value of snd_ctl_hw_subscribe_events()
+    -Fix sort-out of non-existing devices in namehint
   +  Mixer API
-    - implemented integer volume <-> dB volume conversion functions for simple mixer
-  +  Mixer Abstraction API
-    - implemented integer volume <-> dB volume conversion functions for simple mixer
+    -alsa-lib: Don't call the simple mixer interface "legacy"
   +  PCM API
-    - Fix conflict of obsoleted snd_pcm_hw_* definitions
-    - Fix the state in snd_pcm_ioplug_pause()
-    - Fix the build with old glibc
-    - dmix skipping first set of samples
-    - Add truncate option to PCM file plugin
-    - Use slave PCM as a timing-source for file ifile
-    - Add the support of WAV format in PCM file plugin
-    - Use defaults.pcm.file_format for the default file format of file plugin
-    - fix compilation in pcm/pcm_hw.c - monotonic clock
-    - PCM API - explain more trigger timestamp
-    - added snd_pcm_hw_params_is_monotonic/can_forward/can_rewind functions
-    - implemented snd_pcm_rewindable() and snd_pcm_forwardable(), removed can_rewind and can_forward
-    - Implemented snd_pcm_sw_params_(set|get)_period_event for interrupt wakeup like behaviour
-    - Fix compile warnings in pcm_hw.c
-    - pcm_mmap_emul: Fix invalid check
-    - pcm_mmap_emul: clean up
-    - Export __snd_pcm_mmap_emul_open()
-    - PCM: allow mmap-access conversion in plug
-    - Fix segfault with dmix of 3-bytes formats
-    - pcm: fix comment for snd_pcm_avail_update()
-  +  Sequencer API
-    - Fix snd_seq_change_bit()
-    - add snd_seq_unset_bit()
-    - add snd_seq_client_info_event_filter_*() functions
-    - use snd_seq_client_info_event_filter_*() functions
-    - mark snd_seq_client_info_{get,set}_event_filter deprecated
-  +  /Makefile.am
-    - hgcompile -> gitcompile
+    -Add boolean (mute) functionality to softvol plugin
+    -clamp snd_pcm_rewind()/snd_pcm_forward() into the right direction
+    -fix type of internally used sframes variable, to avoid unnecessary casts
+    -fix return value of snd_pcm_rewind()/snd_pcm_forward() to return how much actually has been rewound, instead of what actually could have
+    -rewound
+    -Fix interleave check in pcm_direct.c
+    -Fix non-tread mode with PCM direct plugins
+    -alsa-lib: Make sure SND_PCM_NO_xxx flags don't get lost when nonblocking mode is enabled
+    -alsa-lib: Reword doxygen doc for snd_pcm_delay()
+    -Add snd_pcm_avail() and snd_pcm_avail_delay() functions. Make snd_pcm_hwsync() deprecated.
+    -pcm_softvol plugin: remove access type change for refine
+    -Fix comment typos for snd_pcm_read[in]()
+    -Add snd_pcm_avail() and snd_pcm_avail_delay() prototypes
   +  Configuration
-    - Add surround71 definition to NFORCE.conf
-    - Add PCM "hdmi"
-    - Fix for alsa-lib cross-compilation problems with ALSA_CONFIG_DIR and ALSA_PLUGIN_DIR
-    - Add truncate option to PCM file plugin
-    - Use defaults.pcm.file_format for the default file format of file plugin
-    - pcsp: remove downsampling
-  +  Documentation
-    - Create doxgen.cfg dynamically
+    -Add iec958 PCM definition for PS3
   +  Kernel Headers
-    - Add surround71 definition to NFORCE.conf
-    - Implemented snd_pcm_sw_params_(set|get)_period_event for interrupt wakeup like behaviour
-  +  Simple Abstraction Mixer Modules
-    - Fix for alsa-lib cross-compilation problems with ALSA_CONFIG_DIR and ALSA_PLUGIN_DIR
-    - implemented integer volume <-> dB volume conversion functions for simple mixer
+    -Increase the components array size
   +  Test/Example code
-    - add a test code for snd_seq_client_info_event_filter_*()
-    - Implemented snd_pcm_sw_params_(set|get)_period_event for interrupt wakeup like behaviour
-    - Fix type-punning in test/pcm.c
-    - test/pcm.c: Fix SND_PCM_FORMAT_S24 support
+    -test/pcm: Fix error messages in async callback and add snd_pcm_start() condition
+
+vim:syntax=changelog
