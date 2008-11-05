@@ -16,8 +16,7 @@ Depends: ${shlibs:Depends}
 Suggests: libasound2-plugins (>= 1.0.18)
 Conflicts: libasound2-plugins (<< 1.0.18)
 Description: shared library for ALSA applications
- This package contains the ALSA library and its standard
- plugins.
+ This package contains the ALSA library and its standard plugins.
  .
  ALSA is the Advanced Linux Sound Architecture.
 
@@ -29,7 +28,7 @@ Depends: libc6-dev | libc-dev, libasound2 (= ${binary:Version})
 Suggests: libasound2-doc
 Conflicts: libasound-dev, alsa-headers
 Replaces: libasound2 (<< 0.9.0rc7-2), alsa-headers
-Description: shared library for ALSA applications. Development files
+Description: shared library for ALSA applications -- development files
  This package contains files required for developing software
  that makes use of libasound2, the ALSA library.
  .
@@ -41,7 +40,7 @@ Section: libs
 Depends: libasound2 (= ${binary:Version}), ${shlibs:Depends}, ${bilib:depends}
 Suggests: libasound2-plugins (>= 1.0.18)
 Conflicts: libasound2-plugins (<< 1.0.18)
-Description: shared library for ALSA applications. (64 bit)
+Description: shared library for ALSA applications (64 bit)
  This package contains the ALSA library (64 bit) and its standard
  plugins.
  .
@@ -52,7 +51,7 @@ Architecture: sparc s390 i386 powerpc
 Section: libdevel
 Depends: lib64asound2 (= ${binary:Version}), libasound2-dev (= ${binary:Version}), ${bidev:depends}
 Suggests: libasound2-doc
-Description: shared library for ALSA applications. Development files. (64 bit)
+Description: shared library for ALSA applications -- development files (64 bit)
  This package contains files required for developing software
  that makes use of lib64asound2, the ALSA library (64 bit).
  .
@@ -76,7 +75,7 @@ Architecture: amd64 ppc64
 Section: libdevel
 Depends: lib32asound2 (= ${binary:Version}), libasound2-dev (= ${binary:Version}), ${bidev:depends}
 Suggests: libasound2-doc
-Description: shared library for ALSA applications. Development files (32 bit)
+Description: shared library for ALSA applications -- development files (32 bit)
  This package contains files required for developing software
  that makes use of lib32asound2, the ALSA library (32 bit).
  .
@@ -86,7 +85,7 @@ Package: libasound2-doc
 Architecture: all
 Section: doc
 Suggests: libasound2-dev
-Description: ALSA library developer documentation
+Description: developer documentation for user-space ALSA application programming
  This package contains documentation for the ALSA library.
  .
  ALSA is the Advanced Linux Sound Architecture.

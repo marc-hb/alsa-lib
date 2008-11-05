@@ -1,10 +1,14 @@
-alsa-lib (1.0.18-1) unstable; urgency=low
+alsa-lib (1.0.18-1) experimental; urgency=low
 
-  * New upstream release
+  * New upstream release.
+
+  [ Jordi Mallach ]
+  * Improve libasound2's short description following suggestions by
+    Dan Chen and Barry deFreese. Thanks! (closes: #493512)
 
   [ Elimar Riesebieter ]
-  * Adjusted short descriptions in debisn/control. (closes: #493512)
-  * Pulseaudio 0.9.11 should be supported now. (closes: 499597)
+  * Shorten new short descriptions in debian/control. (closes: #493512)
+  * Pulseaudio 0.9.11 should be supported now. (closes: #499597)
   * Bump shlibs to 1.0.18, as new symbols have been added.
     - Adjusted suggested libasound2-plugins versions to 1.0.18.
 
