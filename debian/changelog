@@ -12,7 +12,7 @@ alsa-lib (1.0.18-1) experimental; urgency=low
   * Bump shlibs to 1.0.18, as new symbols have been added.
     - Adjusted suggested libasound2-plugins versions to 1.0.18.
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 02 Nov 2008 13:55:55 +0100
+ -- Jordi Mallach <jordi@debian.org>  Wed, 05 Nov 2008 21:17:55 +0100
 
 alsa-lib (1.0.17-1) experimental; urgency=low
 
