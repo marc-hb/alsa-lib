@@ -134,7 +134,7 @@ endif
 	dh_installdirs -s
 	dh_install -s
 	dh_installdocs -plibasound2
-	dh_installexamples -s
+	dh_installexamples -s doc/asoundrc.txt
 	dh_installchangelogs -plibasound2 debian/changelog.ALSA
 	install -D -p -m 0644 -o root -g root debian/lib64asound2.lintian-overrides \
 		debian/lib64asound2/usr/share/lintian/overrides/lib64asound2

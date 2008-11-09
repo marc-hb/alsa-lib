@@ -1,8 +1,10 @@
 alsa-lib (1.0.18-2) UNRELEASED; urgency=low
 
-  * NOT RELEASED YET
+  [ Elimar Riesebieter ]
 
- -- Jordi Mallach <jordi@debian.org>  Wed, 05 Nov 2008 23:18:00 +0100
+  * Install aoundrc.txt as an example. (closes: #505090)
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 09 Nov 2008 20:35:34 +0100
 
 alsa-lib (1.0.18-1) experimental; urgency=low
 
