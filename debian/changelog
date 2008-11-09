@@ -2,7 +2,7 @@ alsa-lib (1.0.18-2) UNRELEASED; urgency=low
 
   [ Elimar Riesebieter ]
 
-  * Install aoundrc.txt as an example. (closes: #505090)
+  * Install asoundrc.txt as an example. (closes: #505090)
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 09 Nov 2008 20:35:34 +0100
 
