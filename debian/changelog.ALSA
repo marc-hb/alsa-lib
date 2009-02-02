@@ -1,3 +1,64 @@
+Changelog between 1.0.18 and 1.0.19 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.18_v1.0.19)
+(Reformated as ASCII text)
+********************************************
+
+* alsa-lib
+  +  Core
+    -Don't use AC_CANONICAL_SYSTEM, only use AC_CANONICAL_HOST.
+    -Add the attributes.m4 macro file from xine/lscube.
+    -Check for --no-undefined linker flag and use it.
+    -Release v1.0.19
+  +  Control API
+    -Make seq, rawmidi and control operation structures static const.
+    -Make all the remaining ops structure constants.
+    -Make string arrays as constant as possible.
+    -Mark static tables as constant when possible.
+  +  HWDEP API
+    -Make all the remaining ops structure constants.
+  +  Mixer API
+    -Fix volume/switch updates for global/simple mixer elements
+    -Make string arrays as constant as possible.
+    -Mark static tables as constant when possible.
+  +  PCM API
+    -Fix segfault with invalid meter plugin option
+    -Make some static tables and strings constants.
+    -Make snd_pcm_hw_params_names static to pcm_params.c .
+    -Make all the PCM plugins ops structure constant.
+    -Make string arrays as constant as possible.
+    -Mark static tables as constant when possible.
+    -Fix softvol access refine
+  +  RawMidi API
+    -Make seq, rawmidi and control operation structures static const.
+    -Mark static tables as constant when possible.
+  +  Sequencer API
+    -Make some static tables and strings constants.
+    -Make seq, rawmidi and control operation structures static const.
+  +  Timer API
+    -Make all the remaining ops structure constants.
+  +  /Makefile.am
+    -Add the attributes.m4 macro file from xine/lscube.
+    -Add m4/attributes.m4 as dist file..
+  +  /src/Makefile.am
+    -Check for --no-undefined linker flag and use it.
+  +  ALSA Lisp
+    -Mark static tables as constant when possible.
+  +  ALSA Server
+    -Make some static tables and strings constants.
+  +  Async helpers
+    -Make some static tables and strings constants.
+  +  Configuration
+    -Add linear plugin wrapping iec958 PCM for ice1724-based boards
+    -Mark static tables as constant when possible.
+    -Fix snd-pcsp default configuration
+    -Don't accept an empty string for $ALSA_CONFIG_PATH
+    -add softvol for CMI8788
+  +  I/O subsystem
+    -Make all the remaining ops structure constants.
+  +  Simple Abstraction Mixer Modules
+    -Check for --no-undefined linker flag and use it.
+    -Make sure that python libraries are passed through LIBADD.
+
 Changelog between 1.0.17 and 1.0.18 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.17_v1.0.18)
 (Reformated as ASCII text)
