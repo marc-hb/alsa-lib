@@ -7,7 +7,12 @@ alsa-lib (1.0.19-1) UNRELEASED; urgency=low
   * Install asoundrc.txt as an example. (closes: #505090)
   * Added libcxxtools-dev to Build-Depends
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 09 Nov 2008 20:35:34 +0100
+  [ Jordi Mallach ]
+  * Change configure calls to use --build instead of --host to correct
+    the biarch build for alsa-lib. Thanks to Andreas Metzler and
+    Neil Williams for the advice.
+
+ -- Jordi Mallach <jordi@debian.org>  Wed, 04 Mar 2009 01:44:12 +0100
 
 alsa-lib (1.0.18-1) experimental; urgency=low
 

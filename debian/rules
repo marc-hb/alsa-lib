@@ -56,7 +56,7 @@ configure-stamp: debian/stamp-patched $(configure_biarch_stamp)
 		    --mandir=\$${prefix}/share/man \
 		    --infodir=\$${prefix}/share/info \
 		    --datadir=\$${prefix}/share \
-		    --host=$(DEB_BUILD_GNU_TYPE) \
+		    --build $(DEB_BUILD_GNU_TYPE) \
 		    --enable-static --disable-maintainer-mode
 	touch configure-stamp
 
@@ -72,7 +72,7 @@ configure-biarch-stamp: debian/stamp-patched
 		    --mandir=\$${prefix}/share/man \
 		    --infodir=\$${prefix}/share/info \
 		    --datadir=\$${prefix}/share \
-		    --host=$(DEB_HOST_GNU_TYPE) \
+		    --build $(DEB_BUILD_GNU_TYPE) \
 		    --enable-static --disable-maintainer-mode \
 		    --disable-python --with-plugindir=/$(bilibdir)/alsa-lib
 	#ln -sf . include/alsa
