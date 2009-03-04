@@ -1,9 +1,9 @@
-alsa-lib (1.0.19-1) UNRELEASED; urgency=low
+alsa-lib (1.0.19-1) unstable; urgency=low
 
   * New upstream release.
+  * Upload to unstable.
 
   [ Elimar Riesebieter ]
-
   * Install asoundrc.txt as an example. (closes: #505090)
   * Added libcxxtools-dev to Build-Depends
 
