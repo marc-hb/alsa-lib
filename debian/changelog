@@ -10,7 +10,7 @@ alsa-lib (1.0.19-1) UNRELEASED; urgency=low
   [ Jordi Mallach ]
   * Change configure calls to use --build instead of --host to correct
     the biarch build for alsa-lib. Thanks to Andreas Metzler and
-    Neil Williams for the advice.
+    Neil Williams for the advice (closes: #516585).
 
  -- Jordi Mallach <jordi@debian.org>  Wed, 04 Mar 2009 01:44:12 +0100
 
