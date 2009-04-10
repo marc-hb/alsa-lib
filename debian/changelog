@@ -1,3 +1,10 @@
+alsa-lib (1.0.19-2) UNRELEASED; urgency=low
+
+  * Added lib(32|64)asound2-plugins to lib(32|64)asond2 suggestions. Thanks Jan
+    Muszynski. (closes: #523420)
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Fri, 10 Apr 2009 10:30:33 +0200
+
 alsa-lib (1.0.19-1) unstable; urgency=low
 
   * New upstream release.
