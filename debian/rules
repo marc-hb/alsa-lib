@@ -110,7 +110,7 @@ build: build-arch build-indep
 install-arch: build-arch-stamp
 	dh_testdir
 	dh_testroot
-	dh_clean -k -s
+	dh_prep -s
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 ifneq (,$(build_biarch_stamp))
 	rm -rf debian/bitmp
@@ -146,7 +146,7 @@ endif
 install-indep: build-indep-stamp
 	dh_testdir
 	dh_testroot
-	dh_clean -k -i
+	dh_prep -i
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 	dh_installdirs -i
 	dh_install -i

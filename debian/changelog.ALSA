@@ -1,3 +1,39 @@
+Changelog between 1.0.19 and 1.0.20 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.19_v1.0.20)
+(Reformated as ASCII text)
+********************************************
+
+* alsa-lib
+  +  Core
+    -Fix build with softfloat option
+    -Release v1.0.20
+  +  Control API
+    -Change numid properly with external ctl plugins
+  +  Mixer API
+    -Fix build with softfloat option
+  +  PCM API
+    -Fix plug conversion with mmap emulation
+    -PCM parameters in file plugin
+    -Fix handling of revents in snd_pcm_poll_descriptors_revents()
+    -Fix misc compile warnings
+    -fix pcm_set_params() documentation
+    -Change "%b" to represent bits instead of bytes in PCM file plugin
+    -pcm_hw plugin: preserve monotonic flag also after snd_pcm_hw_params() call
+    -pcm_hw plugin: show appl_ptr and hw_ptr in dump() callback
+    -pcm: more better documentation for snd_pcm_poll_descriptors
+  +  Sequencer API
+    -Fix typos in ALSA Lib documentation
+  +  Configuration
+    -Fix GUS.conf to be usable
+    -Remove own "default" PCM config from GUS.conf
+    -Add hint.device = 0 to pcm.default of HDA-Intel.conf
+    -oxygen: remove softvol plugin
+    -Add route_policy copy to HDA-Intel.conf for capture
+  +  Kernel Headers
+    -Fix off_t in kernel struct
+  +  Simple Abstraction Mixer Modules
+    -Add missing -ldl to modules/mixer/simple/*
+
 Changelog between 1.0.18 and 1.0.19 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.18_v1.0.19)
 (Reformated as ASCII text)
