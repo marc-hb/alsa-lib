@@ -5,6 +5,8 @@ alsa-lib (1.0.20-1) UNRELEASED; urgency=low
   [ Elimar Riesebieter ]
   * Added lib(32|64)asound2-plugins to lib(32|64)asond2 suggestions. Thanks Jan
     Muszynski. (closes: #523420)
+  * Added avr32 to Architectures. Thanks Bradley Smith for the hint.
+    (closes: #528667)
   * Replaced "dh_clean -k" with "dh_prep"
   * Bumped Standard-Version to 3.8.1; no changes needed.
   * All patches refreshed.
