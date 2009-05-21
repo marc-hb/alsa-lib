@@ -1,6 +1,6 @@
-alsa-lib (1.0.20-1) UNRELEASED; urgency=low
+alsa-lib (1.0.20-1) unstable; urgency=low
 
-  * New upstream release
+  * New upstream release.
 
   [ Elimar Riesebieter ]
   * Added lib(32|64)asound2-plugins to lib(32|64)asond2 suggestions. Thanks Jan
@@ -11,7 +11,7 @@ alsa-lib (1.0.20-1) UNRELEASED; urgency=low
   * Bumped Standard-Version to 3.8.1; no changes needed.
   * All patches refreshed.
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 10 May 2009 12:03:55 +0200
+ -- Jordi Mallach <jordi@debian.org>  Thu, 21 May 2009 02:34:29 +0200
 
 alsa-lib (1.0.19-1) unstable; urgency=low
 
