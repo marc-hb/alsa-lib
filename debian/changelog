@@ -1,11 +1,10 @@
-alsa-lib (1.0.20-2) unstable; urgency=low
+alsa-lib (1.0.20-2) unstable; urgency=medium
 
   [ Elimar Riesebieter ]
   * Added -DUSE_VERSIONED_SYMBOLS to CFLAGS. This make sure the symbols
     associated to ALSA_0.9.0rc4 and ALSA_0.9.0rc8 are back in lib32asound2.
     (closes: #529940)
-  * Modified Archlist for libasound-doc. 'all' was magic to lintian.
-  * Removed duplicated 'Section' fields in debian/control
+  * Removed duplicated 'Section' fields in debian/control.
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Wed, 27 May 2009 19:09:06 +0200
 
