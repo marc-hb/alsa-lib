@@ -6,7 +6,7 @@ alsa-lib (1.0.20-2) unstable; urgency=medium
     (closes: #529940)
   * Removed duplicated 'Section' fields in debian/control.
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Wed, 27 May 2009 19:09:06 +0200
+ -- Jordi Mallach <jordi@debian.org>  Fri, 29 May 2009 01:56:26 +0200
 
 alsa-lib (1.0.20-1) unstable; urgency=low
 
