@@ -16,7 +16,7 @@ Build-Depends: debhelper (>= 7),
                lib32gcc1 [amd64 ppc64],
                lib64gcc1 [i386 powerpc sparc s390],
                gcc-multilib [amd64 i386 powerpc ppc64 s390 sparc],
-               python2.4-dev,
+               python-dev,
                libcxxtools-dev
 Standards-Version: 3.8.1
 Homepage: http://www.alsa-project.org/
