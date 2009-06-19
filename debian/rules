@@ -27,7 +27,7 @@ ifneq (,$(biarch_cpu))
     bilibdir = usr/lib32
     ifeq ($(DEB_HOST_ARCH),amd64)
       # amd64 unstable only!
-      bilibdir = emul/ia32-linux/usr/lib
+      bilibdir = usr/lib32
     endif
   endif
   ifneq (,$(bi))

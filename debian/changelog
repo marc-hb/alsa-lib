@@ -1,9 +1,14 @@
 alsa-lib (1.0.20-3) UNRELEASED; urgency=low
 
+  [ Jordi Mallach ]
   * Build-Depend on python-dev instead of python2.4-dev, as suggested
     by Steve Langasek (closes: #532044).
 
- -- Jordi Mallach <jordi@debian.org>  Sat, 06 Jun 2009 02:31:55 +0200
+  [ Elimar Riesebieter ]
+  * Move files in /emul/ia32-linux to /usr/lib32 as suggested by Clint Adams
+    (closes: #533005).
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Fri, 19 Jun 2009 21:18:51 +0200
 
 alsa-lib (1.0.20-2) unstable; urgency=medium
 
