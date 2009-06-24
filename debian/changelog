@@ -9,7 +9,7 @@ alsa-lib (1.0.20-3) unstable; urgency=low
   * Pre-Depends: libc6-i386 (>= 2.9-18) (closes: #533005)
   * Bumped Standards-Version to 3.8.2. No changes.
 
- -- Jordi Mallach <jordi@iti.upv.es>  Wed, 24 Jun 2009 13:40:03 +0200
+ -- Jordi Mallach <jordi@debian.org>  Wed, 24 Jun 2009 13:40:03 +0200
 
 alsa-lib (1.0.20-2) unstable; urgency=medium
 
