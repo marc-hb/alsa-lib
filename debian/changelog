@@ -1,15 +1,15 @@
-alsa-lib (1.0.20-3) UNRELEASED; urgency=low
+alsa-lib (1.0.20-3) unstable; urgency=low
 
   [ Jordi Mallach ]
   * Build-Depend on python-dev instead of python2.4-dev, as suggested
     by Steve Langasek (closes: #532044).
 
   [ Elimar Riesebieter ]
-  * Move files in /emul/ia32-linux to /usr/lib32 as suggested by Clint Adams
+  * Move files in /emul/ia32-linux to /usr/lib32 as suggested by Clint Adams.
   * Pre-Depends: libc6-i386 (>= 2.9-18) (closes: #533005)
   * Bumped Standards-Version to 3.8.2. No changes.
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Fri, 19 Jun 2009 21:18:51 +0200
+ -- Jordi Mallach <jordi@iti.upv.es>  Wed, 24 Jun 2009 13:40:03 +0200
 
 alsa-lib (1.0.20-2) unstable; urgency=medium
 
