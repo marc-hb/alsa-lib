@@ -1,3 +1,11 @@
+alsa-lib (1.0.20-4) UNRELEASED; urgency=low
+
+  [ Elimar Riesebieter ]
+  * Conflicts: libc6-i386 (<= 2.9-18) to lib32asound2 and lib32asound2-dev as
+    suggested by Aurelien Jarno. (closes: #538835)
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Mon, 27 Jul 2009 19:09:35 +0200
+
 alsa-lib (1.0.20-3) unstable; urgency=low
 
   [ Jordi Mallach ]

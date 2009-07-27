@@ -74,7 +74,7 @@ Architecture: amd64 ppc64
 Pre-Depends: libc6-i386 (>= 2.9-18)
 Depends: libasound2 (= ${binary:Version}), ${shlibs:Depends}, ${bilib:depends}
 Suggests: lib32asound2-plugins (>= 1.0.18)
-Conflicts: libasound2-plugins (<< 1.0.18), ia32-libs (<< 1.9)
+Conflicts: libasound2-plugins (<< 1.0.18), ia32-libs (<< 1.9), libc6-i386 (<= 2.9-18)
 Replaces: ia32-libs (<< 1.9)
 Description: shared library for ALSA applications (32 bit)
  This package contains the ALSA library (32 bit) and its standard
@@ -87,6 +87,7 @@ Architecture: amd64 ppc64
 Section: libdevel
 Depends: lib32asound2 (= ${binary:Version}), libasound2-dev (= ${binary:Version}), ${bidev:depends}
 Suggests: libasound2-doc
+Conflicts: libc6-i386 (<= 2.9-18)
 Description: shared library for ALSA applications -- development files (32 bit)
  This package contains files required for developing software
  that makes use of lib32asound2, the ALSA library (32 bit).
