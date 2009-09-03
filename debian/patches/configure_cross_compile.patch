@@ -1,15 +1,15 @@
 # configure_cross_compile.patch by Loic Minier <lool@dooz.org>
 # Remove check that the compiler produces executables we can run. 
-Index: alsa-lib-1.0.20/configure
+Index: alsa-lib-1.0.21/configure
 ===================================================================
---- alsa-lib-1.0.20.orig/configure	2009-05-10 12:28:04.000000000 +0200
-+++ alsa-lib-1.0.20/configure	2009-05-10 12:28:04.000000000 +0200
-@@ -3225,7 +3225,7 @@
+--- alsa-lib-1.0.21.orig/configure	2009-09-03 20:33:46.000000000 +0200
++++ alsa-lib-1.0.21/configure	2009-09-03 20:33:46.000000000 +0200
+@@ -3515,7 +3515,7 @@
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the C compiler works" >&5
  $as_echo_n "checking whether the C compiler works... " >&6; }
- # FIXME: These cross compiler hacks should be removed for Autoconf 3.0
  # If not cross compiling, check that we can run a simple program.
 -if test "$cross_compiling" != yes; then
 +if false && test "$cross_compiling" != yes; then
    if { ac_try='./$ac_file'
-   { (case "(($ac_try" in
+   { { case "(($ac_try" in
    *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;

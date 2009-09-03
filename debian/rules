@@ -158,9 +158,9 @@ install-indep: build-indep-stamp
 	dh_fixperms -i
 
 binary-arch: build-arch-stamp install-arch
-	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.18)'
+	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.20)'
 ifneq (,$(build_biarch_stamp))
-	dh_makeshlibs -plib$(bi)asound2  -V'lib$(bi)asound2 (>> 1.0.18)'
+	dh_makeshlibs -plib$(bi)asound2  -V'lib$(bi)asound2 (>> 1.0.20)'
 endif
 
 	dh_installdeb -s
@@ -178,11 +178,15 @@ binary-indep: build-indep-stamp install-indep
 
 binary: binary-arch binary-indep
 
-clean: unpatch
+clean::
 	dh_testdir
 	dh_testroot
 	#-$(MAKE) distclean
 	[ ! -f Makefile ] || $(MAKE) distclean
+
+clean:: unpatch
+	dh_testdir
+	dh_testroot
 	-rm -f *-stamp
 	-rm -f config.sub config.guess config.status config.cache
 	-rm -rf doc/doxygen

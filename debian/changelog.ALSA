@@ -1,3 +1,74 @@
+Changelog between 1.0.20 and 1.0.21 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.20_v1.0.21)
+(Reformated as ASCII text)
+********************************************
+
+* alsa-lib
+  +  Core
+          Release v1.0.21
+          add midi event test
+  +  Config API
+          fix doc error
+          conf.c: more documentatio
+  +  Control API
+          control.c: snd_ctl_wait: fix revents handlin
+          fix doc error
+          Add the support of TLV_DB_MINMAX type
+          Fix breakage of snd_card_load(
+          snd_card_get_index() - extend comment for last chang          Extend snd_card_get_index() to accept also control device name like /dev/snd/controlC
+  +  Mixer API
+          remove unimplemented functions from header
+  +  PCM API
+          pcm/ioplug: fix error code in start callbac
+          pcm: workaround for avoiding automatic start in mmap mod
+          snd_pcm_scope_set_ops: make ops parameter cons
+          Fix zero-division in pcm_rate.
+          remove unimplemented functions from header
+          pcm_hooks: cosmetic removal of unused variable
+          Manage dlobj lifetime in pcm_hooks.
+          pcm dmix plugin: fix MIX_AREAS_24 routine for i386 & x86_64 platform
+          Query the supported rate ranges from rate plugin
+  +  RawMidi API
+          sound: rawmidi: disable active-sensing-on-close by defaul
+  +  Sequencer API
+          more midi_event documentatio
+          seq_midi_event: fix decoding of (N)RPN event
+          MIDI event decoder: prevent running status after syse
+  +  Timer API
+          timer_query: make ops structure constan
+  +  Configuration
+          Fix driver conf parsing in snd_config_hook_load_for_all_cards(
+          conf.c: more documentatio
+          conf.c: rename 'node' to 'config
+          conf.c: rename 'leaf' to 'child
+          conf.c: rename 'father' to 'parent
+          conf.c: snd_config_add: prevent adopting a non-orpha
+          USB-Audio.conf: fix definition for M-Audio AudioPhile spdif devic
+          conf.c: fix handling of NULL string value
+          conf.c: snd_config_set_id: prevent duplicate id
+          conf.c: fix handling of NULL id
+          Fix SB-Xfi.con
+          Add IEC958 status bits support to SB-XFi.con
+          Add config file for SB-XFi drive
+  +  Documentation
+          doc: hide structs with typedef
+          doc: fix handling of @top_srcdir
+  +  External PCM I/O Plugin SDK
+          fix doc error
+  +  External Rate Converter Plugin SDK
+          Query the supported rate ranges from rate plugin
+  +  I/O subsystem
+          fix doc error
+  +  Test/Example code
+          add config test
+          test/lsb/midi_event.c: check for buffer size chec
+          test/lsb/midi_event.c: abort on fatal error
+          test/pcm.c: float format suppor
+          add midi event test
+          test/pcm.c: Generic linear PCM suppor
+          test/pcm.c: Fix S24 forma
+          test/pcm.c: Sample generation on big endian platforms was broken
+
 Changelog between 1.0.19 and 1.0.20 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.19_v1.0.20)
 (Reformated as ASCII text)
@@ -65,7 +136,7 @@ Changelog between 1.0.18 and 1.0.19 releases
     -Mark static tables as constant when possible.
     -Fix softvol access refine
   +  RawMidi API
-    -Make seq, rawmidi and control operation structures static const.
+-Make seq, rawmidi and control operation structures static const.
     -Mark static tables as constant when possible.
   +  Sequencer API
     -Make some static tables and strings constants.
