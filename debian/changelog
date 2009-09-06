@@ -1,6 +1,6 @@
-alsa-lib (1.0.21-1) URELEASED; urgency=low
+alsa-lib (1.0.21-1) unstable; urgency=low
 
-  * New upstream
+  * New upstream release.
     + libasound2: Division by zero in pcm_rate.c when period_size->min == 0.
       Patch from John Lindgren applied upstream. Thanks! (closes: #539454)
 
@@ -9,9 +9,9 @@ alsa-lib (1.0.21-1) URELEASED; urgency=low
     Thanks Lionel Elie Mamane. (closes: #505088)
   * libasound2-dev: Don't install unneeded .la files. Bump shlibs to >> 1.0.20.
   * Added README.sources.
-  * Updatet changelog.ALSA and patches.
+  * Updated changelog.ALSA and patches.
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Thu, 03 Sep 2009 16:46:46 +0200
+ -- Jordi Mallach <jordi@debian.org>  Sun, 06 Sep 2009 19:31:24 +0200
 
 alsa-lib (1.0.20-4) unstable; urgency=low
 
