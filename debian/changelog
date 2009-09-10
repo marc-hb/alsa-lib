@@ -11,7 +11,12 @@ alsa-lib (1.0.21-1) unstable; urgency=low
   * Added README.sources.
   * Updated changelog.ALSA and patches.
 
- -- Jordi Mallach <jordi@debian.org>  Sun, 06 Sep 2009 19:31:24 +0200
+  [ Jordi Mallach ]
+  * Revert .la removal after discussion with the Release Team. Instead,
+    clear dependency_libs until all the depending packages have dropped the
+    reverse dependency.
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 10 Sep 2009 12:09:48 +0200
 
 alsa-lib (1.0.20-4) unstable; urgency=low
 
