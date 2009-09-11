@@ -1,3 +1,21 @@
+Changelog between 1.0.21 and 1.0.21a releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.21_v1.0.21a)
+(Reformated as ASCII text)
+********************************************
+
+* alsa-lib
+
+  +  Core
+          Release v1.0.21a
+  +  Mixer API
+          mixer: Add Speaker and Beep names to the weight lis
+  +  PCM API
+          PCM - Change the hw_params determination orde
+  +  Configuration
+          Change dmix.conf to accept user configuration from defaults.dmix.<driver_id>.xx
+          Revert "Fix driver conf parsing in snd_config_hook_load_for_all_cards()
+
+
 Changelog between 1.0.20 and 1.0.21 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.20_v1.0.21)
 (Reformated as ASCII text)
