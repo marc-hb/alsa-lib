@@ -1,8 +1,9 @@
 alsa-lib (1.0.21a-1) unstable; urgency=low
 
+  [ Elimar Riesebieter ]
   * New upstream release.
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Fri, 11 Sep 2009 18:34:35 +0200
+ -- Jordi Mallach <jordi@debian.org>  Mon, 14 Sep 2009 21:56:13 +0200
 
 alsa-lib (1.0.21-1) unstable; urgency=low
 
