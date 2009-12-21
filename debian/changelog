@@ -6,11 +6,11 @@ alsa-lib (1.0.21a-2) UNRELEASED; urgency=low
   [ Daniel T Chen ]
   * debian/control: Add sparc64 to Architecture field for libasound2{,-dev}
     using patch from Aurelien Jarno. Thanks! (Closes: #560405)
-  * Properly-close-timer-when-freeing-slaves.patch: Properly free timer fd
-    when closing pcm slaves. Thanks, Dan McCombs! (submitted upstream,
-    LP: #451893)
+  * debian/patches/Dont_leak_timer_fd_on_pcm_slave_close.patch: Properly
+    free timer fd when closing pcm slaves. Backported from upstream master
+    HEAD (LP: #451893)
 
- -- Daniel T Chen <crimsun@ubuntu.com>  Sun, 20 Dec 2009 15:41:06 -0500
+ -- Daniel T Chen <crimsun@ubuntu.com>  Mon, 21 Dec 2009 06:41:03 -0500
 
 alsa-lib (1.0.21a-1) unstable; urgency=low
 
