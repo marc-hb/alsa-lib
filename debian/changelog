@@ -1,7 +1,9 @@
-alsa-lib (1.0.21a-2) UNRELEASED; urgency=low
+alsa-lib (1.0.22-1) UNRELEASED; urgency=low
+
+  * New upstream release.
 
   [ Jordi Mallach ]
-  * Remove lintian overrides file; it only contains an obsolete override.
+  * Remove lintian overrides file; it only contains an obsolete entry.
 
   [ Daniel T Chen ]
   * debian/control: Add sparc64 to Architecture field for libasound2{,-dev}
@@ -10,7 +12,7 @@ alsa-lib (1.0.21a-2) UNRELEASED; urgency=low
     free timer fd when closing pcm slaves. Backported from upstream master
     HEAD (LP: #451893)
 
- -- Daniel T Chen <crimsun@ubuntu.com>  Mon, 21 Dec 2009 06:41:03 -0500
+ -- Jordi Mallach <jordi@debian.org>  Fri, 25 Dec 2009 21:56:28 +0100
 
 alsa-lib (1.0.21a-1) unstable; urgency=low
 
