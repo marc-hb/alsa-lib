@@ -1,15 +1,15 @@
 # configure_cross_compile.patch by Loic Minier <lool@dooz.org>
 # Remove check that the compiler produces executables we can run. 
-Index: alsa-lib-1.0.21/configure
+Index: alsa-lib-1.0.22/configure
 ===================================================================
---- alsa-lib-1.0.21.orig/configure	2009-09-03 20:33:46.000000000 +0200
-+++ alsa-lib-1.0.21/configure	2009-09-03 20:33:46.000000000 +0200
-@@ -3515,7 +3515,7 @@
- { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether the C compiler works" >&5
- $as_echo_n "checking whether the C compiler works... " >&6; }
- # If not cross compiling, check that we can run a simple program.
+--- alsa-lib-1.0.22.orig/configure	2010-01-17 16:33:04.000000000 +0100
++++ alsa-lib-1.0.22/configure	2010-01-17 16:33:04.000000000 +0100
+@@ -3598,7 +3598,7 @@
+ # the compiler is broken, or we cross compile.
+ { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether we are cross compiling" >&5
+ $as_echo_n "checking whether we are cross compiling... " >&6; }
 -if test "$cross_compiling" != yes; then
 +if false && test "$cross_compiling" != yes; then
-   if { ac_try='./$ac_file'
-   { { case "(($ac_try" in
+   { { ac_try="$ac_link"
+ case "(($ac_try" in
    *\"* | *\`* | *\\*) ac_try_echo=\$ac_try;;

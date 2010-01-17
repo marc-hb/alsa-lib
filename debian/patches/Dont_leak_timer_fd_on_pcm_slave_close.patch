@@ -14,11 +14,11 @@ Date:   Mon Dec 21 09:09:42 2009 +0100
     
     Signed-off-by: Jaroslav Kysela <perex@perex.cz>
 
-diff --git a/src/pcm/pcm_hw.c b/src/pcm/pcm_hw.c
-index 2095b01..b557912 100644
---- a/src/pcm/pcm_hw.c
-+++ b/src/pcm/pcm_hw.c
-@@ -338,18 +338,6 @@ static int snd_pcm_hw_hw_params(snd_pcm_t *pcm, snd_pcm_hw_params_t * params)
+Index: alsa-lib-1.0.22/src/pcm/pcm_hw.c
+===================================================================
+--- alsa-lib-1.0.22.orig/src/pcm/pcm_hw.c	2010-01-17 16:31:13.000000000 +0100
++++ alsa-lib-1.0.22/src/pcm/pcm_hw.c	2010-01-17 16:33:04.000000000 +0100
+@@ -338,18 +338,6 @@
  	return 0;
  }
  
@@ -37,7 +37,7 @@ index 2095b01..b557912 100644
  static void snd_pcm_hw_close_timer(snd_pcm_hw_t *hw)
  {
  	if (hw->period_timer) {
-@@ -421,6 +409,20 @@ static int snd_pcm_hw_change_timer(snd_pcm_t *pcm, int enable)
+@@ -421,6 +409,20 @@
  	} else {
  		snd_pcm_hw_close_timer(hw);
  		pcm->fast_ops = &snd_pcm_hw_fast_ops;

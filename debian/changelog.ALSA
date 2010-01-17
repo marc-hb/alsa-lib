@@ -1,3 +1,59 @@
+Changelog between 1.0.21 and 1.0.22 releases
+http://www.alsa-project.org/main/index.php/Changes_v1.0.21_v1.0.22)
+(Reformated as ASCII text)
++++++++++++++++++++++++++++++++++++++++++++
+
+* alsa-lib
+  +  Core
+          Release v1.0.22
+          configure.in: fix --without-softfloat
+          Define _GNU_SOURCE so that <fcntl.h> gives O_CLOEXEC
+          Open device nodes with close-on-exec flag
+          configure.in: Add m4 check for new AM_SILENT_RULES
+          cvscompile: Remove in favour of gitcompile.
+          Release v1.0.21a
+  +  Control API
+          Remove redefinition of _GNU_SOURCE and __USE_GNU
+          Remove old commented-out FD_CLOEXEC code
+          namehint: list card independent devices only once
+          namehint: Allow snd_device_name_hint to search for CTL devices.
+          namehint: add missing list->card initialization
+          Fix corruption after snd_device_name_hint()
+          hcontrol: fix compare_default function to handle also id.device and id.subdevice
+          control: Remove unused variable.
+  +  HWDEP API
+          Remove old commented-out FD_CLOEXEC code
+  +  Mixer API
+          mixer: fix enum check
+          simple_none.c uses HAVE_SOFT_FLOAT it has to include config.h
+          Fix CHECK_ENUM() in simple.c
+          mixer: Add Speaker and Beep names to the weight list
+  +  PCM API
+          Update pcm doc strings
+          Remove old commented-out FD_CLOEXEC code
+          pcm_rate_linear: Annotate unused function parameter to avoid compiler warnings.
+          dmix - Fix snd_pcm_info()
+          pcm_hw: Always use delay ioctl in snd_pcm_delay()
+          PCM - Change the hw_params determination order
+  +  RawMidi API
+          Remove old commented-out FD_CLOEXEC code
+  +  Sequencer API
+          Remove old commented-out FD_CLOEXEC code
+  +  Timer API
+          Remove redefinition of _GNU_SOURCE and __USE_GNU
+          Remove old commented-out FD_CLOEXEC code
+          Defined symbols exposing the hrtimer to applications.
+  +  ALSA Lisp
+          alisp: Comment out an unused function to avoid compiler warnings.
+  +  Configuration
+          Change dmix.conf to accept user configuration from defaults.dmix.<driver_id>.xxx
+          Revert "Fix driver conf parsing in snd_config_hook_load_for_all_cards()"
+  +  Dynamic Loader helpers
+          Remove redefinition of _GNU_SOURCE and __USE_GNU
+          Cache libasound.so access in snd_dlopen
+  +  Kernel Headers
+          Defined symbols exposing the hrtimer to applications.
+
 Changelog between 1.0.21 and 1.0.21a releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.21_v1.0.21a)
 (Reformated as ASCII text)

@@ -4,7 +4,7 @@
 #export DH_VERBOSE=1
 
 PACKAGE:= alsa-lib
-include /usr/share/quilt/quilt.make
+#include /usr/share/quilt/quilt.make
 
 export DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 export DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
@@ -39,7 +39,7 @@ ifneq (,$(biarch_cpu))
   endif
 endif
 
-CFLAGS = -g -Wall -DUSE_VERSIONED_SYMBOLS
+CFLAGS = -g -Wall
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
@@ -47,7 +47,7 @@ else
 	CFLAGS += -O2
 endif
 
-configure-stamp: debian/stamp-patched $(configure_biarch_stamp)
+configure-stamp: $(configure_biarch_stamp)
 	dh_testdir
 	-rm -f config.sub config.guess
 	ln -s /usr/share/misc/config.sub config.sub
@@ -60,7 +60,7 @@ configure-stamp: debian/stamp-patched $(configure_biarch_stamp)
 		    --enable-static --disable-maintainer-mode
 	touch configure-stamp
 
-configure-biarch-stamp: debian/stamp-patched
+configure-biarch-stamp:
 	dh_testdir
 	-rm -f config.sub config.guess
 	ln -s /usr/share/misc/config.sub config.sub
@@ -139,8 +139,6 @@ endif
 	dh_installdocs -plibasound2
 	dh_installexamples -s doc/asoundrc.txt
 	dh_installchangelogs -plibasound2 debian/changelog.ALSA
-	install -D -p -m 0644 -o root -g root debian/lib64asound2.lintian-overrides \
-		debian/lib64asound2/usr/share/lintian/overrides/lib64asound2
 	dh_strip -s
 	dh_link -s
 	dh_compress -s
@@ -186,10 +184,6 @@ clean::
 	dh_testroot
 	#-$(MAKE) distclean
 	[ ! -f Makefile ] || $(MAKE) distclean
-
-clean:: unpatch
-	dh_testdir
-	dh_testroot
 	-rm -f *-stamp
 	-rm -f config.sub config.guess config.status config.cache
 	-rm -rf doc/doxygen

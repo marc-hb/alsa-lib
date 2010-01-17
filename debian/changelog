@@ -1,6 +1,6 @@
 alsa-lib (1.0.22-1) UNRELEASED; urgency=low
 
-  * New upstream release.
+  * New upstream release. (Closes: #549531)
 
   [ Jordi Mallach ]
   * Remove lintian overrides file; it only contains an obsolete entry.
@@ -11,6 +11,13 @@ alsa-lib (1.0.22-1) UNRELEASED; urgency=low
   * debian/patches/Dont_leak_timer_fd_on_pcm_slave_close.patch: Properly
     free timer fd when closing pcm slaves. Backported from upstream master
     HEAD (LP: #451893)
+
+  [ Elimar Riesebieter]
+  * Switched to source version 3.0
+  * Introduced gnu_source.patch
+  * Removed -DUSE_VERSIONED_SYMBOLS from CFLAGS. It is used in the build system
+    now.
+  * Removed lintian file installation from rules
 
  -- Jordi Mallach <jordi@debian.org>  Fri, 25 Dec 2009 21:56:28 +0100
 
