@@ -14,7 +14,8 @@ alsa-lib (1.0.22-1) UNRELEASED; urgency=low
 
   [ Elimar Riesebieter]
   * Switched to source version 3.0
-  * Introduced gnu_source.patch
+  * As we are defining CFLAGS in rules -D_GNU_SOURCE added as suposed in
+    original Makefile.
   * Removed -DUSE_VERSIONED_SYMBOLS from CFLAGS. It is used in the build system
     now.
   * Removed lintian file installation from rules

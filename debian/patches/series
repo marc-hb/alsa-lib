@@ -2,4 +2,3 @@ add-maintainer-mode.patch
 relibtoolise.patch
 configure_cross_compile.patch
 Dont_leak_timer_fd_on_pcm_slave_close.patch
-gnu_source.patch
