@@ -10,7 +10,7 @@ alsa-lib (1.0.22-1) UNRELEASED; urgency=low
     using patch from Aurelien Jarno. Thanks! (Closes: #560405)
   * debian/patches/Dont_leak_timer_fd_on_pcm_slave_close.patch: Properly
     free timer fd when closing pcm slaves. Backported from upstream master
-    HEAD (LP: #451893)
+    HEAD (LP: #451893) (Closes: #568101)
 
   [ Elimar Riesebieter]
   * Switched to source version 3.0
