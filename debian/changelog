@@ -1,4 +1,4 @@
-alsa-lib (1.0.22-1) UNRELEASED; urgency=low
+alsa-lib (1.0.22-1) unstable; urgency=low
 
   * New upstream release. (Closes: #549531)
 
@@ -13,14 +13,14 @@ alsa-lib (1.0.22-1) UNRELEASED; urgency=low
     HEAD (LP: #451893) (Closes: #568101)
 
   [ Elimar Riesebieter]
-  * Switched to source version 3.0
+  * Switched to source version 3.0.
   * As we are defining CFLAGS in rules -D_GNU_SOURCE added as suposed in
     original Makefile.
   * Removed -DUSE_VERSIONED_SYMBOLS from CFLAGS. It is used in the build system
     now.
-  * Removed lintian file installation from rules
+  * Removed lintian file installation from rules.
 
- -- Jordi Mallach <jordi@debian.org>  Fri, 25 Dec 2009 21:56:28 +0100
+ -- Jordi Mallach <jordi@debian.org>  Thu, 11 Feb 2010 21:24:39 +0100
 
 alsa-lib (1.0.21a-1) unstable; urgency=low
 
