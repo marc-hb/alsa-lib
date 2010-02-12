@@ -17,7 +17,7 @@ Build-Depends: debhelper (>= 7),
                gcc-multilib [amd64 i386 powerpc ppc64 s390 sparc],
                python-dev,
                libcxxtools-dev
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Homepage: http://www.alsa-project.org/
 Vcs-Svn: svn://svn.debian.org/pkg-alsa/trunk/alsa-lib
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-alsa/trunk/alsa-lib/
