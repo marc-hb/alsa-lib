@@ -1,6 +1,10 @@
 alsa-lib (1.0.22-2) UNRELEASED; urgency=low
 
+  [ Jordi Mallach ]
   * Bump Standards-Version to 3.8.4, with no changes required.
+
+  [ Elimar Riesebieter]
+  * Readded -DUSE_VERSIONED_SYMBOLS only to the bibuild CFLAGS. (Closes: 570703)
 
  -- Jordi Mallach <jordi@debian.org>  Fri, 12 Feb 2010 03:16:12 +0100
 
