@@ -1,3 +1,13 @@
+alsa-lib (1.0.23-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+
+  [ Elimar Riesebieter]
+  * Add powerpcspe to the list of supported architectures. Hint by Sebastian
+    Andrzej Siewior. (closes: #583615)
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Sat, 29 May 2010 10:30:36 +0200
+
 alsa-lib (1.0.22-2) unstable; urgency=low
 
   [ Jordi Mallach ]
