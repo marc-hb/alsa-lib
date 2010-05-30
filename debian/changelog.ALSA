@@ -1,3 +1,24 @@
+Changelog between 1.0.22 and 1.0.23 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.22_v1.0.23)
+(Reformated as ASCII text)
++++++++++++++++++++++++++++++++++++++++++++
+
+* alsa-lib
+  +  Core
+          Release v1.0.23
+          add atomic operations for Blackfin parts
+  +  Control API
+          modem.conf Off-hook improve behavior
+  +  PCM API
+          pcm_share plugin: fix pcm->monotonic setup in open() function
+          pcm_hw - show errno codes
+          pcm direct plugins: drain() call might be blocked when threads are used
+          pcm_dmix: add support for S24_LE format
+          Fix snd_pcm_sw_params_set_period_event() implementation
+          pcm: fix read_areas and write_areas
+          pcm: Fix the sound distortions for S24_3LE stream in pcm_softvol plugin
+          pcm: Close event timer in pcm_hw plugin
+
 Changelog between 1.0.21 and 1.0.22 releases
 http://www.alsa-project.org/main/index.php/Changes_v1.0.21_v1.0.22)
 (Reformated as ASCII text)

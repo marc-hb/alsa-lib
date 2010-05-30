@@ -1,9 +1,10 @@
-# configure_cross_compile.patch by Loic Minier <lool@dooz.org>
-# Remove check that the compiler produces executables we can run. 
-Index: alsa-lib-1.0.22/configure
+From: Loic Minier <lool@dooz.org>
+Subject: Remove check that the compiler produces executables we can run.
+
+Index: alsa-lib-1.0.23/configure
 ===================================================================
---- alsa-lib-1.0.22.orig/configure	2010-01-17 16:33:04.000000000 +0100
-+++ alsa-lib-1.0.22/configure	2010-01-17 16:33:04.000000000 +0100
+--- alsa-lib-1.0.23.orig/configure	2010-05-30 20:56:55.000000000 +0200
++++ alsa-lib-1.0.23/configure	2010-05-30 20:56:55.000000000 +0200
 @@ -3598,7 +3598,7 @@
  # the compiler is broken, or we cross compile.
  { $as_echo "$as_me:${as_lineno-$LINENO}: checking whether we are cross compiling" >&5

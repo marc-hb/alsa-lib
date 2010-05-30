@@ -5,6 +5,10 @@ alsa-lib (1.0.23-1) UNRELEASED; urgency=low
   [ Elimar Riesebieter]
   * Add powerpcspe to the list of supported architectures. Hint by Sebastian
     Andrzej Siewior. (closes: #583615)
+  * Introduced DEP-3 patch headers.
+  * Patch Dont_leak_timer_fd_on_pcm_slave_close.patch applied from upstream.
+    Removed.
+
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Sat, 29 May 2010 10:30:36 +0200
 
