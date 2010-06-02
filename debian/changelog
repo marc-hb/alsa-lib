@@ -1,4 +1,4 @@
-alsa-lib (1.0.23-1) UNRELEASED; urgency=low
+alsa-lib (1.0.23-1) unstable; urgency=low
 
   * New upstream release.
 
@@ -13,7 +13,7 @@ alsa-lib (1.0.23-1) UNRELEASED; urgency=low
   * Remove lpia from the list of supported architectures, as it's not used
     by Ubuntu anymore.
 
- -- Jordi Mallach <jordi@debian.org>  Wed, 02 Jun 2010 19:32:22 +0200
+ -- Jordi Mallach <jordi@debian.org>  Wed, 02 Jun 2010 20:21:04 +0200
 
 alsa-lib (1.0.22-2) unstable; urgency=low
 
