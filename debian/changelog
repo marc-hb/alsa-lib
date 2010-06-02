@@ -10,7 +10,7 @@ alsa-lib (1.0.23-1) UNRELEASED; urgency=low
     Removed.
 
   [ Jordi Mallach ]
-  * Remove lpia from the list of supported architectures, as its not used
+  * Remove lpia from the list of supported architectures, as it's not used
     by Ubuntu anymore.
 
  -- Jordi Mallach <jordi@debian.org>  Wed, 02 Jun 2010 19:32:22 +0200
