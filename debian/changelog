@@ -1,3 +1,12 @@
+alsa-lib (1.0.23-2) unstable; urgency=low
+
+  [ Elimar Riesebieter ]
+  * Make setlocale() thread safe:
+    Applied thread-safe-locale.patch and thread-specific-locale.patch from
+    upstream. (Closes: #595252)
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Wed, 08 Sep 2010 21:09:10 +0200
+
 alsa-lib (1.0.23-1) unstable; urgency=low
 
   * New upstream release.

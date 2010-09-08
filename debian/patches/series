@@ -1,3 +1,5 @@
 add-maintainer-mode.patch
 relibtoolise.patch
 configure_cross_compile.patch
+thread-specific-locale.patch
+thread-safe-locale.patch

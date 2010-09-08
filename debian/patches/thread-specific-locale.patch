@@ -1,0 +1,23 @@
+From: RÃ©mi Denis-Courmont <remi@remlab.net>
+Date: Wed, 21 Apr 2010 16:37:47 +0000 (+0200)
+Subject: Check for thread-specific locale support
+X-Git-Url: http://git.alsa-project.org/?p=alsa-lib.git;a=commitdiff_plain;h=51ef640cee37f73d771e784e81196ff7c15f53ff
+
+Check for thread-specific locale support
+
+Signed-off-by: RÃ©mi Denis-Courmont <remi@remlab.net>
+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
+---
+
+diff --git a/configure.in b/configure.in
+index f6df502..abc4687 100644
+--- a/configure.in
++++ b/configure.in
+@@ -64,6 +64,7 @@ dnl Checks for library functions.
+ AC_PROG_GCC_TRADITIONAL
+ AC_CHECK_FUNC([hsearch_r], [HAVE_HSEARCH_R=yes])
+ AM_CONDITIONAL(ALSA_HSEARCH_R, [test "x$HAVE_HSEARCH_R" != xyes])
++AC_CHECK_FUNCS([uselocale])
+ 
+ SAVE_LIBRARY_VERSION
+ AC_SUBST(LIBTOOL_VERSION_INFO)
