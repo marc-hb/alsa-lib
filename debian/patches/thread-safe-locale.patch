@@ -9,11 +9,11 @@ Signed-off-by: RÃ©mi Denis-Courmont <remi@remlab.net>
 Signed-off-by: Jaroslav Kysela <perex@perex.cz>
 ---
 
-diff --git a/src/conf.c b/src/conf.c
-index 570c90f..5d8c5c9 100644
---- a/src/conf.c
-+++ b/src/conf.c
-@@ -499,22 +499,38 @@ static int safe_strtod(const char *str, double *val)
+Index: alsa-lib-1.0.23/src/conf.c
+===================================================================
+--- alsa-lib-1.0.23.orig/src/conf.c	2010-04-16 13:11:05.000000000 +0200
++++ alsa-lib-1.0.23/src/conf.c	2010-09-09 20:41:37.000000000 +0200
+@@ -499,22 +499,38 @@
  {
  	char *end;
  	double v;

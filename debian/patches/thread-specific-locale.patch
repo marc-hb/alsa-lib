@@ -9,11 +9,11 @@ Signed-off-by: RÃ©mi Denis-Courmont <remi@remlab.net>
 Signed-off-by: Jaroslav Kysela <perex@perex.cz>
 ---
 
-diff --git a/configure.in b/configure.in
-index f6df502..abc4687 100644
---- a/configure.in
-+++ b/configure.in
-@@ -64,6 +64,7 @@ dnl Checks for library functions.
+Index: alsa-lib-1.0.23/configure.in
+===================================================================
+--- alsa-lib-1.0.23.orig/configure.in	2010-09-09 20:41:37.000000000 +0200
++++ alsa-lib-1.0.23/configure.in	2010-09-09 20:41:37.000000000 +0200
+@@ -66,6 +66,7 @@
  AC_PROG_GCC_TRADITIONAL
  AC_CHECK_FUNC([hsearch_r], [HAVE_HSEARCH_R=yes])
  AM_CONDITIONAL(ALSA_HSEARCH_R, [test "x$HAVE_HSEARCH_R" != xyes])
