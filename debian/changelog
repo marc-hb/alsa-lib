@@ -1,9 +1,10 @@
-alsa-lib (1.0.23-3) UNRELEASED; urgency=low
+alsa-lib (1.0.23-3) unstable; urgency=low
 
+  [ Elimar Riesebieter ]
   * Added armhf to supported arch's of libasound2 and libasound2-dev
     (closes: #596968)
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Thu, 23 Sep 2010 19:05:55 +0200
+ -- Jordi Mallach <jordi@debian.org>  Mon, 18 Apr 2011 19:33:46 +0200
 
 alsa-lib (1.0.23-2) unstable; urgency=medium
 
