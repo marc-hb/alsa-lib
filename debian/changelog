@@ -4,7 +4,22 @@ alsa-lib (1.0.23-3) unstable; urgency=low
   * Added armhf to supported arch's of libasound2 and libasound2-dev
     (closes: #596968)
 
- -- Jordi Mallach <jordi@debian.org>  Mon, 18 Apr 2011 19:33:46 +0200
+  [ Jordi Mallach ]
+  * Acknowledge Simon's NMU. Thanks a lot!
+
+ -- Jordi Mallach <jordi@debian.org>  Mon, 18 Apr 2011 19:41:43 +0200
+
+alsa-lib (1.0.23-2.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Add refcount-dlobjs.patch: backported upstream patch, originally by
+    Jaroslav Kysela, to fix crashes when plugins are unloaded.
+    (Closes: #589896, LP: #552411, #584393)
+  * Add libtool-out-of-tree.patch: fix libtool version checking for the biarch
+    build by grepping ltmain.sh in the ${srcdir}, making it unnecessary to
+    force -DUSE_VERSIONED_SYMBOLS for the biarch build
+
+ -- Simon McVittie <smcv@debian.org>  Fri, 08 Oct 2010 08:30:54 +0100
 
 alsa-lib (1.0.23-2) unstable; urgency=medium
 

@@ -3,3 +3,5 @@ relibtoolise.patch
 configure_cross_compile.patch
 thread-specific-locale.patch
 thread-safe-locale.patch
+refcount-dlobjs.patch
+libtool-out-of-tree.patch

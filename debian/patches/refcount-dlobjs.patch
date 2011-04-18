@@ -1,0 +1,514 @@
+From 5c158e58fe9516cafca8dd25d7c8cd7e33a3d73c Mon Sep 17 00:00:00 2001
+From: Jaroslav Kysela <perex@perex.cz>
+Date: Thu, 7 Oct 2010 23:13:29 +0100
+Subject: [PATCH] general: recoded snd_dlobj_ functions
+
+- changed logic to get/put blocks
+- added mutex locking of the symbol list
+- added reference counting (do not free used dl handles)
+
+Backported: by Simon McVittie <smcv@debian.org>, conflicts:
+	src/pcm/pcm.c
+Origin: backport, http://git.alsa-project.org/?p=alsa-lib.git;a=commitdiff;h=91c9c8f1b85e69b4bdc94a777d2767c4906c3f47
+Bug: https://bugtrack.alsa-project.org/alsa-bug/view.php?id=4426
+Bug-Debian: http://bugs.debian.org/589896
+---
+ include/local.h             |   12 ++--
+ src/control/control.c       |   40 +++----------
+ src/control/control_local.h |    2 +-
+ src/dlmisc.c                |  132 +++++++++++++++++++++++++++++++++---------
+ src/pcm/pcm.c               |   38 +++----------
+ src/pcm/pcm_local.h         |    2 +-
+ src/pcm/pcm_rate.c          |   46 +++++++--------
+ 7 files changed, 151 insertions(+), 121 deletions(-)
+
+diff --git a/include/local.h b/include/local.h
+index fa3f0b7..4dc6562 100644
+--- a/include/local.h
++++ b/include/local.h
+@@ -254,10 +254,10 @@ static inline int snd_open_device(const char *filename, int fmode)
+ }
+ 
+ /* make local functions really local */
+-#define snd_dlobj_cache_lookup \
+-	snd1_dlobj_cache_lookup
+-#define snd_dlobj_cache_add \
+-	snd1_dlobj_cache_add
++#define snd_dlobj_cache_get \
++	snd1_dlobj_cache_get
++#define snd_dlobj_cache_put \
++	snd1_dlobj_cache_put
+ #define snd_dlobj_cache_cleanup \
+ 	snd1_dlobj_cache_cleanup
+ #define snd_config_set_hop \
+@@ -268,8 +268,8 @@ static inline int snd_open_device(const char *filename, int fmode)
+ 	snd1_config_search_alias_hooks
+ 
+ /* dlobj cache */
+-void *snd_dlobj_cache_lookup(const char *name);
+-int snd_dlobj_cache_add(const char *name, void *dlobj, void *open_func);
++void *snd_dlobj_cache_get(const char *lib, const char *name, const char *version, int verbose);
++int snd_dlobj_cache_put(void *open_func);
+ void snd_dlobj_cache_cleanup(void);
+ 
+ /* for recursive checks */
+diff --git a/src/control/control.c b/src/control/control.c
+index b63a28c..19e9389 100644
+--- a/src/control/control.c
++++ b/src/control/control.c
+@@ -94,8 +94,7 @@ int snd_ctl_close(snd_ctl_t *ctl)
+ 	}
+ 	err = ctl->ops->close(ctl);
+ 	free(ctl->name);
+-	if (ctl->dl_handle)
+-		snd_dlclose(ctl->dl_handle);
++	snd_dlobj_cache_put(ctl->open_func);
+ 	free(ctl);
+ 	return err;
+ }
+@@ -768,7 +767,6 @@ static int snd_ctl_open_conf(snd_ctl_t **ctlp, const char *name,
+ #ifndef PIC
+ 	extern void *snd_control_open_symbols(void);
+ #endif
+-	void *h = NULL;
+ 	if (snd_config_get_type(ctl_conf) != SND_CONFIG_TYPE_COMPOUND) {
+ 		if (name)
+ 			SNDERR("Invalid type for CTL %s definition", name);
+@@ -854,40 +852,22 @@ static int snd_ctl_open_conf(snd_ctl_t **ctlp, const char *name,
+ #ifndef PIC
+ 	snd_control_open_symbols();
+ #endif
+-	open_func = snd_dlobj_cache_lookup(open_name);
++	open_func = snd_dlobj_cache_get(lib, open_name,
++			SND_DLSYM_VERSION(SND_CONTROL_DLSYM_VERSION), 1);
+ 	if (open_func) {
+-		err = 0;
+-		goto _err;
+-	}
+-	h = snd_dlopen(lib, RTLD_NOW);
+-	if (h)
+-		open_func = snd_dlsym(h, open_name, SND_DLSYM_VERSION(SND_CONTROL_DLSYM_VERSION));
+-	err = 0;
+-	if (!h) {
+-		SNDERR("Cannot open shared library %s", lib);
+-		err = -ENOENT;
+-	} else if (!open_func) {
+-		SNDERR("symbol %s is not defined inside %s", open_name, lib);
+-		snd_dlclose(h);
+-		err = -ENXIO;
+-	}
+-       _err:
+-	if (type_conf)
+-		snd_config_delete(type_conf);
+-	if (err >= 0) {
+ 		err = open_func(ctlp, name, ctl_root, ctl_conf, mode);
+ 		if (err >= 0) {
+-			if (h /*&& (mode & SND_CTL_KEEP_ALIVE)*/) {
+-				snd_dlobj_cache_add(open_name, h, open_func);
+-				h = NULL;
+-			}
+-			(*ctlp)->dl_handle = h;
++			(*ctlp)->open_func = open_func;
+ 			err = 0;
+ 		} else {
+-			if (h)
+-				snd_dlclose(h);
++			snd_dlobj_cache_put(open_func);
+ 		}
++	} else {
++		err = -ENXIO;
+ 	}
++       _err:
++	if (type_conf)
++		snd_config_delete(type_conf);
+ 	free(buf);
+ 	free(buf1);
+ 	return err;
+diff --git a/src/control/control_local.h b/src/control/control_local.h
+index fd9f941..49150d8 100644
+--- a/src/control/control_local.h
++++ b/src/control/control_local.h
+@@ -56,7 +56,7 @@ typedef struct _snd_ctl_ops {
+ 
+ 
+ struct _snd_ctl {
+-	void *dl_handle;
++	void *open_func;
+ 	char *name;
+ 	snd_ctl_type_t type;
+ 	const snd_ctl_ops_t *ops;
+diff --git a/src/dlmisc.c b/src/dlmisc.c
+index a0d62d3..ecbbe8d 100644
+--- a/src/dlmisc.c
++++ b/src/dlmisc.c
+@@ -29,6 +29,9 @@
+ 
+ #include "list.h"
+ #include "local.h"
++#ifdef HAVE_LIBPTHREAD
++#include <pthread.h>
++#endif
+ 
+ #ifndef DOC_HIDDEN
+ #ifndef PIC
+@@ -169,69 +172,140 @@ void *snd_dlsym(void *handle, const char *name, const char *version)
+ 
+ /*
+  * dlobj cache
+- *
+- * FIXME: add reference counter and proper locking
+  */
+ 
+ #ifndef DOC_HIDDEN
+ struct dlobj_cache {
++	const char *lib;
+ 	const char *name;
+-	void *obj;
++	void *dlobj;
+ 	void *func;
++	unsigned int refcnt;
+ 	struct list_head list;
+ };
+ 
+-static LIST_HEAD(pcm_dlobj_list);
++#ifdef HAVE_LIBPTHREAD
++static pthread_mutex_t snd_dlobj_mutex = PTHREAD_MUTEX_INITIALIZER;
+ 
+-void *snd_dlobj_cache_lookup(const char *name)
++static inline void snd_dlobj_lock(void)
+ {
+-	struct list_head *p;
+-	struct dlobj_cache *c;
++	pthread_mutex_lock(&snd_dlobj_mutex);
++}
+ 
+-	list_for_each(p, &pcm_dlobj_list) {
+-		c = list_entry(p, struct dlobj_cache, list);
+-		if (strcmp(c->name, name) == 0)
+-			return c->func;
+-	}
+-	return NULL;
++static inline void snd_dlobj_unlock(void)
++{
++	pthread_mutex_unlock(&snd_dlobj_mutex);
+ }
++#else
++static inline void snd_dlobj_lock(void) {}
++static inline void snd_dlobj_unlock(void) {}
++#endif
++
++static LIST_HEAD(pcm_dlobj_list);
+ 
+-int snd_dlobj_cache_add(const char *name, void *dlobj, void *open_func)
++void *snd_dlobj_cache_get(const char *lib, const char *name,
++			  const char *version, int verbose)
+ {
+ 	struct list_head *p;
+ 	struct dlobj_cache *c;
++	void *func, *dlobj = NULL;
++	int dlobj_close = 0;
+ 
++	snd_dlobj_lock();
+ 	list_for_each(p, &pcm_dlobj_list) {
+ 		c = list_entry(p, struct dlobj_cache, list);
+-		if (strcmp(c->name, name) == 0)
+-			return 0; /* already exists */
++		if (c->lib && lib && strcmp(c->lib, lib) != 0)
++			continue;
++		if (!c->lib && lib)
++			continue;
++		if (!lib && c->lib)
++			continue;
++		dlobj = c->dlobj;
++		if (strcmp(c->name, name) == 0) {
++			c->refcnt++;
++			func = c->func;
++			snd_dlobj_unlock();
++			return func;
++		}
++	}
++	if (dlobj == NULL) {
++		dlobj = snd_dlopen(lib, RTLD_NOW);
++		if (dlobj == NULL) {
++			if (verbose)
++				SNDERR("Cannot open shared library %s",
++						lib ? lib : "[builtin]");
++			snd_dlobj_unlock();
++			return NULL;
++		}
++		dlobj_close = 1;
++	}
++	func = snd_dlsym(dlobj, name, version);
++	if (func == NULL) {
++		if (verbose)
++			SNDERR("symbol %s is not defined inside %s",
++					name, lib ? lib : "[builtin]");
++		goto __err;
+ 	}
+ 	c = malloc(sizeof(*c));
+ 	if (! c)
+-		return -ENOMEM;
++		goto __err;
++	c->refcnt = 1;
++	c->lib = lib ? strdup(lib) : NULL;
+ 	c->name = strdup(name);
+-	if (! c->name) {
++	if ((lib && ! c->lib) || ! c->name) {
++		free((void *)c->name);
++		free((void *)c->lib);
+ 		free(c);
+-		return -ENOMEM;
++	      __err:
++		if (dlobj_close)
++			snd_dlclose(dlobj);
++		snd_dlobj_unlock();
++		return NULL;
+ 	}
+-	c->obj = dlobj;
+-	c->func = open_func;
++	c->dlobj = dlobj;
++	c->func = func;
+ 	list_add_tail(&c->list, &pcm_dlobj_list);
+-	return 0;
++	snd_dlobj_unlock();
++	return func;
+ }
+ 
+-void snd_dlobj_cache_cleanup(void)
++int snd_dlobj_cache_put(void *func)
+ {
+ 	struct list_head *p;
+ 	struct dlobj_cache *c;
++	unsigned int refcnt;
+ 
+-	while (! list_empty(&pcm_dlobj_list)) {
+-		p = pcm_dlobj_list.next;
++	snd_dlobj_lock();
++	list_for_each(p, &pcm_dlobj_list) {
+ 		c = list_entry(p, struct dlobj_cache, list);
+-		list_del(p);
+-		snd_dlclose(c->obj);
+-		free((void *)c->name); /* shut up gcc warning */
+-		free(c);
++		if (c->func == func) {
++			refcnt = c->refcnt;
++			if (c->refcnt > 0)
++				c->refcnt--;
++			snd_dlobj_unlock();
++			return refcnt == 1 ? 0 : -EINVAL;
++		}
++	}
++	snd_dlobj_unlock();
++	return -ENOENT;
++}
++
++void snd_dlobj_cache_cleanup(void)
++{
++	struct list_head *p, *npos;
++	struct dlobj_cache *c;
++
++	snd_dlobj_lock();
++	list_for_each_safe(p, npos, &pcm_dlobj_list) {
++		c = list_entry(p, struct dlobj_cache, list);
++		if (c->refcnt == 0) {
++			list_del(p);
++			snd_dlclose(c->dlobj);
++			free((void *)c->name); /* shut up gcc warning */
++			free((void *)c->lib); /* shut up gcc warning */
++			free(c);
++		}
+ 	}
++	snd_dlobj_unlock();
+ }
+ #endif
+diff --git a/src/pcm/pcm.c b/src/pcm/pcm.c
+index f910189..f525994 100644
+--- a/src/pcm/pcm.c
++++ b/src/pcm/pcm.c
+@@ -2068,7 +2068,6 @@ static int snd_pcm_open_conf(snd_pcm_t **pcmp, const char *name,
+ #ifndef PIC
+ 	extern void *snd_pcm_open_symbols(void);
+ #endif
+-	void *h = NULL;
+ 	if (snd_config_get_type(pcm_conf) != SND_CONFIG_TYPE_COMPOUND) {
+ 		char *val;
+ 		id = NULL;
+@@ -2157,40 +2156,20 @@ static int snd_pcm_open_conf(snd_pcm_t **pcmp, const char *name,
+ #ifndef PIC
+ 	snd_pcm_open_symbols();	/* this call is for static linking only */
+ #endif
+-	open_func = snd_dlobj_cache_lookup(open_name);
++	open_func = snd_dlobj_cache_get(lib, open_name,
++			SND_DLSYM_VERSION(SND_PCM_DLSYM_VERSION), 1);
+ 	if (open_func) {
+-		err = 0;
+-		goto _err;
+-	}
+-	h = snd_dlopen(lib, RTLD_NOW);
+-	if (h)
+-		open_func = snd_dlsym(h, open_name, SND_DLSYM_VERSION(SND_PCM_DLSYM_VERSION));
+-	err = 0;
+-	if (!h) {
+-		SNDERR("Cannot open shared library %s",
+-		       lib ? lib : "[builtin]");
+-		err = -ENOENT;
+-	} else if (!open_func) {
+-		SNDERR("symbol %s is not defined inside %s", open_name,
+-		       lib ? lib : "[builtin]");
+-		snd_dlclose(h);
+-		err = -ENXIO;
+-	}
+-       _err:
+-	if (err >= 0) {
+ 		err = open_func(pcmp, name, pcm_root, pcm_conf, stream, mode);
+ 		if (err >= 0) {
+-			if (h /*&& (mode & SND_PCM_KEEP_ALIVE)*/) {
+-				snd_dlobj_cache_add(open_name, h, open_func);
+-				h = NULL;
+-			}
+-			(*pcmp)->dl_handle = h;
++			(*pcmp)->open_func = open_func;
+ 			err = 0;
+ 		} else {
+-			if (h)
+-				snd_dlclose(h);
++			snd_dlobj_cache_put(open_func);
+ 		}
++	} else {
++		err = -ENXIO;
+ 	}
++       _err:
+ 	if (type_conf)
+ 		snd_config_delete(type_conf);
+ 	free(buf);
+@@ -2286,8 +2265,7 @@ int snd_pcm_free(snd_pcm_t *pcm)
+ 	free(pcm->name);
+ 	free(pcm->hw.link_dst);
+ 	free(pcm->appl.link_dst);
+-	if (pcm->dl_handle)
+-		snd_dlclose(pcm->dl_handle);
++	snd_dlobj_cache_put(pcm->open_func);
+ 	free(pcm);
+ 	return 0;
+ }
+diff --git a/src/pcm/pcm_local.h b/src/pcm/pcm_local.h
+index 9aa81e1..16fbf1f 100644
+--- a/src/pcm/pcm_local.h
++++ b/src/pcm/pcm_local.h
+@@ -174,7 +174,7 @@ typedef struct {
+ } snd_pcm_fast_ops_t;
+ 
+ struct _snd_pcm {
+-	void *dl_handle;
++	void *open_func;
+ 	char *name;
+ 	snd_pcm_type_t type;
+ 	snd_pcm_stream_t stream;
+diff --git a/src/pcm/pcm_rate.c b/src/pcm/pcm_rate.c
+index ecf0022..70e30e5 100644
+--- a/src/pcm/pcm_rate.c
++++ b/src/pcm/pcm_rate.c
+@@ -61,6 +61,7 @@ struct _snd_pcm_rate {
+ 	snd_pcm_channel_area_t *pareas;	/* areas for splitted period (rate pcm) */
+ 	snd_pcm_channel_area_t *sareas;	/* areas for splitted period (slave pcm) */
+ 	snd_pcm_rate_info_t info;
++	void *open_func;
+ 	void *obj;
+ 	snd_pcm_rate_ops_t ops;
+ 	unsigned int get_idx;
+@@ -1204,6 +1205,8 @@ static int snd_pcm_rate_close(snd_pcm_t *pcm)
+ 
+ 	if (rate->ops.close)
+ 		rate->ops.close(rate->obj);
++	if (rate->open_func)
++		snd_dlobj_cache_put(rate->open_func);
+ 	return snd_pcm_generic_close(pcm);
+ }
+ 
+@@ -1272,33 +1275,23 @@ static const char *const default_rate_plugins[] = {
+ 	"speexrate", "linear", NULL
+ };
+ 
+-static int rate_open_func(snd_pcm_rate_t *rate, const char *type)
++static int rate_open_func(snd_pcm_rate_t *rate, const char *type, int verbose)
+ {
+-	char open_name[64];
++	char open_name[64], lib_name[128], *lib = NULL;
+ 	snd_pcm_rate_open_func_t open_func;
+ 	int err;
+ 
+ 	snprintf(open_name, sizeof(open_name), "_snd_pcm_rate_%s_open", type);
+-	open_func = snd_dlobj_cache_lookup(open_name);
+-	if (!open_func) {
+-		void *h;
+-		char lib_name[128], *lib = NULL;
+-		if (!is_builtin_plugin(type)) {
+-			snprintf(lib_name, sizeof(lib_name),
++	if (!is_builtin_plugin(type)) {
++		snprintf(lib_name, sizeof(lib_name),
+ 				 "%s/libasound_module_rate_%s.so", ALSA_PLUGIN_DIR, type);
+-			lib = lib_name;
+-		}
+-		h = snd_dlopen(lib, RTLD_NOW);
+-		if (!h)
+-			return -ENOENT;
+-		open_func = snd_dlsym(h, open_name, NULL);
+-		if (!open_func) {
+-			snd_dlclose(h);
+-			return -ENOENT;
+-		}
+-		snd_dlobj_cache_add(open_name, h, open_func);
++		lib = lib_name;
+ 	}
++	open_func = snd_dlobj_cache_get(lib, open_name, NULL, verbose);
++	if (!open_func)
++		return -ENOENT;
+ 
++	rate->open_func = open_func;
+ 	rate->rate_min = SND_PCM_PLUGIN_RATE_MIN;
+ 	rate->rate_max = SND_PCM_PLUGIN_RATE_MAX;
+ 	rate->plugin_version = SND_PCM_RATE_PLUGIN_VERSION;
+@@ -1315,8 +1308,13 @@ static int rate_open_func(snd_pcm_rate_t *rate, const char *type)
+ 
+ 	/* try to open with the old protocol version */
+ 	rate->plugin_version = SND_PCM_RATE_PLUGIN_VERSION_OLD;
+-	return open_func(SND_PCM_RATE_PLUGIN_VERSION_OLD,
+-			 &rate->obj, &rate->ops);
++	err = open_func(SND_PCM_RATE_PLUGIN_VERSION_OLD,
++			&rate->obj, &rate->ops);
++	if (err) {
++		snd_dlobj_cache_put(open_func);
++		rate->open_func = NULL;
++	}
++	return err;
+ }
+ #endif
+ 
+@@ -1373,21 +1371,21 @@ int snd_pcm_rate_open(snd_pcm_t **pcmp, const char *name,
+ 	if (!converter) {
+ 		const char *const *types;
+ 		for (types = default_rate_plugins; *types; types++) {
+-			err = rate_open_func(rate, *types);
++			err = rate_open_func(rate, *types, 0);
+ 			if (!err) {
+ 				type = *types;
+ 				break;
+ 			}
+ 		}
+ 	} else if (!snd_config_get_string(converter, &type))
+-		err = rate_open_func(rate, type);
++		err = rate_open_func(rate, type, 1);
+ 	else if (snd_config_get_type(converter) == SND_CONFIG_TYPE_COMPOUND) {
+ 		snd_config_iterator_t i, next;
+ 		snd_config_for_each(i, next, converter) {
+ 			snd_config_t *n = snd_config_iterator_entry(i);
+ 			if (snd_config_get_string(n, &type) < 0)
+ 				break;
+-			err = rate_open_func(rate, type);
++			err = rate_open_func(rate, type, 0);
+ 			if (!err)
+ 				break;
+ 		}
+-- 
+1.7.1
+
