@@ -1,3 +1,9 @@
+alsa-lib (1.0.23-4) UNRELEASED; urgency=low
+
+  * Switch to architecture wildcard 'linux-any'.
+
+ -- Jordi Mallach <jordi@debian.org>  Mon, 18 Apr 2011 20:02:04 +0200
+
 alsa-lib (1.0.23-3) unstable; urgency=low
 
   [ Elimar Riesebieter ]
