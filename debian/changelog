@@ -1,6 +1,11 @@
 alsa-lib (1.0.23-4) UNRELEASED; urgency=low
 
+  [ Jordi Mallach ]
   * Switch to architecture wildcard 'linux-any'.
+
+  [ Elimar Riesebieter ]
+  * Provide libasound2-udeb based on a patch from Samuel Thibault. Thanks.
+    (closes: #613092)
 
  -- Jordi Mallach <jordi@debian.org>  Mon, 18 Apr 2011 20:02:04 +0200
 
