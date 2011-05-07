@@ -16,9 +16,10 @@ alsa-lib (1.0.23-4) unstable; urgency=low
   * Set Section to debian-installer.
   * Update upstream URL in copyright file.
   * Replace versioned conflicts with Breaks, and remove some obsolete ones.
+  * Use versioned pointer to LGPL 2.1 licence.
   * Bump Standards-Version to 3.9.2 (no further changes).
 
- -- Jordi Mallach <jordi@debian.org>  Sat, 07 May 2011 15:57:42 +0200
+ -- Jordi Mallach <jordi@debian.org>  Sat, 07 May 2011 16:53:13 +0200
 
 alsa-lib (1.0.23-3) unstable; urgency=low
 
