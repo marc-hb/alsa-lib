@@ -26,7 +26,7 @@ Package: libasound2
 Architecture: linux-any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: libasound2-plugins (>= 1.0.18)
-Conflicts: libasound2-plugins (<< 1.0.18)
+Breaks: libasound2-plugins (<< 1.0.18)
 Description: shared library for ALSA applications
  This package contains the ALSA library and its standard plugins.
  .
@@ -38,8 +38,6 @@ Section: libdevel
 Provides: libasound-dev
 Depends: libc6-dev | libc-dev, libasound2 (= ${binary:Version}), ${misc:Depends}
 Suggests: libasound2-doc
-Conflicts: libasound-dev, alsa-headers
-Replaces: libasound2 (<< 0.9.0rc7-2), alsa-headers
 Description: shared library for ALSA applications -- development files
  This package contains files required for developing software
  that makes use of libasound2, the ALSA library.
@@ -50,7 +48,7 @@ Package: lib64asound2
 Architecture: sparc s390 i386 powerpc
 Depends: libasound2 (= ${binary:Version}), ${shlibs:Depends}, ${bilib:depends}, ${misc:Depends}
 Suggests: lib64asound2-plugins (>= 1.0.18)
-Conflicts: libasound2-plugins (<< 1.0.18)
+Breaks: libasound2-plugins (<< 1.0.18)
 Description: shared library for ALSA applications (64 bit)
  This package contains the ALSA library (64 bit) and its standard
  plugins.
@@ -73,7 +71,7 @@ Architecture: amd64 ppc64
 Pre-Depends: libc6-i386 (>= 2.9-18)
 Depends: libasound2 (= ${binary:Version}), ${shlibs:Depends}, ${bilib:depends}, ${misc:Depends}
 Suggests: lib32asound2-plugins (>= 1.0.18)
-Conflicts: libasound2-plugins (<< 1.0.18), ia32-libs (<< 1.9), libc6-i386 (<= 2.9-18)
+Breaks: libasound2-plugins (<< 1.0.18), ia32-libs (<< 1.9), libc6-i386 (<= 2.9-18)
 Replaces: ia32-libs (<< 1.9)
 Description: shared library for ALSA applications (32 bit)
  This package contains the ALSA library (32 bit) and its standard
@@ -86,7 +84,7 @@ Architecture: amd64 ppc64
 Section: libdevel
 Depends: lib32asound2 (= ${binary:Version}), libasound2-dev (= ${binary:Version}), ${bidev:depends}, ${misc:Depends}
 Suggests: libasound2-doc
-Conflicts: libc6-i386 (<= 2.9-18)
+Breaks: libc6-i386 (<= 2.9-18)
 Description: shared library for ALSA applications -- development files (32 bit)
  This package contains files required for developing software
  that makes use of lib32asound2, the ALSA library (32 bit).

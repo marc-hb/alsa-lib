@@ -15,7 +15,8 @@ alsa-lib (1.0.23-4) unstable; urgency=low
   * Remove unneeded Suggests and Conflicts from -udeb.
   * Set Section to debian-installer.
   * Update upstream URL in copyright file.
-  * Bump Standards-Version to 3.9.2 (no changes needed).
+  * Replace versioned conflicts with Breaks, and remove some obsolete ones.
+  * Bump Standards-Version to 3.9.2 (no further changes).
 
  -- Jordi Mallach <jordi@debian.org>  Sat, 07 May 2011 15:57:42 +0200
 
