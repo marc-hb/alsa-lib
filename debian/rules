@@ -39,7 +39,7 @@ ifneq (,$(biarch_cpu))
   endif
 endif
 
-CFLAGS = -g -Wall -D_GNU_SOURCE
+CFLAGS = -g -Wall -D_GNU_SOURCE -DHAVE_USELOCALE
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0

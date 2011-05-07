@@ -17,7 +17,7 @@ Build-Depends: debhelper (>= 7),
                gcc-multilib [amd64 i386 powerpc ppc64 s390 sparc],
                python-dev,
                libcxxtools-dev
-Standards-Version: 3.9.1
+Standards-Version: 3.9.2
 Homepage: http://www.alsa-project.org/
 Vcs-Svn: svn://svn.debian.org/pkg-alsa/trunk/alsa-lib
 Vcs-Browser: http://svn.debian.org/wsvn/pkg-alsa/trunk/alsa-lib/
@@ -94,13 +94,12 @@ Description: shared library for ALSA applications -- development files (32 bit)
  ALSA is the Advanced Linux Sound Architecture.
 
 Package: libasound2-udeb
+Section: debian-installer
 Architecture: linux-any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Suggests: libasound2-plugins (>= 1.0.18)
-Conflicts: libasound2-plugins (<< 1.0.18)
 Package-Type: udeb
 Description: shared library for ALSA applications
- This package contains the ALSA library and its standard plugins.
+ This package contains the ALSA library for use in the Debian Installer.
  .
  ALSA is the Advanced Linux Sound Architecture.
 
