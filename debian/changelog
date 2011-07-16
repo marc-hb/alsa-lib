@@ -1,6 +1,7 @@
 alsa-lib (1.0.24.1-1) unstable; urgency=low
 
-  * New upstream release (partially based on Ubuntu updates).
+  * New upstream release (partially based on Ubuntu updates)
+    (closes: #633294).
   * Removed patches that were cherrypicked from Git or have been applied
     upstream:
     - thread-specific-locale.patch
