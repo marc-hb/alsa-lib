@@ -23,6 +23,7 @@ alsa-lib (1.0.24.1-1) unstable; urgency=low
       multiarch dir.
     - Update libasound2-dev.install.
     - Mark libasound2 Multi-Arch: same.
+  * Break current versions of packages providing ALSA plugins.
   * Remove libasound2's .la file, as any reference will be now broken.
     Remove biarch .la and .a files while at it.
 
