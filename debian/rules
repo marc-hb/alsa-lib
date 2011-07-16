@@ -124,7 +124,11 @@ ifneq (,$(build_biarch_stamp))
 	mkdir -p debian/lib$(bi)asound2-dev/$(bilibdir)
 #	mkdir -p debian/lib$(bi)asound2-dev/$(bilibdir)/pkgconfig
 	cp -a debian/bitmp/usr/lib/libasound.so \
+	    debian/bitmp/usr/lib/libasound.a \
 	    debian/lib$(bi)asound2-dev/$(bilibdir)
+	sed -e "/^libdir=/s,=.*,='/$(bilibdir)',;s,^dependency_libs=.*,dependency_libs=''," \
+	  debian/bitmp/usr/lib/libasound.la \
+	    > debian/lib$(bi)asound2-dev/$(bilibdir)/libasound.la
 #	sed -e "/^libdir=.*lib$$/s,=.*,=/$(bilibdir)," \
 #	  debian/bitmp/usr/lib/pkgconfig/alsa.pc \
 #	    > debian/lib$(bi)asound2-dev/$(bilibdir)/pkgconfig/alsa.pc

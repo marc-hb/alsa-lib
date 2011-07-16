@@ -25,7 +25,6 @@ alsa-lib (1.0.24.1-1) unstable; urgency=low
     - Mark libasound2 Multi-Arch: same.
   * Break current versions of packages providing ALSA plugins.
   * Remove libasound2's .la file, as any reference will be now broken.
-    Remove biarch .la and .a files while at it.
 
  -- Jordi Mallach <jordi@debian.org>  Sat, 16 Jul 2011 05:35:10 +0200
 

@@ -1,4 +1,5 @@
 usr/share/aclocal
 usr/include
+usr/lib/*/libasound.a
 usr/lib/*/libasound.so
 usr/lib/*/pkgconfig
