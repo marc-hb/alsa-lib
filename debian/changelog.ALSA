@@ -1,3 +1,109 @@
+Changelog between 1.0.23 and 1.0.24 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.23_v1.0.24)
+(Reformated as ASCII text)
++++++++++++++++++++++++++++++++++++++++++++
+
+* alsa-lib
+  +  Core
+          Release v1.0.24
+          configure.in: don't rely on test -a, not all shells support it
+          Version-check libtool correctly when doing an out-of-tree build
+          ucm: Moved ucm to src/ucm subdirectory
+          general: recoded snd_dlobj_ functions
+          Check for thread-specific locale support
+  +  Control API
+          ucm: ctlparse - always terminate cset buffer
+          control: add ASCII parsers from amixer
+          tlv: fix returned dB information for min-is-mute controls
+          namehint: Another fix to properly evaluate hw devices
+          namehint: Fix hw device evaluation (missing last device)
+          general: recoded snd_dlobj_ functions
+          namehint: Evaluate more possibilities for hw devices
+          Memory leak in namehint.c
+          tlv: Remove tailing tab after snd_ctl_get_dB_range function
+          tlv: Handle 'holes' in SND_CTL_TLVT_DB_RANGE array
+          tlv: Check out of range dB with SND_CTL_TLVT_DB_RANGE
+          control: tlv: Check dB range only within the control's volume range
+  +  PCM API
+          pcm: fix typo in snd_pcm_recover() error message
+          pcm_plugin: fix delay
+          pcm: add MMAP_EMUL to type names
+          pcm_plugin: remove unused client_frames and slave_frames routines
+          pcm: fix snd_pcm_avail_delay() function
+          support for period wakeup disabling
+          pcm: pass hw_params flags to slave
+          pcm direct plugins: change timestamping in dsnoop
+          general: recoded snd_dlobj_ functions
+          Add missing support for 3-byte formats for 16bit put conversion
+          pcm: Fixed typo (wrong deleted line) instroduced in the minperiodsize patch
+          pcm: introduce defaults.pcm.compat to change the params choose behaviour
+          pcm: add defaults.pcm.minperiodtime parsing
+          pcm_plug: fix comparison always true
+          pcm - ladspa: fix small memory leak in snd_pcm_ladspa_free_instances()
+  +  Sequencer API
+          seq: Fix for snd_seq_parse_address()
+  +  Use Case Manager API
+          ucm: fix switch device & modifier when no transition is found
+          ucm: add snd_use_case_verb_list() inline function
+          ucm: fix handling of cset with spaces in the control name
+          ucm: only select modifier when supported device is enabled
+          ucm: implement basic script exec functionality
+          ucm: check the correct return value for modifier
+          ucm: check for valid value list before dereference.
+          ucm: remove unused code.
+          ucm: make sure active modifier and device lists are initialised
+          ucm: remove parse_device() and call parse_compound() directly
+          ucm: modifiers names must be compound parse
+          ucm: removed unused 'active' member in struct use_case_device
+          ucm: initial implementation for cdev/cset
+          ucm: CTL devices are only one per card (remove DEV from comments)
+          ucm: add ValueDefaults section to the master file
+          ucm: add cdev
+          ucm: fix parser for sequences and fix wrong strcmp
+          ucm: debug parser
+          ucm: implemented card list feature
+          ucm: unify snd_use_case_geti(), add snd_use_case_card_list() template
+          ucm: cosmetic fix
+          ucm: added implementation for other ucm parts, only card name list is missing
+          ucm: Introduce "Value {}" section, more implementation work
+          ucm: Moved ucm to src/ucm subdirectory
+          ucm: Recode header to be more universal
+          ucm: core - Add initial Use Case Manager support.
+          ucm: header - ALSA Use Case Manager
+  +  /include/Makefile.am
+          ucm: build - add build support for Use Case Manager
+  +  /src/Makefile.am
+          ucm: Moved ucm to src/ucm subdirectory
+          ucm: build - add build support for Use Case Manager
+  +  ALSA Lisp
+          alisp - Fix a string format ambiguity
+  +  Configuration
+          aliases.conf: add aliases for CMI8788-based cards
+          USB-Audio.conf: fix Audiophile USB card name
+          config file processing: rewrite the locking - use one recursive mutex
+          Fix typo for surround PCMs in src/conf/cards/Loopback.conf
+          Add Loopback.conf to define standard PCM devices for snd-aloop driver
+          HDA-Intel: do not lock IEC958 Playback switch
+          pcm: introduce defaults.pcm.compat to change the params choose behaviour
+          pcm: add defaults.pcm.minperiodtime parsing
+          HDA-Intel: present all 4 HDMI outputs instead of just the first one
+          Use thread-safe locale functions if available
+  +  Documentation
+          ucm: Moved ucm to src/ucm subdirectory
+          ucm: build - add build support for Use Case Manager
+  +  Dynamic Loader helpers
+         general: recoded snd_dlobj_ functions
+  +  Kernel Headers
+          Update hdspm.h file from Adrian Knoth - final version
+          Update hdspm.h file from Adrian Knoth
+          Add hdspm.h kernel header to include/alsa/sound tree for the hdspmixer app
+          support for period wakeup disabling
+  +  Test/Example code
+          ucm: fix parser for sequences and fix wrong strcmp
+          ucm: debug parser
+          ucm: implemented card list feature
+          test/latency: fix timediff calculation
+
 Changelog between 1.0.22 and 1.0.23 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.22_v1.0.23)
 (Reformated as ASCII text)

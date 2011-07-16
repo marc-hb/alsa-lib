@@ -6,11 +6,12 @@
 PACKAGE:= alsa-lib
 #include /usr/share/quilt/quilt.make
 
-export DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 export DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
+export DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 
 DEB_BUILD_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH_CPU)
 DEB_HOST_ARCH  ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH) 
 
 biarch_map := i386=amd64 powerpc=ppc64 sparc=sparc64 s390=s390x \
 		amd64=i386 ppc64=powerpc
@@ -39,7 +40,7 @@ ifneq (,$(biarch_cpu))
   endif
 endif
 
-CFLAGS = -g -Wall -D_GNU_SOURCE -DHAVE_USELOCALE
+CFLAGS = -g -Wall -D_GNU_SOURCE
 
 ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
 	CFLAGS += -O0
@@ -53,9 +54,11 @@ configure-stamp: $(configure_biarch_stamp)
 	ln -s /usr/share/misc/config.sub config.sub
 	ln -s /usr/share/misc/config.guess config.guess
 	./configure --prefix=/usr \
+		    --libdir=\$${prefix}/lib/$(DEB_HOST_MULTIARCH) \
 		    --mandir=\$${prefix}/share/man \
 		    --infodir=\$${prefix}/share/info \
 		    --datadir=\$${prefix}/share \
+		    --with-plugindir=\$${libdir}/alsa-lib \
 		    --build $(DEB_BUILD_GNU_TYPE) \
 		    --enable-static --disable-maintainer-mode
 	touch configure-stamp
@@ -132,15 +135,20 @@ ifneq (,$(build_biarch_stamp))
 #	    > debian/lib$(bi)asound2-dev/$(bilibdir)/pkgconfig/alsa.pc
 else
 	sed -ie "s,^dependency_libs=.*,dependency_libs=''," \
-	  debian/tmp/usr/lib/libasound.la
+	  debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libasound.la
 endif
 	dh_installdirs -s
 	dh_install -s
 	dh_installdocs -plibasound2
 	dh_installexamples -s doc/asoundrc.txt
 	dh_installchangelogs -plibasound2 debian/changelog.ALSA
-	dh_install -plibasound2 /usr/lib/libasound.so.2.0.0 /usr/lib/libasound.so.2 /usr/lib
-	dh_install -plibasound2-udeb /usr/lib/libasound.so.2.0.0 /usr/lib/libasound.so.2 /usr/lib
+	dh_install -plibasound2 \
+	  /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2.0.0 \
+	  /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2 \
+	  /usr/lib/$(DEB_HOST_MULTIARCH)
+	dh_install -plibasound2-udeb \
+	  /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2.0.0 \
+	  /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2 /usr/lib
 	cp -a debian/tmp/usr/share/alsa debian/libasound2/usr/share/
 	cp -a debian/tmp/usr/share/alsa debian/libasound2-udeb/usr/share/
 	dh_strip -s
@@ -163,9 +171,9 @@ install-indep: build-indep-stamp
 	dh_fixperms -i
 
 binary-arch: build-arch-stamp install-arch
-	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.18)' --add-udeb=libasound2-udeb
+	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.24.1)' --add-udeb=libasound2-udeb
 ifneq (,$(build_biarch_stamp))
-	dh_makeshlibs -plib$(bi)asound2  -V'lib$(bi)asound2 (>> 1.0.18)'
+	dh_makeshlibs -plib$(bi)asound2  -V'lib$(bi)asound2 (>> 1.0.24.1)'
 endif
 
 	dh_installdeb -s
@@ -192,7 +200,7 @@ clean:
 	-rm -f config.sub config.guess config.status config.cache
 	-rm -rf doc/doxygen
 	rm -rf bibuild debian/bitmp
-	rm -f include/alsa
+	-rm -f include/alsa
 	dh_clean
 
 .PHONY: configure build-arch build-indep build install-arch install-indep binary-arch binary-indep binary clean stamp-patched

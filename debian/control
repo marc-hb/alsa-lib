@@ -3,7 +3,7 @@ Section: libs
 Priority: optional
 Maintainer: Debian ALSA Maintainers <pkg-alsa-devel@lists.alioth.debian.org>
 Uploaders: Jordi Mallach <jordi@debian.org>, Mikael Magnusson <mikma@users.sourceforge.net>, Elimar Riesebieter <riesebie@lxtec.de>
-Build-Depends: debhelper (>= 7),
+Build-Depends: debhelper (>= 8.1.3),
                autotools-dev,
                doxygen,
                libc6-dev-powerpc [ppc64],
@@ -24,9 +24,11 @@ Vcs-Browser: http://svn.debian.org/wsvn/pkg-alsa/trunk/alsa-lib/
 
 Package: libasound2
 Architecture: linux-any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Suggests: libasound2-plugins (>= 1.0.18)
-Breaks: libasound2-plugins (<< 1.0.18)
+Breaks: libasound2-plugins (<< 1.0.24.1), libasound2-plugin-equal (<= 0.6-1), bluez-alsa (<= 4.94-2)
 Description: shared library for ALSA applications
  This package contains the ALSA library and its standard plugins.
  .
