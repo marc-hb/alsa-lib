@@ -12,6 +12,7 @@ alsa-lib (1.0.24.1-1) unstable; urgency=low
       ICE1712 chips such as Maudio 2496 and Delta 1010LT.
   * Refreshed patches:
     - relibtoolise.patch (David Henningsson).
+  * Update shlibs to 1.0.24.1 (new symbols added).
   * Bump to debhelper compat v8.
   * Remove debian/tmp prefixes from .install file.
   * Add multiarch support:
@@ -22,6 +23,8 @@ alsa-lib (1.0.24.1-1) unstable; urgency=low
       multiarch dir.
     - Update libasound2-dev.install.
     - Mark libasound2 Multi-Arch: same.
+  * Remove libasound2's .la file, as any reference will be now broken.
+    Remove biarch .la and .a files while at it.
 
  -- Jordi Mallach <jordi@debian.org>  Sat, 16 Jul 2011 05:35:10 +0200
 

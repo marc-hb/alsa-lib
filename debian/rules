@@ -123,19 +123,11 @@ ifneq (,$(build_biarch_stamp))
 	    debian/lib$(bi)asound2/$(bilibdir)/
 	mkdir -p debian/lib$(bi)asound2-dev/$(bilibdir)
 #	mkdir -p debian/lib$(bi)asound2-dev/$(bilibdir)/pkgconfig
-	cp -a \
-	  debian/bitmp/usr/lib/libasound.so \
-	  debian/bitmp/usr/lib/libasound.a \
-	    debian/lib$(bi)asound2-dev/$(bilibdir)/
-	sed -e "/^libdir=/s,=.*,='/$(bilibdir)',;s,^dependency_libs=.*,dependency_libs=''," \
-	  debian/bitmp/usr/lib/libasound.la \
-	    > debian/lib$(bi)asound2-dev/$(bilibdir)/libasound.la
+	cp -a debian/bitmp/usr/lib/libasound.so \
+	    debian/lib$(bi)asound2-dev/$(bilibdir)
 #	sed -e "/^libdir=.*lib$$/s,=.*,=/$(bilibdir)," \
 #	  debian/bitmp/usr/lib/pkgconfig/alsa.pc \
 #	    > debian/lib$(bi)asound2-dev/$(bilibdir)/pkgconfig/alsa.pc
-else
-	sed -ie "s,^dependency_libs=.*,dependency_libs=''," \
-	  debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/libasound.la
 endif
 	dh_installdirs -s
 	dh_install -s
@@ -143,12 +135,12 @@ endif
 	dh_installexamples -s doc/asoundrc.txt
 	dh_installchangelogs -plibasound2 debian/changelog.ALSA
 	dh_install -plibasound2 \
-	  /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2.0.0 \
-	  /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2 \
-	  /usr/lib/$(DEB_HOST_MULTIARCH)
+	    /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2.0.0 \
+	    /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2 \
+	    /usr/lib/$(DEB_HOST_MULTIARCH)
 	dh_install -plibasound2-udeb \
-	  /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2.0.0 \
-	  /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2 /usr/lib
+	    /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2.0.0 \
+	    /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2 /usr/lib
 	cp -a debian/tmp/usr/share/alsa debian/libasound2/usr/share/
 	cp -a debian/tmp/usr/share/alsa debian/libasound2-udeb/usr/share/
 	dh_strip -s
