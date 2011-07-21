@@ -58,7 +58,7 @@ configure-stamp: $(configure_biarch_stamp)
 		    --mandir=\$${prefix}/share/man \
 		    --infodir=\$${prefix}/share/info \
 		    --datadir=\$${prefix}/share \
-		    --with-plugindir=\$${libdir}/alsa-lib \
+		    --with-plugindir=/usr/lib/$(DEB_HOST_MULTIARCH)/alsa-lib \
 		    --build $(DEB_BUILD_GNU_TYPE) \
 		    --enable-static --disable-maintainer-mode
 	touch configure-stamp

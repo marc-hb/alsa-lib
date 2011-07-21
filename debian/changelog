@@ -1,3 +1,12 @@
+alsa-lib (1.0.24.1-2) unstable; urgency=medium
+
+  [ Steve Langasek ]
+  * Spell out the plugin dir path: the build system fails to expand
+    substitutions, and '${libdir}' is obviously not present on the
+    filesystem.
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 21 Jul 2011 23:35:32 +0200
+
 alsa-lib (1.0.24.1-1) unstable; urgency=low
 
   * New upstream release (partially based on Ubuntu updates)
