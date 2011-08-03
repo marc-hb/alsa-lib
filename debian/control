@@ -70,7 +70,6 @@ Description: shared library for ALSA applications -- development files (64 bit)
 
 Package: lib32asound2
 Architecture: amd64 ppc64
-Pre-Depends: libc6-i386 (>= 2.9-18)
 Depends: libasound2 (= ${binary:Version}), ${shlibs:Depends}, ${bilib:depends}, ${misc:Depends}
 Suggests: lib32asound2-plugins (>= 1.0.18)
 Breaks: libasound2-plugins (<< 1.0.18), ia32-libs (<< 1.9), libc6-i386 (<= 2.9-18)
@@ -98,7 +97,7 @@ Section: debian-installer
 Architecture: linux-any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Package-Type: udeb
-Description: shared library for ALSA applications
+Description: shared library for ALSA applications (udeb)
  This package contains the ALSA library for use in the Debian Installer.
  .
  ALSA is the Advanced Linux Sound Architecture.

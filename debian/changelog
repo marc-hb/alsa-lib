@@ -1,3 +1,13 @@
+alsa-lib (1.0.24.1-3) unstable; urgency=low
+
+  * Drop lib32asound2's Pre-Depends on libc6-i386, as the
+    /emul/ia32-linux → /lib32 transition was completed for squeeze, and
+    its presence causes a dependency loop introduced with the Multiarch
+    changes (closes: #635568).
+  * Make libasound2-udeb's short description unique.
+
+ -- Jordi Mallach <jordi@debian.org>  Wed, 03 Aug 2011 20:18:22 +0200
+
 alsa-lib (1.0.24.1-2) unstable; urgency=medium
 
   [ Steve Langasek ]
