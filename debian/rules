@@ -147,7 +147,8 @@ endif
 	    /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2 /usr/lib
 	cp -a debian/tmp/usr/share/alsa debian/libasound2/usr/share/
 	cp -a debian/tmp/usr/share/alsa debian/libasound2-udeb/usr/share/
-	dh_strip -s
+	dh_strip -plibasound2 --dbg-package=libasound2-dbg
+	dh_strip -s --remaining-packages
 	dh_link -s
 	dh_compress -s
 	dh_fixperms -s

@@ -46,6 +46,18 @@ Description: shared library for ALSA applications -- development files
  .
  ALSA is the Advanced Linux Sound Architecture.
 
+Package: libasound2-dbg
+Architecture: linux-any
+Section: debug
+Priority: extra
+Depends: libasound2 (= ${binary:Version}), ${misc:Depends}
+Description: debugging symbols for libasound2
+ This package contains the debugging symbols for the ALSA library.
+ .
+ Most people will not need this package.
+ .
+ ALSA is the Advanced Linux Sound Architecture.
+
 Package: lib64asound2
 Architecture: sparc s390 i386 powerpc
 Depends: libasound2 (= ${binary:Version}), ${shlibs:Depends}, ${bilib:depends}, ${misc:Depends}
