@@ -1,6 +1,16 @@
 alsa-lib (1.0.24.1-4) UNRELEASED; urgency=low
 
+  [ Jordi Mallach ]
   * Get rid of README.source.
+
+  [ Elimar Riesebieter ]
+  * With the multi-arch move of libasound-plugins, libasound2 fails to load
+    modules from the config file. multiarch-safe-dlopen-search-path.patch from
+    the Ubuntu package worka around this. Thanks Sjoerd Simons.
+    (closes: #639613)
+  * Loading the pulse configuration alsa file redirects alsa via pulse if it's
+    running. pulseaudio_configuration.patch from the Ubuntu package worka around
+    this. Thanks Sjoerd Simons. (closes: #639615)
 
  -- Jordi Mallach <jordi@debian.org>  Wed, 03 Aug 2011 23:55:33 +0200
 

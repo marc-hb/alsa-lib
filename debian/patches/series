@@ -2,3 +2,5 @@ add-maintainer-mode.patch
 relibtoolise.patch
 configure_cross_compile.patch
 lp178442-ICE1712.patch
+multiarch-safe-dlopen-search-path.patch
+pulseaudio_configuration.patch
