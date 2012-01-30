@@ -19,7 +19,7 @@ alsa-lib (1.0.25-1) experimental; urgency=low
   * Adapt call to dh_makeshlibs to stop using -V and use -c4 for
     dpkg-gensymbols, but leave biarch packages using -V.
   * Stop installing libasound2 and libasound2-udeb stuff by hand, use
-    install files instead. Drop obsolete .dirs files.
+    .install files instead. Drop obsolete .dirs files.
   * Let libasound2-doc depend on libjs-jquery, and replace the included
     copy of jquery.js with a symlink (lintian).
   * Add spelling_fixes.patch with the sole intention of getting lintian to
