@@ -2,35 +2,40 @@ Source: alsa-lib
 Section: libs
 Priority: optional
 Maintainer: Debian ALSA Maintainers <pkg-alsa-devel@lists.alioth.debian.org>
-Uploaders: Jordi Mallach <jordi@debian.org>, Mikael Magnusson <mikma@users.sourceforge.net>, Elimar Riesebieter <riesebie@lxtec.de>
-Build-Depends: debhelper (>= 8.1.3),
-               autotools-dev,
+Uploaders: Jordi Mallach <jordi@debian.org>,
+           Elimar Riesebieter <riesebie@lxtec.de>
+Build-Depends: autotools-dev,
+               debhelper (>= 8.1.3),
+               dh-autoreconf,
                doxygen,
-               libc6-dev-powerpc [ppc64],
-               libc6-dev-i386 [amd64],
+               gcc-multilib [amd64 i386 powerpc ppc64 s390 sparc],
+               lib32gcc1 [amd64 ppc64],
+               lib64gcc1 [i386 powerpc sparc s390],
                libc6-dev-amd64 [i386],
+               libc6-dev-i386 [amd64],
+               libc6-dev-powerpc [ppc64],
                libc6-dev-ppc64 [powerpc],
                libc6-dev-s390x [s390],
                libc6-dev-sparc64 [sparc],
-               lib32gcc1 [amd64 ppc64],
-               lib64gcc1 [i386 powerpc sparc s390],
-               gcc-multilib [amd64 i386 powerpc ppc64 s390 sparc],
-               python-dev,
-               libcxxtools-dev
+               libcxxtools-dev,
+               python-dev
 Standards-Version: 3.9.2
 Homepage: http://www.alsa-project.org/
-Vcs-Svn: svn://svn.debian.org/pkg-alsa/trunk/alsa-lib
-Vcs-Browser: http://svn.debian.org/wsvn/pkg-alsa/trunk/alsa-lib/
+Vcs-Svn: svn://anonscm.debian.org/pkg-alsa/trunk/alsa-lib
+Vcs-Browser: http://anonscm.debian.org/viewvc/pkg-alsa/trunk/alsa-lib/
 
 Package: libasound2
 Architecture: linux-any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Suggests: libasound2-plugins (>= 1.0.18)
-Breaks: libasound2-plugins (<< 1.0.24), libasound2-plugin-equal (<= 0.6-1), bluez-alsa (<= 4.94-2)
+Breaks: bluez-alsa (<= 4.94-2),
+        libasound2-plugin-equal (<= 0.6-1),
+        libasound2-plugins (<< 1.0.24)
 Description: shared library for ALSA applications
- This package contains the ALSA library and its standard plugins.
+ This package contains the ALSA library and its standard plugins, as well
+ as the required configuration files.
  .
  ALSA is the Advanced Linux Sound Architecture.
 
@@ -38,7 +43,7 @@ Package: libasound2-dev
 Architecture: linux-any
 Section: libdevel
 Provides: libasound-dev
-Depends: libc6-dev | libc-dev, libasound2 (= ${binary:Version}), ${misc:Depends}
+Depends: libasound2 (= ${binary:Version}), libc6-dev | libc-dev, ${misc:Depends}
 Suggests: libasound2-doc
 Description: shared library for ALSA applications -- development files
  This package contains files required for developing software
@@ -59,8 +64,11 @@ Description: debugging symbols for libasound2
  ALSA is the Advanced Linux Sound Architecture.
 
 Package: lib64asound2
-Architecture: sparc s390 i386 powerpc
-Depends: libasound2 (= ${binary:Version}), ${shlibs:Depends}, ${bilib:depends}, ${misc:Depends}
+Architecture: i386 powerpc s390 sparc
+Depends: libasound2 (= ${binary:Version}),
+         ${bilib:depends},
+         ${misc:Depends},
+         ${shlibs:Depends}
 Suggests: lib64asound2-plugins (>= 1.0.18)
 Breaks: libasound2-plugins (<< 1.0.18)
 Description: shared library for ALSA applications (64 bit)
@@ -70,9 +78,12 @@ Description: shared library for ALSA applications (64 bit)
  ALSA is the Advanced Linux Sound Architecture.
 
 Package: lib64asound2-dev
-Architecture: sparc s390 i386 powerpc
+Architecture: i386 powerpc s390 sparc
 Section: libdevel
-Depends: lib64asound2 (= ${binary:Version}), libasound2-dev (= ${binary:Version}), ${bidev:depends}, ${misc:Depends}
+Depends: lib64asound2 (= ${binary:Version}),
+         libasound2-dev (= ${binary:Version}),
+         ${bidev:depends},
+         ${misc:Depends}
 Suggests: libasound2-doc
 Description: shared library for ALSA applications -- development files (64 bit)
  This package contains files required for developing software
@@ -82,9 +93,14 @@ Description: shared library for ALSA applications -- development files (64 bit)
 
 Package: lib32asound2
 Architecture: amd64 ppc64
-Depends: libasound2 (= ${binary:Version}), ${shlibs:Depends}, ${bilib:depends}, ${misc:Depends}
+Depends: libasound2 (= ${binary:Version}),
+         ${bilib:depends},
+         ${misc:Depends},
+         ${shlibs:Depends}
 Suggests: lib32asound2-plugins (>= 1.0.18)
-Breaks: libasound2-plugins (<< 1.0.18), ia32-libs (<< 1.9), libc6-i386 (<= 2.9-18)
+Breaks: ia32-libs (<< 1.9),
+        libasound2-plugins (<< 1.0.18),
+        libc6-i386 (<= 2.9-18)
 Replaces: ia32-libs (<< 1.9)
 Description: shared library for ALSA applications (32 bit)
  This package contains the ALSA library (32 bit) and its standard
@@ -95,7 +111,10 @@ Description: shared library for ALSA applications (32 bit)
 Package: lib32asound2-dev
 Architecture: amd64 ppc64
 Section: libdevel
-Depends: lib32asound2 (= ${binary:Version}), libasound2-dev (= ${binary:Version}), ${bidev:depends}, ${misc:Depends}
+Depends: lib32asound2 (= ${binary:Version}),
+         libasound2-dev (= ${binary:Version}),
+         ${bidev:depends},
+         ${misc:Depends}
 Suggests: libasound2-doc
 Breaks: libc6-i386 (<= 2.9-18)
 Description: shared library for ALSA applications -- development files (32 bit)
@@ -107,7 +126,7 @@ Description: shared library for ALSA applications -- development files (32 bit)
 Package: libasound2-udeb
 Section: debian-installer
 Architecture: linux-any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: ${misc:Depends}, ${shlibs:Depends}
 Package-Type: udeb
 Description: shared library for ALSA applications (udeb)
  This package contains the ALSA library for use in the Debian Installer.
@@ -117,9 +136,11 @@ Description: shared library for ALSA applications (udeb)
 Package: libasound2-doc
 Architecture: all
 Section: doc
-Depends: ${misc:Depends}
+Depends: libjs-jquery, ${misc:Depends}
 Suggests: libasound2-dev
-Description: developer documentation for user-space ALSA application programming
- This package contains documentation for the ALSA library.
+Description: documentation for user-space ALSA application programming
+ This package contains the HTML documentation for the ALSA library, which
+ describes the development API for user-space applications that want to
+ use ALSA.
  .
  ALSA is the Advanced Linux Sound Architecture.

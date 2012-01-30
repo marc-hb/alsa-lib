@@ -3,9 +3,6 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-PACKAGE:= alsa-lib
-#include /usr/share/quilt/quilt.make
-
 export DEB_BUILD_GNU_TYPE ?= $(shell dpkg-architecture -qDEB_BUILD_GNU_TYPE)
 export DEB_HOST_GNU_TYPE  ?= $(shell dpkg-architecture -qDEB_HOST_GNU_TYPE)
 
@@ -48,7 +45,12 @@ else
 	CFLAGS += -O2
 endif
 
-configure-stamp: $(configure_biarch_stamp)
+autoreconf-stamp:
+	dh_testdir
+	dh_autoreconf
+	touch autoreconf-stamp
+
+configure-stamp: autoreconf-stamp $(configure_biarch_stamp)
 	dh_testdir
 	-rm -f config.sub config.guess
 	ln -s /usr/share/misc/config.sub config.sub
@@ -60,10 +62,11 @@ configure-stamp: $(configure_biarch_stamp)
 		    --datadir=\$${prefix}/share \
 		    --with-plugindir=/usr/lib/$(DEB_HOST_MULTIARCH)/alsa-lib \
 		    --build $(DEB_BUILD_GNU_TYPE) \
-		    --enable-static --disable-maintainer-mode
+		    --host $(DEB_HOST_GNU_TYPE) \
+		    --disable-maintainer-mode
 	touch configure-stamp
 
-configure-biarch-stamp:
+configure-biarch-stamp: autoreconf-stamp
 	dh_testdir
 	-rm -f config.sub config.guess
 	ln -s /usr/share/misc/config.sub config.sub
@@ -76,7 +79,8 @@ configure-biarch-stamp:
 		    --infodir=\$${prefix}/share/info \
 		    --datadir=\$${prefix}/share \
 		    --build $(DEB_BUILD_GNU_TYPE) \
-		    --enable-static --disable-maintainer-mode \
+		    --host $(DEB_HOST_GNU_TYPE) \
+		    --disable-maintainer-mode \
 		    --disable-python --with-plugindir=/$(bilibdir)/alsa-lib
 	#ln -sf . include/alsa
 	rm -f bibuild/include/alsa
@@ -122,31 +126,14 @@ ifneq (,$(build_biarch_stamp))
 	cp -a debian/bitmp/usr/lib/libasound.so.* \
 	    debian/lib$(bi)asound2/$(bilibdir)/
 	mkdir -p debian/lib$(bi)asound2-dev/$(bilibdir)
-#	mkdir -p debian/lib$(bi)asound2-dev/$(bilibdir)/pkgconfig
 	cp -a debian/bitmp/usr/lib/libasound.so \
-	    debian/bitmp/usr/lib/libasound.a \
 	    debian/lib$(bi)asound2-dev/$(bilibdir)
-	sed -e "/^libdir=/s,=.*,='/$(bilibdir)',;s,^dependency_libs=.*,dependency_libs=''," \
-	  debian/bitmp/usr/lib/libasound.la \
-	    > debian/lib$(bi)asound2-dev/$(bilibdir)/libasound.la
-#	sed -e "/^libdir=.*lib$$/s,=.*,=/$(bilibdir)," \
-#	  debian/bitmp/usr/lib/pkgconfig/alsa.pc \
-#	    > debian/lib$(bi)asound2-dev/$(bilibdir)/pkgconfig/alsa.pc
 endif
 	dh_installdirs -s
 	dh_install -s
 	dh_installdocs -plibasound2
 	dh_installexamples -s doc/asoundrc.txt
 	dh_installchangelogs -plibasound2 debian/changelog.ALSA
-	dh_install -plibasound2 \
-	    /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2.0.0 \
-	    /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2 \
-	    /usr/lib/$(DEB_HOST_MULTIARCH)
-	dh_install -plibasound2-udeb \
-	    /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2.0.0 \
-	    /usr/lib/$(DEB_HOST_MULTIARCH)/libasound.so.2 /usr/lib
-	cp -a debian/tmp/usr/share/alsa debian/libasound2/usr/share/
-	cp -a debian/tmp/usr/share/alsa debian/libasound2-udeb/usr/share/
 	dh_strip -plibasound2 --dbg-package=libasound2-dbg
 	dh_strip -s --remaining-packages
 	dh_link -s
@@ -163,18 +150,18 @@ install-indep: build-indep-stamp
 	dh_installdocs -i
 	dh_installexamples -i
 	dh_installchangelogs -plibasound2-doc debian/changelog.ALSA
-	cp -r doc/doxygen/html debian/libasound2-doc/usr/share/doc/libasound2-doc
+	cp -a doc/doxygen/html debian/libasound2-doc/usr/share/doc/libasound2-doc
+	dh_link -i
 	dh_compress -i
 	dh_fixperms -i
 
 binary-arch: build-arch-stamp install-arch
-	dh_makeshlibs -plibasound2  -V'libasound2 (>> 1.0.24.1)' --add-udeb=libasound2-udeb
+	dh_makeshlibs -plibasound2 -V'libasound2 (>> 1.0.25)' --add-udeb=libasound2-udeb -- -c4
 ifneq (,$(build_biarch_stamp))
-	dh_makeshlibs -plib$(bi)asound2  -V'lib$(bi)asound2 (>> 1.0.24.1)'
+	dh_makeshlibs -plib$(bi)asound2 -V'lib$(bi)asound2 (>> 1.0.25)'
 endif
 
 	dh_installdeb -s
-	#dh_shlibdeps -s -Nlib64asound2
 	dh_shlibdeps -s
 	dh_gencontrol -s
 	dh_md5sums -s
@@ -198,6 +185,7 @@ clean:
 	-rm -rf doc/doxygen
 	rm -rf bibuild debian/bitmp
 	-rm -f include/alsa
+	dh_autoreconf_clean
 	dh_clean
 
 .PHONY: configure build-arch build-indep build install-arch install-indep binary-arch binary-indep binary clean stamp-patched

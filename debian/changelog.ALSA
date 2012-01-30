@@ -1,3 +1,109 @@
+Changelog between 1.0.24 and 1.0.25 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.24_v1.0.25)
+(Reformated as ASCII text)
++++++++++++++++++++++++++++++++++++++++++++
+
+* alsa-lib
+  + Core
+
+    Release v1.0.25
+    Introduce --with-pkgconfdir, add 64-bit defaults to gitcompile
+    conf: Allow for a directory to be given as a config file.
+    configure: Fail when the user attempts to compile shared and static libs
+    Release v1.0.24.1
+
+  + Control API
+
+    Document strdup allocation in snd_card_get_name family
+    Improve snd_device_name_hint documentation
+    control: add snd_ctl_elem_add_enumerated()
+    Add snd_{ctl|pcm}_open_fallback() functions
+    Fix missing error code in snd_ctl_hw_open()
+    ctlparse: Respect softfloat configure option
+
+  + Device Name API
+
+    Remove docs for snd_names_list and snd_names_list_free
+
+  + HWDEP API
+
+    alsa-lib: fixed coverity reported issues under "FORWARD_NULL" checker.
+
+  + Mixer API
+
+    Fix compile warnings
+    Fix alsa-lib to regard 3D control - Depth as Playback Controls
+
+  + PCM API
+
+    Improve hw_params documentation
+    Search-and-replace improve documentation language
+    pcm:mmap_emul: Fix sw_params and others in bypass mode
+    src/pcm/pcm_mmap.c: add missing free
+    src/pcm/pcm_multi.c: add missing free
+    src/pcm/pcm_ladspa.c: add missing free
+    src/pcm/pcm_rate.c: add missing free
+    pcm: recalculate all rules after changing hw_params flags
+    Add snd_{ctl|pcm}_open_fallback() functions
+    alsa-lib: fixed coverity reported issues under "FORWARD_NULL" checker.
+
+  + Use Case Manager API
+
+    ucm: add another sequence 'msleep'
+    ucm: tivial code style fix
+    ucm: fix seg fault in execute_cset()
+    UCM: get: Implement 'exact' value retrieval
+    UCM: snd_use_case_get: Don't segfault when no current verb
+    UCM: Allow querying of {Supported,Conflicting}Devices
+    UCM: Disallow gets of undefined system properties
+    UCM: Implement ConflictingDevices, add device list to devices
+    UCM: Deprecate index on Section{Device,Modifier}
+    UCM: Fix deadlock following failed get _verb
+    UCM: Fix typo in error message
+    UCM: fix memory leak when executing cset commands
+    UCM: Fix LGPL licence ("how to receive" part referred GPL instead LGPL)
+    UCM: Fix empty get_list - initialize returned pointer to NULL
+    UCM: comment fixes and fix myvalue initialization fix in add_values()
+    alsa-lib: ucm: allow values to be read from devices
+    ucm: add more error messages for cdev and cset commands
+    ucm: allow bind modifier to specific instances, other fixes
+    ucm: make verb comments optional
+
+  + Configuration
+
+    conf: Allow for a directory to be given as a config file.
+    Define "sysdefault" PCM and control
+    emu10k1.conf - Fix no sound problem when using SB Live! Platinum
+    Specficy subdevice 0 for front/surround* of HDA-Intel.conf
+    alsa-lib: fixed coverity reported issues under "FORWARD_NULL" checker.
+    HDA-Intel.conf - Fix low mic volume due to pulseaudio using "front" device for playback and capture
+    EMU10K1.conf: Don't lock hook controls
+    Fix typo in comment in surround71.conf
+    Mark Heaphone {Center|LFE} control of emu10k1 conf as optional
+    Conf: Fix channels of ICE1712 to 10/12
+    alsa-lib: add LaCie Firewire Speakers/Griffin FireWave Surround driver
+
+  + Kernel Headers
+
+    control: add snd_ctl_elem_add_enumerated()
+    asound.h: cosmetic changes for consistency with kernel asound.h
+    asound.h: update for latest kernel
+    Add RME RPM to HDSP_IO_Type.
+
+  + Simple Abstraction Mixer Modules
+
+    alsa-lib: fixed coverity reported issues under "FORWARD_NULL" checker.
+
+  + Test/Example code
+
+    Fix printf for size_t
+    test/latency: print error message when 2 periods per buffer not supported
+    ucm: allow bind modifier to specific instances, other fixes
+
+  + Utils
+
+    Introduce --with-pkgconfdir, add 64-bit defaults to gitcompile
+
 Changelog between 1.0.23 and 1.0.24 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.23_v1.0.24)
 (Reformated as ASCII text)

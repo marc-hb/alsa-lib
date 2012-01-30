@@ -9,7 +9,7 @@ Index: alsa-lib-1.0.23/configure.in
  
  AC_PREFIX_DEFAULT(/usr)
  
-+AM_MAINTAINER_MODE
++AM_MAINTAINER_MODE([enable])
 +
  dnl Checks for programs.
  

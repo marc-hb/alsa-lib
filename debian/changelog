@@ -1,3 +1,35 @@
+alsa-lib (1.0.25-1) UNRELEASED; urgency=low
+
+  * New upstream release.
+  * Update debian/changelog.ALSA.
+  * Run source package through wrap-and-sort.
+  * Edit add-maintainer-mode.patch to use AM_MAINTAINER_MODE([enable]).
+  * Drop lp178442-ICE1712.patch (stolen from Git).
+  * Drop pulseaudio_configuration.patch. PulseAudio should instead use
+    the new alsa.conf.d directory to load the ALSA pulse config.
+  * Drop relibtoolise.patch. Instead, Build-Depend on dh-autoreconf and
+    adjust rules to use it.
+  * Drop configure_cross_compile.patch, as it's apparently not needed
+    anymore, and dh_autoreconf makes it unusable.
+  * Don't configure with --enable-static anymore, as it breaks the build
+    and it was useless anyway.
+  * Don't try to install .a files that aren't built anymore.
+  * Add a libasound2.symbols file, for now based on 1.0.23. Thanks
+    Julien Cristau for the help to get this in shape.
+  * Adapt call to dh_makeshlibs to stop using -V and use -c4 for
+    dpkg-gensymbols, but leave biarch packages using -V.
+  * Stop installing libasound2 and libasound2-udeb stuff by hand, use
+    install files instead. Drop obsolete .dirs files.
+  * Let libasound2-doc depend on libjs-jquery, and replace the included
+    copy of jquery.js with a symlink (lintian).
+  * Add spelling_fixes.patch with the sole intention of getting lintian to
+    shut up.
+  * Remove Mikael Magnusson from Uploaders.
+  * Use watch file version 3, and don't uupdate.
+  * Update Vcs-* URLs.
+
+ -- Jordi Mallach <jordi@debian.org>  Mon, 30 Jan 2012 01:08:37 +0100
+
 alsa-lib (1.0.24.1-4) unstable; urgency=low
 
   [ Jordi Mallach ]
