@@ -17,7 +17,6 @@ Build-Depends: autotools-dev,
                libc6-dev-ppc64 [powerpc],
                libc6-dev-s390x [s390],
                libc6-dev-sparc64 [sparc],
-               libcxxtools-dev,
                python-dev
 Standards-Version: 3.9.2
 Homepage: http://www.alsa-project.org/
