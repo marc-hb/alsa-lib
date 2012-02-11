@@ -10,31 +10,12 @@ DEB_BUILD_ARCH_CPU ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH_CPU)
 DEB_HOST_ARCH  ?= $(shell dpkg-architecture -qDEB_BUILD_ARCH)
 DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH) 
 
-biarch_map := i386=amd64 powerpc=ppc64 sparc=sparc64 s390=s390x \
-		amd64=i386 ppc64=powerpc
-biarch_cpu := $(strip $(patsubst $(DEB_BUILD_ARCH_CPU)=%, %, \
-			   $(filter $(DEB_BUILD_ARCH_CPU)=%, $(biarch_map))))
-
-ifneq (,$(biarch_cpu))
-  ifneq (,$(findstring /$(DEB_HOST_ARCH)/, /i386/powerpc/sparc/s390/))
-    bi = 64
-    bilibdir = usr/lib64
-  endif
-  ifneq (,$(findstring /$(DEB_HOST_ARCH)/, /amd64/ppc64/))
-    bi = 32
-    bilibdir = usr/lib32
-    ifeq ($(DEB_HOST_ARCH),amd64)
-      # amd64 unstable only!
-      bilibdir = usr/lib32
-    endif
-  endif
-  ifneq (,$(bi))
-    configure_biarch_stamp = configure-biarch-stamp
-    build_biarch_stamp = build-biarch-stamp
-    BIARCH_CC = gcc -m$(bi)
-    dpkg_ctrl_args = -- '-Vbilib:depends=libc6-$(biarch_cpu)' \
-	'-Vbidev:depends=libc6-dev-$(biarch_cpu)'
-  endif
+ifneq (,$(findstring /$(DEB_HOST_ARCH)/, /amd64/))
+  configure_biarch_stamp = configure-biarch-stamp
+  build_biarch_stamp = build-biarch-stamp
+  BIARCH_CC = gcc -m32
+  dpkg_ctrl_args = -- '-Vbilib:Depends=libc6-i386' \
+	'-Vbidev:Depends=libc6-dev-i386'
 endif
 
 CFLAGS = -g -Wall -D_GNU_SOURCE
@@ -81,7 +62,7 @@ configure-biarch-stamp: autoreconf-stamp
 		    --build $(DEB_BUILD_GNU_TYPE) \
 		    --host $(DEB_HOST_GNU_TYPE) \
 		    --disable-maintainer-mode \
-		    --disable-python --with-plugindir=/$(bilibdir)/alsa-lib
+		    --disable-python --with-plugindir=/usr/lib32/alsa-lib
 	#ln -sf . include/alsa
 	rm -f bibuild/include/alsa
 	ln -s . bibuild/include/alsa
@@ -122,12 +103,12 @@ install-arch: build-arch-stamp
 ifneq (,$(build_biarch_stamp))
 	rm -rf debian/bitmp
 	$(MAKE) -C bibuild/src install DESTDIR=$(CURDIR)/debian/bitmp
-	mkdir -p debian/lib$(bi)asound2/$(bilibdir)
+	mkdir -p debian/lib32asound2/lib32
 	cp -a debian/bitmp/usr/lib/libasound.so.* \
-	    debian/lib$(bi)asound2/$(bilibdir)/
-	mkdir -p debian/lib$(bi)asound2-dev/$(bilibdir)
+	    debian/lib32asound2/usr/lib32/
+	mkdir -p debian/lib32asound2-dev/lib32
 	cp -a debian/bitmp/usr/lib/libasound.so \
-	    debian/lib$(bi)asound2-dev/$(bilibdir)
+	    debian/lib32asound2-dev/lib32
 endif
 	dh_installdirs -s
 	dh_install -s
@@ -158,7 +139,7 @@ install-indep: build-indep-stamp
 binary-arch: build-arch-stamp install-arch
 	dh_makeshlibs -plibasound2 -V'libasound2 (>> 1.0.25)' --add-udeb=libasound2-udeb -- -c4
 ifneq (,$(build_biarch_stamp))
-	dh_makeshlibs -plib$(bi)asound2 -V'lib$(bi)asound2 (>> 1.0.25)'
+	dh_makeshlibs -plib32asound2 -V'lib32asound2 (>> 1.0.25)'
 endif
 
 	dh_installdeb -s
