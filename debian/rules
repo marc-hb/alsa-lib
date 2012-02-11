@@ -125,7 +125,6 @@ install-indep: build-indep-stamp
 	dh_installdocs -i
 	dh_installexamples -i
 	dh_installchangelogs -plibasound2-doc debian/changelog.ALSA
-	cp -a doc/doxygen/html debian/libasound2-doc/usr/share/doc/libasound2-doc
 	dh_link -i
 	dh_compress -i
 	dh_fixperms -i
