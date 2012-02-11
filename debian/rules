@@ -99,7 +99,6 @@ install-arch: build-arch-stamp
 	dh_prep -s
 	$(MAKE) install DESTDIR=$(CURDIR)/debian/tmp
 ifneq (,$(build_biarch_stamp))
-	rm -rf debian/bitmp
 	$(MAKE) -C bibuild/src install DESTDIR=$(CURDIR)/debian/bitmp
 endif
 	dh_installdirs -s
