@@ -62,7 +62,6 @@ Depends: libasound2 (= ${binary:Version}),
          ${bilib:Depends},
          ${misc:Depends},
          ${shlibs:Depends}
-Suggests: lib32asound2-plugins (>= 1.0.18)
 Breaks: ia32-libs (<< 1.9),
         libasound2-plugins (<< 1.0.18),
         libc6-i386 (<= 2.9-18)

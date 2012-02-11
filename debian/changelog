@@ -9,6 +9,7 @@ alsa-lib (1.0.25-2) UNRELEASED; urgency=low
   * Handle installation of bi-arch files with .install files.
   * Use sed -i to modify bi-arch build Makefile.
   * Use dh_installdocs to install Doxygen documentation.
+  * Stop suggesting lib32asound2-plugins, as it's going away.
 
  -- Jordi Mallach <jordi@debian.org>  Tue, 31 Jan 2012 01:01:41 +0100
 
