@@ -103,12 +103,6 @@ install-arch: build-arch-stamp
 ifneq (,$(build_biarch_stamp))
 	rm -rf debian/bitmp
 	$(MAKE) -C bibuild/src install DESTDIR=$(CURDIR)/debian/bitmp
-	mkdir -p debian/lib32asound2/usr/lib32
-	cp -a debian/bitmp/usr/lib/libasound.so.* \
-	    debian/lib32asound2/usr/lib32/
-	mkdir -p debian/lib32asound2-dev/usr/lib32
-	cp -a debian/bitmp/usr/lib/libasound.so \
-	    debian/lib32asound2-dev/usr/lib32
 endif
 	dh_installdirs -s
 	dh_install -s

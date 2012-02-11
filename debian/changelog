@@ -6,6 +6,7 @@ alsa-lib (1.0.25-2) UNRELEASED; urgency=low
     lib32* for amd64 only (there's no point in supporting ppc64 in light
     of multiarch). Simplify debian/rules bi-arch bits assuming the install
     dir is /usr/lib32 and doing no other calculations.
+  * Handle installation of bi-arch files with .install files.
 
  -- Jordi Mallach <jordi@debian.org>  Tue, 31 Jan 2012 01:01:41 +0100
 
