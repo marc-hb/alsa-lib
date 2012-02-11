@@ -66,10 +66,8 @@ configure-biarch-stamp: autoreconf-stamp
 	#ln -sf . include/alsa
 	rm -f bibuild/include/alsa
 	ln -s . bibuild/include/alsa
-	sed -e '/^SUBDIRS/s/doc//' bibuild/Makefile > bibuild/Makefile.new
-	mv bibuild/Makefile bibuild/Makefile.old
-	mv bibuild/Makefile.new bibuild/Makefile
-	touch -r bibuild/Makefile.old bibuild/Makefile
+	sed -ie '/^SUBDIRS/s/doc//' bibuild/Makefile
+	touch -r bibuild/Makefile
 	touch configure-biarch-stamp
 
 configure: configure-stamp $(configure_biarch_stamp)
