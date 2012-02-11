@@ -154,7 +154,9 @@ clean:
 	-rm -f *-stamp
 	-rm -f config.sub config.guess config.status config.cache
 	-rm -rf doc/doxygen
+ifneq (,$(build_biarch_stamp))
 	rm -rf bibuild debian/bitmp
+endif
 	-rm -f include/alsa
 	dh_autoreconf_clean
 	dh_clean
