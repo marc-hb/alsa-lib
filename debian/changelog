@@ -1,10 +1,11 @@
 alsa-lib (1.0.25-2) unstable; urgency=low
 
+  * Upload to unstable.
   * Stop Build-Depending on libcxxtools-dev. Why we were doing this is a
     mystery.
   * Put the bi-arch horror on a diet: remove all lib64* stuff, and support
     lib32* for amd64 only (there's no point in supporting ppc64 in light
-    of multiarch). Simplify debian/rules bi-arch bits assuming the install
+    of Multiarch). Simplify debian/rules bi-arch bits assuming the install
     dir is /usr/lib32 and doing no other calculations.
   * Handle installation of bi-arch files with .install files.
   * Use sed -i to modify bi-arch build Makefile.
