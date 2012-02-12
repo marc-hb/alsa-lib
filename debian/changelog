@@ -11,8 +11,8 @@ alsa-lib (1.0.25-2) unstable; urgency=low
   * Use dh_installdocs to install Doxygen documentation.
   * Stop suggesting lib32asound2-plugins, as it's going away.
   * Continue digging through lists of symbols of previous alsa-lib
-    releases. Symbols list now starts at 1.0.16, the version released in
-    lenny.
+    releases. libasound2.symbols is now based on 1.0.16, the version released
+    with lenny.
 
  -- Jordi Mallach <jordi@debian.org>  Sun, 12 Feb 2012 01:14:56 +0100
 
