@@ -5,7 +5,6 @@ Changelog between 1.0.24 and 1.0.25 releases
 
 * alsa-lib
   + Core
-
     Release v1.0.25
     Introduce --with-pkgconfdir, add 64-bit defaults to gitcompile
     conf: Allow for a directory to be given as a config file.
@@ -13,7 +12,6 @@ Changelog between 1.0.24 and 1.0.25 releases
     Release v1.0.24.1
 
   + Control API
-
     Document strdup allocation in snd_card_get_name family
     Improve snd_device_name_hint documentation
     control: add snd_ctl_elem_add_enumerated()
@@ -22,20 +20,16 @@ Changelog between 1.0.24 and 1.0.25 releases
     ctlparse: Respect softfloat configure option
 
   + Device Name API
-
     Remove docs for snd_names_list and snd_names_list_free
 
   + HWDEP API
-
     alsa-lib: fixed coverity reported issues under "FORWARD_NULL" checker.
 
   + Mixer API
-
     Fix compile warnings
     Fix alsa-lib to regard 3D control - Depth as Playback Controls
 
   + PCM API
-
     Improve hw_params documentation
     Search-and-replace improve documentation language
     pcm:mmap_emul: Fix sw_params and others in bypass mode
@@ -48,7 +42,6 @@ Changelog between 1.0.24 and 1.0.25 releases
     alsa-lib: fixed coverity reported issues under "FORWARD_NULL" checker.
 
   + Use Case Manager API
-
     ucm: add another sequence 'msleep'
     ucm: tivial code style fix
     ucm: fix seg fault in execute_cset()
@@ -70,7 +63,6 @@ Changelog between 1.0.24 and 1.0.25 releases
     ucm: make verb comments optional
 
   + Configuration
-
     conf: Allow for a directory to be given as a config file.
     Define "sysdefault" PCM and control
     emu10k1.conf - Fix no sound problem when using SB Live! Platinum
@@ -84,24 +76,20 @@ Changelog between 1.0.24 and 1.0.25 releases
     alsa-lib: add LaCie Firewire Speakers/Griffin FireWave Surround driver
 
   + Kernel Headers
-
     control: add snd_ctl_elem_add_enumerated()
     asound.h: cosmetic changes for consistency with kernel asound.h
     asound.h: update for latest kernel
     Add RME RPM to HDSP_IO_Type.
 
   + Simple Abstraction Mixer Modules
-
     alsa-lib: fixed coverity reported issues under "FORWARD_NULL" checker.
 
   + Test/Example code
-
     Fix printf for size_t
     test/latency: print error message when 2 periods per buffer not supported
     ucm: allow bind modifier to specific instances, other fixes
 
   + Utils
-
     Introduce --with-pkgconfdir, add 64-bit defaults to gitcompile
 
 Changelog between 1.0.23 and 1.0.24 releases
