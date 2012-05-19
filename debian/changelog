@@ -1,11 +1,11 @@
-alsa-lib (1.0.25-3) UNRELEASED; urgency=low
+alsa-lib (1.0.25-3) unstable; urgency=low
 
   * Merge from Ubuntu:
     - Remove trailing whitespace character from the end of the
       DEB_HOST_MULTIARCH definition, as it was breaking the plugin
       directory path.
 
- -- Jordi Mallach <jordi@debian.org>  Mon, 13 Feb 2012 10:38:42 +0100
+ -- Jordi Mallach <jordi@debian.org>  Sat, 19 May 2012 18:12:58 +0200
 
 alsa-lib (1.0.25-2) unstable; urgency=low
 
