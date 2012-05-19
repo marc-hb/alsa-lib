@@ -4,6 +4,11 @@ alsa-lib (1.0.25-3) unstable; urgency=low
     - Remove trailing whitespace character from the end of the
       DEB_HOST_MULTIARCH definition, as it was breaking the plugin
       directory path.
+  * Mark libasound2-dev Multi-Arch: same (closes: #666763).
+  * Enable hardening flags, using a patch from Simon Ruderich,
+    (closes: #662685).
+  * Build-Depend on dpkg-dev (>= 1.16.1) for buildflags.mk usage.
+  * Bump Standards-Version to 3.9.3, no changes needed.
 
  -- Jordi Mallach <jordi@debian.org>  Sat, 19 May 2012 18:12:58 +0200
 

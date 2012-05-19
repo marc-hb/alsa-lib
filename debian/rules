@@ -18,13 +18,10 @@ ifneq (,$(findstring /$(DEB_HOST_ARCH)/, /amd64/))
 	'-Vbidev:Depends=libc6-dev-i386'
 endif
 
-CFLAGS = -g -Wall -D_GNU_SOURCE
+export DEB_CFLAGS_MAINT_APPEND = -g -Wall -D_GNU_SOURCE
 
-ifneq (,$(findstring noopt,$(DEB_BUILD_OPTIONS)))
-	CFLAGS += -O0
-else
-	CFLAGS += -O2
-endif
+DPKG_EXPORT_BUILDFLAGS = 1
+include /usr/share/dpkg/buildflags.mk
 
 autoreconf-stamp:
 	dh_testdir
