@@ -1,3 +1,10 @@
+alsa-lib (1.0.25-4) unstable; urgency=low
+
+  * Add htcl_remove_useless_assert.patch: as name suggests, remove
+    incorrect assert which causes KMix to crash on KDE logins.
+
+ -- Jordi Mallach <jordi@debian.org>  Fri, 03 Aug 2012 23:35:47 +0200
+
 alsa-lib (1.0.25-3) unstable; urgency=low
 
   * Merge from Ubuntu:
