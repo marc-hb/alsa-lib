@@ -1,3 +1,11 @@
+alsa-lib (1.0.25-5) UNRELEASED; urgency=low
+
+  [ Elimar Riesebieter ]
+  * Add sys_types_include.patch: Explicitly include <sys/types.h>, Thanks to
+    Adam Conrad.
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Tue, 12 Feb 2013 10:52:48 +0100
+
 alsa-lib (1.0.25-4) unstable; urgency=low
 
   * Add htcl_remove_useless_assert.patch: apply patch from git to remove
