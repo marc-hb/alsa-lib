@@ -1,10 +1,28 @@
-alsa-lib (1.0.25-5) UNRELEASED; urgency=low
+alsa-lib (1.0.26-1) UNRELEASED; urgency=low
 
   [ Elimar Riesebieter ]
   * Add sys_types_include.patch: Explicitly include <sys/types.h>, Thanks to
     Adam Conrad. (closes: #700230)
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Tue, 12 Feb 2013 10:52:48 +0100
+  [ Jordi Mallach ]
+  * New upstream release.
+  * It is with great pleasure that we drop the lib32asound binary package
+    and all the unmanageable cruft that accompanied it (closes: #614242).
+  * Rewrite debian/rules using dh.
+  * Pass --list-missing to dh_install.
+  * Install smixer objects, but avoid installing the python component to
+    avoid an extra libpython dep on libasound2. If anyone requests it,
+    we might reconsider in the future.
+  * Drop htcl_remove_useless_assert.patch, applied upstream.
+  * Drop libasound2.{postinst,postrm}: it was code to handle an upgrade
+    case from 1999. Likewise for libasound2-dev.postinst.
+  * Drop pointless dependency on libc6-dev.
+  * Remove old and unused dmix example.
+  * Stop symlinking doc dirs for libasound2-dev and -dbg. The amount of
+    disk space saved is negligible.
+  * Use default compression for source package.
+
+ -- Jordi Mallach <jordi@debian.org>  Sun, 31 Mar 2013 23:22:54 -0500
 
 alsa-lib (1.0.25-4) unstable; urgency=low
 

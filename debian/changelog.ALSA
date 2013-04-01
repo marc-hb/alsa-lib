@@ -1,3 +1,62 @@
+Changelog between 1.0.25 and 1.0.26 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.25_v1.0.26)
+(Reformated as ASCII text)
++++++++++++++++++++++++++++++++++++++++++++
+
+* alsa-lib
+  + Core
+    Release v1.0.26 
+
+  + Control API
+    ucm: Improve cset command parsing 
+    control: Use strcpy() instead of stpcpy() 
+    hctl: Remove a useless assert 
+    Fix the binary compatibility of ext-ctl plugin with protocol 1.0.0 
+    tlv: improve robustness of raw value ranges 
+    control_external: Add ability to specify TLV data. 
+
+  + Mixer API
+    mixer: Remove redundant CHECK_ENUM() from snd_mixer_selem_is_enum*() 
+
+  + PCM API
+    PCM: plug: Move fast_ops copy after slave configuration. 
+    PCM: Allow to run older version of extplug plugin 
+    pcm_dsnoop: comment fall-through in next "case" 
+    pcm: add missing "break" in "switch" 
+    doc: Fix typo in PCM formats 
+
+  + Sequencer API
+    seqmid - more descriptions on snd_seq_parse_address() behavior 
+
+  + Use Case Manager API
+    ucm: Add const to execute_cset() argument 
+    ucm: Improve cset command parsing 
+    ucm: Return NULL from get_list0() and get_list20() in case of empty lists. 
+    ucm: Add missing pthread.h include 
+    build: Fallback to alphasort() if versionsort() isn't available 
+    ucm: Handle repeat device and modifier enables/disables 
+
+  + Configuration
+    build: Fallback to alphasort() if versionsort() isn't available 
+    conf: Add more USB devices to S/PDIF blacklist 
+    Fix invalid long long format specifier 
+    alsa-lib conf: Add two more USB devices to iec958 blacklist 
+    alsa-lib conf: block S/PDIF access for Sennheiser USB headset 
+    USB-Audio: Fixup card name for Logitech web camera 
+    USB-Audio: Blacklist iec958 for some USB devices 
+    conf/pcm: Add support for Echo3G devices. Thanks to unimatrix. 
+
+  + External Control Plugin SDK
+    Fix the binary compatibility of ext-ctl plugin with protocol 1.0.0 
+    control_external: Add ability to specify TLV data. 
+
+ + Test/Example code
+   test/latency.c: Fix string argument to getopt_long, so now it handles -E and -B 
+   Fix invalid long long format specifier 
+
+  + Utils
+    build: Disable another compile chack with --disable-alsatest
+
 Changelog between 1.0.24 and 1.0.25 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.24_v1.0.25)
 (Reformated as ASCII text)

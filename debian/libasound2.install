@@ -1,2 +1,3 @@
 usr/lib/*/*.so.*
+usr/lib/*/alsa-lib/smixer/*.so
 usr/share/alsa
