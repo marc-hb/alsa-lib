@@ -1,4 +1,4 @@
-alsa-lib (1.0.26-1) UNRELEASED; urgency=low
+alsa-lib (1.0.26-1) experimental; urgency=low
 
   [ Elimar Riesebieter ]
   * Add sys_types_include.patch: Explicitly include <sys/types.h>, Thanks to
