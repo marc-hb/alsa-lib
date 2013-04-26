@@ -1,3 +1,14 @@
+alsa-lib (1.0.27-1) experimental; urgency=low
+
+  * New upstream release.
+  * Drop sys_types_include.patch: fixed upstream.
+  * Update libasound2.symbols with new API additions.
+  * Mark libasound2-dbg Multi-Arch: same, so it is coinstallable.
+  * Disable silent rules.
+  * Bump Standards-Version to 3.9.4, with no further changes.
+
+ -- Jordi Mallach <jordi@debian.org>  Fri, 26 Apr 2013 22:48:13 +0200
+
 alsa-lib (1.0.26-1) experimental; urgency=low
 
   [ Elimar Riesebieter ]
