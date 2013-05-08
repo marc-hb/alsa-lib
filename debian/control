@@ -7,8 +7,8 @@ Uploaders: Jordi Mallach <jordi@debian.org>,
 Build-Depends: autotools-dev,
                debhelper (>= 9),
                dh-autoreconf,
-               doxygen,
                dpkg-dev (>= 1.16.1)
+Build-Depends-Indep: doxygen
 Standards-Version: 3.9.4
 Homepage: http://www.alsa-project.org/
 Vcs-Svn: svn://anonscm.debian.org/pkg-alsa/trunk/alsa-lib
@@ -19,7 +19,7 @@ Architecture: linux-any
 Multi-Arch: same
 Pre-Depends: ${misc:Pre-Depends}
 Depends: ${misc:Depends}, ${shlibs:Depends}
-Suggests: libasound2-plugins (>= 1.0.18)
+Suggests: libasound2-plugins (>= 1.0.24)
 Breaks: bluez-alsa (<= 4.94-2),
         libasound2-plugin-equal (<= 0.6-1),
         libasound2-plugins (<< 1.0.24)

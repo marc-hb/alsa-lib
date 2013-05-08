@@ -1,3 +1,10 @@
+alsa-lib (1.0.27-2) unstable; urgency=low
+
+  * Upload to unstable.
+  * Move doxygen to Build-Depends-Indep (closes: #706800).
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 09 May 2013 01:05:20 +0200
+
 alsa-lib (1.0.27-1) experimental; urgency=low
 
   * New upstream release.
