@@ -9,12 +9,16 @@ override_dh_auto_configure:
 	dh_auto_configure -- \
 		--with-plugindir=/usr/lib/$(DEB_HOST_MULTIARCH)/alsa-lib \
 		--disable-silent-rules \
-		#--disable-shared
+		--disable-static \
 		--disable-python
 
-override_dh_auto_build:
-	dh_auto_build
+override_dh_auto_build-indep:
 	$(MAKE) doc
+
+override_dh_auto_test-indep:
+
+override_dh_auto_install-indep:
+	$(MAKE) -C doc install
 
 override_dh_strip:
 	dh_strip --dbg-package=libasound2-dbg

@@ -1,3 +1,13 @@
+alsa-lib (1.0.27-3) unstable; urgency=low
+
+  * Brown paper bag: use override_dh_auto_build-indep and
+    dh_auto_install-indep to handle doxygen docs, to correctly avoid
+    building docs on binary-arch-only builds. Thanks to Adam Conrad
+    for the suggestion.
+  * Pass --disable-static to configure.
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 09 May 2013 09:59:00 +0200
+
 alsa-lib (1.0.27-2) unstable; urgency=low
 
   * Upload to unstable.
