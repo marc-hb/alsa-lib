@@ -1,3 +1,12 @@
+alsa-lib (1.0.27-4) UNRELEASED; urgency=low
+
+  * Add double_dlclose.patch: from Git; avoid a double call of dlclose()
+    in dlobj caching code.
+  * inline_headers.patch: from Git; use __inline__ for exported headers.
+    Fixes builds for packages using C90.
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 09 May 2013 10:16:42 +0200
+
 alsa-lib (1.0.27-3) unstable; urgency=low
 
   * Brown paper bag: use override_dh_auto_build-indep and
