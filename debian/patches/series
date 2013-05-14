@@ -3,3 +3,4 @@ multiarch-safe-dlopen-search-path.patch
 spelling_fixes.patch
 double_dlclose.patch
 inline_headers.patch
+ucm_profiles.patch

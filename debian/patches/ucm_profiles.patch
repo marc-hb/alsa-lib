@@ -1,0 +1,1438 @@
+Author: Marcin Juszkiewicz <marcin@juszkiewicz.com.pl>
+Description: Merge UCM profiles collected by Ubuntu in alsa-lib.
+Forwarded: not-needed
+
+Index: alsa-lib-1.0.27/configure.in
+===================================================================
+--- alsa-lib-1.0.27.orig/configure.in	2013-05-14 19:43:13.824063836 +0200
++++ alsa-lib-1.0.27/configure.in	2013-05-14 19:43:13.812063837 +0200
+@@ -649,6 +649,12 @@
+ 	  src/conf/Makefile src/conf/alsa.conf.d/Makefile \
+ 	  src/conf/cards/Makefile \
+ 	  src/conf/pcm/Makefile \
++	  src/conf/ucm/Makefile \
++	  src/conf/ucm/DAISY-I2S/Makefile \
++	  src/conf/ucm/PandaBoard/Makefile \
++	  src/conf/ucm/PandaBoardES/Makefile \
++	  src/conf/ucm/SDP4430/Makefile \
++	  src/conf/ucm/tegraalc5632/Makefile \
+ 	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
+ 	  alsalisp/Makefile aserver/Makefile \
+ 	  test/Makefile test/lsb/Makefile \
+Index: alsa-lib-1.0.27/src/conf/Makefile.am
+===================================================================
+--- alsa-lib-1.0.27.orig/src/conf/Makefile.am	2013-05-14 19:43:13.824063836 +0200
++++ alsa-lib-1.0.27/src/conf/Makefile.am	2013-05-14 19:43:13.812063837 +0200
+@@ -1,4 +1,4 @@
+-SUBDIRS=cards pcm alsa.conf.d
++SUBDIRS=cards pcm alsa.conf.d ucm
+ 
+ cfg_files = alsa.conf
+ if BUILD_ALISP
+Index: alsa-lib-1.0.27/src/conf/ucm/DAISY-I2S/DAISY-I2S.conf
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/DAISY-I2S/DAISY-I2S.conf	2013-05-14 19:43:13.812063837 +0200
+@@ -0,0 +1,6 @@
++Comment "Daisy internal card"
++
++SectionUseCase."HiFi" {
++	File "HiFi.conf"
++	Comment "Default"
++}
+Index: alsa-lib-1.0.27/src/conf/ucm/DAISY-I2S/HiFi.conf
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/DAISY-I2S/HiFi.conf	2013-05-14 19:44:34.548059711 +0200
+@@ -0,0 +1,62 @@
++SectionVerb {
++	EnableSequence [
++		cdev "hw:DAISYI2S"
++		cset "name='Left Speaker Mixer Left DAC1 Switch' on"
++		cset "name='Right Speaker Mixer Right DAC1 Switch' on"
++		cset "name='Left Headphone Mixer Left DAC1 Switch' on"
++		cset "name='Right Headphone Mixer Right DAC1 Switch' on"
++		cset "name='DMIC1 Left Capture Switch' on"
++		cset "name='DMIC1 Right Capture Switch' on"
++		cset "name='MIC2 External Mic Switch' on"
++		cset "name='Left ADC Mixer MIC2 Switch' on"
++		cset "name='Right ADC Mixer MIC2 Switch' on"
++		cset "name='EQ1 Mode' Default"
++		cset "name='DAI1 Filter Mode' Music"
++	]
++	DisableSequence [
++	]
++}
++
++SectionDevice."Headphone".0 {
++	Value {
++		JackName "DAISY-I2S Headphone Jack"
++	}
++
++	EnableSequence [
++		cdev "hw:DAISYI2S"
++		cset "name='EQ1 Switch' off"
++		cset "name='Left Headphone Mixer Left DAC1 Switch' on"
++		cset "name='Right Headphone Mixer Right DAC1 Switch' on"
++	]
++	DisableSequence [
++		cdev "hw:DAISYI2S"
++		cset "name='EQ1 Mode' Default"
++		cset "name='EQ1 Switch' on"
++		cset "name='Left Speaker Mixer Left DAC1 Switch' on"
++		cset "name='Right Speaker Mixer Right DAC1 Switch' on"
++	]
++}
++
++SectionDevice."Mic".0 {
++	Value {
++		JackName "DAISY-I2S Mic Jack"
++	}
++
++	EnableSequence [
++		cdev "hw:DAISYI2S"
++
++		cset "name='DMIC1 Left Capture Switch' off"
++		cset "name='DMIC1 Right Capture Switch' off"
++		cset "name='Left ADC Mixer MIC2 Switch' on"
++		cset "name='Right ADC Mixer MIC2 Switch' on"
++	]
++
++	DisableSequence [
++		cdev "hw:DAISYI2S"
++
++		cset "name='Left ADC Mixer MIC2 Switch' off"
++		cset "name='Right ADC Mixer MIC2 Switch' off"
++		cset "name='DMIC1 Left Capture Switch' on"
++		cset "name='DMIC1 Right Capture Switch' on"
++	]
++}
+Index: alsa-lib-1.0.27/src/conf/ucm/DAISY-I2S/Makefile.am
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/DAISY-I2S/Makefile.am	2013-05-14 19:43:13.812063837 +0200
+@@ -0,0 +1,4 @@
++alsaconfigdir = @ALSA_CONFIG_DIR@
++ucmdir = $(alsaconfigdir)/ucm/DAISY-I2S
++ucm_DATA = DAISY-I2S.conf HiFi.conf
++EXTRA_DIST = $(ucm_DATA)
+Index: alsa-lib-1.0.27/src/conf/ucm/Makefile.am
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/Makefile.am	2013-05-14 19:43:13.812063837 +0200
+@@ -0,0 +1 @@
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoard/FMAnalog
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoard/FMAnalog	2013-05-14 19:43:13.812063837 +0200
+@@ -0,0 +1,46 @@
++# Use case Configurationfor TI PandaBoard HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='AMIC_UL PDM Switch' 1"
++                cset "name='MUX_UL00' 9"
++                cset "name='MUX_UL01' 10"
++                cset "name='Capture Volume' 4"
++	]
++
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='AMIC_UL PDM Switch' 0"
++                cset "name='MUX_UL00' 0"
++                cset "name='MUX_UL01' 0"
++                cset "name='Capture Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Music"
++                CapturePCM "hw:0,0"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoard 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='Analog Left Capture Route' 2"
++                cset "name='Analog Right Capture Route' 2"
++                cset "name='Capture Preamplifier Volume' 2"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='Analog Left Capture Route' 3"
++                cset "name='Analog Right Capture Route' 3"
++                cset "name='Capture Preamplifier Volume' 0"
++	]
++}
++
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoard/Makefile.am
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoard/Makefile.am	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,4 @@
++alsaconfigdir = @ALSA_CONFIG_DIR@
++ucmdir = $(alsaconfigdir)/ucm/PandaBoard
++ucm_DATA = FMAnalog hifi hifiLP PandaBoard.conf record voice voiceCall
++EXTRA_DIST = $(ucm_DATA)
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoard/PandaBoard.conf
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoard/PandaBoard.conf	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,45 @@
++# UCM configuration for PandaBoard
++SectionUseCase."Record" {
++ 		File "record"
++ 		Comment "Record."
++}
++
++SectionUseCase."HiFi" {
++ 		File "hifi"
++ 		Comment "Play HiFi quality Music."
++}
++
++SectionUseCase."HiFi_Low_Power" {
++ 		File "hifiLP"
++ 		Comment "Play HiFi quality Music in Low Power Mode."
++}
++
++SectionUseCase."Voice" {
++ 		File "voice"
++ 		Comment "Playback Voice quality."
++}
++
++SectionUseCase."Voice_Low_Power" {
++ 		File "voice"
++ 		Comment "Playback Voice quality in Low Power Mode."
++}
++
++SectionUseCase."Voice_Call" {
++ 		File "voiceCall"
++ 		Comment "Capture and Playback in Voice quality."
++}
++
++SectionUseCase."Voice_Call_IP" {
++ 		File "voiceCall"
++ 		Comment "Capture and Playback in Voice quality."
++}
++
++SectionUseCase."FM_Analog_Radio" {
++ 		File "FMAnalog"
++ 		Comment "Capture FM Analog Radio."
++}
++
++SectionDefaults [
++                cdev "hw:PandaBoard"
++		exec "echo Im setting defaults"
++]
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoard/hifi
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoard/hifi	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,83 @@
++# Use case Configuration for TI PandaBoard HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoard"
++		cset "name='DL1 Mixer Multimedia' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Media Playback Volume' 90,90"
++                cset "name='SDT DL Volume' 120"
++
++                cset "name='Headset Left Playback' 1"
++                cset "name='Headset Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++		cset "name='DL1 Mixer Multimedia' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Media Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++
++		cset "name='Headset Right Playback' 0"
++		cset "name='Headset Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++
++ 	# Optional TQ and ALSA PCMs
++#	Value {
++#		TQ "Music"
++#		PlaybackPCM "hw:0,0"
++#                PlaybackVolume "name='DL1 Media Playback Volume' 90,90"
++#                PlaybackSwitch "name='DL1 PDM Switch' 1"
++#	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoard 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='Headset Left Playback' 1"
++                cset "name='Headset Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++		cset "name='Headset Right Playback' 0"
++		cset "name='Headset Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
++
++#SectionModifier."RecordMedia".0 {
++#	SupportedDevice [
++#		"Headset"
++#	]
++ #       EnableSequence [
++ #         ....
++ #       ]
++ #
++ #       DisableSequence [
++ #         ...
++ #       ]
++ #
++ #       TransitionSequence."ToModifierName" [
++ #         ...
++ #       ]
++ #
++ #       # Optional TQ and ALSA PCMs
++ #       Value {
++ #               TQ Voice
++ #               CapturePCM "hw:1"
++ #               PlaybackVolume "name='Master Playback Volume',index=2"
++ #               PlaybackSwitch "name='Master Playback Switch',index=2"
++ #       }
++#
++#}
++
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoard/hifiLP
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoard/hifiLP	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,46 @@
++# Use case Configuration for TI PandaBoard HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoard"
++		cset "name='DL1 Mixer Multimedia' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Media Playback Volume' 90,90"
++                cset "name='SDT DL Volume' 120"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++		cset "name='DL1 Mixer Multimedia' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Media Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Music"
++		PlaybackPCM "hw:0,6"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoard 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='Headset Left Playback' 1"
++                cset "name='Headset Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++		cset "name='Headset Right Playback' 0"
++		cset "name='Headset Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoard/record
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoard/record	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,47 @@
++# Use case Configuration for TI PandaBoard HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoard"
++                # No more AMIC PDM Switch in current kernels
++                #cset "name='AMIC_UL PDM Switch' 1"
++                cset "name='MUX_UL00' 9"
++                cset "name='MUX_UL01' 10"
++                cset "name='Capture Volume' 4"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++                # No more AMIC PDM Switch in current kernels
++                #cset "name='AMIC_UL PDM Switch' 0"
++                cset "name='MUX_UL00' 0"
++                cset "name='MUX_UL01' 0"
++                cset "name='Capture Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Music"
++		CapturePCM "hw:0,0"
++	}
++
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoard 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='Analog Left Capture Route' 0"
++                cset "name='Analog Right Capture Route' 0"
++                cset "name='Capture Preamplifier Volume' 2"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='Analog Left Capture Route' 3"
++                cset "name='Analog Right Capture Route' 3"
++                cset "name='Capture Preamplifier Volume' 0"
++	]
++}
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoard/voice
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoard/voice	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,46 @@
++# Use case Configuration for TI PandaBoard HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoard"
++		cset "name='DL1 Mixer Voice' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Voice Playback Volume' 90,90"
++                cset "name='SDT DL Volume' 120"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++		cset "name='DL1 Mixer Voice' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Voice Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Voice"
++		PlaybackPCM "hw:0,2"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoard 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='Headset Left Playback' 1"
++                cset "name='Headset Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++		cset "name='Headset Right Playback' 0"
++		cset "name='Headset Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoard/voiceCall
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoard/voiceCall	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,67 @@
++# Use case Configuration for TI PandaBoard HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='AMIC_UL PDM Switch' 1"
++                cset "name='Sidetone Mixer Capture' 1"
++                cset "name='MUX_VX0' 9"
++                cset "name='MUX_VX1' 10"
++		cset "name='DL1 Mixer Voice' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Voice Playback Volume' 90,90"
++                cset "name='Capture Volume' 4"
++                cset "name='Capture Mixer Voice Capture' 90,90"
++                cset "name='SDT DL Volume' 120"
++	]
++
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='AMIC_UL PDM Switch' 0"
++                cset "name='Sidetone Mixer Capture' 0"
++                cset "name='MUX_VX0' 0"
++                cset "name='MUX_VX1' 0"
++		cset "name='DL1 Mixer Voice' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Voice Playback Volume' 0,0"
++                cset "name='Capture Volume' 0"
++		cset "name='DL1 Voice Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Voice"
++                CapturePCM "hw:0,2"
++		PlaybackPCM "hw:0,2"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoard 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='Analog Left Capture Route' 0"
++                cset "name='Analog Right Capture Route' 0"
++                cset "name='Capture Preamplifier Volume' 2"
++                cset "name='Headset Left Playback' 1"
++                cset "name='Headset Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoard"
++                cset "name='Analog Left Capture Route' 3"
++                cset "name='Analog Right Capture Route' 3"
++                cset "name='Capture Preamplifier Volume' 0"
++		cset "name='Headset Right Playback' 0"
++		cset "name='Headset Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
++
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/FMAnalog
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/FMAnalog	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,46 @@
++# Use case Configurationfor TI PandaBoardES HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='AMIC_UL PDM Switch' 1"
++                cset "name='MUX_UL00' 9"
++                cset "name='MUX_UL01' 10"
++                cset "name='Capture Volume' 4"
++	]
++
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='AMIC_UL PDM Switch' 0"
++                cset "name='MUX_UL00' 0"
++                cset "name='MUX_UL01' 0"
++                cset "name='Capture Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Music"
++                CapturePCM "hw:0,0"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoardES 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='Analog Left Capture Route' 2"
++                cset "name='Analog Right Capture Route' 2"
++                cset "name='Capture Preamplifier Volume' 2"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='Analog Left Capture Route' 3"
++                cset "name='Analog Right Capture Route' 3"
++                cset "name='Capture Preamplifier Volume' 0"
++	]
++}
++
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/Makefile.am
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/Makefile.am	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,4 @@
++alsaconfigdir = @ALSA_CONFIG_DIR@
++ucmdir = $(alsaconfigdir)/ucm/PandaBoardES
++ucm_DATA = FMAnalog hifi hifiLP PandaBoardES.conf record voice voiceCall
++EXTRA_DIST = $(ucm_DATA)
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/PandaBoardES.conf
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/PandaBoardES.conf	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,45 @@
++# UCM configuration for PandaBoardES
++SectionUseCase."Record" {
++ 		File "record"
++ 		Comment "Record."
++}
++
++SectionUseCase."HiFi" {
++ 		File "hifi"
++ 		Comment "Play HiFi quality Music."
++}
++
++SectionUseCase."HiFi_Low_Power" {
++ 		File "hifiLP"
++ 		Comment "Play HiFi quality Music in Low Power Mode."
++}
++
++SectionUseCase."Voice" {
++ 		File "voice"
++ 		Comment "Playback Voice quality."
++}
++
++SectionUseCase."Voice_Low_Power" {
++ 		File "voice"
++ 		Comment "Playback Voice quality in Low Power Mode."
++}
++
++SectionUseCase."Voice_Call" {
++ 		File "voiceCall"
++ 		Comment "Capture and Playback in Voice quality."
++}
++
++SectionUseCase."Voice_Call_IP" {
++ 		File "voiceCall"
++ 		Comment "Capture and Playback in Voice quality."
++}
++
++SectionUseCase."FM_Analog_Radio" {
++ 		File "FMAnalog"
++ 		Comment "Capture FM Analog Radio."
++}
++
++SectionDefaults [
++                cdev "hw:PandaBoardES"
++		exec "echo Im setting PandaBoardES defaults"
++]
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/hifi
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/hifi	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,83 @@
++# Use case Configuration for TI PandaBoardES HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoardES"
++		cset "name='DL1 Mixer Multimedia' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Media Playback Volume' 90,90"
++                cset "name='SDT DL Volume' 120"
++
++                cset "name='Headset Left Playback' 1"
++                cset "name='Headset Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++		cset "name='DL1 Mixer Multimedia' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Media Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++
++		cset "name='Headset Right Playback' 0"
++		cset "name='Headset Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++
++ 	# Optional TQ and ALSA PCMs
++#	Value {
++#		TQ "Music"
++#		PlaybackPCM "hw:0,0"
++#                PlaybackVolume "name='DL1 Media Playback Volume' 90,90"
++#                PlaybackSwitch "name='DL1 PDM Switch' 1"
++#	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoardES 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='Headset Left Playback' 1"
++                cset "name='Headset Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++		cset "name='Headset Right Playback' 0"
++		cset "name='Headset Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
++
++#SectionModifier."RecordMedia".0 {
++#	SupportedDevice [
++#		"Headset"
++#	]
++ #       EnableSequence [
++ #         ....
++ #       ]
++ #
++ #       DisableSequence [
++ #         ...
++ #       ]
++ #
++ #       TransitionSequence."ToModifierName" [
++ #         ...
++ #       ]
++ #
++ #       # Optional TQ and ALSA PCMs
++ #       Value {
++ #               TQ Voice
++ #               CapturePCM "hw:1"
++ #               PlaybackVolume "name='Master Playback Volume',index=2"
++ #               PlaybackSwitch "name='Master Playback Switch',index=2"
++ #       }
++#
++#}
++
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/hifiLP
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/hifiLP	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,46 @@
++# Use case Configuration for TI PandaBoardES HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoardES"
++		cset "name='DL1 Mixer Multimedia' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Media Playback Volume' 90,90"
++                cset "name='SDT DL Volume' 120"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++		cset "name='DL1 Mixer Multimedia' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Media Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Music"
++		PlaybackPCM "hw:0,6"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoardES 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='Headset Left Playback' 1"
++                cset "name='Headset Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++		cset "name='Headset Right Playback' 0"
++		cset "name='Headset Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/record
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/record	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,47 @@
++# Use case Configuration for TI PandaBoardES HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoardES"
++                # No more AMIC PDM Switch in current kernels
++                #cset "name='AMIC_UL PDM Switch' 1"
++                cset "name='MUX_UL00' 9"
++                cset "name='MUX_UL01' 10"
++                cset "name='Capture Volume' 4"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++                # No more AMIC PDM Switch in current kernels
++                #cset "name='AMIC_UL PDM Switch' 0"
++                cset "name='MUX_UL00' 0"
++                cset "name='MUX_UL01' 0"
++                cset "name='Capture Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Music"
++		CapturePCM "hw:0,0"
++	}
++
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoardES 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='Analog Left Capture Route' 0"
++                cset "name='Analog Right Capture Route' 0"
++                cset "name='Capture Preamplifier Volume' 2"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='Analog Left Capture Route' 3"
++                cset "name='Analog Right Capture Route' 3"
++                cset "name='Capture Preamplifier Volume' 0"
++	]
++}
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/voice
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/voice	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,46 @@
++# Use case Configuration for TI PandaBoardES HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoardES"
++		cset "name='DL1 Mixer Voice' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Voice Playback Volume' 90,90"
++                cset "name='SDT DL Volume' 120"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++		cset "name='DL1 Mixer Voice' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Voice Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Voice"
++		PlaybackPCM "hw:0,2"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoardES 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='Headset Left Playback' 1"
++                cset "name='Headset Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++		cset "name='Headset Right Playback' 0"
++		cset "name='Headset Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
+Index: alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/voiceCall
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/PandaBoardES/voiceCall	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,67 @@
++# Use case Configuration for TI PandaBoardES HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='AMIC_UL PDM Switch' 1"
++                cset "name='Sidetone Mixer Capture' 1"
++                cset "name='MUX_VX0' 9"
++                cset "name='MUX_VX1' 10"
++		cset "name='DL1 Mixer Voice' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Voice Playback Volume' 90,90"
++                cset "name='Capture Volume' 4"
++                cset "name='Capture Mixer Voice Capture' 90,90"
++                cset "name='SDT DL Volume' 120"
++	]
++
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='AMIC_UL PDM Switch' 0"
++                cset "name='Sidetone Mixer Capture' 0"
++                cset "name='MUX_VX0' 0"
++                cset "name='MUX_VX1' 0"
++		cset "name='DL1 Mixer Voice' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Voice Playback Volume' 0,0"
++                cset "name='Capture Volume' 0"
++		cset "name='DL1 Voice Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Voice"
++                CapturePCM "hw:0,2"
++		PlaybackPCM "hw:0,2"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "PandaBoardES 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='Analog Left Capture Route' 0"
++                cset "name='Analog Right Capture Route' 0"
++                cset "name='Capture Preamplifier Volume' 2"
++                cset "name='Headset Left Playback' 1"
++                cset "name='Headset Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:PandaBoardES"
++                cset "name='Analog Left Capture Route' 3"
++                cset "name='Analog Right Capture Route' 3"
++                cset "name='Capture Preamplifier Volume' 0"
++		cset "name='Headset Right Playback' 0"
++		cset "name='Headset Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
++
+Index: alsa-lib-1.0.27/src/conf/ucm/SDP4430/FMAnalog
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/SDP4430/FMAnalog	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,46 @@
++# Use case Configurationfor TI SDP4430 HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:SDP4430"
++                cset "name='AMIC_UL PDM Switch' 1"
++                cset "name='MUX_UL00' 9"
++                cset "name='MUX_UL01' 10"
++                cset "name='Capture Volume' 4"
++	]
++
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++                cset "name='AMIC_UL PDM Switch' 0"
++                cset "name='MUX_UL00' 0"
++                cset "name='MUX_UL01' 0"
++                cset "name='Capture Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Music"
++                CapturePCM "hw:0,0"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "SDP4430 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:SDP4430"
++                cset "name='Analog Left Capture Route' 2"
++                cset "name='Analog Right Capture Route' 2"
++                cset "name='Capture Preamplifier Volume' 2"
++	]
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++                cset "name='Analog Left Capture Route' 3"
++                cset "name='Analog Right Capture Route' 3"
++                cset "name='Capture Preamplifier Volume' 0"
++	]
++}
++
+Index: alsa-lib-1.0.27/src/conf/ucm/SDP4430/Makefile.am
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/SDP4430/Makefile.am	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,4 @@
++alsaconfigdir = @ALSA_CONFIG_DIR@
++ucmdir = $(alsaconfigdir)/ucm/SDP4430
++ucm_DATA = FMAnalog hifi hifiLP record SDP4430.conf voice voiceCall
++EXTRA_DIST = $(ucm_DATA)
+Index: alsa-lib-1.0.27/src/conf/ucm/SDP4430/SDP4430.conf
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/SDP4430/SDP4430.conf	2013-05-14 19:43:13.816063837 +0200
+@@ -0,0 +1,45 @@
++# UCM configuration for SDP4430
++SectionUseCase."Record" {
++ 		File "record"
++ 		Comment "Record."
++}
++
++SectionUseCase."HiFi" {
++ 		File "hifi"
++ 		Comment "Play HiFi quality Music."
++}
++
++SectionUseCase."HiFi_Low_Power" {
++ 		File "hifiLP"
++ 		Comment "Play HiFi quality Music in Low Power Mode."
++}
++
++SectionUseCase."Voice" {
++ 		File "voice"
++ 		Comment "Playback Voice quality."
++}
++
++SectionUseCase."Voice_Low_Power" {
++ 		File "voice"
++ 		Comment "Playback Voice quality in Low Power Mode."
++}
++
++SectionUseCase."Voice_Call" {
++ 		File "voiceCall"
++ 		Comment "Capture and Playback in Voice quality."
++}
++
++SectionUseCase."Voice_Call_IP" {
++ 		File "voiceCall"
++ 		Comment "Capture and Playback in Voice quality."
++}
++
++SectionUseCase."FM_Analog_Radio" {
++ 		File "FMAnalog"
++ 		Comment "Capture FM Analog Radio."
++}
++
++SectionDefaults [
++                cdev "hw:SDP4430"
++		exec "echo Im setting defaults"
++]
+Index: alsa-lib-1.0.27/src/conf/ucm/SDP4430/hifi
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/SDP4430/hifi	2013-05-14 19:43:13.820063837 +0200
+@@ -0,0 +1,83 @@
++# Use case Configuration for TI SDP4430 HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:SDP4430"
++		cset "name='DL1 Mixer Multimedia' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Media Playback Volume' 90,90"
++                cset "name='SDT DL Volume' 120"
++
++                cset "name='HS Left Playback' 1"
++                cset "name='HS Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++		cset "name='DL1 Mixer Multimedia' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Media Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++
++		cset "name='HS Right Playback' 0"
++		cset "name='HS Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++
++ 	# Optional TQ and ALSA PCMs
++#	Value {
++#		TQ "Music"
++#		PlaybackPCM "hw:0,0"
++#                PlaybackVolume "name='DL1 Media Playback Volume' 90,90"
++#                PlaybackSwitch "name='DL1 PDM Switch' 1"
++#	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "SDP4430 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:SDP4430"
++                cset "name='HS Left Playback' 1"
++                cset "name='HS Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++		cset "name='HS Right Playback' 0"
++		cset "name='HS Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
++
++#SectionModifier."RecordMedia".0 {
++#	SupportedDevice [
++#		"Headset"
++#	]
++ #       EnableSequence [
++ #         ....
++ #       ]
++ #
++ #       DisableSequence [
++ #         ...
++ #       ]
++ #
++ #       TransitionSequence."ToModifierName" [
++ #         ...
++ #       ]
++ #
++ #       # Optional TQ and ALSA PCMs
++ #       Value {
++ #               TQ Voice
++ #               CapturePCM "hw:1"
++ #               PlaybackVolume "name='Master Playback Volume',index=2"
++ #               PlaybackSwitch "name='Master Playback Switch',index=2"
++ #       }
++#
++#}
++
+Index: alsa-lib-1.0.27/src/conf/ucm/SDP4430/hifiLP
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/SDP4430/hifiLP	2013-05-14 19:43:13.820063837 +0200
+@@ -0,0 +1,46 @@
++# Use case Configuration for TI SDP4430 HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:SDP4430"
++		cset "name='DL1 Mixer Multimedia' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Media Playback Volume' 90,90"
++                cset "name='SDT DL Volume' 120"
++	]
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++		cset "name='DL1 Mixer Multimedia' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Media Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Music"
++		PlaybackPCM "hw:0,6"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "SDP4430 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:SDP4430"
++                cset "name='HS Left Playback' 1"
++                cset "name='HS Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++		cset "name='HS Right Playback' 0"
++		cset "name='HS Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
+Index: alsa-lib-1.0.27/src/conf/ucm/SDP4430/record
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/SDP4430/record	2013-05-14 19:43:13.820063837 +0200
+@@ -0,0 +1,45 @@
++# Use case Configuration for TI SDP4430 HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:SDP4430"
++                cset "name='AMIC_UL PDM Switch' 1"
++                cset "name='MUX_UL00' 9"
++                cset "name='MUX_UL01' 10"
++                cset "name='Capture Volume' 4"
++	]
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++                cset "name='AMIC_UL PDM Switch' 0"
++                cset "name='MUX_UL00' 0"
++                cset "name='MUX_UL01' 0"
++                cset "name='Capture Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Music"
++		CapturePCM "hw:0,0"
++	}
++
++}
++
++SectionDevice."Headset".0 {
++	Comment "SDP4430 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:SDP4430"
++                cset "name='Analog Left Capture Route' 0"
++                cset "name='Analog Right Capture Route' 0"
++                cset "name='Capture Preamplifier Volume' 2"
++	]
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++                cset "name='Analog Left Capture Route' 3"
++                cset "name='Analog Right Capture Route' 3"
++                cset "name='Capture Preamplifier Volume' 0"
++	]
++}
+Index: alsa-lib-1.0.27/src/conf/ucm/SDP4430/voice
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/SDP4430/voice	2013-05-14 19:43:13.820063837 +0200
+@@ -0,0 +1,46 @@
++# Use case Configuration for TI SDP4430 HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:SDP4430"
++		cset "name='DL1 Mixer Voice' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Voice Playback Volume' 90,90"
++                cset "name='SDT DL Volume' 120"
++	]
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++		cset "name='DL1 Mixer Voice' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Voice Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Voice"
++		PlaybackPCM "hw:0,2"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "SDP4430 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:SDP4430"
++                cset "name='HS Left Playback' 1"
++                cset "name='HS Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++		cset "name='HS Right Playback' 0"
++		cset "name='HS Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
+Index: alsa-lib-1.0.27/src/conf/ucm/SDP4430/voiceCall
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/SDP4430/voiceCall	2013-05-14 19:43:13.820063837 +0200
+@@ -0,0 +1,67 @@
++# Use case Configuration for TI SDP4430 HiFi Music
++# By Liam Girdwood <lrg@slimlogic.co.uk>
++
++SectionVerb {
++  	EnableSequence [
++                cdev "hw:SDP4430"
++                cset "name='AMIC_UL PDM Switch' 1"
++                cset "name='Sidetone Mixer Capture' 1"
++                cset "name='MUX_VX0' 9"
++                cset "name='MUX_VX1' 10"
++		cset "name='DL1 Mixer Voice' 1"
++		cset "name='Sidetone Mixer Playback' 1"
++                cset "name='DL1 PDM Switch' 1"
++		cset "name='DL1 Voice Playback Volume' 90,90"
++                cset "name='Capture Volume' 4"
++                cset "name='Capture Mixer Voice Capture' 90,90"
++                cset "name='SDT DL Volume' 120"
++	]
++
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++                cset "name='AMIC_UL PDM Switch' 0"
++                cset "name='Sidetone Mixer Capture' 0"
++                cset "name='MUX_VX0' 0"
++                cset "name='MUX_VX1' 0"
++		cset "name='DL1 Mixer Voice' 0"
++		cset "name='Sidetone Mixer Playback' 0"
++                cset "name='DL1 PDM Switch' 0"
++		cset "name='DL1 Voice Playback Volume' 0,0"
++                cset "name='Capture Volume' 0"
++		cset "name='DL1 Voice Playback Volume' 0,0"
++                cset "name='SDT DL Volume' 0"
++	]
++
++	# Optional TQ and ALSA PCMs
++	Value {
++		TQ "Voice"
++                CapturePCM "hw:0,2"
++		PlaybackPCM "hw:0,2"
++	}
++}
++
++SectionDevice."Headset".0 {
++	Comment "SDP4430 3.5mm Headset"
++	
++	EnableSequence [
++                cdev "hw:SDP4430"
++                cset "name='Analog Left Capture Route' 0"
++                cset "name='Analog Right Capture Route' 0"
++                cset "name='Capture Preamplifier Volume' 2"
++                cset "name='HS Left Playback' 1"
++                cset "name='HS Right Playback' 1"
++                cset "name='Headset Playback Volume' 13"
++	]
++
++	DisableSequence [
++                cdev "hw:SDP4430"
++                cset "name='Analog Left Capture Route' 3"
++                cset "name='Analog Right Capture Route' 3"
++                cset "name='Capture Preamplifier Volume' 0"
++		cset "name='HS Right Playback' 0"
++		cset "name='HS Left Playback' 0"
++                cset "name='Headset Playback Volume' 0"
++	]
++}
++
+Index: alsa-lib-1.0.27/src/conf/ucm/tegraalc5632/Makefile.am
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/tegraalc5632/Makefile.am	2013-05-14 19:43:13.820063837 +0200
+@@ -0,0 +1,4 @@
++alsaconfigdir = @ALSA_CONFIG_DIR@
++ucmdir = $(alsaconfigdir)/ucm/tegraalc5632
++ucm_DATA = tegraalc5632.conf
++EXTRA_DIST = $(ucm_DATA)
+Index: alsa-lib-1.0.27/src/conf/ucm/tegraalc5632/tegraalc5632.conf
+===================================================================
+--- /dev/null	1970-01-01 00:00:00.000000000 +0000
++++ alsa-lib-1.0.27/src/conf/ucm/tegraalc5632/tegraalc5632.conf	2013-05-14 19:43:13.820063837 +0200
+@@ -0,0 +1,30 @@
++# UCM configuration for tegra-alc5632
++
++ValueDefaults {
++  PlaybackCTL "hw:0"
++  CaptureCTL "hw:0"
++}
++
++SectionDefaults [
++		exec "echo Im setting defaults for tegra-alc5632"
++		cdev "hw:tegraalc5632"
++		cset "name='Master Playback Switch' on"
++		cset "name='Master Playback Volume' 44,44"
++		cset "name='Headphone Playback Switch' on"
++		cset "name='Headphone Playback Volume' 21,21"
++		cset "name='Speaker Playback Switch' on"
++		cset "name='Speaker Playback Volume' 21,21"
++		cset "name='Speaker Mix DAC2SPK Playback Switch' on"
++		cset "name='SpeakerOut Mux' 2"
++		cset "name='SpeakerOut N Mux' LN/-R"
++		cset "name='AB-D Amp Mux' 0"
++		cset "name='HPL Mix DACL2HP Playback Switch' on"
++		cset "name='HPR Mix DACR2HP Playback Switch' on"
++		cset "name='Int Spk Switch' on"
++		cset "name='Left Headphone Mux' 1"
++		cset "name='Right Headphone Mux' 1"
++                cset "name='DMIC En Capture Switch' on"
++                cset "name='DMIC PreFilter Capture Switch' on"
++                cset "name='DMIC Boost Capture Volume' 4"
++                cset "name='Rec Capture Volume' 24"
++]

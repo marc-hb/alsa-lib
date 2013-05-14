@@ -1,11 +1,15 @@
-alsa-lib (1.0.27-4) UNRELEASED; urgency=low
+alsa-lib (1.0.27-4) unstable; urgency=low
 
   * Add double_dlclose.patch: from Git; avoid a double call of dlclose()
     in dlobj caching code.
   * inline_headers.patch: from Git; use __inline__ for exported headers.
     Fixes builds for packages using C90.
+  * Add ucm_profiles.patch: from Git; include UCM profiles from Chromebook
+    and Ubuntu.
+  * Introduce a new binary libasound2-data, and install all driver
+    configuration files and UCM profiles there.
 
- -- Jordi Mallach <jordi@debian.org>  Thu, 09 May 2013 10:16:42 +0200
+ -- Jordi Mallach <jordi@debian.org>  Tue, 14 May 2013 20:34:25 +0200
 
 alsa-lib (1.0.27-3) unstable; urgency=low
 
