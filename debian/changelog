@@ -1,5 +1,6 @@
 alsa-lib (1.0.27-4) unstable; urgency=low
 
+  [ Jordi Mallach ]
   * Add double_dlclose.patch: from Git; avoid a double call of dlclose()
     in dlobj caching code.
   * inline_headers.patch: from Git; use __inline__ for exported headers.
@@ -8,6 +9,14 @@ alsa-lib (1.0.27-4) unstable; urgency=low
     and Ubuntu.
   * Introduce a new binary libasound2-data, and install all driver
     configuration files and UCM profiles there.
+
+  [ Cyril Brulebois ]
+  * Fix dh_makeshlibs call:
+    - Reintroduce --add-udeb=libasound2-udeb (broken dependencies for debs
+      otherwise: #708353 for alsa-utils-udeb).
+    - Restore -V'libasound2 (>= 1.0.27)' as well, since symbols files don't
+      work for udebs. Regular debs will keep on picking the most relaxed
+      dependency, as usual.
 
  -- Jordi Mallach <jordi@debian.org>  Tue, 14 May 2013 20:34:25 +0200
 
