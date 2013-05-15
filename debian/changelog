@@ -16,7 +16,7 @@ alsa-lib (1.0.27-4) unstable; urgency=low
       otherwise: #708353 for alsa-utils-udeb).
     - Restore -V'libasound2 (>= 1.0.27)' as well, since symbols files don't
       work for udebs. Regular debs will keep on picking the most relaxed
-      dependency, as usual.
+      dependency, as usual. Closes: #708357.
 
  -- Jordi Mallach <jordi@debian.org>  Tue, 14 May 2013 20:34:25 +0200
 
