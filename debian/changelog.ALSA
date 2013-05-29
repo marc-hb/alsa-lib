@@ -1,3 +1,51 @@
+Changelog between 1.0.27 and 1.0.27.1 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.27_v1.0.27.1)
+(Reformated as ASCII text)
++++++++++++++++++++++++++++++++++++++++++++
+
+* alsa-lib
+  + Core
+    Release v1.0.27.1
+    Remove an obsolete macro in configure.in
+    Add AM_MAINTAINER_MODE.
+    conf/ucm: Set up for installation
+    Add definition of __inline__ for non-GCC
+    Use __inline__ for exported headers
+
+  + Control API
+    Use __inline__ for exported headers
+
+  + PCM API
+    Use __inline__ for exported headers
+    bring pcm.h and pcm.c in sync with the kernel list
+    pcm.c: fix indentation
+
+  + RawMidi API
+    Fix several spelling errors for “writable” and derivatives.
+
+  + Sequencer API
+    seqmid: restore sequencer address prefix match feature
+
+  + ALSA Lisp
+    Fix several spelling errors for “writable” and derivatives.
+
+  + Configuration
+    conf/ucm: DAISY-I2S: Set default filter mode for HiFi.
+    conf/ucm: Set up for installation
+    conf/ucm: tegraalc5632: add UCM config from Ubuntu
+    conf/ucm: SDP4430: add UCM config from Ubuntu
+    conf/ucm: PandaBoardES: add UCM config from Ubuntu
+    conf/ucm: PandaBoard: add UCM config from Ubuntu
+    conf/ucm: DAISY-I2S: add Samsung ARM Chromebook UCM config from ChromeOS
+    conf - Add Scarlett 2i2 USB to S/PDIF blacklist
+
+  + Dynamic Loader helpers
+    Compile in the ALSA search path instead of relying on ld.so.conf.
+    Fix doubly call of dlclose() in dlobj caching code
+
+  + External PCM Filter Plugin SDK
+    Use __inline__ for exported headers
+
 Changelog between 1.0.26 and 1.0.27 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.26_v1.0.27)
 (Reformated as ASCII text)
