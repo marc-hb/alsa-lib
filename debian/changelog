@@ -5,7 +5,7 @@ alsa-lib (1.0.27.1-2) unstable; urgency=low
   * Add tests_lm_ftbfs.patch: add -lm where needed, to fix two build
     failures in tests (closes: #709900).
 
- -- Jordi Mallach <jordi@debian.org>  Wed, 26 Jun 2013 11:00:17 +0200
+ -- Jordi Mallach <jordi@debian.org>  Fri, 28 Jun 2013 15:11:29 +0200
 
 alsa-lib (1.0.27.1-1) unstable; urgency=low
 
