@@ -1,4 +1,4 @@
-alsa-lib (1.0.27.1-2~1) unstable; urgency=low
+alsa-lib (1.0.27.1-2) unstable; urgency=low
 
   * Add fix_return_value_of_snd_pcm_rewind.patch: this fixes several
     problems with plugins, and fixes a Pulseaudio crash.
