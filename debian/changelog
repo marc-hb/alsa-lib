@@ -1,9 +1,11 @@
-alsa-lib (1.0.27.1-2~1) UNRELEASED; urgency=low
+alsa-lib (1.0.27.1-2~1) unstable; urgency=low
 
   * Add fix_return_value_of_snd_pcm_rewind.patch: this fixes several
     problems with plugins, and fixes a Pulseaudio crash.
+  * Add tests_lm_ftbfs.patch: add -lm where needed, to fix two build
+    failures in tests (closes: #709900).
 
- -- Jordi Mallach <jordi@debian.org>  Wed, 29 May 2013 18:34:21 +0200
+ -- Jordi Mallach <jordi@debian.org>  Wed, 26 Jun 2013 11:00:17 +0200
 
 alsa-lib (1.0.27.1-1) unstable; urgency=low
 
