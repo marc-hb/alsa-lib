@@ -1,3 +1,1 @@
-fix_docs_typo.patch
-fix_return_value_of_snd_pcm_rewind.patch
 tests_lm_ftbfs.patch

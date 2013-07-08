@@ -1,3 +1,11 @@
+alsa-lib (1.0.27.2-1) unstable; urgency=low
+
+  * New upstream release.
+  * Drop fix_return_value_of_snd_pcm_rewind.patch and fix_docs_typo.patch:
+    applied upstream.
+
+ -- Jordi Mallach <jordi@debian.org>  Tue, 09 Jul 2013 01:12:03 +0200
+
 alsa-lib (1.0.27.1-2) unstable; urgency=low
 
   * Add fix_return_value_of_snd_pcm_rewind.patch: this fixes several
