@@ -1,3 +1,35 @@
+Changelog between 1.0.27.1 and 1.0.27.2 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.27.1_v1.0.27.2)
+(Reformated as ASCII text)
++++++++++++++++++++++++++++++++++++++++++++
+
+* alsa-lib
+
+  + Core
+    Release v1.0.27.2
+    Allow specifying the max number of cards
+
+  + Control API
+    Allow specifying the max number of cards
+
+  + HWDEP API
+    Allow specifying the max number of cards
+
+  + PCM API
+    pcm_direct: fix SEGFAULT when getgrnam_r() returns 0 and pgrp is NULL
+    pcm_hw: Fix buffer overflow in chmap
+    chmap: Always succeed setting the map to what it already is
+    pcm_direct: fix the memory leak when parsing the slave definitions
+    pcm_plugin: Fix return value of snd_pcm_rewind
+    pcm_hw: Remove unused fields in struct
+    pcm: Fix typo in documentation: PREPARE → PREPARED.
+
+  + Use Case Manager API
+    ucm: Fix segfault when device argument is missing from _sw{dev, mod}
+
+  + Configuration
+    Allow specifying the max number of cards
+
 Changelog between 1.0.27 and 1.0.27.1 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.27_v1.0.27.1)
 (Reformated as ASCII text)
