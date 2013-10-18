@@ -1,3 +1,11 @@
+alsa-lib (1.0.27.2-3) UNRELEASED; urgency=low
+
+  * Add preinst scripts to -dbg and -dev packages to correctly
+    transition from symlinked doc directories to real directories
+    (closes: #716874).
+
+ -- Jordi Mallach <jordi@debian.org>  Fri, 18 Oct 2013 07:32:19 +0200
+
 alsa-lib (1.0.27.2-2) unstable; urgency=high
 
   * Team upload.
