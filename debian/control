@@ -13,6 +13,7 @@ Standards-Version: 3.9.4
 Homepage: http://www.alsa-project.org/
 Vcs-Svn: svn://anonscm.debian.org/pkg-alsa/trunk/alsa-lib
 Vcs-Browser: http://anonscm.debian.org/viewvc/pkg-alsa/trunk/alsa-lib/
+XS-Testsuite: autopkgtest
 
 Package: libasound2
 Architecture: linux-any

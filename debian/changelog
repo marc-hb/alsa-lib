@@ -1,3 +1,13 @@
+alsa-lib (1.0.27.2-4) unstable; urgency=medium
+
+  * Merge all pending delta from Ubuntu:
+    - Add a compile/run autopkg test
+    - Add UCM profiles for Nexus 7 (2012), Nexus 10, Nexus 4 and Galaxy Nexus
+    - Add config file for the tegra alc5632 chip found in the AC100 netbook
+    - Add hints for non-standard devices that lack configuration files
+
+ -- Jordi Mallach <jordi@debian.org>  Wed, 14 May 2014 10:20:01 +0200
+
 alsa-lib (1.0.27.2-3) unstable; urgency=low
 
   * Add preinst scripts to -dbg and -dev packages to correctly
@@ -597,7 +607,7 @@ alsa-lib (1.0.14-1) unstable; urgency=low
   * Patch management switched to quilt. This is more comfortable.
 
   [ Jordi Mallach ]
-  * Bump shlibs to 1.0.14, as new symbols have been added. 
+  * Bump shlibs to 1.0.14, as new symbols have been added.
 
  -- Jordi Mallach <jordi@debian.org>  Sat, 09 Jun 2007 19:17:41 +0200
 
@@ -608,7 +618,7 @@ alsa-lib (1.0.14~rc4-2) experimental; urgency=low
     - add XS-Vcs-Browser and XS-Vcs-Svn headers.
     - Build-Depend on gcc-multilib only on the available architectures
       (thanks Frank Lichtenheld; closes: #424310).
- 
+
  -- Jordi Mallach <jordi@debian.org>  Thu, 17 May 2007 01:44:35 +0200
 
 alsa-lib (1.0.14~rc4-1) experimental; urgency=low
@@ -916,7 +926,7 @@ alsa-lib (1.0.8-1) unstable; urgency=low
     - examples/asound.conf_dmix
       + Simplify
       + Mention /usr/share/doc/libasound2-doc/html/conf.html
-    - debian/rules 
+    - debian/rules
       + Eliminate debian/libasound2.shlibs; instead, use
            dh_makeshibs -V'libasound2 (>> 1.0.8)'
         (Version bumped up from 1.0.5)
@@ -1294,7 +1304,7 @@ alsa-lib (0.9.0rc7-2) unstable; urgency=low
   * debian/libasound2.install: install lib, aserver and alsa config files.
   * debian/libasound2-dev.install: install development, aclocal and pkgconfig
     files (closes: #181589).
-    
+
  -- Jordi Mallach <jordi@debian.org>  Wed, 19 Feb 2003 10:55:49 +0100
 
 alsa-lib (0.9.0rc7-1) unstable; urgency=low
@@ -1381,7 +1391,7 @@ alsa-lib (0.9.0rc3-0.1) unstable; urgency=low
   * Non-Maintainer Upload. Nearly all the work was done by
     Bastian Kleineidam <calvin@debian.org>.
   * New upstream release.
-  * New upstream has updated iatomic.h for mips 
+  * New upstream has updated iatomic.h for mips
     (closes: #149159, #145016).
   * Removed unnecessary powerpc patch.
   * Removed libtool hack (dont know why this was there).
@@ -1440,7 +1450,7 @@ alsa-lib (0.9.0beta7-1.1) unstable; urgency=low
 
   * Non-maintainer upload
   * Avoid use of functions from <asm/atomic.h> on ARM and SPARC.
-    (Closes: #97988) 
+    (Closes: #97988)
 
  -- Phil Blundell <pb@debian.org>  Thu, 22 Nov 2001 13:56:50 +0000
 
@@ -1527,7 +1537,7 @@ alsa-lib (0.5.7-2) unstable; urgency=low
 
   * Updated dependency info. (closes: #62011)
   * Removed minor dependencies for alsa-base of libasound1.
-  
+
  -- Masato Taruishi <taru@debian.org>  Sun,  9 Apr 2000 01:23:23 +0900
 
 alsa-lib (0.5.7-1) unstable; urgency=low
@@ -1657,7 +1667,7 @@ alsalib (0.3.0-pre2-2) unstable; urgency=low
   * Fixed wrong documentID in doc-base registration
 
  -- Wichert Akkerman <wakkerma@debian.org>  Sat, 23 Jan 1999 23:45:06 +0100
- 
+
 alsalib (0.3.0-pre2-1) unstable; urgency=low
 
   * New upstream version
@@ -1675,7 +1685,7 @@ alsalib (0.1.3-2) unstable; urgency=low
 alsalib (0.1.3-1) unstable; urgency=low
 
   * New upstream version
-  * Renamed package 
+  * Renamed package
   * Fix a couple of lintian errors & warnings
 
  -- Wichert Akkerman <wakkerma@debian.org>  Sun, 15 Nov 1998 02:34:38 +0100
