@@ -5,6 +5,8 @@ alsa-lib (1.0.27.2-4) unstable; urgency=medium
     - Add UCM profiles for Nexus 7 (2012), Nexus 10, Nexus 4 and Galaxy Nexus
     - Add config file for the tegra alc5632 chip found in the AC100 netbook
     - Add hints for non-standard devices that lack configuration files
+  * Rename the autopkg test to build-seq, to make lintian happy.
+  * Bump Standards-Version to 3.9.5.
 
  -- Jordi Mallach <jordi@debian.org>  Wed, 14 May 2014 10:20:01 +0200
 
