@@ -1,4 +1,3 @@
-tests_lm_ftbfs.patch
 lp652035-use-extended-namehints.patch
 add-tegra-alc5632.patch
 0001-Add-UCM-configuration-for-Nexus-4-Mako.patch
@@ -6,4 +5,3 @@ add-tegra-alc5632.patch
 0003-Add-UCM-files-for-Nexus-7.patch
 0004-Add-UCM-config-files-for-Nexus-10.patch
 0005-Add-UCM-config-files-for-Nexus-5.patch
-Fix-access-of-freed-memory-in-namehints.patch

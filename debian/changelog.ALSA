@@ -1,3 +1,102 @@
+Changelog between 1.0.27.2 and 1.0.28 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.27.2_v1.0.28)
+(Reformated as ASCII text)
++++++++++++++++++++++++++++++++++++++++++++
+
+* alsa-lib
+
+  * Core
+    Release v1.0.28
+    autotools: update style
+    Portability fix: look for sys/endian.h as well as endian.h
+    alsa-lib: heavy pcm atomics cleanup
+    include/global.h - don't define timeval and timespec structures for !glibc
+    local.h: include sys/types.h to fix issues with pcm.h
+    remove unnecessary/obsolete compat/hsearch_r.c
+    Update iatomic.h functions definitions for mips
+    local.h: use __kernel_off_t from <linux/types.h>
+
+  * Control API
+    control_hw: fix potential memory leak
+    snd_tlv_convert_from_dB: fix decreasing gain across entries
+    Fix access of freed memory in namehints
+
+  * PCM API
+    alsa-lib: pcm_plug: fix float conversion for user specified ttable
+    pcm: rate plugin - remove the rewind/forward implementation
+    pcm: rate: add rewindable and forwardable callbacks
+    pcm: null plugin - fix the avail count
+    pcm: null: add rewindable and forwardable callbacks
+    pcm: multi: implement rewindable and forwardable callbacks
+    pcm:file: add the missing htimestamp callback
+    pcm: Fix channel map query when there are lots of maps
+    pcm: route: Correctly close slave pcm when no matching chmap is found
+    pcm: Fix forward/rewind support in iec958 plugin
+    pcm: rate: Don't return negative frame count on success in rewind
+    pcm: ladspa: Delay LADSPA plugin activate call
+    Revert "pcm: route: Don't handle no matching chmap as a serious error"
+    route: Fix invalid pointer access
+    route: Return NULL in case of zero found channels in determine_chmap
+    pcm: route: Don't handle no matching chmap as a serious error
+    pcm: Wrap hw_ptr to boundary in pcm_ioplug
+    pcm: route: Select slave chmap based on ttable information
+    pcm: route: Allow chmap syntax for slave channels in ttable
+    pcm: Insert linear-to-float conversion when rate or channel count is incorrect
+    Portability fix: look for sys/endian.h as well as endian.h
+    alsa-lib: heavy pcm atomics cleanup
+    pcm: use CLOCK_REALTIME for non-monotonic ts
+    pcm: initialize monotonic field for dshare and dsnoop, too
+    pcm: initialize pcm_dmix monotonic field
+    alsa-lib: minor typo in pcm doc
+    minor malloc changes
+    dmix: Don't use assert() and abort()
+    pcm_file: document new argument to snd_pcm_file_open().
+    pcm_file: don't touch infile on playback and output file on capture.
+    pcm_file: fixed memory leak.
+    pcm_file: fix SEGFAULT if file option is missing while infile is not.
+    pcm: Fix a wrong value shown in the error message in rate plugin
+
+  * Use Case Manager API
+    UCM: Document some standard values
+
+  * /Makefile.am
+    autotools: update style
+
+  * /alsalisp/Makefile.am
+    autotools: update style
+
+  * /src/Makefile.am
+    remove unnecessary/obsolete compat/hsearch_r.c
+
+  * ALSA Lisp
+    minor malloc changes
+
+  * ALSA Server
+    autotools: update style
+
+  * Compatibility routines
+    remove unnecessary/obsolete compat/hsearch_r.c
+
+  * Configuration
+    Loopback.conf: fix the comment
+    src/conf/cards: Add missing entry for Loopback.conf
+    conf: Allow 2.1 surround to use different number of channels
+    conf: Add surround 2.1 support to all cards
+    conf: Add basic infrastructure for 2.1 surround sound
+    conf.c: use portable way to initialize recursive mutex
+    HDA-Intel: present up to 8 HDMI/DP outputs via "hdmi" device
+    conf/cards: add Audio Advantage Micro II
+
+  * Documentation
+    autotools: update style
+
+  * Kernel Headers
+    hdspm.h: Update LTC ioctl to use struct hdspm_ltc
+
+  * Test/Example code
+    Add -lm to test programs to fix build failure.
+    test/chmap: Add missing usage text for -s option
+
 Changelog between 1.0.27.1 and 1.0.27.2 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.27.1_v1.0.27.2)
 (Reformated as ASCII text)

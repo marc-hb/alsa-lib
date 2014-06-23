@@ -5,7 +5,7 @@ Subject: [PATCH 4/4] Add UCM config files for Nexus 10
 
 Signed-off-by: David Henningsson <david.henningsson@canonical.com>
 ---
- configure.in                              |   2 +
+ configure.ac                              |   2 +
  src/conf/ucm/Makefile.am                  |   2 +-
  src/conf/ucm/Manta-I2S/HiFi               | 211 ++++++++++++++++++++++++++++++
  src/conf/ucm/Manta-I2S/Makefile.am        |   4 +
@@ -21,10 +21,10 @@ Signed-off-by: David Henningsson <david.henningsson@canonical.com>
  create mode 100644 src/conf/ucm/Manta-SPDIF/Makefile.am
  create mode 100644 src/conf/ucm/Manta-SPDIF/Manta-SPDIF.conf
 
-diff --git a/configure.in b/configure.in
+diff --git a/configure.ac b/configure.ac
 index 92e5db5..daf3b91 100644
---- a/configure.in
-+++ b/configure.in
+--- a/configure.ac
++++ b/configure.ac
 @@ -672,6 +672,8 @@ AC_OUTPUT(Makefile doc/Makefile doc/pictures/Makefile doc/doxygen.cfg \
  	  src/conf/ucm/apq8064-tabla-snd-card/Makefile \
  	  src/conf/ucm/Tuna/Makefile \
