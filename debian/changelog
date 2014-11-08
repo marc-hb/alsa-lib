@@ -1,3 +1,8 @@
+alsa-lib (1.0.28-1) UNRELEASED; urgency=low
+
+  [ Elimar Riesebieter ]
+  * Added /usr/share/doc/libasound2-dev/examples (closes: #768592)
+
 alsa-lib (1.0.28-1) unstable; urgency=medium
 
   [ Luke Yelavich ]
