@@ -2,7 +2,6 @@ alsa-lib (1.0.28-2) UNRELEASED; urgency=low
 
   [ Elimar Riesebieter ]
   * Added /usr/share/doc/libasound2-dev/examples (closes: #768592).
-  * Added debian/patches/html_timestamp_off.patch (closes: #779182).
   * Bump Standards-Version to 3.9.6.
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Tue, 10 Mar 2015 08:03:56 +0100
