@@ -1,10 +1,23 @@
-alsa-lib (1.0.28-2) UNRELEASED; urgency=low
+alsa-lib (1.0.29-1) UNRELEASED; urgency=low
 
   [ Elimar Riesebieter ]
   * Added /usr/share/doc/libasound2-dev/examples (closes: #768592).
   * Bump Standards-Version to 3.9.6.
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Tue, 10 Mar 2015 08:03:56 +0100
+  [ Luke Yelavich ]
+  * New upstream release
+  * Refreshed patches:
+    - add-tegra-alc5632.patch
+    - lp652035-use-extended-namehints.patch
+    - 0001-Add-UCM-configuration-for-Nexus-4-Mako.patch
+    - 0002-Add-UCM-config-file-for-Galaxy-Nexus-maguro.patch
+    - 0003-Add-UCM-files-for-Nexus-7.patch
+    - 0004-Add-UCM-config-files-for-Nexus-10.patch
+    - 0005-Add-UCM-config-files-for-Nexus-5.patch
+  * Update symbols
+  * Update changelog.ALSA
+
+ -- Luke Yelavich <themuso@ubuntu.com>  Wed, 06 May 2015 12:11:04 +1000
 
 alsa-lib (1.0.28-1) unstable; urgency=medium
 

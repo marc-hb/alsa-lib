@@ -1,8 +1,8 @@
-Index: alsa-lib-1.0.25/src/conf/cards/Makefile.am
+Index: alsa-lib-1.0.29/src/conf/cards/Makefile.am
 ===================================================================
---- alsa-lib-1.0.25.orig/src/conf/cards/Makefile.am	2012-02-15 16:19:51.444263639 +1100
-+++ alsa-lib-1.0.25/src/conf/cards/Makefile.am	2012-02-15 16:20:48.900265439 +1100
-@@ -45,6 +45,7 @@
+--- alsa-lib-1.0.29.orig/src/conf/cards/Makefile.am
++++ alsa-lib-1.0.29/src/conf/cards/Makefile.am
+@@ -46,6 +46,7 @@ cfg_files = aliases.conf \
  	RME9652.conf \
  	SI7018.conf \
  	SB-XFi.conf \
@@ -10,10 +10,10 @@ Index: alsa-lib-1.0.25/src/conf/cards/Makefile.am
  	TRID4DWAVENX.conf \
  	USB-Audio.conf \
  	YMF744.conf \
-Index: alsa-lib-1.0.25/src/conf/cards/tegra-alc5632.conf
+Index: alsa-lib-1.0.29/src/conf/cards/tegra-alc5632.conf
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ alsa-lib-1.0.25/src/conf/cards/tegra-alc5632.conf	2012-02-15 16:21:06.228265983 +1100
+--- /dev/null
++++ alsa-lib-1.0.29/src/conf/cards/tegra-alc5632.conf
 @@ -0,0 +1,23 @@
 +# default with dmix/dsnoop
 +tegra-alc5632.pcm.default {

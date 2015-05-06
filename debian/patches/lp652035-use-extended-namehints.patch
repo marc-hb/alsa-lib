@@ -1,8 +1,8 @@
-Index: alsa-lib-1.0.23/src/conf/alsa.conf
+Index: alsa-lib-1.0.29/src/conf/alsa.conf
 ===================================================================
---- alsa-lib-1.0.23.orig/src/conf/alsa.conf	2010-10-03 15:05:47.000000000 -0400
-+++ alsa-lib-1.0.23/src/conf/alsa.conf	2010-10-03 15:09:27.000000000 -0400
-@@ -54,11 +54,11 @@
+--- alsa-lib-1.0.29.orig/src/conf/alsa.conf
++++ alsa-lib-1.0.29/src/conf/alsa.conf
+@@ -59,11 +59,11 @@ cards.@hooks [
  #
  
  # show all name hints also for definitions without hint {} section

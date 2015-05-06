@@ -21,11 +21,11 @@ Signed-off-by: David Henningsson <david.henningsson@canonical.com>
  create mode 100644 src/conf/ucm/Manta-SPDIF/Makefile.am
  create mode 100644 src/conf/ucm/Manta-SPDIF/Manta-SPDIF.conf
 
-diff --git a/configure.ac b/configure.ac
-index 92e5db5..daf3b91 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -672,6 +672,8 @@ AC_OUTPUT(Makefile doc/Makefile doc/pictures/Makefile doc/doxygen.cfg \
+Index: alsa-lib-1.0.29/configure.ac
+===================================================================
+--- alsa-lib-1.0.29.orig/configure.ac
++++ alsa-lib-1.0.29/configure.ac
+@@ -658,6 +658,8 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
  	  src/conf/ucm/apq8064-tabla-snd-card/Makefile \
  	  src/conf/ucm/Tuna/Makefile \
  	  src/conf/ucm/tegra-rt5640/Makefile \
@@ -34,18 +34,17 @@ index 92e5db5..daf3b91 100644
  	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
  	  alsalisp/Makefile aserver/Makefile \
  	  test/Makefile test/lsb/Makefile \
-diff --git a/src/conf/ucm/Makefile.am b/src/conf/ucm/Makefile.am
-index e8cc02d..d284864 100644
---- a/src/conf/ucm/Makefile.am
-+++ b/src/conf/ucm/Makefile.am
+Index: alsa-lib-1.0.29/src/conf/ucm/Makefile.am
+===================================================================
+--- alsa-lib-1.0.29.orig/src/conf/ucm/Makefile.am
++++ alsa-lib-1.0.29/src/conf/ucm/Makefile.am
 @@ -1 +1 @@
--SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 apq8064-tabla-snd-card Tuna tegra-rt5640
-+SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 apq8064-tabla-snd-card Tuna tegra-rt5640 Manta-I2S Manta-SPDIF
-diff --git a/src/conf/ucm/Manta-I2S/HiFi b/src/conf/ucm/Manta-I2S/HiFi
-new file mode 100644
-index 0000000..9e0f00c
+-SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan apq8064-tabla-snd-card Tuna tegra-rt5640
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan apq8064-tabla-snd-card Tuna tegra-rt5640 Manta-I2S Manta-SPDIF
+Index: alsa-lib-1.0.29/src/conf/ucm/Manta-I2S/HiFi
+===================================================================
 --- /dev/null
-+++ b/src/conf/ucm/Manta-I2S/HiFi
++++ alsa-lib-1.0.29/src/conf/ucm/Manta-I2S/HiFi
 @@ -0,0 +1,211 @@
 +# By David Henningsson <david.henningsson@canonical.com>
 +# Translated from mixer_paths.xml in Manta repository
@@ -258,21 +257,19 @@ index 0000000..9e0f00c
 +		CaptureChannels "1"
 +	}
 +}
-diff --git a/src/conf/ucm/Manta-I2S/Makefile.am b/src/conf/ucm/Manta-I2S/Makefile.am
-new file mode 100644
-index 0000000..f053707
+Index: alsa-lib-1.0.29/src/conf/ucm/Manta-I2S/Makefile.am
+===================================================================
 --- /dev/null
-+++ b/src/conf/ucm/Manta-I2S/Makefile.am
++++ alsa-lib-1.0.29/src/conf/ucm/Manta-I2S/Makefile.am
 @@ -0,0 +1,4 @@
 +alsaconfigdir = @ALSA_CONFIG_DIR@
 +ucmdir = $(alsaconfigdir)/ucm/Manta-I2S
 +ucm_DATA = Manta-I2S.conf HiFi
 +EXTRA_DIST = $(ucm_DATA)
-diff --git a/src/conf/ucm/Manta-I2S/Manta-I2S.conf b/src/conf/ucm/Manta-I2S/Manta-I2S.conf
-new file mode 100644
-index 0000000..83b61ec
+Index: alsa-lib-1.0.29/src/conf/ucm/Manta-I2S/Manta-I2S.conf
+===================================================================
 --- /dev/null
-+++ b/src/conf/ucm/Manta-I2S/Manta-I2S.conf
++++ alsa-lib-1.0.29/src/conf/ucm/Manta-I2S/Manta-I2S.conf
 @@ -0,0 +1,7 @@
 +# UCM configuration for Manta / Nexus 10
 +
@@ -281,30 +278,27 @@ index 0000000..83b61ec
 +	Comment "Play HiFi quality Music."
 +}
 +
-diff --git a/src/conf/ucm/Manta-SPDIF/Dummy b/src/conf/ucm/Manta-SPDIF/Dummy
-new file mode 100644
-index 0000000..a2ad2a7
+Index: alsa-lib-1.0.29/src/conf/ucm/Manta-SPDIF/Dummy
+===================================================================
 --- /dev/null
-+++ b/src/conf/ucm/Manta-SPDIF/Dummy
++++ alsa-lib-1.0.29/src/conf/ucm/Manta-SPDIF/Dummy
 @@ -0,0 +1,3 @@
 +SectionVerb {
 +}
 +SectionDevice.Dummy { }
-diff --git a/src/conf/ucm/Manta-SPDIF/Makefile.am b/src/conf/ucm/Manta-SPDIF/Makefile.am
-new file mode 100644
-index 0000000..0e2c0dc
+Index: alsa-lib-1.0.29/src/conf/ucm/Manta-SPDIF/Makefile.am
+===================================================================
 --- /dev/null
-+++ b/src/conf/ucm/Manta-SPDIF/Makefile.am
++++ alsa-lib-1.0.29/src/conf/ucm/Manta-SPDIF/Makefile.am
 @@ -0,0 +1,4 @@
 +alsaconfigdir = @ALSA_CONFIG_DIR@
 +ucmdir = $(alsaconfigdir)/ucm/Manta-SPDIF
 +ucm_DATA = Manta-SPDIF.conf Dummy
 +EXTRA_DIST = $(ucm_DATA)
-diff --git a/src/conf/ucm/Manta-SPDIF/Manta-SPDIF.conf b/src/conf/ucm/Manta-SPDIF/Manta-SPDIF.conf
-new file mode 100644
-index 0000000..1db14c9
+Index: alsa-lib-1.0.29/src/conf/ucm/Manta-SPDIF/Manta-SPDIF.conf
+===================================================================
 --- /dev/null
-+++ b/src/conf/ucm/Manta-SPDIF/Manta-SPDIF.conf
++++ alsa-lib-1.0.29/src/conf/ucm/Manta-SPDIF/Manta-SPDIF.conf
 @@ -0,0 +1,6 @@
 +# This empty file makes PulseAudio avoid the card.
 +
@@ -312,6 +306,3 @@ index 0000000..1db14c9
 +	File Dummy
 +	Comment "Dummy"
 +}
--- 
-1.8.3.2
-

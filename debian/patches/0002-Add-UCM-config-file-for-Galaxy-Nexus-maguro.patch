@@ -16,30 +16,29 @@ Subject: [PATCH 2/4] Add UCM config file for Galaxy Nexus (maguro)
  create mode 100644 src/conf/ucm/Tuna/Tuna.conf
  create mode 100644 src/conf/ucm/Tuna/VoiceCall
 
-diff --git a/configure.ac b/configure.ac
-index 25fdc81..de4e2ef 100644
---- a/configure.ac
-+++ b/configure.ac
-@@ -670,6 +670,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pictures/Makefile doc/doxygen.cfg \
- 	  src/conf/ucm/SDP4430/Makefile \
- 	  src/conf/ucm/tegraalc5632/Makefile \
+Index: alsa-lib-1.0.29/configure.ac
+===================================================================
+--- alsa-lib-1.0.29.orig/configure.ac
++++ alsa-lib-1.0.29/configure.ac
+@@ -656,6 +656,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
+ 	  src/conf/ucm/PAZ00/Makefile \
+ 	  src/conf/ucm/GoogleNyan/Makefile \
  	  src/conf/ucm/apq8064-tabla-snd-card/Makefile \
 +	  src/conf/ucm/Tuna/Makefile \
  	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
  	  alsalisp/Makefile aserver/Makefile \
  	  test/Makefile test/lsb/Makefile \
-diff --git a/src/conf/ucm/Makefile.am b/src/conf/ucm/Makefile.am
-index adb3c87..029e1e8 100644
---- a/src/conf/ucm/Makefile.am
-+++ b/src/conf/ucm/Makefile.am
+Index: alsa-lib-1.0.29/src/conf/ucm/Makefile.am
+===================================================================
+--- alsa-lib-1.0.29.orig/src/conf/ucm/Makefile.am
++++ alsa-lib-1.0.29/src/conf/ucm/Makefile.am
 @@ -1 +1 @@
--SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 apq8064-tabla-snd-card
-+SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 apq8064-tabla-snd-card Tuna
-diff --git a/src/conf/ucm/Tuna/HiFi b/src/conf/ucm/Tuna/HiFi
-new file mode 100644
-index 0000000..3a7fe5e
+-SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan apq8064-tabla-snd-card
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan apq8064-tabla-snd-card Tuna
+Index: alsa-lib-1.0.29/src/conf/ucm/Tuna/HiFi
+===================================================================
 --- /dev/null
-+++ b/src/conf/ucm/Tuna/HiFi
++++ alsa-lib-1.0.29/src/conf/ucm/Tuna/HiFi
 @@ -0,0 +1,354 @@
 +# Use case Configuration for TI Tuna HiFi audio playback and capture
 +# By Liam Girdwood <lrg@ti.com>
@@ -395,21 +394,19 @@ index 0000000..3a7fe5e
 +	}
 +}
 +
-diff --git a/src/conf/ucm/Tuna/Makefile.am b/src/conf/ucm/Tuna/Makefile.am
-new file mode 100644
-index 0000000..f8a69dd
+Index: alsa-lib-1.0.29/src/conf/ucm/Tuna/Makefile.am
+===================================================================
 --- /dev/null
-+++ b/src/conf/ucm/Tuna/Makefile.am
++++ alsa-lib-1.0.29/src/conf/ucm/Tuna/Makefile.am
 @@ -0,0 +1,4 @@
 +alsaconfigdir = @ALSA_CONFIG_DIR@
 +ucmdir = $(alsaconfigdir)/ucm/Tuna
 +ucm_DATA = Tuna.conf HiFi VoiceCall
 +EXTRA_DIST = $(ucm_DATA)
-diff --git a/src/conf/ucm/Tuna/Tuna.conf b/src/conf/ucm/Tuna/Tuna.conf
-new file mode 100644
-index 0000000..c517b21
+Index: alsa-lib-1.0.29/src/conf/ucm/Tuna/Tuna.conf
+===================================================================
 --- /dev/null
-+++ b/src/conf/ucm/Tuna/Tuna.conf
++++ alsa-lib-1.0.29/src/conf/ucm/Tuna/Tuna.conf
 @@ -0,0 +1,14 @@
 +# UCM configuration for SDP4430
 +SectionUseCase."HiFi" {
@@ -425,11 +422,10 @@ index 0000000..c517b21
 +SectionDefaults [
 +	cdev "hw:Tuna"
 +]
-diff --git a/src/conf/ucm/Tuna/VoiceCall b/src/conf/ucm/Tuna/VoiceCall
-new file mode 100644
-index 0000000..47a2ba3
+Index: alsa-lib-1.0.29/src/conf/ucm/Tuna/VoiceCall
+===================================================================
 --- /dev/null
-+++ b/src/conf/ucm/Tuna/VoiceCall
++++ alsa-lib-1.0.29/src/conf/ucm/Tuna/VoiceCall
 @@ -0,0 +1,245 @@
 +# Use case Configuration for TI Tuna RF MODEM Voice Call
 +# By Liam Girdwood <lrg@ti.com>
@@ -676,6 +672,3 @@ index 0000000..47a2ba3
 +
 +
 +
--- 
-1.7.9.5
-

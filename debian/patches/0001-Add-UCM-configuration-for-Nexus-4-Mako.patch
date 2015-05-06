@@ -18,29 +18,29 @@ this is handled by talking to the audio HAL.
  create mode 100644 src/conf/ucm/apq8064-tabla-snd-card/VoiceCall
  create mode 100644 src/conf/ucm/apq8064-tabla-snd-card/apq8064-tabla-snd-card.conf
 
-Index: alsa-lib-1.0.27.2/configure.ac
+Index: alsa-lib-1.0.29/configure.ac
 ===================================================================
---- alsa-lib-1.0.27.2.orig/configure.ac	2013-07-08 09:31:36.000000000 -0300
-+++ alsa-lib-1.0.27.2/configure.ac	2014-03-10 02:07:28.000000000 -0300
-@@ -669,6 +669,7 @@
- 	  src/conf/ucm/PandaBoardES/Makefile \
- 	  src/conf/ucm/SDP4430/Makefile \
+--- alsa-lib-1.0.29.orig/configure.ac
++++ alsa-lib-1.0.29/configure.ac
+@@ -655,6 +655,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
  	  src/conf/ucm/tegraalc5632/Makefile \
+ 	  src/conf/ucm/PAZ00/Makefile \
+ 	  src/conf/ucm/GoogleNyan/Makefile \
 +	  src/conf/ucm/apq8064-tabla-snd-card/Makefile \
  	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
  	  alsalisp/Makefile aserver/Makefile \
  	  test/Makefile test/lsb/Makefile \
-Index: alsa-lib-1.0.27.2/src/conf/ucm/Makefile.am
+Index: alsa-lib-1.0.29/src/conf/ucm/Makefile.am
 ===================================================================
---- alsa-lib-1.0.27.2.orig/src/conf/ucm/Makefile.am	2013-07-08 09:31:36.000000000 -0300
-+++ alsa-lib-1.0.27.2/src/conf/ucm/Makefile.am	2014-03-10 02:07:28.000000000 -0300
+--- alsa-lib-1.0.29.orig/src/conf/ucm/Makefile.am
++++ alsa-lib-1.0.29/src/conf/ucm/Makefile.am
 @@ -1 +1 @@
--SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632
-+SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 apq8064-tabla-snd-card
-Index: alsa-lib-1.0.27.2/src/conf/ucm/apq8064-tabla-snd-card/HiFi
+-SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan apq8064-tabla-snd-card
+Index: alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/HiFi
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ alsa-lib-1.0.27.2/src/conf/ucm/apq8064-tabla-snd-card/HiFi	2014-03-10 02:08:14.306081574 -0300
+--- /dev/null
++++ alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/HiFi
 @@ -0,0 +1,260 @@
 +SectionVerb {
 +	EnableSequence [
@@ -302,19 +302,19 @@ Index: alsa-lib-1.0.27.2/src/conf/ucm/apq8064-tabla-snd-card/HiFi
 +		CaptureChannels "1"
 +	}
 +}
-Index: alsa-lib-1.0.27.2/src/conf/ucm/apq8064-tabla-snd-card/Makefile.am
+Index: alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/Makefile.am
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ alsa-lib-1.0.27.2/src/conf/ucm/apq8064-tabla-snd-card/Makefile.am	2014-03-10 02:06:53.000000000 -0300
+--- /dev/null
++++ alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/Makefile.am
 @@ -0,0 +1,4 @@
 +alsaconfigdir = @ALSA_CONFIG_DIR@
 +ucmdir = $(alsaconfigdir)/ucm/apq8064-tabla-snd-card
 +ucm_DATA = apq8064-tabla-snd-card.conf HiFi VoiceCall
 +EXTRA_DIST = $(ucm_DATA)
-Index: alsa-lib-1.0.27.2/src/conf/ucm/apq8064-tabla-snd-card/VoiceCall
+Index: alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/VoiceCall
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ alsa-lib-1.0.27.2/src/conf/ucm/apq8064-tabla-snd-card/VoiceCall	2014-03-10 02:07:45.906081319 -0300
+--- /dev/null
++++ alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/VoiceCall
 @@ -0,0 +1,154 @@
 +# There is no mixer setup here - it is handled by PulseAudio's audio HAL module.
 +
@@ -470,10 +470,10 @@ Index: alsa-lib-1.0.27.2/src/conf/ucm/apq8064-tabla-snd-card/VoiceCall
 +		CaptureChannels "1"
 +	}
 +}
-Index: alsa-lib-1.0.27.2/src/conf/ucm/apq8064-tabla-snd-card/apq8064-tabla-snd-card.conf
+Index: alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/apq8064-tabla-snd-card.conf
 ===================================================================
---- /dev/null	1970-01-01 00:00:00.000000000 +0000
-+++ alsa-lib-1.0.27.2/src/conf/ucm/apq8064-tabla-snd-card/apq8064-tabla-snd-card.conf	2014-03-10 02:06:53.000000000 -0300
+--- /dev/null
++++ alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/apq8064-tabla-snd-card.conf
 @@ -0,0 +1,8 @@
 +SectionUseCase."HiFi" {
 +	File "HiFi"

@@ -1,3 +1,129 @@
+Changelog between 1.0.28 and 1.0.29 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.28_v1.0.29)
+(Reformated as ASCII text)
++++++++++++++++++++++++++++++++++++++++++++
+
+* alsa-lib
+
+  * Core
+    Release v1.0.29
+    conf/ucm: GoogleNyan: Add configuration
+    conf/ucm: PAZ00: add Toshiba AC100/Dynabook AZ new config
+
+  * Control API
+    control: complement comment for subscribe API
+    Remove unused hostname resolution in shm plugins and aserver
+    control: enable octal and hexadecimal parse
+    control: return negative value in case of error
+
+  * HWDEP API
+    hwdep: add OXFW driver support
+    hwdep: add missing declaration for snd_hwdep_poll_descriptors_count()
+    Sync enum snd_hwdep_iface_t with include/asound/asound.h
+
+  * Mixer API
+    mixer: Fix unused parameter warnings
+    mixer: Fix inclusion of config.h
+    mixer: Fix missing hctl handle free in snd_mixer_attach_hctl()
+    simple_abst: null check for lib
+    mixer: fixed double free
+
+  * PCM API
+    Remove unused hostname resolution in shm plugins and aserver
+    pcm: fix buffer overflow in snd_pcm_chmap_print()
+    pcm: Fix assorted tstamp_type bugs/omissions.
+    pcm: Fix DSD sample format endianess and add big-endian format
+    pcm: dmix: Don't ignore SND_TIMER_EVENT_MSTOP
+    pcm: return negative value in case of error
+    pcm_hooks: null check for h
+    pcm_share: fixing missing mutex unlock
+    pcm_file: fixed missing free
+    pcm, rate: hw_avail must not be negative before starting the stream
+    pcm route: Fix the bad condition (always false)
+    Revert "pcm: rewindable, forwardable: don't return stale data"
+    pcm, file: don't recurse in the rewindable and forwardable callbacks
+    pcm: rewindable, forwardable: don't return stale data
+    dsnoop: rewindable and forwardable logic was swapped
+    rate: handle negative values from snd_pcm_mmap_playback_hw_avail
+    pcm, null: use the snd_pcm_mmap_avail function
+    pcm, rate: use the snd_pcm_mmap_hw_avail function
+    pcm: handle negative values from snd_pcm_mmap_hw_avail
+    pcm: express the rewind size limitation logic better
+    dmix: actually rewind when running or being drained
+    pcm: add new 32-bit DSD sample format
+    pcm: fix return value of snd_pcm_share_slave_avail
+    pcm: fix snd_pcm_mmap_hw_avail() near the boundary
+    pcm: 2nd round of pcm_misc DSD fixes
+    pcm: Add missing signed and endianess definitions for DSD formats
+    pcm: Fix DSD formats userland usability
+    pcm: pcm_local.h: include <time.h> to enable CLOCK_MONOTONIC
+    pcm: Drop snd_pcm_linear_{get|put}32_index()
+    pcm: route: Use get32 for multi-source route calculation
+    pcm: Fill sw_params proto field
+    pcm: route: Use get/put labels for all 3 byte formats
+    pcm: Implement timestamp type handling in all plugins
+    pcm: Implement timestamp type setup in hw plugin
+    pcm: Add sw_params API functions to get/set timestamp type
+    pcm: rate: fix hw_ptr exceed the boundary
+
+  * RawMidi API
+    rawmidi: close handle h
+
+  * Use Case Manager API
+    ucm: fix some variable constness issues
+    ucm: fix the logic of choosing the default cdev
+    ucm: fix incorrect error code sign
+    ucm: fix variable mixup
+    ucm: add binary configure file parse
+    ucm: Fix uninitialized err in snd_use_case_set()
+    ucm: Document PlaybackPCMIsDummy and CapturePCMIsDummy values
+
+  * /include/Makefile.am
+    autotools: fix ucm partial build
+
+  * ALSA Server
+    Remove unused hostname resolution in shm plugins and aserver
+
+  * Configuration
+    conf: add support for USB AudioSport Quattro (tm)
+    conf/ucm: GoogleNyan: Add configuration
+    USB-audio: Add five more cards to IEC958 blacklist
+    USB-Audio: Add Scarlett 2i4 USB to S/PDIF blacklist
+    conf/ucm: PAZ00: add Toshiba AC100/Dynabook AZ new config
+    conf: return negative value in case of error
+    USB-Audio: Add second S/PDIF device on Phiree U2
+    ICE1712: add surround71 pcm definition
+
+  * Documentation
+    doc: fix cross-compiling example
+
+  * Dynamic Loader helpers
+    dlmisc: Remove unused label
+    snd_dlsym: only do versioning checks if built --with-versioning
+
+  * Filename helpers
+    snd_user_file: fix memory leak
+
+  * Kernel Headers
+    hwdep: add OXFW driver support
+    pcm: Fix DSD sample format endianess and add big-endian format
+    pcm: add new 32-bit DSD sample format
+    Sync include/sound/asound.h with 3.17-rc1 kernel
+    pcm: Fix DSD formats userland usability
+    pcm: Fill sw_params proto field
+    Add timestamp type to sw_params (internal only)
+    pcm: Provide a CLOCK_MONOTONIC_RAW timestamp type
+
+  * Simple Abstraction Mixer Modules
+    sbase: fixed missing free
+
+  * Socket helpers
+    Remove unused hostname resolution in shm plugins and aserver
+    socket: missing socket close
+
+  * Test/Example code
+    test/audio_time: Set timestamp type explicitly
+
 Changelog between 1.0.27.2 and 1.0.28 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.27.2_v1.0.28)
 (Reformated as ASCII text)
