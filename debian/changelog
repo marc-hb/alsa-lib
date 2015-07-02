@@ -1,4 +1,4 @@
-alsa-lib (1.0.29-1) UNRELEASED; urgency=low
+alsa-lib (1.0.29-1) unstable; urgency=low
 
   [ Elimar Riesebieter ]
   * Added /usr/share/doc/libasound2-dev/examples (closes: #768592).
@@ -17,7 +17,11 @@ alsa-lib (1.0.29-1) UNRELEASED; urgency=low
   * Update symbols
   * Update changelog.ALSA
 
- -- Luke Yelavich <themuso@ubuntu.com>  Wed, 06 May 2015 12:11:04 +1000
+  [ Jordi Mallach ]
+  * Remove the XS-Testsuite field, no longer required with dpkg 1.17.10.
+  * Add Luke Yelavich to Uploaders.
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 02 Jul 2015 10:48:41 +0200
 
 alsa-lib (1.0.28-1) unstable; urgency=medium
 
