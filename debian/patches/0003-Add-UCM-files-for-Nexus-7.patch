@@ -14,29 +14,10 @@ Subject: [PATCH 3/4] Add UCM files for Nexus 7
  create mode 100644 src/conf/ucm/tegra-rt5640/Makefile.am
  create mode 100644 src/conf/ucm/tegra-rt5640/tegra-rt5640.conf
 
-Index: alsa-lib-1.0.29/configure.ac
-===================================================================
---- alsa-lib-1.0.29.orig/configure.ac
-+++ alsa-lib-1.0.29/configure.ac
-@@ -657,6 +657,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
- 	  src/conf/ucm/GoogleNyan/Makefile \
- 	  src/conf/ucm/apq8064-tabla-snd-card/Makefile \
- 	  src/conf/ucm/Tuna/Makefile \
-+	  src/conf/ucm/tegra-rt5640/Makefile \
- 	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
- 	  alsalisp/Makefile aserver/Makefile \
- 	  test/Makefile test/lsb/Makefile \
-Index: alsa-lib-1.0.29/src/conf/ucm/Makefile.am
-===================================================================
---- alsa-lib-1.0.29.orig/src/conf/ucm/Makefile.am
-+++ alsa-lib-1.0.29/src/conf/ucm/Makefile.am
-@@ -1 +1 @@
--SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan apq8064-tabla-snd-card Tuna
-+SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan apq8064-tabla-snd-card Tuna tegra-rt5640
-Index: alsa-lib-1.0.29/src/conf/ucm/tegra-rt5640/HiFi
+Index: alsa-lib-1.1.0/src/conf/ucm/tegra-rt5640/HiFi
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.0.29/src/conf/ucm/tegra-rt5640/HiFi
++++ alsa-lib-1.1.0/src/conf/ucm/tegra-rt5640/HiFi
 @@ -0,0 +1,98 @@
 +# Use case Configuration for Nexus 7
 +# Adapted to Ubuntu Touch by David Henningsson <david.henningsson@canonical.com>
@@ -136,19 +117,19 @@ Index: alsa-lib-1.0.29/src/conf/ucm/tegra-rt5640/HiFi
 +}
 +
 +
-Index: alsa-lib-1.0.29/src/conf/ucm/tegra-rt5640/Makefile.am
+Index: alsa-lib-1.1.0/src/conf/ucm/tegra-rt5640/Makefile.am
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.0.29/src/conf/ucm/tegra-rt5640/Makefile.am
++++ alsa-lib-1.1.0/src/conf/ucm/tegra-rt5640/Makefile.am
 @@ -0,0 +1,4 @@
 +alsaconfigdir = @ALSA_CONFIG_DIR@
 +ucmdir = $(alsaconfigdir)/ucm/tegra-rt5640
 +ucm_DATA = tegra-rt5640.conf HiFi
 +EXTRA_DIST = $(ucm_DATA)
-Index: alsa-lib-1.0.29/src/conf/ucm/tegra-rt5640/tegra-rt5640.conf
+Index: alsa-lib-1.1.0/src/conf/ucm/tegra-rt5640/tegra-rt5640.conf
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.0.29/src/conf/ucm/tegra-rt5640/tegra-rt5640.conf
++++ alsa-lib-1.1.0/src/conf/ucm/tegra-rt5640/tegra-rt5640.conf
 @@ -0,0 +1,8 @@
 +SectionUseCase."HiFi" {
 +	File "HiFi"
@@ -158,3 +139,22 @@ Index: alsa-lib-1.0.29/src/conf/ucm/tegra-rt5640/tegra-rt5640.conf
 +SectionDefaults [
 +	cdev "hw:tegrart5640"
 +]
+Index: alsa-lib-1.1.0/src/conf/ucm/Makefile.am
+===================================================================
+--- alsa-lib-1.1.0.orig/src/conf/ucm/Makefile.am
++++ alsa-lib-1.1.0/src/conf/ucm/Makefile.am
+@@ -1 +1 @@
+-SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 apq8064-tabla-snd-card Tuna
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 apq8064-tabla-snd-card Tuna tegra-rt5640
+Index: alsa-lib-1.1.0/configure.ac
+===================================================================
+--- alsa-lib-1.1.0.orig/configure.ac
++++ alsa-lib-1.1.0/configure.ac
+@@ -660,6 +660,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
+ 	  src/conf/ucm/broadwell-rt286/Makefile \
+ 	  src/conf/ucm/apq8064-tabla-snd-card/Makefile \
+ 	  src/conf/ucm/Tuna/Makefile \
++	  src/conf/ucm/tegra-rt5640/Makefile \
+ 	  src/conf/topology/Makefile \
+ 	  src/conf/topology/broadwell/Makefile \
+ 	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \

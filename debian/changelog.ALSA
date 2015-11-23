@@ -1,3 +1,153 @@
+Changelog between 1.0.29 and 1.1.0 releases
+(http://www.alsa-project.org/main/index.php/Changes_v1.0.29_v1.1.0)
+(Reformatted as ASCII text)
++++++++++++++++++++++++++++++++++++++++++++
+
+* alsa-lib
+
+  * Core
+    Release v1.1.0
+    support building w/out System V shared memory
+    fix _GNU_SOURCE handling & header inclusion
+    build: Do not try to detect cross-compiler
+    core: add convenience macros to local.h
+    conf: topology: Add topology file for broadwell audio DSP
+    topology: autotools: Add build support for topology core
+    Replace list.h with its own version
+    Allow hint for ctl, hwdep, timer and seq
+    conf/ucm: Add Makefile.am for broadwell-rt286 ucm config
+
+  * Config API
+    Replace unsafe characters with _ in card name
+
+  * Control API
+    control: Allow cset'ing specific values in the multi-value case
+    Allow hint for ctl, hwdep, timer and seq
+    namehint: Fix bad free with invalid iface name
+    namehint: Fix the listing without device number
+    namehint: Fix invalid list access in snd_device_name_hint()
+
+  * HWDEP API
+    hwdep: add FireWire digi00x/tascam driver support
+    Allow hint for ctl, hwdep, timer and seq
+
+  * PCM API
+    support building w/out System V shared memory
+    pcm: drop unused sys/shm.h inclusion
+    move page helpers to common code
+    pcm: dmix: Handle slave PCM xrun and unexpected states properly
+    pcm: ladspa: Fix segfault due to a wrong channel reference
+    pcm: route: Remove bogus ! in snd_config_get_id() checks
+    pcm: ioplug,extplug: Fix logic errors in type checks
+    pcm: Fix doxygen for two enums
+    pcm: restore hw params on set latency failed
+    pcm: add support for new STATUS_EXT ioctl
+    pcm: add support for get/set_audio_htstamp_config
+    pcm: add helper functions to query timestamping capabilities
+    PCM: snd_pcm_xxxx_drain() maybe blocked after suspend and resume
+    pcm: Fix snd_pcm_status() for dmix & co
+    pcm: Don't assert in _snd_pcm_hw_params_internal()
+    pcm: Remove assert() from snd_pcm_hw_params_slave()
+    Allow hint for ctl, hwdep, timer and seq
+
+  * RawMidi API
+    Allow hint for ctl, hwdep, timer and seq
+
+  * Timer API
+    fix _GNU_SOURCE handling & header inclusion
+
+  * Topology API
+    topology: Add missing prototypes for new functions
+    topology: remove little endian type from userspace header
+    topology: Add C API support for PCM
+    topology: Add C API support for BE and CC Links.
+    topology: ABI - Change stream formats to a bitwise flag
+    topology: ABI - Separate PCM & BE/CC link support and bump ABI version to 4
+    topology: Add API to set a vendor specific version number
+    topology: pcm: Remove unused variables
+    topology: parser: Add missing return value to snd_tplg_set_manifest_data()
+    topology: data: Fix wrong size check in tplg_parse_data_hex()
+    topology: ctl: Fix access type checks
+    topology: builder: Fix possibly uninitialized variable in write_elem_block()
+    topology: A API calls to directly build topology data from templates
+    topology: Add C templates structure for building topology from C programs
+    core: add convenience macros to local.h
+    topology: rename OBJECT_TYPE_ to SND_TPLG_TYPE_
+    topology: print error prefix on error message.
+    topology: treat all DAPM controls types the same when copying
+    topology: update ABI to improve support for different TLV object types.
+    topology: Add support for writing manifest private data.
+    topology: Add element ID so we can look up references by name.
+    topology: fix element object type is switch()
+    topology: Fix typos
+    topology: Fix missing inclusion of ctype.h
+    topology: autotools: Add build support for topology core
+    topology: Add binary file builder.
+    topology: Add Channel map parser.
+    topology: Add CTL parser
+    topology: Add DAPM object parser
+    topology: Add private data parser
+    topology: Add operations parser
+    topology: Add PCM parser.
+    topology: Add text section parser.
+    topology: Add topology core parser.
+
+  * Use Case Manager API
+    fix _GNU_SOURCE handling & header inclusion
+    ucm: docs: Fix doxygen formatting for UCM main page.
+    ucm: allow multiple devices in JackHWMute
+    ucm: improve jack configuration documentation
+    ucm: reformat snd_use_case_get() doc
+    ucm: document some standard values
+
+  * /include/Makefile.am
+    topology: autotools: Add build support for topology core
+
+  * /src/Makefile.am
+    topology: autotools: Add build support for topology core
+
+  * Configuration
+    move page helpers to common code
+    fix _GNU_SOURCE handling & header inclusion
+    conf: topology: Add topology file for broadwell audio DSP
+    Replace unsafe characters with _ in card name
+    surround41/50.conf: Use chmap syntax for better flexibility
+    conf/ucm: broadwell-rt286: change to set capture volume and capture device
+    conf: Add hint descriptions to ctl, hwdep, seq and timer devices
+    Allow hint for ctl, hwdep, timer and seq
+    conf/ucm: broadwell-rt286: change to use the correct jack kcontrol name
+    USB-audio: Sound Blaster HD iec958 is on device 1
+    conf/ucm: Add Makefile.am for broadwell-rt286 ucm config
+    conf/ucm: broadwell-rt286: add ucm config
+
+  * Documentation
+    topology: doxygen: Add doxygen support for topology core.
+    docs: Add UCM link to main doxygen page.
+    ucm: docs: fix doxygen exclude patch for UCM local header
+
+  * Kernel Headers
+    topology: ABI - Rename dai_elems to pcm_elems in manifest
+    topology: ABI - Change stream formats to a bitwise flag
+    topology: ABI - Use __le32 instead of __u32 in snd_soc_tplg_dapm_widget
+    topology: ABI - Remove unused struct snd_soc_tplg_stream_config
+    topology: ABI - Remove tdm_slot & dai_fmt from snd_soc_tplg_stream
+    topology: ABI - Separate PCM & BE/CC link support and bump ABI version to 4
+    topology: ABI - Add name element to snd_soc_tplg_stream
+    hwdep: add FireWire digi00x/tascam driver support
+    topology: Add ops support to byte control objects.
+    topology: update ABI to improve support for different TLV object types.
+    topology: uapi: Add UAPI headers for topology ABI
+    Sync include/sound/asound.h with 4.1 kernel
+
+  * SHM helpers
+    support building w/out System V shared memory
+
+  * Test/Example code
+    test: audio_time: show report validity and accuracy
+    test: fix audio_time with new get/set audio_tstamp_config
+    test/pcm_min: Fix error messages
+    test/pcm: Fix generated values with float PCM format
+
 Changelog between 1.0.28 and 1.0.29 releases
 (http://www.alsa-project.org/main/index.php/Changes_v1.0.28_v1.0.29)
 (Reformated as ASCII text)

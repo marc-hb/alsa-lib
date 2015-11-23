@@ -1,3 +1,12 @@
+alsa-lib (1.1.0-1) UNRELEASED; urgency=medium
+
+  * New upstream release
+  * Update changelog.ALSA
+  * Refreshed ucm configuration patches
+  * Update symbols file
+
+ -- Luke Yelavich <themuso@ubuntu.com>  Mon, 23 Nov 2015 11:13:59 +1100
+
 alsa-lib (1.0.29-1) unstable; urgency=low
 
   [ Elimar Riesebieter ]

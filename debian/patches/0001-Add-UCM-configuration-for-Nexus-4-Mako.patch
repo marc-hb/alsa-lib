@@ -18,29 +18,10 @@ this is handled by talking to the audio HAL.
  create mode 100644 src/conf/ucm/apq8064-tabla-snd-card/VoiceCall
  create mode 100644 src/conf/ucm/apq8064-tabla-snd-card/apq8064-tabla-snd-card.conf
 
-Index: alsa-lib-1.0.29/configure.ac
-===================================================================
---- alsa-lib-1.0.29.orig/configure.ac
-+++ alsa-lib-1.0.29/configure.ac
-@@ -655,6 +655,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
- 	  src/conf/ucm/tegraalc5632/Makefile \
- 	  src/conf/ucm/PAZ00/Makefile \
- 	  src/conf/ucm/GoogleNyan/Makefile \
-+	  src/conf/ucm/apq8064-tabla-snd-card/Makefile \
- 	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
- 	  alsalisp/Makefile aserver/Makefile \
- 	  test/Makefile test/lsb/Makefile \
-Index: alsa-lib-1.0.29/src/conf/ucm/Makefile.am
-===================================================================
---- alsa-lib-1.0.29.orig/src/conf/ucm/Makefile.am
-+++ alsa-lib-1.0.29/src/conf/ucm/Makefile.am
-@@ -1 +1 @@
--SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan
-+SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan apq8064-tabla-snd-card
-Index: alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/HiFi
+Index: alsa-lib-1.1.0/src/conf/ucm/apq8064-tabla-snd-card/HiFi
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/HiFi
++++ alsa-lib-1.1.0/src/conf/ucm/apq8064-tabla-snd-card/HiFi
 @@ -0,0 +1,260 @@
 +SectionVerb {
 +	EnableSequence [
@@ -302,19 +283,19 @@ Index: alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/HiFi
 +		CaptureChannels "1"
 +	}
 +}
-Index: alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/Makefile.am
+Index: alsa-lib-1.1.0/src/conf/ucm/apq8064-tabla-snd-card/Makefile.am
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/Makefile.am
++++ alsa-lib-1.1.0/src/conf/ucm/apq8064-tabla-snd-card/Makefile.am
 @@ -0,0 +1,4 @@
 +alsaconfigdir = @ALSA_CONFIG_DIR@
 +ucmdir = $(alsaconfigdir)/ucm/apq8064-tabla-snd-card
 +ucm_DATA = apq8064-tabla-snd-card.conf HiFi VoiceCall
 +EXTRA_DIST = $(ucm_DATA)
-Index: alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/VoiceCall
+Index: alsa-lib-1.1.0/src/conf/ucm/apq8064-tabla-snd-card/VoiceCall
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/VoiceCall
++++ alsa-lib-1.1.0/src/conf/ucm/apq8064-tabla-snd-card/VoiceCall
 @@ -0,0 +1,154 @@
 +# There is no mixer setup here - it is handled by PulseAudio's audio HAL module.
 +
@@ -470,10 +451,10 @@ Index: alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/VoiceCall
 +		CaptureChannels "1"
 +	}
 +}
-Index: alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/apq8064-tabla-snd-card.conf
+Index: alsa-lib-1.1.0/src/conf/ucm/apq8064-tabla-snd-card/apq8064-tabla-snd-card.conf
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/apq8064-tabla-snd-card.conf
++++ alsa-lib-1.1.0/src/conf/ucm/apq8064-tabla-snd-card/apq8064-tabla-snd-card.conf
 @@ -0,0 +1,8 @@
 +SectionUseCase."HiFi" {
 +	File "HiFi"
@@ -483,3 +464,22 @@ Index: alsa-lib-1.0.29/src/conf/ucm/apq8064-tabla-snd-card/apq8064-tabla-snd-car
 +	File "VoiceCall"
 +	Comment "Make a phone call"
 +}
+Index: alsa-lib-1.1.0/configure.ac
+===================================================================
+--- alsa-lib-1.1.0.orig/configure.ac
++++ alsa-lib-1.1.0/configure.ac
+@@ -658,6 +658,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
+ 	  src/conf/ucm/PAZ00/Makefile \
+ 	  src/conf/ucm/GoogleNyan/Makefile \
+ 	  src/conf/ucm/broadwell-rt286/Makefile \
++	  src/conf/ucm/apq8064-tabla-snd-card/Makefile \
+ 	  src/conf/topology/Makefile \
+ 	  src/conf/topology/broadwell/Makefile \
+ 	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
+Index: alsa-lib-1.1.0/src/conf/ucm/Makefile.am
+===================================================================
+--- alsa-lib-1.1.0.orig/src/conf/ucm/Makefile.am
++++ alsa-lib-1.1.0/src/conf/ucm/Makefile.am
+@@ -1 +1 @@
+-SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 apq8064-tabla-snd-card

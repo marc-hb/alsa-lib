@@ -16,29 +16,10 @@ Subject: [PATCH 2/4] Add UCM config file for Galaxy Nexus (maguro)
  create mode 100644 src/conf/ucm/Tuna/Tuna.conf
  create mode 100644 src/conf/ucm/Tuna/VoiceCall
 
-Index: alsa-lib-1.0.29/configure.ac
-===================================================================
---- alsa-lib-1.0.29.orig/configure.ac
-+++ alsa-lib-1.0.29/configure.ac
-@@ -656,6 +656,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
- 	  src/conf/ucm/PAZ00/Makefile \
- 	  src/conf/ucm/GoogleNyan/Makefile \
- 	  src/conf/ucm/apq8064-tabla-snd-card/Makefile \
-+	  src/conf/ucm/Tuna/Makefile \
- 	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
- 	  alsalisp/Makefile aserver/Makefile \
- 	  test/Makefile test/lsb/Makefile \
-Index: alsa-lib-1.0.29/src/conf/ucm/Makefile.am
-===================================================================
---- alsa-lib-1.0.29.orig/src/conf/ucm/Makefile.am
-+++ alsa-lib-1.0.29/src/conf/ucm/Makefile.am
-@@ -1 +1 @@
--SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan apq8064-tabla-snd-card
-+SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan apq8064-tabla-snd-card Tuna
-Index: alsa-lib-1.0.29/src/conf/ucm/Tuna/HiFi
+Index: alsa-lib-1.1.0/src/conf/ucm/Tuna/HiFi
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.0.29/src/conf/ucm/Tuna/HiFi
++++ alsa-lib-1.1.0/src/conf/ucm/Tuna/HiFi
 @@ -0,0 +1,354 @@
 +# Use case Configuration for TI Tuna HiFi audio playback and capture
 +# By Liam Girdwood <lrg@ti.com>
@@ -394,19 +375,19 @@ Index: alsa-lib-1.0.29/src/conf/ucm/Tuna/HiFi
 +	}
 +}
 +
-Index: alsa-lib-1.0.29/src/conf/ucm/Tuna/Makefile.am
+Index: alsa-lib-1.1.0/src/conf/ucm/Tuna/Makefile.am
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.0.29/src/conf/ucm/Tuna/Makefile.am
++++ alsa-lib-1.1.0/src/conf/ucm/Tuna/Makefile.am
 @@ -0,0 +1,4 @@
 +alsaconfigdir = @ALSA_CONFIG_DIR@
 +ucmdir = $(alsaconfigdir)/ucm/Tuna
 +ucm_DATA = Tuna.conf HiFi VoiceCall
 +EXTRA_DIST = $(ucm_DATA)
-Index: alsa-lib-1.0.29/src/conf/ucm/Tuna/Tuna.conf
+Index: alsa-lib-1.1.0/src/conf/ucm/Tuna/Tuna.conf
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.0.29/src/conf/ucm/Tuna/Tuna.conf
++++ alsa-lib-1.1.0/src/conf/ucm/Tuna/Tuna.conf
 @@ -0,0 +1,14 @@
 +# UCM configuration for SDP4430
 +SectionUseCase."HiFi" {
@@ -422,10 +403,10 @@ Index: alsa-lib-1.0.29/src/conf/ucm/Tuna/Tuna.conf
 +SectionDefaults [
 +	cdev "hw:Tuna"
 +]
-Index: alsa-lib-1.0.29/src/conf/ucm/Tuna/VoiceCall
+Index: alsa-lib-1.1.0/src/conf/ucm/Tuna/VoiceCall
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.0.29/src/conf/ucm/Tuna/VoiceCall
++++ alsa-lib-1.1.0/src/conf/ucm/Tuna/VoiceCall
 @@ -0,0 +1,245 @@
 +# Use case Configuration for TI Tuna RF MODEM Voice Call
 +# By Liam Girdwood <lrg@ti.com>
@@ -672,3 +653,22 @@ Index: alsa-lib-1.0.29/src/conf/ucm/Tuna/VoiceCall
 +
 +
 +
+Index: alsa-lib-1.1.0/configure.ac
+===================================================================
+--- alsa-lib-1.1.0.orig/configure.ac
++++ alsa-lib-1.1.0/configure.ac
+@@ -659,6 +659,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
+ 	  src/conf/ucm/GoogleNyan/Makefile \
+ 	  src/conf/ucm/broadwell-rt286/Makefile \
+ 	  src/conf/ucm/apq8064-tabla-snd-card/Makefile \
++	  src/conf/ucm/Tuna/Makefile \
+ 	  src/conf/topology/Makefile \
+ 	  src/conf/topology/broadwell/Makefile \
+ 	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
+Index: alsa-lib-1.1.0/src/conf/ucm/Makefile.am
+===================================================================
+--- alsa-lib-1.1.0.orig/src/conf/ucm/Makefile.am
++++ alsa-lib-1.1.0/src/conf/ucm/Makefile.am
+@@ -1 +1 @@
+-SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 apq8064-tabla-snd-card
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 apq8064-tabla-snd-card Tuna
