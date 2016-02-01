@@ -1,4 +1,4 @@
-alsa-lib (1.1.0-1) UNRELEASED; urgency=medium
+alsa-lib (1.1.0-1) unstable; urgency=medium
 
   [ Luke Yelavich ]
   * New upstream release
@@ -12,7 +12,7 @@ alsa-lib (1.1.0-1) UNRELEASED; urgency=medium
   * Use https for Vcs-Browser.
   * Bump shlibs in dh_makeshlibs call.
 
- -- Luke Yelavich <themuso@ubuntu.com>  Mon, 23 Nov 2015 11:13:59 +1100
+ -- Jordi Mallach <jordi@debian.org>  Mon, 01 Feb 2016 23:58:41 +0100
 
 alsa-lib (1.0.29-1) unstable; urgency=low
 
