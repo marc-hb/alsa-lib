@@ -1,9 +1,16 @@
 alsa-lib (1.1.0-1) UNRELEASED; urgency=medium
 
+  [ Luke Yelavich ]
   * New upstream release
   * Update changelog.ALSA
   * Refreshed ucm configuration patches
   * Update symbols file
+    - two symbols (snd_is_local, snd_rawmidi_conf_generic_id) went missing,
+      but had no users in the Debian archive outside alsa-lib
+
+  [ Jordi Mallach ]
+  * Use https for Vcs-Browser.
+  * Bump shlibs in dh_makeshlibs call.
 
  -- Luke Yelavich <themuso@ubuntu.com>  Mon, 23 Nov 2015 11:13:59 +1100
 
