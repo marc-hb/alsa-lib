@@ -16,6 +16,7 @@ alsa-lib (1.1.1-1) UNRELEASED; urgency=medium
   * Removed unwanted duplicates from documentation
   * Enabled hardening=+all
   * Removed invalid paragraph about upstreams bugtracker from copyright.
+  * Introduced git log as upstreams changelog.
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 08 May 2016 14:06:31 +0200
 
