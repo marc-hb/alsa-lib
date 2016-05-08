@@ -60,7 +60,7 @@ Description: debugging symbols for libasound2
 
 Package: libasound2-data
 Architecture: all
-Depends: ${misc:Depends}
+Depends: libasound2 (= ${binary:Version}), ${misc:Depends}
 Suggests: alsa-utils
 Breaks: libasound2 (<< 1.0.27-4)
 Replaces: libasound2 (<< 1.0.27-4)
