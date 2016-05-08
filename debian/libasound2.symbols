@@ -1311,12 +1311,14 @@ libasound.so.2 libasound2 #MINVER#
  snd_seq_client_info_event_filter_del@ALSA_0.9 1.0.17
  snd_seq_client_info_free@ALSA_0.9 1.0.16
  snd_seq_client_info_get_broadcast_filter@ALSA_0.9 1.0.16
+ snd_seq_client_info_get_card@ALSA_0.9 1.1.1-1
  snd_seq_client_info_get_client@ALSA_0.9 1.0.16
  snd_seq_client_info_get_error_bounce@ALSA_0.9 1.0.16
  snd_seq_client_info_get_event_filter@ALSA_0.9 1.0.16
  snd_seq_client_info_get_event_lost@ALSA_0.9 1.0.16
  snd_seq_client_info_get_name@ALSA_0.9 1.0.16
  snd_seq_client_info_get_num_ports@ALSA_0.9 1.0.16
+ snd_seq_client_info_get_pid@ALSA_0.9 1.1.1-1
  snd_seq_client_info_get_type@ALSA_0.9 1.0.16
  snd_seq_client_info_malloc@ALSA_0.9 1.0.16
  snd_seq_client_info_set_broadcast_filter@ALSA_0.9 1.0.16
