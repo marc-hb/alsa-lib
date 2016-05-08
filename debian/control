@@ -9,7 +9,8 @@ Build-Depends: autotools-dev,
                debhelper (>= 9),
                dh-autoreconf,
                dpkg-dev (>= 1.16.1)
-Build-Depends-Indep: doxygen
+Build-Depends-Indep: doxygen,
+                     graphviz
 Standards-Version: 3.9.6
 Homepage: http://www.alsa-project.org/
 Vcs-Svn: svn://anonscm.debian.org/pkg-alsa/trunk/alsa-lib

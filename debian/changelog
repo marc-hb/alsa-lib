@@ -6,6 +6,8 @@ alsa-lib (1.1.1-1) UNRELEASED; urgency=medium
     patch.(closes: 805992)
   * Add libasound3 (= ${binary:Version}) to libasound-data Depends. 
     (closes: 813446).
+  * Fix an error when built with dpkg-builldpackage -A. Add graphviz to
+    Build-Depends-Indep: Thanks Santiago Vila for the hint. (closes: 818664)
   *
  -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 08 May 2016 14:06:31 +0200
 
