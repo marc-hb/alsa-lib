@@ -14,7 +14,6 @@ alsa-lib (1.1.1-1) UNRELEASED; urgency=medium
   * Enabled hardening=+all
   * Remove unused *.md5 files from documentation.
   * Removed unwanted duplicates from documentation
-  * Enabled hardening=+all
   * Added --dbgsym-migration and remove libasound2-dbg respectively.
   * Removed invalid paragraph about upstreams bugtracker from copyright.
   * Introduced git log as upstreams changelog.
