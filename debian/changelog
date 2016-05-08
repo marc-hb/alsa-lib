@@ -1,3 +1,13 @@
+alsa-lib (1.1.1-1) UNRELEASED; urgency=medium
+
+  [ Elimar Riesebieter ]
+  * New upstream release
+  * Fix a FTBFS when built with dpkg-builldpackage -A. Thanks Santiago Vila for the
+    patch.(closes: 805992)
+  * 
+  *
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 08 May 2016 14:06:31 +0200
+
 alsa-lib (1.1.0-1) unstable; urgency=medium
 
   [ Luke Yelavich ]

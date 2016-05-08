@@ -13,11 +13,13 @@ override_dh_auto_configure:
 		--disable-python
 
 override_dh_auto_build-indep:
+	dh_auto_build
 	$(MAKE) doc
 
 override_dh_auto_test-indep:
 
 override_dh_auto_install-indep:
+	dh_auto_build
 	$(MAKE) -C doc install
 
 override_dh_strip:
