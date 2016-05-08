@@ -3,11 +3,6 @@ Masato Taruishi took over on 17 Oct 1999.
 Since September 2002 it has been maintained by the participants in
 the pkg-alsa project at alioth.debian.org.
 
-Bugs in the source code (as opposed to bugs in the packaging) are best
-reported to the upstream bug tracking system:
-
-  https://bugtrack.alsa-project.org/alsa-bug
-
 The source code was downloaded from the ALSA homepage:
 
   http://www.alsa-project.org/

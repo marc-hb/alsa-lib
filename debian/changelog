@@ -12,6 +12,10 @@ alsa-lib (1.1.1-1) UNRELEASED; urgency=medium
   * Added 2 new symbols in debian/libasound2.symbols. Bump shlibs in
     dh_makeshlibs call.
   * Enabled hardening=+all
+  * Remove unused *.md5 files from documentation.
+  * Removed unwanted duplicates from documentation
+  * Enabled hardening=+all
+  * Removed invalid paragraph about upstreams bugtracker from copyright.
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 08 May 2016 14:06:31 +0200
 
