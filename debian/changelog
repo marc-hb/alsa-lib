@@ -1,3 +1,12 @@
+alsa-lib (1.1.1-2) unstable; urgency=medium
+
+  * Added "dh_auto_install --destdir=debian/tmp" to debian/rules. Reversed
+    Santiago's patch. Hopefully fixes FTBFS when built with 
+    dpkg-buildpackage -A (closes: 805992)
+  * Overhauled rules accordingly.
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Sun, 12 Jun 2016 11:23:05 +0200
+
 alsa-lib (1.1.1-1) unstable; urgency=medium
 
   [ Elimar Riesebieter ]
