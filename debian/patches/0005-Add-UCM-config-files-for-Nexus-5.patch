@@ -1,10 +1,10 @@
 ## Description: add some description
 ## Origin/Author: add some origin or author
 ## Bug: bug URL
-Index: alsa-lib-1.1.0/src/conf/ucm/msm8974-taiko-mtp-snd-card/HiFi
+Index: alsa-lib-1.1.2/src/conf/ucm/msm8974-taiko-mtp-snd-card/HiFi
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.1.0/src/conf/ucm/msm8974-taiko-mtp-snd-card/HiFi
++++ alsa-lib-1.1.2/src/conf/ucm/msm8974-taiko-mtp-snd-card/HiFi
 @@ -0,0 +1,259 @@
 +SectionVerb {
 +	EnableSequence [
@@ -265,10 +265,10 @@ Index: alsa-lib-1.1.0/src/conf/ucm/msm8974-taiko-mtp-snd-card/HiFi
 +		CaptureChannels "1"
 +	}
 +}
-Index: alsa-lib-1.1.0/src/conf/ucm/msm8974-taiko-mtp-snd-card/VoiceCall
+Index: alsa-lib-1.1.2/src/conf/ucm/msm8974-taiko-mtp-snd-card/VoiceCall
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.1.0/src/conf/ucm/msm8974-taiko-mtp-snd-card/VoiceCall
++++ alsa-lib-1.1.2/src/conf/ucm/msm8974-taiko-mtp-snd-card/VoiceCall
 @@ -0,0 +1,119 @@
 +# There is no mixer setup here - it is handled by PulseAudio's audio HAL module.
 +
@@ -389,10 +389,10 @@ Index: alsa-lib-1.1.0/src/conf/ucm/msm8974-taiko-mtp-snd-card/VoiceCall
 +		CaptureChannels "1"
 +	}
 +}
-Index: alsa-lib-1.1.0/src/conf/ucm/msm8974-taiko-mtp-snd-card/msm8974-taiko-mtp-snd-card.conf
+Index: alsa-lib-1.1.2/src/conf/ucm/msm8974-taiko-mtp-snd-card/msm8974-taiko-mtp-snd-card.conf
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.1.0/src/conf/ucm/msm8974-taiko-mtp-snd-card/msm8974-taiko-mtp-snd-card.conf
++++ alsa-lib-1.1.2/src/conf/ucm/msm8974-taiko-mtp-snd-card/msm8974-taiko-mtp-snd-card.conf
 @@ -0,0 +1,8 @@
 +SectionUseCase."HiFi" {
 +	File "HiFi"
@@ -402,11 +402,11 @@ Index: alsa-lib-1.1.0/src/conf/ucm/msm8974-taiko-mtp-snd-card/msm8974-taiko-mtp-
 +	File "VoiceCall"
 +	Comment "Make a phone call"
 +}
-Index: alsa-lib-1.1.0/configure.ac
+Index: alsa-lib-1.1.2/configure.ac
 ===================================================================
---- alsa-lib-1.1.0.orig/configure.ac
-+++ alsa-lib-1.1.0/configure.ac
-@@ -663,6 +663,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
+--- alsa-lib-1.1.2.orig/configure.ac
++++ alsa-lib-1.1.2/configure.ac
+@@ -680,6 +680,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
  	  src/conf/ucm/tegra-rt5640/Makefile \
  	  src/conf/ucm/Manta-I2S/Makefile \
  	  src/conf/ucm/Manta-SPDIF/Makefile \
@@ -414,19 +414,19 @@ Index: alsa-lib-1.1.0/configure.ac
  	  src/conf/topology/Makefile \
  	  src/conf/topology/broadwell/Makefile \
  	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
-Index: alsa-lib-1.1.0/src/conf/ucm/msm8974-taiko-mtp-snd-card/Makefile.am
+Index: alsa-lib-1.1.2/src/conf/ucm/msm8974-taiko-mtp-snd-card/Makefile.am
 ===================================================================
 --- /dev/null
-+++ alsa-lib-1.1.0/src/conf/ucm/msm8974-taiko-mtp-snd-card/Makefile.am
++++ alsa-lib-1.1.2/src/conf/ucm/msm8974-taiko-mtp-snd-card/Makefile.am
 @@ -0,0 +1,4 @@
 +alsaconfigdir = @ALSA_CONFIG_DIR@
 +ucmdir = $(alsaconfigdir)/ucm/msm8974-taiko-mtp-snd-card
 +ucm_DATA = msm8974-taiko-mtp-snd-card.conf HiFi VoiceCall
 +EXTRA_DIST = $(ucm_DATA)
-Index: alsa-lib-1.1.0/src/conf/ucm/Makefile.am
+Index: alsa-lib-1.1.2/src/conf/ucm/Makefile.am
 ===================================================================
---- alsa-lib-1.1.0.orig/src/conf/ucm/Makefile.am
-+++ alsa-lib-1.1.0/src/conf/ucm/Makefile.am
+--- alsa-lib-1.1.2.orig/src/conf/ucm/Makefile.am
++++ alsa-lib-1.1.2/src/conf/ucm/Makefile.am
 @@ -1 +1 @@
--SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 apq8064-tabla-snd-card Tuna tegra-rt5640 Manta-I2S Manta-SPDIF
-+SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 apq8064-tabla-snd-card Tuna tegra-rt5640 Manta-I2S Manta-SPDIF msm8974-taiko-mtp-snd-card
+-SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 VEYRON-I2S chtrt5645 apq8064-tabla-snd-card Tuna tegra-rt5640 Manta-I2S Manta-SPDIF
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 VEYRON-I2S chtrt5645 apq8064-tabla-snd-card Tuna tegra-rt5640 Manta-I2S Manta-SPDIF msm8974-taiko-mtp-snd-card

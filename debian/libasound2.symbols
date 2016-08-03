@@ -188,7 +188,7 @@ libasound.so.2 libasound2 #MINVER#
  snd_async_handler_get_pcm@ALSA_0.9 1.0.16
  snd_async_handler_get_signo@ALSA_0.9 1.0.16
  snd_async_handler_get_timer@ALSA_0.9 1.0.16
- snd_atomic_read_wait@ALSA_0.9 1.0.16
+#MISSING: 1.1.2# snd_atomic_read_wait@ALSA_0.9 1.0.16
  snd_card_get_index@ALSA_0.9 1.0.16
  snd_card_get_longname@ALSA_0.9 1.0.16
  snd_card_get_name@ALSA_0.9 1.0.16
@@ -236,6 +236,7 @@ libasound.so.2 libasound2 #MINVER#
  snd_config_make_pointer@ALSA_0.9 1.0.16
  snd_config_make_real@ALSA_0.9 1.0.16
  snd_config_make_string@ALSA_0.9 1.0.16
+ snd_config_ref@ALSA_0.9 1.1.2
  snd_config_remove@ALSA_0.9 1.0.16
  snd_config_save@ALSA_0.9 1.0.16
  snd_config_search@ALSA_0.9 1.0.16
@@ -257,10 +258,17 @@ libasound.so.2 libasound2 #MINVER#
  snd_config_substitute@ALSA_0.9 1.0.16
  snd_config_test_id@ALSA_0.9 1.0.16
  snd_config_top@ALSA_0.9 1.0.16
+ snd_config_unref@ALSA_0.9 1.1.2
  snd_config_update@ALSA_0.9 1.0.16
  snd_config_update_free@ALSA_0.9 1.0.16
  snd_config_update_free_global@ALSA_0.9 1.0.16
  snd_config_update_r@ALSA_0.9 1.0.16
+ snd_config_update_ref@ALSA_0.9 1.1.2
+ snd_ctl_add_boolean_elem_set@ALSA_0.9 1.1.2
+ snd_ctl_add_bytes_elem_set@ALSA_0.9 1.1.2
+ snd_ctl_add_enumerated_elem_set@ALSA_0.9 1.1.2
+ snd_ctl_add_integer64_elem_set@ALSA_0.9 1.1.2
+ snd_ctl_add_integer_elem_set@ALSA_0.9 1.1.2
  snd_ctl_ascii_elem_id_get@ALSA_0.9 1.0.24.1
  snd_ctl_ascii_elem_id_parse@ALSA_0.9 1.0.24.1
  snd_ctl_ascii_value_parse@ALSA_0.9 1.0.24.1
@@ -341,6 +349,7 @@ libasound.so.2 libasound2 #MINVER#
  snd_ctl_elem_info_is_writable@ALSA_0.9 1.0.16
  snd_ctl_elem_info_malloc@ALSA_0.9 1.0.16
  snd_ctl_elem_info_set_device@ALSA_0.9 1.0.16
+ snd_ctl_elem_info_set_dimension@ALSA_0.9 1.1.2
  snd_ctl_elem_info_set_id@ALSA_0.9 1.0.16
  snd_ctl_elem_info_set_index@ALSA_0.9 1.0.16
  snd_ctl_elem_info_set_interface@ALSA_0.9 1.0.16

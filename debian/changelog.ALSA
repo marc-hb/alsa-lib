@@ -1,3 +1,768 @@
+commit 1bf144013cffdeb41a5df3a11a8eb2596c5ea2b5
+Author: Jaroslav Kysela <perex@perex.cz>
+
+    Release v1.1.2
+
+commit ef43a007eccfe8ff6f39ddd031a5e5e370a96c9c
+Author: Jaroslav Kysela <perex@perex.cz>
+
+    Makefile: fix sklrt286 dist files
+
+commit 98a0a2a98ffca4ed929c34d322c8389816a5e8a8
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Fix the missing referenced elem ptr when merging private data
+
+commit 776eb7fa5e705d46ac2cac517cdb69dc6c7d8f56
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Fix inaccurate message on failure to find a widgets's reference
+
+commit df43c2d38047a6dd625e20b97ca6efb4fb0120a3
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: use condition statements instead of assert() for new APIs to add an element set
+
+commit 9797e9893093dbbde9745faad5163c93be3ca3a6
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Check address and length before string copy
+
+commit 1a0d49be70d716de4f40f50d6393aead56b748de
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Add ATTRIBUTE_UNUSED for unused parameters to fix compiler warning
+
+commit 8e3e194a5d7c01ee310ff3fb771ce9ec4e6d8fb1
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Remove support for control flag SNDRV_CTL_ELEM_ACCESS_USER
+
+commit 7bebd4c980bb11cc31f8be73511baa544d4cb658
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: rename APIs to add an element set so that their names are appropriate
+
+commit 962d006c28273ceb16ef915ce077a3163d299f7f
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Tuple type can have an extenstion
+
+commit a3683a2ba04154ed5b06fdb9536f6c97b64ff71a
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Parse vendor private data for manifest
+
+commit 62c180981b0dea10f4481b30e55ddedc12267cf8
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Change uuid value to 16 separate characters in text conf file
+
+commit 2481ef315f03fe438898bcee7f06374c0d101ee1
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Merge lookup for data reference into tplg_copy_data()
+
+commit bb03d929e85f82a82c91da68dd14c952b80b051d
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: An element can refer to multipe data sections in text conf file
+
+commit fce5b6dcd1ad506768bd2d44890bb234d3ac0301
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from simple_event_add()
+
+commit b8e17cd852bd7fe071d0e29f0b1cdb9755731488
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for simple_event_add()
+
+commit c2a59624f124eafee1e441af248165b32fe515e3
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from simple_add1()
+
+commit 98194d5f98d5332f7eba2e969501601b1a0c961a
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for simple_add1()
+
+commit 43ac77e900b2b89547cb83825d48686b43787329
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from set_enum_item_ops()
+
+commit 3fa73d75584a0a266e2dba2d4601832e62728817
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from get_enum_item_ops()
+
+commit ed49382fdaf6157fc59763d358868ce3a82c6adf
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from enum_item_name_ops()
+
+commit 6ed747157395b83e4bf1a93088e73f06479beb5c
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from init_db_range()
+
+commit 1ad6d7b8523c0cf308503a8896258c1e47308e48
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for init_db_range()
+
+commit 60920eb7f37b1bca4a9c96247796da108ab275b5
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from selem_write_main()
+
+commit 116dafcadc79744645622ac365ff46f3db29a718
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for selem_write_main()
+
+commit 2a6af83d73802692d0a8f160efd46a524efd08e8
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from elem_write_route()
+
+commit 5268e90dbd6ff39dde150c1c339e8cdfd2a2fff2
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for elem_write_route()
+
+commit bd09e4790cfeee07d1932e40981bce0bc944fbee
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from elem_write_enum()
+
+commit 5ca104cf15cf9be0c68e130a2efccc68339da563
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for elem_write_enum()
+
+commit 60875a1ca6a2b4eafda4a82afcdd724953545d92
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from elem_write_switch_constant()
+
+commit 748912f350f659361cadd9f02c5663f7f8945710
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from elem_write_switch()
+
+commit 2011f04e090abd552c6a1e6e909c80f770be59bc
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for elem_write_switch()
+
+commit 1c11f334e7707f2d8e1dc95c0549c3c21282911d
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from elem_write_volume()
+
+commit 32393c67ab73fc2f039427cb029823a41e7cedec
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for elem_write_volume()
+
+commit 7ada2d6f41155f542438f78903ee62b0a76cc931
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from selem_read()
+
+commit 8d45e412b5ba34b90106f060258027f48dcff155
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for selem_read()
+
+commit df868c77f35816176a207d10472ebc04336cc0a4
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from elem_read_enum()
+
+commit ed6acca1320888421df6ecaf1627d4be5fa528ab
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for elem_read_enum()
+
+commit bf059f00be46fa44c0afc309f9deae774bdabc2d
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from elem_read_route()
+
+commit b67b9e42cafecbfacffaee76ba060055f4099b27
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for elem_read_route()
+
+commit 15ff48e7210c4c592781bd5277b9b3dbb718b060
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove alloca() from elem_read_volume()
+
+commit bc08a11edafc6e261452d53110c9d7036991bde1
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: change code formatting for elem_read_volume()
+
+commit 9e1c73cdd471987220e2e731517222292f4c3fac
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: include library local header to find layout of structures
+
+commit 33e946fdd32da2b918e88750fcfd78014ae3e079
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    alisp: remove alloca() from FA_pcm_info()
+
+commit e1d6a2b02fa7d3fec0001a8a50bce0f7fcb0249d
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    alisp: remove alloca() from FA_hctl_elem_write()
+
+commit 499b0c04017d400654ec637dcf86c9092d7f3908
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    alisp: remove alloca() from FA_hctl_elem_read()
+
+commit f3562bea35dcd87d28d3f2609d6e2fab809d09ed
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    alisp: remove alloca() from FA_hctl_elem_info()
+
+commit 1ef2d66ab4e71eff70b12128660df576564b07b2
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    alisp: remove alloca() from FA_hctl_find_elem()
+
+commit 0198c850abe66d605a8e78cb3ed05dc485fdf009
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    alisp: remove alloca() from FA_card_info()
+
+commit 68e659bb232dc5ad71432175735a44d3d4765176
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    conf: remove alloca() from snd_func_private_pcm_subdevice()
+
+commit e26ee8dff6b0ecefc17d12ee1899abecc0097429
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    conf: remove alloca() from snd_func_pcm_args_by_class()
+
+commit c0cc9a01950e9059514c1787ce247b111baa0bd0
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    conf: remove alloca() from snd_func_pcm_id()
+
+commit e1f4b9a7ca4569919566021ca067ebef041f0672
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    conf: remove alloca() from snd_func_card_name()
+
+commit d270bd9558528ef05b3d20c5fda2fc0d08ff3206
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    conf: remove alloca() from snd_func_card_id()
+
+commit b500e16ce4ce0071139d5520bc5cc9a87fccf8a1
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    conf: remove alloca() from snd_determine_driver()
+
+commit d745fcd5f7811d8e13d53dda73b74c4ce1e29b94
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from _snd_pcm_softvol_open()
+
+commit df00246841948ca3b2773ca3484446f852097e60
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: change code formatting for _snd_pcm_softvol_open()
+
+commit 349920f93dc6e8be54e0fa21a0b2a31a412ccc1e
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from softvol_load_control()
+
+commit 8306bb2b6a68c2fdfa406ac07091309e8e65041c
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: change code formatting for softvol_load_control()
+
+commit 709aa36bc24aad567cab799fcce11af2f93d2360
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from snd_spcm_init_duplex()
+
+commit 2edffe37576e8968b8cfff2de26d8a6c756aed57
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from snd_spcm_init()
+
+commit 6a0c93a03dafaab66a6b2747d8b7142e69266027
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from snd_pcm_hw_set_chmap()
+
+commit 34d2b6e96c0b90ef69a09ba51d9365b48b937feb
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from snd_pcm_hw_get_chmap()
+
+commit 6fdaad70afb6c04a03ba48c111304467daa330b1
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from snd_pcm_query_chmaps_from_hw()
+
+commit 757c45b2ae3dddc23566f2dc511bf606607da000
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from snd_pcm_hw_change_timer()
+
+commit 44d803df90c97fc9167d729d7a7175275df46a76
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: change code formatting for snd_pcm_hw_change_timer()
+
+commit 955d989e81b400fe985928e9dfdd8d9be785ab32
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from _snd_pcm_hook_ctl_elems_install()
+
+commit f7c60897d9437c72682d448322711b661a86d2e0
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from snd_pcm_direct_set_timer_params
+
+commit 8bb090be0520c83aaca3aba9e53ed6304eb62826
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: change code formatting for snd_pcm_direct_set_timer_params()
+
+commit 3219c8d474febda859513fe7c3625265786c3002
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from snd_pcm_direct_initialize_poll_fd()
+
+commit 37e0e89d33303de64e44b330c235417956db0257
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: change code formatting for snd_pcm_direct_initialize_poll_fd()
+
+commit 65fd1de250d10edb00ef38a4ea3ce8ab255bd7c9
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from snd_pcm_direct_initialize_slave
+
+commit 7c27eda9fd45051e335c8ca2de1ade80cc3260cb
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: change code formatting for snd_pcm_direct_initialize_slave()
+
+commit f889a8d5decc24c84edccea6a49df014d38a683d
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from snd_pcm_get_params
+
+commit 8c3ffab39e290bcf22426eca75a65c88a1b487d1
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: change code formatting for snd_pcm_get_params()
+
+commit a5f54c1aeb0851d75cdfb66df6a5f6982bc8cac1
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: remove alloca() from snd_pcm_set_params()
+
+commit 804312cf3ed55c578f9dc373f93b59b7c2ffe802
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: change code formatting for snd_pcm_set_params()
+
+commit 941bd150bef2560f3e38a3bf74d546447e3126d1
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: fix return value of snd_pcm_ioplug_sw_params()
+
+commit 4c124b07599b9b6538955c50e3b96bf4e3465bb9
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: fix missing return value of snd_pcm_status()
+
+commit 9ea5748c6630c52a52d5d9bf9454d910964fb274
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: add compatibility information for snd_ctl_elem_info_set_dimension()
+
+commit c4b690278eeaf9a6805f67f6709e4aa33e58773a
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: Add LIBASOUND_THREAD_SAFE env variable check
+
+commit 7a8a1d155267fb6e21ddaa0787d121ec47a15bf2
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: Remove home brew atomic operations
+
+commit 54931e5a5455ac681a32a673d4b360d43f34b6b5
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: Add thread-safety to PCM API
+
+commit 16eb412043fd0979c51a511a084a4058d44207a1
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: add 'default' case for switch statement
+
+commit 8870c11894dcbe2b3a01d539158bb211de5cd4b5
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    mixer: remove assignment to unused variable
+
+commit 773eeda110bcc91b1f0c7796810162c0b278edcf
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: set error code at failure path
+
+commit 671dc9048672de684f93c00746750287808fdd99
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    topology: initialize variable for error output
+
+commit d7436eba8d43d78e97ceceaf41887cd1569d006d
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    topology: apply the same type to compared two variables
+
+commit 5235105ca3829eb344a158d577e24e92cd2f1961
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    topology: remove unused variable in get_tokens()
+
+commit 87afc50e8116f0f41025f7d41dc4d1405885d704
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    topology: remove unused variable in tplg_parse_fe_dai()
+
+commit 5d079c7608ea64fa1092fa8fce6e27d17d1a9e0f
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    hctl: remove assertion from element event handler because removal event overwrites all of queued events
+
+commit 08224d2368fa413e173abb622cff4508cc41a1fe
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: improve documentation of APIs to add an element set
+
+commit b6c69d7067a1818e53da774bdbdc3023f299d579
+Author: Stephen Just <stephenjust@gmail.com>
+
+    conf/ucm: chtrt5645: Add UCM config for chtrt5645
+
+commit 42ff384a98ccac94e7b5ffdb54c478608ed6ee51
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    test: add linker flag with pthread for pcm-multi-thread stress test
+
+commit 025e451b833efeb0b930f9041c827ea244ea4586
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: add dimension validator
+
+commit 3ef712844f3a93f34f269114e341915ae7efece2
+Author: Takashi Iwai <tiwai@suse.de>
+
+    Add pcm-multi-thread to .gitignore
+
+commit 147093ac5b8dd1ea81af0f8d9c13278fa2e709e5
+Author: Takashi Iwai <tiwai@suse.de>
+
+    test: Add pcm-multi-thread program
+
+commit 97fce6607778844fed04caaeced68b7e18b8d91c
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: Remove superfluous rmb() from PCM meter plugin
+
+commit d61d71a9bbbd7398d152bce6a65c2e460e8759f6
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: fix a test for user-defined element set in a point of dimension
+
+commit ea7bc7f91a4053b11a3c266a3c547b9fb3de3266
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: support dimension test for user-defined element set
+
+commit 18a46abf34f24e591cc46fcd83bbe2e2e9e1d921
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: optimize a test for user-defined element set to changes of APIs
+
+commit 1edc5f5259f36a17487f0955401049369d71dc7d
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: optimize a test for user-defined element set to older kernels
+
+commit 16812b70daeb1c31f4681d22474b21f986ff6619
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: add an API to set dimension levels to element information
+
+commit f9e6011255b338c2aa04360c0e71923763871bc8
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: support extra information to user-defined element set
+
+commit 7117d22cf256e92e061b433cf47f431b250b1212
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: use consistent name for second argument of snd_ctl_elem_read/write
+
+commit 06a51e29f46acd2d1b03befa2a5765cedca9051b
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: use automatic variable instead of call of alloca(3)
+
+commit 7bc886584f30e94c817cdfa0857168e50b189f45
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: fix returning zero for dimension level 4
+
+commit 5eb8ae1bb0b646ff10a1521e2525133e6909c34c
+Author: Takashi Iwai <tiwai@suse.de>
+
+    doxygen: Suppress timestamp
+
+commit e63ec948901125f26c625b0977173da0ed9b4da2
+Author: Henrik Austad <henrik@austad.us>
+
+    INSTALL: update text and drop reference to Hg
+
+commit 5ba71a7b8144dc29c29ea36d5d2d221ebf8848da
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: add test program for control element set
+
+commit fe1b08803db61ebd27719cb0c5909219a9d3c7d4
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: improve API documentation for threshold level operations
+
+commit 677160d2269f0db2d05ccabe999240d063990eb9
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: add explanation about threshold level feature
+
+commit d932e0184c59698e11cae7baace70a92b42c73ef
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    pcm: use new APIs to add a control element set for softvol plugin
+
+commit 1680ea4768a76f93521d59eeaae2b0ec7d7920b2
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: change former APIs as wrapper functions of element set APIs
+
+commit de23b0e6e6c9c68b132ffed4210de5f478569486
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: improve comments for API to add an element of IEC958 type
+
+commit 07861888e429c0cb158b12ee68083c49165da844
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: add functions to add an element set
+
+commit 90020c05f886b9b98c1c337acfc0bfb191e5c93c
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: improve comments for handling element data
+
+commit f3c24de8c0df2cadb8bce86113f9b9f64dc3348e
+Author: Takashi Sakamoto <o-takashi@sakamocchi.jp>
+
+    ctl: add an overview for design of ALSA control interface
+
+commit f449a299431a30d7d2588199f4cbd16e329db8a5
+Author: Heiko Stübner <heiko@sntech.de>
+
+    conf/ucm: ROCKCHIP-I2S: rename to VEYRON-I2S
+
+commit d39e1879b9c72d51fe1ca4aeb5ba742e97b2175a
+Author: Eliot Miranda <eliot.miranda@gmail.com>
+
+    async: Handle previously installed signal handler
+
+commit 614ce73d3d6eba13946f863bec24981d355902e1
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: dmix: Return error when slave is in OPEN or DISCONNECTED
+
+commit 8feb96ed9b457c2aa62ddea2c48651475b7c3411
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: dmix: Prepare slave when it's in SETUP, too
+
+commit 6d1d620eadf32c6d963468ce56ff52cc3a2f32e2
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: dmix: resume workaround for buggy driver
+
+commit 2fa36eb03c000560128f7abce701536546b4a618
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: Fix secondary retry in dsnoop and dshare
+
+commit d942498bfbd315c4c4559ccd573685e09aa03383
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: Remove resume support from dmix & co
+
+commit c9a0d7d601e8ab069f8745968c03c8470b24d20d
+Author: Takashi Iwai <tiwai@suse.de>
+
+    conf: Add thread-safe global tree reference
+
+commit 5fb3fe17249c3fffb8b8e15108ff72f27ba5e81c
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: Define namehint for single directional PCM types
+
+commit 8cdbdae73109c901aec4984f6ba65e5b25722f13
+Author: Takashi Iwai <tiwai@suse.de>
+
+    namehint: Don't enumerate as duplex if only a single direction is defined
+
+commit 5610b356b5f110f7f8e586f56e5b74e0f0c2db38
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: dmix: Fix doubly resume of slave PCM
+
+commit c14b0a08f0bf58e4f62307c68f8ff0137b4dec19
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: Fix suspend/resume regression with dmix & co
+
+commit a192f52fc63a86e1fbb9a09adb0bc2a6bbc8dab1
+Author: Enric Balletbo i Serra <enric.balletbo@collabora.com>
+
+    conf/ucm: ROCKCHIP-I2S: add Rockchip I2S UCM config.
+
+commit 85bf9915989e0a338632739684c75192c1753239
+Author: Jörg Krause <joerg.krause@embedded.rocks>
+
+    pcm: softvol: fix conversion of TLVs min_db and max_dB value
+
+commit 76af5bf833323d8ae1caa23d592a959e74990932
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Update PCM configurations in Broadwell text conf file
+
+commit 25d6f8e6a8e162259dcf84600496dc8ebd8196e7
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Parse front-end DAI name and ID for the PCM
+
+commit 5d23c406d1757d1b65e1d17a71c69620d9af71d7
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Fix pcm ID & name parsing
+
+commit 0935e32d40e065e61255550ac4c5b7c6710dd028
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Use generic pointer to realloc buffer for private data
+
+commit 86ec8b49008fbcfa45756f7ab1803392c3bb464e
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Refactor functions to parse and build streams
+
+commit e64334df2b2fe6756539178d89133a0b56e83c9d
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Set manifest size for ABI
+
+commit a0acd51d8c6e9846b75524431bc8c9e82f5cc503
+Author: Takashi Iwai <tiwai@suse.de>
+
+    Add src/conf/topology/sklrt286/data/pvt_data to .gitignore
+
+commit 65b271034a36580badc980b3ff0bd77e7b9837ce
+Author: Shreyas NC <shreyas.nc@intel.com>
+
+    conf: topology: Generate Private data binary blobs
+
+commit a8ca6d1c4b942616dad43d51d954c31894e3c608
+Author: Shreyas NC <shreyas.nc@intel.com>
+
+    Add u8 in type_compat.h
+
+commit f5c313eae5c26d6843a4f860743151f53b2f4041
+Author: Shreyas NC <shreyas.nc@intel.com>
+
+    conf: topology: Add Skylake i2s conf
+
+commit fdba9e1bad8f769a6137e565471f0227f23a3132
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: Fallback open as the first instance for dmix & co
+
+commit e57b521c61f0df14b660ce6ba8c5009a63f5b115
+Author: Hsin-Yu Chao <hychao@chromium.org>
+
+    ucm: add cset-tlv
+
+commit 0c5e5c1801e5b1b55e46144ee29ca7a71f2812b0
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Build data objects with tuples
+
+commit fdb9a6d19f8b7cc8252d27e83907d8d1c5e4b53d
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Add support for parsing vendor tuples
+
+commit 9b751b38cbb60bfb08ee796a59d72f40e3cd196d
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Add support for vendor tokens
+
+commit 768a006089fab94d5aeffd9115da3fbe951a94f8
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: ABI - Define types for vendor tuples
+
+commit 2fd8d388f530b03872d8afb51b0f98c6474646c7
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Add doc for vendor tuples
+
+commit 6b31bf8edb407f4c184576909f40c41bdc8439e4
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Define a free handler for the element
+
+commit 374c5fa9c5cb80efa41ef8a3afd215aa48b48436
+Author: Mengdong Lin <mengdong.lin@linux.intel.com>
+
+    topology: Use the generic pointer to free an element's object
+
+commit 503a285ed60164d8c65c6ee9ba6f23631da753df
+Author: Takashi Iwai <tiwai@suse.de>
+
+    pcm: Clean up error paths in snd_pcm_plugin_*() helpers
+
+commit 7c424edd116e76eee6218a1e9a6ff6c4daaf2a4d
+Author: Shengjiu Wang <shengjiu.wang@freescale.com>
+
+    pcm_plugin: fix appl pointer not correct when mmap_commit() return error
+
 commit 6a610e56aeef5048136336f7f54db05f061ee4d4
 Author: Jaroslav Kysela <perex@perex.cz>
 
