@@ -4,7 +4,7 @@ alsa-lib (1.1.2-1) unstable; urgency=medium
   * Refreshed patches.
   * Updated symbols. Bump shlibs in dh_makeshlibs call.
   * Updated changelog.ALSA.
-
+  * Formatted debian/copyright as DEP5.
 
  -- Elimar Riesebieter <riesebie@lxtec.de>  Wed, 03 Aug 2016 15:35:03 +0200
 
