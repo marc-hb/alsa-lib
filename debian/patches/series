@@ -5,4 +5,4 @@ add-tegra-alc5632.patch
 0003-Add-UCM-files-for-Nexus-7.patch
 0004-Add-UCM-config-files-for-Nexus-10.patch
 0005-Add-UCM-config-files-for-Nexus-5.patch
-Speech-stops-working-when-run-BRLTTY.patch
+#Speech-stops-working-when-run-BRLTTY.patch

@@ -1,11 +1,3 @@
-alsa-lib (1.1.2-2) unstable; urgency=medium
-
-  * Speech stops working after roughly a minute when running
-    BRLTTY. Add a thread_safe. Thanks Sebastian Humenda for the patch.
-    (closes: 833950)
-
- -- Elimar Riesebieter <riesebie@lxtec.de>  Thu, 11 Aug 2016 19:26:30 +0200
-
 alsa-lib (1.1.2-1) unstable; urgency=medium
 
   * New upstream release.
