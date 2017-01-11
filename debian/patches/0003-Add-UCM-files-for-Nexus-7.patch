@@ -144,14 +144,14 @@ Index: alsa-lib-1.1.2/src/conf/ucm/Makefile.am
 --- alsa-lib-1.1.2.orig/src/conf/ucm/Makefile.am
 +++ alsa-lib-1.1.2/src/conf/ucm/Makefile.am
 @@ -1 +1 @@
--SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 VEYRON-I2S chtrt5645 apq8064-tabla-snd-card Tuna
-+SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 VEYRON-I2S chtrt5645 apq8064-tabla-snd-card Tuna tegra-rt5640
+-SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 skylake-rt286 VEYRON-I2S chtrt5645 DB410c apq8064-tabla-snd-card Tuna
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 skylake-rt286 VEYRON-I2S chtrt5645 DB410c apq8064-tabla-snd-card Tuna tegra-rt5640
 Index: alsa-lib-1.1.2/configure.ac
 ===================================================================
 --- alsa-lib-1.1.2.orig/configure.ac
 +++ alsa-lib-1.1.2/configure.ac
-@@ -677,6 +677,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
- 	  src/conf/ucm/chtrt5645/Makefile \
+@@ -679,6 +679,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
+ 	  src/conf/ucm/DB410c/Makefile \
  	  src/conf/ucm/apq8064-tabla-snd-card/Makefile \
  	  src/conf/ucm/Tuna/Makefile \
 +	  src/conf/ucm/tegra-rt5640/Makefile \

@@ -406,7 +406,7 @@ Index: alsa-lib-1.1.2/configure.ac
 ===================================================================
 --- alsa-lib-1.1.2.orig/configure.ac
 +++ alsa-lib-1.1.2/configure.ac
-@@ -680,6 +680,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
+@@ -682,6 +682,7 @@ AC_OUTPUT(Makefile doc/Makefile doc/pict
  	  src/conf/ucm/tegra-rt5640/Makefile \
  	  src/conf/ucm/Manta-I2S/Makefile \
  	  src/conf/ucm/Manta-SPDIF/Makefile \
@@ -428,5 +428,5 @@ Index: alsa-lib-1.1.2/src/conf/ucm/Makefile.am
 --- alsa-lib-1.1.2.orig/src/conf/ucm/Makefile.am
 +++ alsa-lib-1.1.2/src/conf/ucm/Makefile.am
 @@ -1 +1 @@
--SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 VEYRON-I2S chtrt5645 apq8064-tabla-snd-card Tuna tegra-rt5640 Manta-I2S Manta-SPDIF
-+SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 VEYRON-I2S chtrt5645 apq8064-tabla-snd-card Tuna tegra-rt5640 Manta-I2S Manta-SPDIF msm8974-taiko-mtp-snd-card
+-SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 skylake-rt286 VEYRON-I2S chtrt5645 DB410c apq8064-tabla-snd-card Tuna tegra-rt5640 Manta-I2S Manta-SPDIF
++SUBDIRS=DAISY-I2S PandaBoard PandaBoardES SDP4430 tegraalc5632 PAZ00 GoogleNyan broadwell-rt286 skylake-rt286 VEYRON-I2S chtrt5645 DB410c apq8064-tabla-snd-card Tuna tegra-rt5640 Manta-I2S Manta-SPDIF msm8974-taiko-mtp-snd-card

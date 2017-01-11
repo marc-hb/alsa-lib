@@ -5,14 +5,13 @@ export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 
 %:
-	dh $@ --with autoreconf
+	dh $@
 
 override_dh_auto_configure:
 	dh_auto_configure -- \
 		--with-plugindir=/usr/lib/$(DEB_HOST_MULTIARCH)/alsa-lib \
 		--disable-silent-rules \
-		--disable-static \
-		--disable-python
+		--disable-static
 
 override_dh_auto_install:
 	dh_auto_install --destdir=debian/tmp
