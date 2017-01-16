@@ -8,7 +8,7 @@ Uploaders: Jordi Mallach <jordi@debian.org>,
 Build-Depends: debhelper (>= 10), dpkg-dev (>= 1.16.1)
 Build-Depends-Indep: doxygen, graphviz
 Standards-Version: 3.9.8
-Homepage: http://www.alsa-project.org/
+Homepage: https://www.alsa-project.org/
 Vcs-Svn: svn://anonscm.debian.org/pkg-alsa/trunk/alsa-lib
 Vcs-Browser: https://anonscm.debian.org/viewvc/pkg-alsa/trunk/alsa-lib/
 
