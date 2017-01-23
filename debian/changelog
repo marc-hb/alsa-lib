@@ -1,10 +1,16 @@
+alsa-lib (1.1.3-3) UNRELEASED; urgency=medium
+
+  * NOT RELEASED YET
+
+ -- Jordi Mallach <jordi@debian.org>  Mon, 23 Jan 2017 10:41:16 +0100
+
 alsa-lib (1.1.3-2) unstable; urgency=medium
 
   * ALSA smixer bits require python to be installed to work, but this check
     was only recently added to upstream build system in a668a942, which
     means smixer users have had it working via unrelated libpython2.7
     dependencies. Remove smixer bits entirely for now in preparation for a
-    split-out to a new binary.
+    split-out to a new binary (closes: #852281, LP: #1658606).
 
  -- Jordi Mallach <jordi@debian.org>  Mon, 23 Jan 2017 10:37:23 +0100
 
