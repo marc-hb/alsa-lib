@@ -1,3 +1,11 @@
+alsa-lib (1.1.3-3) UNRELEASED; urgency=medium
+
+  * Restore installing the smixer plugins into a new binary package
+    libasound2-plugin-smixer. Thanks to Michael Biebl for suggested patch.
+  * Build-Depend again on python-dev and drop --disable-python.
+
+ -- Jordi Mallach <jordi@debian.org>  Mon, 23 Jan 2017 10:52:54 +0100
+
 alsa-lib (1.1.3-2) unstable; urgency=medium
 
   * ALSA smixer bits require python to be installed to work, but this check
