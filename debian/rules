@@ -13,9 +13,6 @@ override_dh_auto_configure:
 		--disable-silent-rules \
 		--disable-static
 
-override_dh_auto_install:
-	dh_auto_install --destdir=debian/tmp
-
 override_dh_auto_build-indep:
 	$(MAKE) doc
 
