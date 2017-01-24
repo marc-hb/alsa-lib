@@ -1,10 +1,10 @@
-alsa-lib (1.1.3-4) UNRELEASED; urgency=medium
+alsa-lib (1.1.3-4) unstable; urgency=medium
 
   * Add copyright notes for src/topology. Thanks Thorsten Alteholz for
     bringing this up.
   * Improve and complete the rest of the copyright statements.
 
- -- Jordi Mallach <jordi@debian.org>  Mon, 23 Jan 2017 23:56:56 +0100
+ -- Jordi Mallach <jordi@debian.org>  Tue, 24 Jan 2017 12:30:46 +0100
 
 alsa-lib (1.1.3-3) unstable; urgency=medium
 
