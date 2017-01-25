@@ -1,3 +1,12 @@
+alsa-lib (1.1.3-5) UNRELEASED; urgency=medium
+
+  * Add 0008-topology-Fix-incorrect-license-in-source-comments.patch from
+    upstream git to fix the license headers on src/topology/* from GPL-2
+    to LGPL-2.1+ as originally intended.
+  * Drop GPL-2 paragraphs in d/copyright accordingly.
+
+ -- Jordi Mallach <jordi@debian.org>  Tue, 24 Jan 2017 12:32:22 +0100
+
 alsa-lib (1.1.3-4) unstable; urgency=medium
 
   * Add copyright notes for src/topology. Thanks Thorsten Alteholz for

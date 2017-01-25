@@ -1,0 +1,349 @@
+From liam.r.girdwood@linux.intel.com Tue Jan 24 15:59:16 2017
+Return-Path: <liam.r.girdwood@linux.intel.com>
+Delivered-To: jordi@mallach.net
+Received: from mailly.debian.org (mailly.debian.org
+ [IPv6:2001:41b8:202:deb:6564:a62:52c3:4b72]) by tempesta.oskuro.net
+ (Postfix) with ESMTPS id AC49F851E5 for <jordi@mallach.net>; Tue, 24 Jan
+ 2017 15:59:16 +0100 (CET)
+Received: from mga03.intel.com ([134.134.136.65])
+	by mailly.debian.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.84_2)
+	(envelope-from <liam.r.girdwood@linux.intel.com>)
+	id 1cW2Z1-0003Ok-6u
+	for jordi@mallach.net; Tue, 24 Jan 2017 14:59:15 +0000
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by orsmga103.jf.intel.com with ESMTP; 24 Jan 2017 06:59:11 -0800
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.33,278,1477983600"; 
+   d="scan'208";a="812723074"
+Received: from rkinsell-mobl.ger.corp.intel.com (HELO [10.252.0.71])
+ ([10.252.0.71]) by FMSMGA003.fm.intel.com with ESMTP; 24 Jan 2017 06:59:10
+ -0800
+Message-ID: <1485269948.2625.50.camel@loki>
+Subject: [PATCH] topology: Fix incorrect license in source comments.
+From: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+To: Takashi Iwai <tiwai@suse.de>
+Cc: "alsa-devel@alsa-project.org" <alsa-devel@alsa-project.org>, Jordi
+	Mallach <jordi@debian.org>
+Date: Tue, 24 Jan 2017 14:59:08 +0000
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+Mime-Version: 1.0
+X-Greylist: delayed 1269 seconds by postgrey-1.35 at mailly; Tue, 24 Jan
+ 2017 14:59:15 UTC
+X-Virus-Scanned: clamav-milter 0.99.2 at tempesta
+X-Virus-Status: Clean
+X-CRM114-Version:  20100106-BlameMichelson ( TRE 0.8.0 (BSD) ) MR-27CA1CFB 
+X-CRM114-CacheID:  sfid-20170124_155916_844430_758DE97E 
+X-CRM114-Status:  UNSURE (   3.34  )
+X-CRM114-Notice:  Please train this message. 
+X-Evolution-Source: 1366932344.28278.16@penyagolosa
+Content-Transfer-Encoding: 8bit
+
+The topology source files had the wrong licence specified in the
+comments when initially upstreamed. The topology source files are all
+licensed under the LGPL-2.1 and not the GPLv2.
+
+All earlier versions of the alsa-lib topology source files must be
+considered LGPL-2.1 like the other source files in alsa-lib and also
+as specified in the alsa-lib COPYING file.
+
+Signed-off-by: Liam Girdwood <liam.r.girdwood@linux.intel.com>
+---
+ src/topology/builder.c | 17 +++++++++--------
+ src/topology/channel.c | 17 +++++++++--------
+ src/topology/ctl.c     | 17 +++++++++--------
+ src/topology/dapm.c    | 17 +++++++++--------
+ src/topology/data.c    | 17 +++++++++--------
+ src/topology/elem.c    | 17 +++++++++--------
+ src/topology/ops.c     | 17 +++++++++--------
+ src/topology/parser.c  | 17 +++++++++--------
+ src/topology/pcm.c     | 17 +++++++++--------
+ src/topology/text.c    | 17 +++++++++--------
+ 10 files changed, 90 insertions(+), 80 deletions(-)
+
+diff --git a/src/topology/builder.c b/src/topology/builder.c
+index 20fa925..dcd9e2a 100644
+--- a/src/topology/builder.c
++++ b/src/topology/builder.c
+@@ -2,14 +2,15 @@
+   Copyright(c) 2014-2015 Intel Corporation
+   All rights reserved.
+ 
+-  This program is free software; you can redistribute it and/or modify
+-  it under the terms of version 2 of the GNU General Public License as
+-  published by the Free Software Foundation.
+-
+-  This program is distributed in the hope that it will be useful, but
+-  WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-  General Public License for more details.
++  This library is free software; you can redistribute it and/or modify
++  it under the terms of the GNU Lesser General Public License as
++  published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  This program is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU Lesser General Public License for more details.
+ 
+   Authors: Mengdong Lin <mengdong.lin@intel.com>
+            Yao Jin <yao.jin@intel.com>
+diff --git a/src/topology/channel.c b/src/topology/channel.c
+index c2f1fea..8516b23 100644
+--- a/src/topology/channel.c
++++ b/src/topology/channel.c
+@@ -2,14 +2,15 @@
+   Copyright(c) 2014-2015 Intel Corporation
+   All rights reserved.
+ 
+-  This program is free software; you can redistribute it and/or modify
+-  it under the terms of version 2 of the GNU General Public License as
+-  published by the Free Software Foundation.
+-
+-  This program is distributed in the hope that it will be useful, but
+-  WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-  General Public License for more details.
++  This library is free software; you can redistribute it and/or modify
++  it under the terms of the GNU Lesser General Public License as
++  published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  This program is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU Lesser General Public License for more details.
+ 
+   Authors: Mengdong Lin <mengdong.lin@intel.com>
+            Yao Jin <yao.jin@intel.com>
+diff --git a/src/topology/ctl.c b/src/topology/ctl.c
+index 907a97f..1da3d18 100644
+--- a/src/topology/ctl.c
++++ b/src/topology/ctl.c
+@@ -2,14 +2,15 @@
+   Copyright(c) 2014-2015 Intel Corporation
+   All rights reserved.
+ 
+-  This program is free software; you can redistribute it and/or modify
+-  it under the terms of version 2 of the GNU General Public License as
+-  published by the Free Software Foundation.
+-
+-  This program is distributed in the hope that it will be useful, but
+-  WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-  General Public License for more details.
++  This library is free software; you can redistribute it and/or modify
++  it under the terms of the GNU Lesser General Public License as
++  published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  This program is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU Lesser General Public License for more details.
+ 
+   Authors: Mengdong Lin <mengdong.lin@intel.com>
+            Yao Jin <yao.jin@intel.com>
+diff --git a/src/topology/dapm.c b/src/topology/dapm.c
+index 8c585a7..eef72bb 100644
+--- a/src/topology/dapm.c
++++ b/src/topology/dapm.c
+@@ -2,14 +2,15 @@
+   Copyright(c) 2014-2015 Intel Corporation
+   All rights reserved.
+ 
+-  This program is free software; you can redistribute it and/or modify
+-  it under the terms of version 2 of the GNU General Public License as
+-  published by the Free Software Foundation.
+-
+-  This program is distributed in the hope that it will be useful, but
+-  WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-  General Public License for more details.
++  This library is free software; you can redistribute it and/or modify
++  it under the terms of the GNU Lesser General Public License as
++  published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  This program is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU Lesser General Public License for more details.
+ 
+   Authors: Mengdong Lin <mengdong.lin@intel.com>
+            Yao Jin <yao.jin@intel.com>
+diff --git a/src/topology/data.c b/src/topology/data.c
+index 0d5c430..e2aa38c 100644
+--- a/src/topology/data.c
++++ b/src/topology/data.c
+@@ -2,14 +2,15 @@
+   Copyright(c) 2014-2015 Intel Corporation
+   All rights reserved.
+ 
+-  This program is free software; you can redistribute it and/or modify
+-  it under the terms of version 2 of the GNU General Public License as
+-  published by the Free Software Foundation.
+-
+-  This program is distributed in the hope that it will be useful, but
+-  WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-  General Public License for more details.
++  This library is free software; you can redistribute it and/or modify
++  it under the terms of the GNU Lesser General Public License as
++  published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  This program is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU Lesser General Public License for more details.
+ 
+   Authors: Mengdong Lin <mengdong.lin@intel.com>
+            Yao Jin <yao.jin@intel.com>
+diff --git a/src/topology/elem.c b/src/topology/elem.c
+index db26483..efcf3e9 100644
+--- a/src/topology/elem.c
++++ b/src/topology/elem.c
+@@ -2,14 +2,15 @@
+   Copyright(c) 2014-2015 Intel Corporation
+   All rights reserved.
+ 
+-  This program is free software; you can redistribute it and/or modify
+-  it under the terms of version 2 of the GNU General Public License as
+-  published by the Free Software Foundation.
+-
+-  This program is distributed in the hope that it will be useful, but
+-  WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-  General Public License for more details.
++  This library is free software; you can redistribute it and/or modify
++  it under the terms of the GNU Lesser General Public License as
++  published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  This program is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU Lesser General Public License for more details.
+ 
+   Authors: Mengdong Lin <mengdong.lin@intel.com>
+            Yao Jin <yao.jin@intel.com>
+diff --git a/src/topology/ops.c b/src/topology/ops.c
+index 1b5c1e2..6f8dc1f 100644
+--- a/src/topology/ops.c
++++ b/src/topology/ops.c
+@@ -2,14 +2,15 @@
+   Copyright(c) 2014-2015 Intel Corporation
+   All rights reserved.
+ 
+-  This program is free software; you can redistribute it and/or modify
+-  it under the terms of version 2 of the GNU General Public License as
+-  published by the Free Software Foundation.
+-
+-  This program is distributed in the hope that it will be useful, but
+-  WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-  General Public License for more details.
++  This library is free software; you can redistribute it and/or modify
++  it under the terms of the GNU Lesser General Public License as
++  published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  This program is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU Lesser General Public License for more details.
+ 
+   Authors: Mengdong Lin <mengdong.lin@intel.com>
+            Yao Jin <yao.jin@intel.com>
+diff --git a/src/topology/parser.c b/src/topology/parser.c
+index c5f9757..cfc20e0 100644
+--- a/src/topology/parser.c
++++ b/src/topology/parser.c
+@@ -2,14 +2,15 @@
+   Copyright(c) 2014-2015 Intel Corporation
+   All rights reserved.
+ 
+-  This program is free software; you can redistribute it and/or modify
+-  it under the terms of version 2 of the GNU General Public License as
+-  published by the Free Software Foundation.
+-
+-  This program is distributed in the hope that it will be useful, but
+-  WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-  General Public License for more details.
++  This library is free software; you can redistribute it and/or modify
++  it under the terms of the GNU Lesser General Public License as
++  published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  This program is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU Lesser General Public License for more details.
+ 
+   Authors: Mengdong Lin <mengdong.lin@intel.com>
+            Yao Jin <yao.jin@intel.com>
+diff --git a/src/topology/pcm.c b/src/topology/pcm.c
+index 8f8a703..5568d57 100644
+--- a/src/topology/pcm.c
++++ b/src/topology/pcm.c
+@@ -2,14 +2,15 @@
+   Copyright(c) 2014-2015 Intel Corporation
+   All rights reserved.
+ 
+-  This program is free software; you can redistribute it and/or modify
+-  it under the terms of version 2 of the GNU General Public License as
+-  published by the Free Software Foundation.
+-
+-  This program is distributed in the hope that it will be useful, but
+-  WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-  General Public License for more details.
++  This library is free software; you can redistribute it and/or modify
++  it under the terms of the GNU Lesser General Public License as
++  published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  This program is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU Lesser General Public License for more details.
+ 
+   Authors: Mengdong Lin <mengdong.lin@intel.com>
+            Yao Jin <yao.jin@intel.com>
+diff --git a/src/topology/text.c b/src/topology/text.c
+index 303fbeb..cba6887 100644
+--- a/src/topology/text.c
++++ b/src/topology/text.c
+@@ -2,14 +2,15 @@
+   Copyright(c) 2014-2015 Intel Corporation
+   All rights reserved.
+ 
+-  This program is free software; you can redistribute it and/or modify
+-  it under the terms of version 2 of the GNU General Public License as
+-  published by the Free Software Foundation.
+-
+-  This program is distributed in the hope that it will be useful, but
+-  WITHOUT ANY WARRANTY; without even the implied warranty of
+-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+-  General Public License for more details.
++  This library is free software; you can redistribute it and/or modify
++  it under the terms of the GNU Lesser General Public License as
++  published by the Free Software Foundation; either version 2.1 of
++  the License, or (at your option) any later version.
++
++  This program is distributed in the hope that it will be useful,
++  but WITHOUT ANY WARRANTY; without even the implied warranty of
++  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++  GNU Lesser General Public License for more details.
+ 
+   Authors: Mengdong Lin <mengdong.lin@intel.com>
+            Yao Jin <yao.jin@intel.com>
+-- 
+2.9.3
+
+
+

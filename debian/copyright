@@ -11,28 +11,11 @@ Files: *
 Copyright: 1998-2017 Jarsolav Kysela <perex@suse.cz> and others
 License: LPGL-2.1+
 
-Files: src/topology/*
-Copyright: 2014-2015 Intel Corporation
-License: GPL-2
-
 Files: debian/*
 Copyright: 1998-1999 Wichert Akkerman
            1999-2002 Masato Taruishi
-           2002-2016 Debian ALSA Maintainers
+           2002-2017 Debian ALSA Maintainers
 License: LPGL-2.1+
-
-License: GPL-2
- This program is free software; you can redistribute it and/or modify
- it under the terms of version 2 of the GNU General Public License as
- published by the Free Software Foundation.
- .
- This program is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- General Public License for more details.
- .
- On Debian systems, the complete text of the GNU General Public License
- can be found in /usr/share/common-licenses/GPL-2.
 
 License: LPGL-2.1+
  This library is free software; you can redistribute it and/or modify
