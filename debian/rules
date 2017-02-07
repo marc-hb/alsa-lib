@@ -14,9 +14,11 @@ override_dh_auto_configure:
 		--disable-static
 
 override_dh_auto_build-indep:
+	dh_auto_build
 	$(MAKE) doc
 
 override_dh_auto_install-indep:
+	dh_auto_install
 	$(MAKE) -C doc install
 
 override_dh_installdocs:
