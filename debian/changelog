@@ -1,4 +1,4 @@
-alsa-lib (1.1.3-5) UNRELEASED; urgency=medium
+alsa-lib (1.1.3-5) unstable; urgency=medium
 
   [ Jordi Mallach ]
   * Add 0008-topology-Fix-incorrect-license-in-source-comments.patch from
@@ -11,7 +11,7 @@ alsa-lib (1.1.3-5) UNRELEASED; urgency=medium
     override_dh_auto_install-indep to prevent a FTBFS with
     "dpkg-buildpackage -A". (closes: #854474)
 
- -- Elimar Riesebieter <riesebie@lxtec.de>  Tue, 07 Feb 2017 14:26:44 +0100
+ -- Jordi Mallach <jordi@debian.org>  Mon, 13 Feb 2017 20:12:05 +0100
 
 alsa-lib (1.1.3-4) unstable; urgency=medium
 
