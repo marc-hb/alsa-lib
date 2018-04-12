@@ -1,3 +1,10 @@
+alsa-lib (1.1.3-6) UNRELEASED; urgency=medium
+
+  * Update Vcs-* fields to reflect conversion to Git and move to
+    salsa.d.o.
+
+ -- Jordi Mallach <jordi@debian.org>  Thu, 12 Apr 2018 02:29:59 +0200
+
 alsa-lib (1.1.3-5) unstable; urgency=medium
 
   [ Jordi Mallach ]
