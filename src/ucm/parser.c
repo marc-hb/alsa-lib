@@ -11,7 +11,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software  
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  *  Support for the verb/device/modifier core logic and API,
  *  command line tool and file parser was kindly sponsored by
@@ -32,6 +32,7 @@
 
 #include "ucm_local.h"
 #include <dirent.h>
+#include <limits.h>
 
 /** The name of the environment variable containing the UCM directory */
 #define ALSA_CONFIG_UCM_VAR "ALSA_CONFIG_UCM"
@@ -54,6 +55,9 @@ static const char * const component_dir[] = {
 	"dsps",		/* for DSPs embedded in SoC */
 	NULL,		/* terminator */
 };
+
+static int filename_filter(const struct dirent *dirent);
+static int is_component_directory(const char *dir);
 
 static int parse_sequence(snd_use_case_mgr_t *uc_mgr,
 			  struct list_head *base,
@@ -1078,9 +1082,12 @@ static int parse_verb_file(snd_use_case_mgr_t *uc_mgr,
 	}
 
 	/* open Verb file for reading */
-	snprintf(filename, sizeof(filename), "%s/%s/%s",
-		env ? env : ALSA_USE_CASE_DIR,
-		uc_mgr->card_name, file);
+	if (env)
+		snprintf(filename, sizeof(filename), "%s/%s/%s",
+			 env, uc_mgr->card_name, file);
+	else
+		snprintf(filename, sizeof(filename), "%s/ucm/%s/%s",
+			 snd_config_topdir(), uc_mgr->card_name, file);
 	filename[sizeof(filename)-1] = '\0';
 	
 	err = uc_mgr_config_load(filename, &cfg);
@@ -1328,15 +1335,85 @@ static int parse_master_file(snd_use_case_mgr_t *uc_mgr, snd_config_t *cfg)
 	return 0;
 }
 
+/* find the card in the local machine and store the card long name */
+static int get_card_long_name(snd_use_case_mgr_t *mgr)
+{
+	const char *card_name = mgr->card_name;
+	snd_ctl_t *handle;
+	int card, err;
+	snd_ctl_card_info_t *info;
+	const char *_name, *_long_name;
+
+	snd_ctl_card_info_alloca(&info);
+
+	card = -1;
+	if (snd_card_next(&card) < 0 || card < 0) {
+		uc_error("no soundcards found...");
+		return -1;
+	}
+
+	while (card >= 0) {
+		char name[32];
+
+		sprintf(name, "hw:%d", card);
+		err = snd_ctl_open(&handle, name, 0);
+		if (err < 0) {
+			uc_error("control open (%i): %s", card,
+				 snd_strerror(err));
+			goto next_card;
+		}
+
+		err = snd_ctl_card_info(handle, info);
+		if (err < 0) {
+			uc_error("control hardware info (%i): %s", card,
+				 snd_strerror(err));
+			snd_ctl_close(handle);
+			goto next_card;
+		}
+
+		/* Find the local card by comparing the given name with the
+		 * card short name and long name. The given card name may be
+		 * either a short name or long name, because users may open
+		 * the card by either of the two names.
+		 */
+		_name = snd_ctl_card_info_get_name(info);
+		_long_name = snd_ctl_card_info_get_longname(info);
+		if (!strcmp(card_name, _name)
+		    || !strcmp(card_name, _long_name)) {
+			strcpy(mgr->card_long_name, _long_name);
+			snd_ctl_close(handle);
+			return 0;
+		}
+
+		snd_ctl_close(handle);
+next_card:
+		if (snd_card_next(&card) < 0) {
+			uc_error("snd_card_next");
+			break;
+		}
+	}
+
+	return -1;
+}
 static int load_master_config(const char *card_name, snd_config_t **cfg)
 {
 	char filename[MAX_FILE];
 	char *env = getenv(ALSA_CONFIG_UCM_VAR);
 	int err;
 
-	snprintf(filename, sizeof(filename)-1,
-		"%s/%s/%s.conf", env ? env : ALSA_USE_CASE_DIR,
-		card_name, card_name);
+	if (strnlen(card_name, MAX_CARD_LONG_NAME) == MAX_CARD_LONG_NAME) {
+		uc_error("error: invalid card name %s (at most %d chars)\n",
+			 card_name, MAX_CARD_LONG_NAME - 1);
+		return -EINVAL;
+	}
+
+	if (env)
+		snprintf(filename, sizeof(filename)-1,
+			 "%s/%s/%s.conf", env, card_name, card_name);
+	else
+		snprintf(filename, sizeof(filename)-1,
+			 "%s/ucm/%s/%s.conf", snd_config_topdir(),
+			 card_name, card_name);
 	filename[MAX_FILE-1] = '\0';
 
 	err = uc_mgr_config_load(filename, cfg);
@@ -1349,15 +1426,44 @@ static int load_master_config(const char *card_name, snd_config_t **cfg)
 	return 0;
 }
 
-/* load master use case file for sound card */
+/* load master use case file for sound card
+ *
+ * The same ASoC machine driver can be shared by many different devices.
+ * For user space to differentiate them and get the best device-specific
+ * configuration, ASoC machine drivers may use the DMI info
+ * (vendor-product-version-board) as the card long name. And user space can
+ * define configuration files like longnamei/longname.conf for a specific device.
+ *
+ * This function will try to find the card in the local machine and get its
+ * long name, then load the file longname/longname.conf to get the best
+ * device-specific configuration. If the card is not found in the local
+ * machine or the device-specific file is not available, fall back to load
+ * the default configuration file name/name.conf.
+ */
 int uc_mgr_import_master_config(snd_use_case_mgr_t *uc_mgr)
 {
 	snd_config_t *cfg;
 	int err;
 
-	err = load_master_config(uc_mgr->card_name, &cfg);
-	if (err < 0)
-		return err;
+	err = get_card_long_name(uc_mgr);
+	if (err == 0)	/* load file that maches the card long name */
+		err = load_master_config(uc_mgr->card_long_name, &cfg);
+
+	if (err == 0) {
+		/* got device-specific file that matches the card long name */
+		strcpy(uc_mgr->conf_file_name, uc_mgr->card_long_name);
+	} else {
+		/* Fall back to the file that maches the given card name,
+		 * either short name or long name (users may open a card by
+		 * its name or long name).
+		 */
+		err = load_master_config(uc_mgr->card_name, &cfg);
+		if (err < 0)
+			return err;
+		strncpy(uc_mgr->conf_file_name, uc_mgr->card_name, MAX_CARD_LONG_NAME);
+		uc_mgr->conf_file_name[MAX_CARD_LONG_NAME-1] = '\0';
+	}
+
 	err = parse_master_file(uc_mgr, cfg);
 	snd_config_delete(cfg);
 	if (err < 0)
@@ -1415,8 +1521,11 @@ int uc_mgr_scan_master_configs(const char **_list[])
 	ssize_t ss;
 	struct dirent **namelist;
 
-	snprintf(filename, sizeof(filename)-1,
-		"%s", env ? env : ALSA_USE_CASE_DIR);
+	if (env)
+		snprintf(filename, sizeof(filename)-1, "%s", env);
+	else
+		snprintf(filename, sizeof(filename)-1, "%s/ucm",
+			 snd_config_topdir());
 	filename[MAX_FILE-1] = '\0';
 
 #if defined(_GNU_SOURCE) && !defined(__NetBSD__) && !defined(__FreeBSD__) && !defined(__sun)

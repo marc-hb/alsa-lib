@@ -2,14 +2,15 @@
   Copyright(c) 2014-2015 Intel Corporation
   All rights reserved.
 
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of version 2 of the GNU General Public License as
-  published by the Free Software Foundation.
+  This library is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as
+  published by the Free Software Foundation; either version 2.1 of
+  the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful, but
-  WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
 
   Authors: Mengdong Lin <mengdong.lin@intel.com>
            Yao Jin <yao.jin@intel.com>
@@ -37,14 +38,14 @@ static const struct map_elem widget_map[] = {
 	{"dai_in", SND_SOC_TPLG_DAPM_DAI_IN},
 	{"dai_out", SND_SOC_TPLG_DAPM_DAI_OUT},
 	{"dai_link", SND_SOC_TPLG_DAPM_DAI_LINK},
-};
-
-/* mapping of widget kcontrol text names to types */
-static const struct map_elem widget_control_map[] = {
-	{"volsw", SND_SOC_TPLG_DAPM_CTL_VOLSW},
-	{"enum_double", SND_SOC_TPLG_DAPM_CTL_ENUM_DOUBLE},
-	{"enum_virt", SND_SOC_TPLG_DAPM_CTL_ENUM_VIRT},
-	{"enum_value", SND_SOC_TPLG_DAPM_CTL_ENUM_VALUE},
+	{"buffer", SND_SOC_TPLG_DAPM_BUFFER},
+	{"scheduler", SND_SOC_TPLG_DAPM_SCHEDULER},
+	{"effect", SND_SOC_TPLG_DAPM_EFFECT},
+	{"siggen", SND_SOC_TPLG_DAPM_SIGGEN},
+	{"src", SND_SOC_TPLG_DAPM_SRC},
+	{"asrc", SND_SOC_TPLG_DAPM_ASRC},
+	{"encoder", SND_SOC_TPLG_DAPM_ENCODER},
+	{"decoder", SND_SOC_TPLG_DAPM_DECODER},
 };
 
 static int lookup_widget(const char *w)
@@ -183,7 +184,7 @@ static int tplg_build_widget(snd_tplg_t *tplg,
 		case SND_TPLG_TYPE_MIXER:
 			if (!ref->elem)
 				ref->elem = tplg_elem_lookup(&tplg->mixer_list,
-						ref->id, SND_TPLG_TYPE_MIXER);
+				ref->id, SND_TPLG_TYPE_MIXER, elem->index);
 			if (ref->elem)
 				err = copy_dapm_control(elem, ref->elem);
 			break;
@@ -191,7 +192,7 @@ static int tplg_build_widget(snd_tplg_t *tplg,
 		case SND_TPLG_TYPE_ENUM:
 			if (!ref->elem)
 				ref->elem = tplg_elem_lookup(&tplg->enum_list,
-						ref->id, SND_TPLG_TYPE_ENUM);
+				ref->id, SND_TPLG_TYPE_ENUM, elem->index);
 			if (ref->elem)
 				err = copy_dapm_control(elem, ref->elem);
 			break;
@@ -199,7 +200,7 @@ static int tplg_build_widget(snd_tplg_t *tplg,
 		case SND_TPLG_TYPE_BYTES:
 			if (!ref->elem)
 				ref->elem = tplg_elem_lookup(&tplg->bytes_ext_list,
-						ref->id, SND_TPLG_TYPE_BYTES);
+				ref->id, SND_TPLG_TYPE_BYTES, elem->index);
 			if (ref->elem)
 				err = copy_dapm_control(elem, ref->elem);
 			break;
@@ -278,17 +279,17 @@ int tplg_build_routes(snd_tplg_t *tplg)
 
 		}
 		if (!tplg_elem_lookup(&tplg->widget_list, route->sink,
-			SND_TPLG_TYPE_DAPM_WIDGET)) {
+			SND_TPLG_TYPE_DAPM_WIDGET, SND_TPLG_INDEX_ALL)) {
 			SNDERR("warning: undefined sink widget/stream '%s'\n",
 				route->sink);
 		}
 
 		/* validate control name */
 		if (strlen(route->control)) {
-			if (!tplg_elem_lookup(&tplg->mixer_list,
-				route->control, SND_TPLG_TYPE_MIXER) &&
-			!tplg_elem_lookup(&tplg->enum_list,
-				route->control, SND_TPLG_TYPE_ENUM)) {
+			if (!tplg_elem_lookup(&tplg->mixer_list, route->control,
+					SND_TPLG_TYPE_MIXER, elem->index) &&
+			!tplg_elem_lookup(&tplg->enum_list, route->control,
+					SND_TPLG_TYPE_ENUM, elem->index)) {
 				SNDERR("warning: Undefined mixer/enum control '%s'\n",
 					route->control);
 			}
@@ -301,7 +302,7 @@ int tplg_build_routes(snd_tplg_t *tplg)
 
 		}
 		if (!tplg_elem_lookup(&tplg->widget_list, route->source,
-			SND_TPLG_TYPE_DAPM_WIDGET)) {
+			SND_TPLG_TYPE_DAPM_WIDGET, SND_TPLG_INDEX_ALL)) {
 			SNDERR("warning: Undefined source widget/stream '%s'\n",
 				route->source);
 		}
@@ -388,7 +389,7 @@ done:
 }
 
 
-static int tplg_parse_routes(snd_tplg_t *tplg, snd_config_t *cfg)
+static int tplg_parse_routes(snd_tplg_t *tplg, snd_config_t *cfg, int index)
 {
 	snd_config_iterator_t i, next;
 	snd_config_t *n;
@@ -406,7 +407,7 @@ static int tplg_parse_routes(snd_tplg_t *tplg, snd_config_t *cfg)
 		elem = tplg_elem_new_route(tplg);
 		if (!elem)
 			return -ENOMEM;
-
+		elem->index = index;
 		line = elem->route;
 
 		err = tplg_parse_line(val, line);
@@ -426,7 +427,8 @@ int tplg_parse_dapm_graph(snd_tplg_t *tplg, snd_config_t *cfg,
 	snd_config_iterator_t i, next;
 	snd_config_t *n;
 	int err;
-	const char *graph_id;
+	const char *graph_id, *val = NULL;
+	int index = -1;
 
 	if (snd_config_get_type(cfg) != SND_CONFIG_TYPE_COMPOUND) {
 		SNDERR("error: compound is expected for dapm graph definition\n");
@@ -443,8 +445,19 @@ int tplg_parse_dapm_graph(snd_tplg_t *tplg, snd_config_t *cfg,
 			continue;
 		}
 
+		if (strcmp(id, "index") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+			index = atoi(val);
+		}
+
 		if (strcmp(id, "lines") == 0) {
-			err = tplg_parse_routes(tplg, n);
+			if (index < 0) {
+				SNDERR("error: failed to parse dapm graph %s, missing index\n",
+					graph_id);
+				return -EINVAL;
+			}
+			err = tplg_parse_routes(tplg, n, index);
 			if (err < 0) {
 				SNDERR("error: failed to parse dapm graph %s\n",
 					graph_id);
@@ -489,15 +502,6 @@ int tplg_parse_dapm_widget(snd_tplg_t *tplg,
 			continue;
 		if (id[0] == '#')
 			continue;
-
-		if (strcmp(id, "index") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
-				return -EINVAL;
-
-			elem->index = atoi(val);
-			tplg_dbg("\t%s: %d\n", id, elem->index);
-			continue;
-		}
 
 		if (strcmp(id, "type") == 0) {
 			if (snd_config_get_string(n, &val) < 0)

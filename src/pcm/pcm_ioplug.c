@@ -22,7 +22,7 @@
  *
  *   You should have received a copy of the GNU Lesser General Public
  *   License along with this library; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  */
   
@@ -42,10 +42,15 @@ const char *_snd_module_pcm_ioplug = "";
 typedef struct snd_pcm_ioplug_priv {
 	snd_pcm_ioplug_t *data;
 	struct snd_ext_parm params[SND_PCM_IOPLUG_HW_PARAMS];
-	unsigned int last_hw;
+	snd_pcm_uframes_t last_hw;
 	snd_pcm_uframes_t avail_max;
 	snd_htimestamp_t trigger_tstamp;
 } ioplug_priv_t;
+
+static int snd_pcm_ioplug_drop(snd_pcm_t *pcm);
+static int snd_pcm_ioplug_poll_descriptors_count(snd_pcm_t *pcm);
+static int snd_pcm_ioplug_poll_descriptors(snd_pcm_t *pcm, struct pollfd *pfds, unsigned int space);
+static int snd_pcm_ioplug_poll_revents(snd_pcm_t *pcm, struct pollfd *pfds, unsigned int nfds, unsigned short *revents);
 
 /* update the hw pointer */
 /* called in lock */
@@ -56,15 +61,31 @@ static void snd_pcm_ioplug_hw_ptr_update(snd_pcm_t *pcm)
 
 	hw = io->data->callback->pointer(io->data);
 	if (hw >= 0) {
-		unsigned int delta;
-		if ((unsigned int)hw >= io->last_hw)
+		snd_pcm_uframes_t delta;
+		snd_pcm_uframes_t avail;
+
+		if ((snd_pcm_uframes_t)hw >= io->last_hw)
 			delta = hw - io->last_hw;
-		else
-			delta = pcm->buffer_size + hw - io->last_hw;
+		else {
+			const snd_pcm_uframes_t wrap_point =
+				(io->data->flags & SND_PCM_IOPLUG_FLAG_BOUNDARY_WA) ?
+					pcm->boundary : pcm->buffer_size;
+			delta = wrap_point + hw - io->last_hw;
+		}
 		snd_pcm_mmap_hw_forward(io->data->pcm, delta);
-		io->last_hw = hw;
-	} else
-		io->data->state = SNDRV_PCM_STATE_XRUN;
+		/* stop the stream if all samples are drained */
+		if (io->data->state == SND_PCM_STATE_DRAINING) {
+			avail = snd_pcm_mmap_avail(pcm);
+			if (avail >= pcm->buffer_size)
+				snd_pcm_ioplug_drop(pcm);
+		}
+		io->last_hw = (snd_pcm_uframes_t)hw;
+	} else {
+		if (io->data->state == SND_PCM_STATE_DRAINING)
+			snd_pcm_ioplug_drop(pcm);
+		else
+			io->data->state = SNDRV_PCM_STATE_XRUN;
+	}
 }
 
 static int snd_pcm_ioplug_info(snd_pcm_t *pcm, snd_pcm_info_t *info)
@@ -141,13 +162,16 @@ static int snd_pcm_ioplug_prepare(snd_pcm_t *pcm)
 	ioplug_priv_t *io = pcm->private_data;
 	int err = 0;
 
-	io->data->state = SND_PCM_STATE_PREPARED;
 	snd_pcm_ioplug_reset(pcm);
 	if (io->data->callback->prepare) {
 		snd_pcm_unlock(pcm); /* to avoid deadlock */
 		err = io->data->callback->prepare(io->data);
 		snd_pcm_lock(pcm);
 	}
+	if (err < 0)
+		return err;
+
+	io->data->state = SND_PCM_STATE_PREPARED;
 	return err;
 }
 
@@ -480,18 +504,62 @@ static int snd_pcm_ioplug_drop(snd_pcm_t *pcm)
 	return 0;
 }
 
+static int ioplug_drain_via_poll(snd_pcm_t *pcm)
+{
+	ioplug_priv_t *io = pcm->private_data;
+
+	while (io->data->state == SND_PCM_STATE_DRAINING) {
+		snd_pcm_ioplug_hw_ptr_update(pcm);
+		if (io->data->state != SND_PCM_STATE_DRAINING)
+			break;
+		/* in non-blocking mode, let application to poll() by itself */
+		if (io->data->nonblock)
+			return -EAGAIN;
+		if (snd_pcm_wait_nocheck(pcm, -1) < 0)
+			break;
+	}
+
+	return 0; /* force to drop at error */
+}
+
 /* need own locking */
 static int snd_pcm_ioplug_drain(snd_pcm_t *pcm)
 {
 	ioplug_priv_t *io = pcm->private_data;
-	int err;
+	int err = 0;
 
-	if (io->data->state == SND_PCM_STATE_OPEN)
-		return -EBADFD;
-	if (io->data->callback->drain)
-		io->data->callback->drain(io->data);
 	snd_pcm_lock(pcm);
-	err = snd_pcm_ioplug_drop(pcm);
+	switch (io->data->state) {
+	case SND_PCM_STATE_OPEN:
+	case SND_PCM_STATE_DISCONNECTED:
+	case SND_PCM_STATE_SUSPENDED:
+		return -EBADFD;
+	case SND_PCM_STATE_PREPARED:
+		if (pcm->stream == SND_PCM_STREAM_PLAYBACK) {
+			err = snd_pcm_ioplug_start(pcm);
+			if (err < 0)
+				goto unlock;
+			io->data->state = SND_PCM_STATE_DRAINING;
+		}
+		break;
+	case SND_PCM_STATE_RUNNING:
+		io->data->state = SND_PCM_STATE_DRAINING;
+		break;
+	}
+
+	if (io->data->state == SND_PCM_STATE_DRAINING) {
+		if (io->data->callback->drain) {
+			snd_pcm_unlock(pcm); /* let plugin own locking */
+			err = io->data->callback->drain(io->data);
+			snd_pcm_lock(pcm);
+		} else {
+			err = ioplug_drain_via_poll(pcm);
+		}
+	}
+
+ unlock:
+	if (!err && io->data->state != SND_PCM_STATE_SETUP)
+		snd_pcm_ioplug_drop(pcm);
 	snd_pcm_unlock(pcm);
 	return err;
 }
@@ -1142,4 +1210,30 @@ int snd_pcm_ioplug_set_state(snd_pcm_ioplug_t *ioplug, snd_pcm_state_t state)
 {
 	ioplug->state = state;
 	return 0;
+}
+
+/**
+ * \brief Get the available frames. This function can be used to calculate the
+ * the available frames before calling #snd_pcm_avail_update()
+ * \param ioplug the ioplug handle
+ * \param hw_ptr hardware pointer in frames
+ * \param appl_ptr application pointer in frames
+ * \return available frames for the hardware
+ */
+snd_pcm_uframes_t snd_pcm_ioplug_hw_avail(const snd_pcm_ioplug_t * const ioplug,
+					  const snd_pcm_uframes_t hw_ptr,
+					  const snd_pcm_uframes_t appl_ptr)
+{
+	/* available data/space which can be transferred by the user
+	 * application
+	 */
+	const snd_pcm_uframes_t user_avail = __snd_pcm_avail(ioplug->pcm,
+							     hw_ptr, appl_ptr);
+
+	if (user_avail > ioplug->pcm->buffer_size) {
+		/* there was an Xrun */
+		return 0;
+	}
+	/* available data/space which can be transferred by the DMA */
+	return ioplug->pcm->buffer_size - user_avail;
 }

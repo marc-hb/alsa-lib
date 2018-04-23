@@ -16,7 +16,7 @@
  *
  *   You should have received a copy of the GNU Lesser General Public
  *   License along with this library; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  */
 
@@ -35,6 +35,7 @@
 #include "local.h"
 
 #ifdef THREAD_SAFE_API
+#define __USE_UNIX98 1	/* for old glibc */
 #include <pthread.h>
 #endif
 
@@ -466,10 +467,12 @@ static inline int snd_pcm_check_error(snd_pcm_t *pcm, int err)
 	return err;
 }
 
-static inline snd_pcm_uframes_t snd_pcm_mmap_playback_avail(snd_pcm_t *pcm)
+static inline snd_pcm_uframes_t __snd_pcm_playback_avail(snd_pcm_t *pcm,
+							 const snd_pcm_uframes_t hw_ptr,
+							 const snd_pcm_uframes_t appl_ptr)
 {
 	snd_pcm_sframes_t avail;
-	avail = *pcm->hw.ptr + pcm->buffer_size - *pcm->appl.ptr;
+	avail = hw_ptr + pcm->buffer_size - appl_ptr;
 	if (avail < 0)
 		avail += pcm->boundary;
 	else if ((snd_pcm_uframes_t) avail >= pcm->boundary)
@@ -477,21 +480,40 @@ static inline snd_pcm_uframes_t snd_pcm_mmap_playback_avail(snd_pcm_t *pcm)
 	return avail;
 }
 
-static inline snd_pcm_uframes_t snd_pcm_mmap_capture_avail(snd_pcm_t *pcm)
+static inline snd_pcm_uframes_t snd_pcm_mmap_playback_avail(snd_pcm_t *pcm)
+{
+	return __snd_pcm_playback_avail(pcm, *pcm->hw.ptr, *pcm->appl.ptr);
+}
+
+static inline snd_pcm_uframes_t __snd_pcm_capture_avail(snd_pcm_t *pcm,
+							const snd_pcm_uframes_t hw_ptr,
+							const snd_pcm_uframes_t appl_ptr)
 {
 	snd_pcm_sframes_t avail;
-	avail = *pcm->hw.ptr - *pcm->appl.ptr;
+	avail = hw_ptr - appl_ptr;
 	if (avail < 0)
 		avail += pcm->boundary;
 	return avail;
 }
 
-static inline snd_pcm_uframes_t snd_pcm_mmap_avail(snd_pcm_t *pcm)
+static inline snd_pcm_uframes_t snd_pcm_mmap_capture_avail(snd_pcm_t *pcm)
+{
+	return __snd_pcm_capture_avail(pcm, *pcm->hw.ptr, *pcm->appl.ptr);
+}
+
+static inline snd_pcm_uframes_t __snd_pcm_avail(snd_pcm_t *pcm,
+						const snd_pcm_uframes_t hw_ptr,
+						const snd_pcm_uframes_t appl_ptr)
 {
 	if (pcm->stream == SND_PCM_STREAM_PLAYBACK)
-		return snd_pcm_mmap_playback_avail(pcm);
+		return __snd_pcm_playback_avail(pcm, hw_ptr, appl_ptr);
 	else
-		return snd_pcm_mmap_capture_avail(pcm);
+		return __snd_pcm_capture_avail(pcm, hw_ptr, appl_ptr);
+}
+
+static inline snd_pcm_uframes_t snd_pcm_mmap_avail(snd_pcm_t *pcm)
+{
+	return __snd_pcm_avail(pcm, *pcm->hw.ptr, *pcm->appl.ptr);
 }
 
 static inline snd_pcm_sframes_t snd_pcm_mmap_playback_hw_avail(snd_pcm_t *pcm)
@@ -934,7 +956,8 @@ snd_pcm_open_slave(snd_pcm_t **pcmp, snd_config_t *root,
 
 #define snd_pcm_conf_generic_id(id) _snd_conf_generic_id(id)
 
-int snd_pcm_hw_open_fd(snd_pcm_t **pcmp, const char *name, int fd, int mmap_emulation, int sync_ptr_ioctl);
+int snd_pcm_hw_open_fd(snd_pcm_t **pcmp, const char *name, int fd,
+		       int sync_ptr_ioctl);
 int __snd_pcm_mmap_emul_open(snd_pcm_t **pcmp, const char *name,
 			     snd_pcm_t *slave, int close_slave);
 
@@ -982,6 +1005,10 @@ const snd_config_t *snd_pcm_rate_get_default_converter(snd_config_t *root);
 	 (1U << SND_PCM_FORMAT_S16_BE) | \
 	 (1U << SND_PCM_FORMAT_U16_LE) | \
 	 (1U << SND_PCM_FORMAT_U16_BE) | \
+	 (1U << SND_PCM_FORMAT_S20_LE) | \
+	 (1U << SND_PCM_FORMAT_S20_BE) | \
+	 (1U << SND_PCM_FORMAT_U20_LE) | \
+	 (1U << SND_PCM_FORMAT_U20_BE) | \
 	 (1U << SND_PCM_FORMAT_S24_LE) | \
 	 (1U << SND_PCM_FORMAT_S24_BE) | \
 	 (1U << SND_PCM_FORMAT_U24_LE) | \

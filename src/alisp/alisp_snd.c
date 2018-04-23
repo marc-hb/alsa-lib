@@ -15,7 +15,7 @@
  *
  *   You should have received a copy of the GNU Lesser General Public
  *   License along with this library; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  */
 
@@ -575,12 +575,12 @@ static struct alisp_object * FA_hctl_elem_info(struct alisp_instance * instance,
 	p1 = add_cons(instance, p1, 1, "isowner", new_integer(instance, snd_ctl_elem_info_is_owner(&info)));
 	p1 = add_cons(instance, p1, 1, "owner", new_integer(instance, snd_ctl_elem_info_get_owner(&info)));
 	p1 = add_cons(instance, p1, 1, "count", new_integer(instance, snd_ctl_elem_info_get_count(&info)));
-	err = snd_ctl_elem_info_get_dimensions(&info);
+	err = INTERNAL(snd_ctl_elem_info_get_dimensions)(&info);
 	if (err > 0) {
 		int idx;
 		p1 = add_cons(instance, p1, 1, "dimensions", p2 = new_object(instance, ALISP_OBJ_CONS));
 		for (idx = 0; idx < err; idx++)
-			p2 = add_cons2(instance, p2, idx > 0, new_integer(instance, snd_ctl_elem_info_get_dimension(&info, idx)));
+			p2 = add_cons2(instance, p2, idx > 0, new_integer(instance, INTERNAL(snd_ctl_elem_info_get_dimension)(&info, idx)));
 	}
 	switch (type) {
 	case SND_CTL_ELEM_TYPE_ENUMERATED: {

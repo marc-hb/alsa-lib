@@ -87,6 +87,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #undef HAVE_MEMORY_H
 
+/* Define if your pthreads implementation have PTHREAD_MUTEX_RECURSIVE */
+#undef HAVE_PTHREAD_MUTEX_RECURSIVE
+
 /* Avoid calculation in float */
 #undef HAVE_SOFT_FLOAT
 
@@ -120,8 +123,8 @@
 /* Define to 1 if you have the `uselocale' function. */
 #undef HAVE_USELOCALE
 
-/* Define to 1 if you have the <wordexp.h> header file. */
-#undef HAVE_WORDEXP_H
+/* Enable use of wordexp */
+#undef HAVE_WORDEXP
 
 /* Define to 1 if compiler supports __thread */
 #undef HAVE___THREAD

@@ -22,7 +22,6 @@
 #include <sound/asoc.h>
 #include <sound/tlv.h>
 
-#define TPLG_DEBUG
 #ifdef TPLG_DEBUG
 #define tplg_dbg SNDERR
 #else
@@ -31,13 +30,32 @@
 
 #define MAX_FILE		256
 #define TPLG_MAX_PRIV_SIZE	(1024 * 128)
-#define ALSA_TPLG_DIR	ALSA_CONFIG_DIR "/topology"
 
 /** The name of the environment variable containing the tplg directory */
 #define ALSA_CONFIG_TPLG_VAR "ALSA_CONFIG_TPLG"
 
 struct tplg_ref;
 struct tplg_elem;
+
+typedef enum _snd_pcm_rates {
+	SND_PCM_RATE_UNKNOWN = -1,
+	SND_PCM_RATE_5512 = 0,
+	SND_PCM_RATE_8000,
+	SND_PCM_RATE_11025,
+	SND_PCM_RATE_16000,
+	SND_PCM_RATE_22050,
+	SND_PCM_RATE_32000,
+	SND_PCM_RATE_44100,
+	SND_PCM_RATE_48000,
+	SND_PCM_RATE_64000,
+	SND_PCM_RATE_88200,
+	SND_PCM_RATE_96000,
+	SND_PCM_RATE_176400,
+	SND_PCM_RATE_192000,
+	SND_PCM_RATE_CONTINUOUS = 30,
+	SND_PCM_RATE_KNOT = 31,
+	SND_PCM_RATE_LAST = SND_PCM_RATE_KNOT,
+} snd_pcm_rates_t;
 
 struct snd_tplg {
 
@@ -259,7 +277,8 @@ void tplg_elem_free(struct tplg_elem *elem);
 void tplg_elem_free_list(struct list_head *base);
 struct tplg_elem *tplg_elem_lookup(struct list_head *base,
 				const char* id,
-				unsigned int type);
+				unsigned int type,
+				int index);
 struct tplg_elem* tplg_elem_new_common(snd_tplg_t *tplg,
 	snd_config_t *cfg, const char *name, enum snd_tplg_type type);
 
