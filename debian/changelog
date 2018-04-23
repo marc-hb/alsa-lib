@@ -9,6 +9,7 @@ alsa-lib (1.1.6-1) UNRELEASED; urgency=medium
   * Drop B-D on dpkg-dev version present in oldoldstable.
   * Drop upstream patch from previous upload, now in the release.
   * Switch to python3-dev, per configure.ac.
+  * Explicitly enable python mixer modules at configure.
 
  -- Jordi Mallach <jordi@debian.org>  Thu, 12 Apr 2018 02:29:59 +0200
 
