@@ -4,6 +4,7 @@ alsa-lib (1.1.6-1) UNRELEASED; urgency=medium
   * Update Vcs-* fields to reflect conversion to Git and move to
     salsa.d.o.
   * Add debian/gbp.conf with current git repo layout options.
+  * Update to Standards-Version 4.1.4.
 
  -- Jordi Mallach <jordi@debian.org>  Thu, 12 Apr 2018 02:29:59 +0200
 
