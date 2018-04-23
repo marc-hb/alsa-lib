@@ -129,3 +129,8 @@ ALSA_0.9.7 {
     alsa_lisp_*;
 } ALSA_0.9.5;
 
+ALSA_1.1.6 {
+  global:
+
+    snd_dlopen;
+} ALSA_0.9.7;

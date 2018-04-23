@@ -32,7 +32,7 @@
  *
  *   You should have received a copy of the GNU Lesser General Public
  *   License along with this library; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  */
 
@@ -651,12 +651,27 @@ playback devices.
 #include <stdarg.h>
 #include <signal.h>
 #include <ctype.h>
-#include <sys/poll.h>
+#include <poll.h>
 #include <sys/mman.h>
 #include <limits.h>
 #include "pcm_local.h"
 
 #ifndef DOC_HIDDEN
+/* return specific error codes for known bad PCM states */
+static int pcm_state_to_error(snd_pcm_state_t state)
+{
+	switch (state) {
+	case SND_PCM_STATE_XRUN:
+		return -EPIPE;
+	case SND_PCM_STATE_SUSPENDED:
+		return -ESTRPIPE;
+	case SND_PCM_STATE_DISCONNECTED:
+		return -ENODEV;
+	default:
+		return 0;
+	}
+}
+
 #define P_STATE(x)	(1U << SND_PCM_STATE_ ## x)
 #define P_STATE_RUNNABLE (P_STATE(PREPARED) | \
 			  P_STATE(RUNNING) | \
@@ -667,9 +682,18 @@ playback devices.
 /* check whether the PCM is in the unexpected state */
 static int bad_pcm_state(snd_pcm_t *pcm, unsigned int supported_states)
 {
+	snd_pcm_state_t state;
+	int err;
+
 	if (pcm->own_state_check)
 		return 0; /* don't care, the plugin checks by itself */
-	return !(supported_states & (1U << snd_pcm_state(pcm)));
+	state = snd_pcm_state(pcm);
+	if (supported_states & (1U << state))
+		return 0; /* OK */
+	err = pcm_state_to_error(state);
+	if (err < 0)
+		return err;
+	return -EBADFD;
 }
 #endif
 
@@ -759,7 +783,10 @@ int snd_pcm_nonblock(snd_pcm_t *pcm, int nonblock)
 	int err = 0;
 
 	assert(pcm);
-	__snd_pcm_lock(pcm); /* forced lock due to pcm field change */
+	/* FIXME: __snd_pcm_lock() call below is commented out because of the
+	 * the possible deadlock in signal handler calling snd_pcm_abort()
+	 */
+	/* __snd_pcm_lock(pcm); */ /* forced lock due to pcm field change */
 	if ((err = pcm->ops->nonblock(pcm->op_arg, nonblock)) < 0)
 		goto unlock;
 	if (nonblock == 2) {
@@ -775,7 +802,7 @@ int snd_pcm_nonblock(snd_pcm_t *pcm, int nonblock)
 			pcm->mode &= ~SND_PCM_NONBLOCK;
 	}
  unlock:
-	__snd_pcm_unlock(pcm);
+	/* __snd_pcm_unlock(pcm); */ /* FIXME: see above */
 	return err;
 }
 
@@ -796,6 +823,11 @@ int snd_pcm_async(snd_pcm_t *pcm, int sig, pid_t pid)
 		sig = SIGIO;
 	if (pid == 0)
 		pid = getpid();
+
+#ifdef THREAD_SAFE_API
+	/* async handler may lead to a deadlock; suppose no multi thread */
+	pcm->lock_enabled = 0;
+#endif
 	return pcm->ops->async(pcm->op_arg, sig, pid);
 }
 #endif
@@ -1138,8 +1170,9 @@ int snd_pcm_prepare(snd_pcm_t *pcm)
 		SNDMSG("PCM not set up");
 		return -EIO;
 	}
-	if (bad_pcm_state(pcm, ~P_STATE(DISCONNECTED)))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, ~P_STATE(DISCONNECTED));
+	if (err < 0)
+		return err;
 	snd_pcm_lock(pcm);
 	err = pcm->fast_ops->prepare(pcm->fast_op_arg);
 	snd_pcm_unlock(pcm);
@@ -1186,8 +1219,9 @@ int snd_pcm_start(snd_pcm_t *pcm)
 		SNDMSG("PCM not set up");
 		return -EIO;
 	}
-	if (bad_pcm_state(pcm, P_STATE(PREPARED)))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE(PREPARED));
+	if (err < 0)
+		return err;
 	snd_pcm_lock(pcm);
 	err = __snd_pcm_start(pcm);
 	snd_pcm_unlock(pcm);
@@ -1216,9 +1250,10 @@ int snd_pcm_drop(snd_pcm_t *pcm)
 		SNDMSG("PCM not set up");
 		return -EIO;
 	}
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE | P_STATE(SETUP) |
-			     P_STATE(SUSPENDED)))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE | P_STATE(SETUP) |
+			    P_STATE(SUSPENDED));
+	if (err < 0)
+		return err;
 	snd_pcm_lock(pcm);
 	err = pcm->fast_ops->drop(pcm->fast_op_arg);
 	snd_pcm_unlock(pcm);
@@ -1242,13 +1277,16 @@ int snd_pcm_drop(snd_pcm_t *pcm)
  */
 int snd_pcm_drain(snd_pcm_t *pcm)
 {
+	int err;
+
 	assert(pcm);
 	if (CHECK_SANITY(! pcm->setup)) {
 		SNDMSG("PCM not set up");
 		return -EIO;
 	}
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	/* lock handled in the callback */
 	return pcm->fast_ops->drain(pcm->fast_op_arg);
 }
@@ -1274,8 +1312,9 @@ int snd_pcm_pause(snd_pcm_t *pcm, int enable)
 		SNDMSG("PCM not set up");
 		return -EIO;
 	}
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	snd_pcm_lock(pcm);
 	err = pcm->fast_ops->pause(pcm->fast_op_arg, enable);
 	snd_pcm_unlock(pcm);
@@ -1296,14 +1335,16 @@ int snd_pcm_pause(snd_pcm_t *pcm, int enable)
 snd_pcm_sframes_t snd_pcm_rewindable(snd_pcm_t *pcm)
 {
 	snd_pcm_sframes_t result;
+	int err;
 
 	assert(pcm);
 	if (CHECK_SANITY(! pcm->setup)) {
 		SNDMSG("PCM not set up");
 		return -EIO;
 	}
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	snd_pcm_lock(pcm);
 	result = pcm->fast_ops->rewindable(pcm->fast_op_arg);
 	snd_pcm_unlock(pcm);
@@ -1322,6 +1363,7 @@ snd_pcm_sframes_t snd_pcm_rewindable(snd_pcm_t *pcm)
 snd_pcm_sframes_t snd_pcm_rewind(snd_pcm_t *pcm, snd_pcm_uframes_t frames)
 {
 	snd_pcm_sframes_t result;
+	int err;
 
 	assert(pcm);
 	if (CHECK_SANITY(! pcm->setup)) {
@@ -1330,8 +1372,9 @@ snd_pcm_sframes_t snd_pcm_rewind(snd_pcm_t *pcm, snd_pcm_uframes_t frames)
 	}
 	if (frames == 0)
 		return 0;
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	snd_pcm_lock(pcm);
 	result = pcm->fast_ops->rewind(pcm->fast_op_arg, frames);
 	snd_pcm_unlock(pcm);
@@ -1352,14 +1395,16 @@ snd_pcm_sframes_t snd_pcm_rewind(snd_pcm_t *pcm, snd_pcm_uframes_t frames)
 snd_pcm_sframes_t snd_pcm_forwardable(snd_pcm_t *pcm)
 {
 	snd_pcm_sframes_t result;
+	int err;
 
 	assert(pcm);
 	if (CHECK_SANITY(! pcm->setup)) {
 		SNDMSG("PCM not set up");
 		return -EIO;
 	}
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	snd_pcm_lock(pcm);
 	result = pcm->fast_ops->forwardable(pcm->fast_op_arg);
 	snd_pcm_unlock(pcm);
@@ -1382,6 +1427,7 @@ snd_pcm_sframes_t snd_pcm_forward(snd_pcm_t *pcm, snd_pcm_uframes_t frames)
 #endif
 {
 	snd_pcm_sframes_t result;
+	int err;
 
 	assert(pcm);
 	if (CHECK_SANITY(! pcm->setup)) {
@@ -1390,8 +1436,9 @@ snd_pcm_sframes_t snd_pcm_forward(snd_pcm_t *pcm, snd_pcm_uframes_t frames)
 	}
 	if (frames == 0)
 		return 0;
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	snd_pcm_lock(pcm);
 	result = pcm->fast_ops->forward(pcm->fast_op_arg, frames);
 	snd_pcm_unlock(pcm);
@@ -1420,6 +1467,8 @@ use_default_symbol_version(__snd_pcm_forward, snd_pcm_forward, ALSA_0.9.0rc8);
  */ 
 snd_pcm_sframes_t snd_pcm_writei(snd_pcm_t *pcm, const void *buffer, snd_pcm_uframes_t size)
 {
+	int err;
+
 	assert(pcm);
 	assert(size == 0 || buffer);
 	if (CHECK_SANITY(! pcm->setup)) {
@@ -1430,8 +1479,9 @@ snd_pcm_sframes_t snd_pcm_writei(snd_pcm_t *pcm, const void *buffer, snd_pcm_ufr
 		SNDMSG("invalid access type %s", snd_pcm_access_name(pcm->access));
 		return -EINVAL;
 	}
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	return _snd_pcm_writei(pcm, buffer, size);
 }
 
@@ -1456,6 +1506,8 @@ snd_pcm_sframes_t snd_pcm_writei(snd_pcm_t *pcm, const void *buffer, snd_pcm_ufr
  */ 
 snd_pcm_sframes_t snd_pcm_writen(snd_pcm_t *pcm, void **bufs, snd_pcm_uframes_t size)
 {
+	int err;
+
 	assert(pcm);
 	assert(size == 0 || bufs);
 	if (CHECK_SANITY(! pcm->setup)) {
@@ -1466,8 +1518,9 @@ snd_pcm_sframes_t snd_pcm_writen(snd_pcm_t *pcm, void **bufs, snd_pcm_uframes_t 
 		SNDMSG("invalid access type %s", snd_pcm_access_name(pcm->access));
 		return -EINVAL;
 	}
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	return _snd_pcm_writen(pcm, bufs, size);
 }
 
@@ -1492,6 +1545,8 @@ snd_pcm_sframes_t snd_pcm_writen(snd_pcm_t *pcm, void **bufs, snd_pcm_uframes_t 
  */ 
 snd_pcm_sframes_t snd_pcm_readi(snd_pcm_t *pcm, void *buffer, snd_pcm_uframes_t size)
 {
+	int err;
+
 	assert(pcm);
 	assert(size == 0 || buffer);
 	if (CHECK_SANITY(! pcm->setup)) {
@@ -1502,8 +1557,9 @@ snd_pcm_sframes_t snd_pcm_readi(snd_pcm_t *pcm, void *buffer, snd_pcm_uframes_t 
 		SNDMSG("invalid access type %s", snd_pcm_access_name(pcm->access));
 		return -EINVAL;
 	}
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	return _snd_pcm_readi(pcm, buffer, size);
 }
 
@@ -1528,6 +1584,8 @@ snd_pcm_sframes_t snd_pcm_readi(snd_pcm_t *pcm, void *buffer, snd_pcm_uframes_t 
  */ 
 snd_pcm_sframes_t snd_pcm_readn(snd_pcm_t *pcm, void **bufs, snd_pcm_uframes_t size)
 {
+	int err;
+
 	assert(pcm);
 	assert(size == 0 || bufs);
 	if (CHECK_SANITY(! pcm->setup)) {
@@ -1538,8 +1596,9 @@ snd_pcm_sframes_t snd_pcm_readn(snd_pcm_t *pcm, void **bufs, snd_pcm_uframes_t s
 		SNDMSG("invalid access type %s", snd_pcm_access_name(pcm->access));
 		return -EINVAL;
 	}
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	return _snd_pcm_readn(pcm, bufs, size);
 }
 
@@ -1775,6 +1834,10 @@ static const char *const snd_pcm_format_names[] = {
 	FORMAT(IMA_ADPCM),
 	FORMAT(MPEG),
 	FORMAT(GSM),
+	FORMAT(S20_LE),
+	FORMAT(S20_BE),
+	FORMAT(U20_LE),
+	FORMAT(U20_BE),
 	FORMAT(SPECIAL),
 	FORMAT(S24_3LE),
 	FORMAT(S24_3BE),
@@ -1809,6 +1872,8 @@ static const char *const snd_pcm_format_aliases[SND_PCM_FORMAT_LAST+1] = {
 	FORMAT(FLOAT),
 	FORMAT(FLOAT64),
 	FORMAT(IEC958_SUBFRAME),
+	FORMAT(S20),
+	FORMAT(U20),
 };
 
 static const char *const snd_pcm_format_descriptions[] = {
@@ -1837,6 +1902,10 @@ static const char *const snd_pcm_format_descriptions[] = {
 	FORMATD(IMA_ADPCM, "Ima-ADPCM"),
 	FORMATD(MPEG, "MPEG"),
 	FORMATD(GSM, "GSM"),
+	FORMATD(S20_LE, "Signed 20 bit Little Endian in 4 bytes, LSB justified"),
+	FORMATD(S20_BE, "Signed 20 bit Big Endian in 4 bytes, LSB justified"),
+	FORMATD(U20_LE, "Unsigned 20 bit Little Endian in 4 bytes, LSB justified"),
+	FORMATD(U20_BE, "Unsigned 20 bit Big Endian in 4 bytes, LSB justified"),
 	FORMATD(SPECIAL, "Special"),
 	FORMATD(S24_3LE, "Signed 24 bit Little Endian in 3bytes"),
 	FORMATD(S24_3BE, "Signed 24 bit Big Endian in 3bytes"),
@@ -2189,9 +2258,10 @@ int snd_pcm_status_dump(snd_pcm_status_t *status, snd_output_t *out)
 	assert(status);
 	snd_output_printf(out, "  state       : %s\n", snd_pcm_state_name((snd_pcm_state_t) status->state));
 	snd_output_printf(out, "  trigger_time: %ld.%06ld\n",
-		status->trigger_tstamp.tv_sec, status->trigger_tstamp.tv_nsec);
+			  status->trigger_tstamp.tv_sec,
+			  status->trigger_tstamp.tv_nsec / 1000);
 	snd_output_printf(out, "  tstamp      : %ld.%06ld\n",
-		status->tstamp.tv_sec, status->tstamp.tv_nsec);
+		status->tstamp.tv_sec, status->tstamp.tv_nsec / 1000);
 	snd_output_printf(out, "  delay       : %ld\n", (long)status->delay);
 	snd_output_printf(out, "  avail       : %ld\n", (long)status->avail);
 	snd_output_printf(out, "  avail_max   : %ld\n", (long)status->avail_max);
@@ -2575,6 +2645,10 @@ int snd_pcm_new(snd_pcm_t **pcmp, snd_pcm_type_t type, const char *name,
 		snd_pcm_stream_t stream, int mode)
 {
 	snd_pcm_t *pcm;
+#ifdef THREAD_SAFE_API
+	pthread_mutexattr_t attr;
+#endif
+
 	pcm = calloc(1, sizeof(*pcm));
 	if (!pcm)
 		return -ENOMEM;
@@ -2589,12 +2663,19 @@ int snd_pcm_new(snd_pcm_t **pcmp, snd_pcm_type_t type, const char *name,
 	pcm->fast_op_arg = pcm;
 	INIT_LIST_HEAD(&pcm->async_handlers);
 #ifdef THREAD_SAFE_API
-	pthread_mutex_init(&pcm->lock, NULL);
+	pthread_mutexattr_init(&attr);
+#ifdef HAVE_PTHREAD_MUTEX_RECURSIVE
+	pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
+#endif
+	pthread_mutex_init(&pcm->lock, &attr);
 	/* use locking as default;
 	 * each plugin may suppress this in its open call
 	 */
 	pcm->need_lock = 1;
-	{
+	if (mode & SND_PCM_ASYNC) {
+		/* async handler may lead to a deadlock; suppose no MT */
+		pcm->lock_enabled = 0;
+	} else {
 		/* set lock_enabled field depending on $LIBASOUND_THREAD_SAFE */
 		static int do_lock_enable = -1; /* uninitialized */
 
@@ -2668,18 +2749,14 @@ int snd_pcm_wait(snd_pcm_t *pcm, int timeout)
 /* locked version */
 int __snd_pcm_wait_in_lock(snd_pcm_t *pcm, int timeout)
 {
-	if (!snd_pcm_may_wait_for_avail_min(pcm, snd_pcm_mmap_avail(pcm))) {
+	int err;
+
+	/* NOTE: avail_min check can be skipped during draining */
+	if (__snd_pcm_state(pcm) != SND_PCM_STATE_DRAINING &&
+	    !snd_pcm_may_wait_for_avail_min(pcm, snd_pcm_mmap_avail(pcm))) {
 		/* check more precisely */
-		switch (__snd_pcm_state(pcm)) {
-		case SND_PCM_STATE_XRUN:
-			return -EPIPE;
-		case SND_PCM_STATE_SUSPENDED:
-			return -ESTRPIPE;
-		case SND_PCM_STATE_DISCONNECTED:
-			return -ENODEV;
-		default:
-			return 1;
-		}
+		err = pcm_state_to_error(__snd_pcm_state(pcm));
+		return err < 0 ? err : 1;
 	}
 	return snd_pcm_wait_nocheck(pcm, timeout);
 }
@@ -2726,16 +2803,8 @@ int snd_pcm_wait_nocheck(snd_pcm_t *pcm, int timeout)
 			return err;
 		if (revents & (POLLERR | POLLNVAL)) {
 			/* check more precisely */
-			switch (__snd_pcm_state(pcm)) {
-			case SND_PCM_STATE_XRUN:
-				return -EPIPE;
-			case SND_PCM_STATE_SUSPENDED:
-				return -ESTRPIPE;
-			case SND_PCM_STATE_DISCONNECTED:
-				return -ENODEV;
-			default:
-				return -EIO;
-			}
+			err = pcm_state_to_error(__snd_pcm_state(pcm));
+			return err < 0 ? err : -EIO;
 		}
 	} while (!(revents & (POLLIN | POLLOUT)));
 #if 0 /* very useful code to test poll related problems */
@@ -2877,26 +2946,33 @@ int snd_pcm_area_silence(const snd_pcm_channel_area_t *dst_area, snd_pcm_uframes
 	char *dst;
 	unsigned int dst_step;
 	int width;
-	u_int64_t silence;
+	uint64_t silence;
 	if (!dst_area->addr)
 		return 0;
 	dst = snd_pcm_channel_area_addr(dst_area, dst_offset);
 	width = snd_pcm_format_physical_width(format);
 	silence = snd_pcm_format_silence_64(format);
-	if (dst_area->step == (unsigned int) width) {
+        /*
+         * Iterate copying silent sample for sample data aligned to 64 bit.
+         * This is a fast path.
+         */
+        if (dst_area->step == (unsigned int) width &&
+            width != 24 &&
+            ((intptr_t)dst & 7) == 0) {
 		unsigned int dwords = samples * width / 64;
-		u_int64_t *dstp = (u_int64_t *)dst;
+		uint64_t *dstp = (uint64_t *)dst;
 		samples -= dwords * 64 / width;
 		while (dwords-- > 0)
 			*dstp++ = silence;
 		if (samples == 0)
 			return 0;
+		dst = (char *)dstp;
 	}
 	dst_step = dst_area->step / 8;
 	switch (width) {
 	case 4: {
-		u_int8_t s0 = silence & 0xf0;
-		u_int8_t s1 = silence & 0x0f;
+		uint8_t s0 = silence & 0xf0;
+		uint8_t s1 = silence & 0x0f;
 		int dstbit = dst_area->first % 8;
 		int dstbit_step = dst_area->step % 8;
 		while (samples-- > 0) {
@@ -2917,7 +2993,7 @@ int snd_pcm_area_silence(const snd_pcm_channel_area_t *dst_area, snd_pcm_uframes
 		break;
 	}
 	case 8: {
-		u_int8_t sil = silence;
+		uint8_t sil = silence;
 		while (samples-- > 0) {
 			*dst = sil;
 			dst += dst_step;
@@ -2925,35 +3001,39 @@ int snd_pcm_area_silence(const snd_pcm_channel_area_t *dst_area, snd_pcm_uframes
 		break;
 	}
 	case 16: {
-		u_int16_t sil = silence;
+		uint16_t sil = silence;
 		while (samples-- > 0) {
-			*(u_int16_t*)dst = sil;
+			*(uint16_t*)dst = sil;
 			dst += dst_step;
 		}
 		break;
 	}
-	case 24:
+	case 24: {
+		while (samples-- > 0) {
 #ifdef SNDRV_LITTLE_ENDIAN
-		*(dst + 0) = silence >> 0;
-		*(dst + 1) = silence >> 8;
-		*(dst + 2) = silence >> 16;
+			*(dst + 0) = silence >> 0;
+			*(dst + 1) = silence >> 8;
+			*(dst + 2) = silence >> 16;
 #else
-		*(dst + 2) = silence >> 0;
-		*(dst + 1) = silence >> 8;
-		*(dst + 0) = silence >> 16;
+			*(dst + 2) = silence >> 0;
+			*(dst + 1) = silence >> 8;
+			*(dst + 0) = silence >> 16;
 #endif
+			dst += dst_step;
+		}
+	}
 		break;
 	case 32: {
-		u_int32_t sil = silence;
+		uint32_t sil = silence;
 		while (samples-- > 0) {
-			*(u_int32_t*)dst = sil;
+			*(uint32_t*)dst = sil;
 			dst += dst_step;
 		}
 		break;
 	}
 	case 64: {
 		while (samples-- > 0) {
-			*(u_int64_t*)dst = silence;
+			*(uint64_t*)dst = silence;
 			dst += dst_step;
 		}
 		break;
@@ -3097,7 +3177,7 @@ int snd_pcm_area_copy(const snd_pcm_channel_area_t *dst_area, snd_pcm_uframes_t 
 	}
 	case 16: {
 		while (samples-- > 0) {
-			*(u_int16_t*)dst = *(const u_int16_t*)src;
+			*(uint16_t*)dst = *(const uint16_t*)src;
 			src += src_step;
 			dst += dst_step;
 		}
@@ -3114,7 +3194,7 @@ int snd_pcm_area_copy(const snd_pcm_channel_area_t *dst_area, snd_pcm_uframes_t 
 		break;
 	case 32: {
 		while (samples-- > 0) {
-			*(u_int32_t*)dst = *(const u_int32_t*)src;
+			*(uint32_t*)dst = *(const uint32_t*)src;
 			src += src_step;
 			dst += dst_step;
 		}
@@ -3122,7 +3202,7 @@ int snd_pcm_area_copy(const snd_pcm_channel_area_t *dst_area, snd_pcm_uframes_t 
 	}
 	case 64: {
 		while (samples-- > 0) {
-			*(u_int64_t*)dst = *(const u_int64_t*)src;
+			*(uint64_t*)dst = *(const uint64_t*)src;
 			src += src_step;
 			dst += dst_step;
 		}
@@ -3208,6 +3288,55 @@ int snd_pcm_areas_copy(const snd_pcm_channel_area_t *dst_areas, snd_pcm_uframes_
 			channels--;
 		}
 	}
+	return 0;
+}
+
+/**
+ * \brief Copy one or more areas
+ * \param dst_areas destination areas specification (one for each channel)
+ * \param dst_offset offset in frames inside destination area
+ * \param dst_size size in frames of the destination buffer
+ * \param src_areas source areas specification (one for each channel)
+ * \param src_offset offset in frames inside source area
+ * \param dst_size size in frames of the source buffer
+ * \param channels channels count
+ * \param frames frames to copy
+ * \param format PCM sample format
+ * \return 0 on success otherwise a negative error code
+ */
+int snd_pcm_areas_copy_wrap(const snd_pcm_channel_area_t *dst_channels,
+			    snd_pcm_uframes_t dst_offset,
+			    const snd_pcm_uframes_t dst_size,
+			    const snd_pcm_channel_area_t *src_channels,
+			    snd_pcm_uframes_t src_offset,
+			    const snd_pcm_uframes_t src_size,
+			    const unsigned int channels,
+			    snd_pcm_uframes_t frames,
+			    const snd_pcm_format_t format)
+{
+	while (frames > 0) {
+		int err;
+		snd_pcm_uframes_t xfer = frames;
+		/* do not write above the destination buffer */
+		if ((dst_offset + xfer) > dst_size)
+			xfer = dst_size - dst_offset;
+		/* do not read from above the source buffer */
+		if ((src_offset + xfer) > src_size)
+			xfer = src_size - src_offset;
+		err = snd_pcm_areas_copy(dst_channels, dst_offset, src_channels,
+					 src_offset, channels, xfer, format);
+		if (err < 0)
+			return err;
+
+		dst_offset += xfer;
+		if (dst_offset >= dst_size)
+			dst_offset = 0;
+		src_offset += xfer;
+		if (src_offset >= src_size)
+			src_offset = 0;
+		frames -= xfer;
+	}
+
 	return 0;
 }
 
@@ -6983,8 +7112,9 @@ int snd_pcm_mmap_begin(snd_pcm_t *pcm,
 {
 	int err;
 
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	snd_pcm_lock(pcm);
 	err = __snd_pcm_mmap_begin(pcm, areas, offset, frames);
 	snd_pcm_unlock(pcm);
@@ -7079,9 +7209,11 @@ snd_pcm_sframes_t snd_pcm_mmap_commit(snd_pcm_t *pcm,
 				      snd_pcm_uframes_t frames)
 {
 	snd_pcm_sframes_t result;
+	int err;
 
-	if (bad_pcm_state(pcm, P_STATE_RUNNABLE))
-		return -EBADFD;
+	err = bad_pcm_state(pcm, P_STATE_RUNNABLE);
+	if (err < 0)
+		return err;
 	snd_pcm_lock(pcm);
 	result = __snd_pcm_mmap_commit(pcm, offset, frames);
 	snd_pcm_unlock(pcm);
@@ -7177,17 +7309,10 @@ snd_pcm_sframes_t snd_pcm_read_areas(snd_pcm_t *pcm, const snd_pcm_channel_area_
 		case SND_PCM_STATE_DRAINING:
 		case SND_PCM_STATE_PAUSED:
 			break;
-		case SND_PCM_STATE_XRUN:
-			err = -EPIPE;
-			goto _end;
-		case SND_PCM_STATE_SUSPENDED:
-			err = -ESTRPIPE;
-			goto _end;
-		case SND_PCM_STATE_DISCONNECTED:
-			err = -ENODEV;
-			goto _end;
 		default:
-			err = -EBADFD;
+			err = pcm_state_to_error(state);
+			if (!err)
+				err = -EBADFD;
 			goto _end;
 		}
 		avail = __snd_pcm_avail_update(pcm);
@@ -7253,17 +7378,10 @@ snd_pcm_sframes_t snd_pcm_write_areas(snd_pcm_t *pcm, const snd_pcm_channel_area
 			if (err < 0)
 				goto _end;
 			break;
-		case SND_PCM_STATE_XRUN:
-			err = -EPIPE;
-			goto _end;
-		case SND_PCM_STATE_SUSPENDED:
-			err = -ESTRPIPE;
-			goto _end;
-		case SND_PCM_STATE_DISCONNECTED:
-			err = -ENODEV;
-			goto _end;
 		default:
-			err = -EBADFD;
+			err = pcm_state_to_error(state);
+			if (!err)
+				err = -EBADFD;
 			goto _end;
 		}
 		avail = __snd_pcm_avail_update(pcm);

@@ -15,7 +15,7 @@
  *
  *   You should have received a copy of the GNU Lesser General Public
  *   License along with this library; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  */
   
@@ -30,7 +30,7 @@
 #include <grp.h>
 #include <sys/ioctl.h>
 #include <sys/mman.h>
-#include <sys/poll.h>
+#include <poll.h>
 #include <sys/shm.h>
 #include <sys/sem.h>
 #include <sys/wait.h>
@@ -515,10 +515,12 @@ int snd_pcm_direct_async(snd_pcm_t *pcm, int sig, pid_t pid)
 }
 
 /* empty the timer read queue */
-void snd_pcm_direct_clear_timer_queue(snd_pcm_direct_t *dmix)
+int snd_pcm_direct_clear_timer_queue(snd_pcm_direct_t *dmix)
 {
+	int changed = 0;
 	if (dmix->timer_need_poll) {
 		while (poll(&dmix->timer_fd, 1, 0) > 0) {
+			changed++;
 			/* we don't need the value */
 			if (dmix->tread) {
 				snd_timer_tread_t rbuf[4];
@@ -533,21 +535,159 @@ void snd_pcm_direct_clear_timer_queue(snd_pcm_direct_t *dmix)
 			snd_timer_tread_t rbuf[4];
 			int len;
 			while ((len = snd_timer_read(dmix->timer, rbuf,
-						     sizeof(rbuf))) > 0 &&
+						     sizeof(rbuf))) > 0
+						     && (++changed) &&
 			       len != sizeof(rbuf[0]))
 				;
 		} else {
 			snd_timer_read_t rbuf;
 			while (snd_timer_read(dmix->timer, &rbuf, sizeof(rbuf)) > 0)
-				;
+				changed++;
 		}
 	}
+	return changed;
 }
 
 int snd_pcm_direct_timer_stop(snd_pcm_direct_t *dmix)
 {
 	snd_timer_stop(dmix->timer);
 	return 0;
+}
+
+/*
+ * Recover slave on XRUN.
+ * Even if direct plugins disable xrun detection, there might be an xrun
+ * raised directly by some drivers.
+ * The first client recovers slave pcm.
+ * Each client needs to execute sw xrun handling afterwards
+ */
+int snd_pcm_direct_slave_recover(snd_pcm_direct_t *direct)
+{
+	int ret;
+	int semerr;
+
+	semerr = snd_pcm_direct_semaphore_down(direct,
+						   DIRECT_IPC_SEM_CLIENT);
+	if (semerr < 0) {
+		SNDERR("SEMDOWN FAILED with err %d", semerr);
+		return semerr;
+	}
+
+	if (snd_pcm_state(direct->spcm) != SND_PCM_STATE_XRUN) {
+		/* ignore... someone else already did recovery */
+		semerr = snd_pcm_direct_semaphore_up(direct,
+						     DIRECT_IPC_SEM_CLIENT);
+		if (semerr < 0) {
+			SNDERR("SEMUP FAILED with err %d", semerr);
+			return semerr;
+		}
+		return 0;
+	}
+
+	ret = snd_pcm_prepare(direct->spcm);
+	if (ret < 0) {
+		SNDERR("recover: unable to prepare slave");
+		semerr = snd_pcm_direct_semaphore_up(direct,
+						     DIRECT_IPC_SEM_CLIENT);
+		if (semerr < 0) {
+			SNDERR("SEMUP FAILED with err %d", semerr);
+			return semerr;
+		}
+		return ret;
+	}
+
+	if (direct->type == SND_PCM_TYPE_DSHARE) {
+		const snd_pcm_channel_area_t *dst_areas;
+		dst_areas = snd_pcm_mmap_areas(direct->spcm);
+		snd_pcm_areas_silence(dst_areas, 0, direct->spcm->channels,
+				      direct->spcm->buffer_size,
+				      direct->spcm->format);
+	}
+
+	ret = snd_pcm_start(direct->spcm);
+	if (ret < 0) {
+		SNDERR("recover: unable to start slave");
+		semerr = snd_pcm_direct_semaphore_up(direct,
+						     DIRECT_IPC_SEM_CLIENT);
+		if (semerr < 0) {
+			SNDERR("SEMUP FAILED with err %d", semerr);
+			return semerr;
+		}
+		return ret;
+	}
+	direct->shmptr->s.recoveries++;
+	semerr = snd_pcm_direct_semaphore_up(direct,
+						 DIRECT_IPC_SEM_CLIENT);
+	if (semerr < 0) {
+		SNDERR("SEMUP FAILED with err %d", semerr);
+		return semerr;
+	}
+	return 0;
+}
+
+/*
+ * enter xrun state, if slave xrun occurred
+ * @return: 0 - no xrun >0: xrun happened
+ */
+int snd_pcm_direct_client_chk_xrun(snd_pcm_direct_t *direct, snd_pcm_t *pcm)
+{
+	if (direct->shmptr->s.recoveries != direct->recoveries) {
+		/* no matter how many xruns we missed -
+		 * so don't increment but just update to actual counter
+		 */
+		direct->recoveries = direct->shmptr->s.recoveries;
+		pcm->fast_ops->drop(pcm);
+		/* trigger_tstamp update is missing in drop callbacks */
+		gettimestamp(&direct->trigger_tstamp, pcm->tstamp_type);
+		/* no timer clear:
+		 * if slave already entered xrun again the event is lost.
+		 * snd_pcm_direct_clear_timer_queue(direct);
+		 */
+		direct->state = SND_PCM_STATE_XRUN;
+		return 1;
+	}
+	return 0;
+}
+
+/*
+ * This is the only operation guaranteed to be called before entering poll().
+ * Direct plugins use fd of snd_timer to poll on, these timers do NOT check
+ * state of substream in kernel by intention.
+ * Only the enter to xrun might be notified once (SND_TIMER_EVENT_MSTOP).
+ * If xrun event was not correctly handled or was ignored it will never be
+ * evaluated again afterwards.
+ * This will result in snd_pcm_wait() always returning timeout.
+ * In contrast poll() on pcm hardware checks ALSA state and will immediately
+ * return POLLERR on XRUN.
+ *
+ * To prevent timeout and applications endlessly spinning without xrun
+ * detected we add a state check here which may trigger the xrun sequence.
+ *
+ * return count of filled descriptors or negative error code
+ */
+int snd_pcm_direct_poll_descriptors(snd_pcm_t *pcm, struct pollfd *pfds,
+				    unsigned int space)
+{
+	if (pcm->poll_fd < 0) {
+		SNDMSG("poll_fd < 0");
+		return -EIO;
+	}
+	if (space >= 1 && pfds) {
+		pfds->fd = pcm->poll_fd;
+		pfds->events = pcm->poll_events | POLLERR | POLLNVAL;
+	} else {
+		return 0;
+	}
+
+	/* this will also evaluate slave state and enter xrun if necessary */
+	/* using __snd_pcm_state() since this function is called inside lock */
+	switch (__snd_pcm_state(pcm)) {
+	case SND_PCM_STATE_XRUN:
+		return -EPIPE;
+	default:
+		break;
+	}
+	return 1;
 }
 
 int snd_pcm_direct_poll_revents(snd_pcm_t *pcm, struct pollfd *pfds, unsigned int nfds, unsigned short *revents)
@@ -557,6 +697,8 @@ int snd_pcm_direct_poll_revents(snd_pcm_t *pcm, struct pollfd *pfds, unsigned in
 	int empty = 0;
 
 	assert(pfds && nfds == 1 && revents);
+
+timer_changed:
 	events = pfds[0].revents;
 	if (events & POLLIN) {
 		snd_pcm_uframes_t avail;
@@ -572,13 +714,28 @@ int snd_pcm_direct_poll_revents(snd_pcm_t *pcm, struct pollfd *pfds, unsigned in
 	}
 	switch (snd_pcm_state(dmix->spcm)) {
 	case SND_PCM_STATE_XRUN:
+		/* recover slave and update client state to xrun
+		 * before returning POLLERR
+		 */
+		snd_pcm_direct_slave_recover(dmix);
+		snd_pcm_direct_client_chk_xrun(dmix, pcm);
+		/* fallthrough */
 	case SND_PCM_STATE_SUSPENDED:
 	case SND_PCM_STATE_SETUP:
 		events |= POLLERR;
 		break;
 	default:
 		if (empty) {
-			snd_pcm_direct_clear_timer_queue(dmix);
+			/* here we have a race condition:
+			 * if period event arrived after the avail_update call
+			 * above we might clear this event with the following
+			 * clear_timer_queue.
+			 * There is no way to do this in atomic manner, so we
+			 * need to recheck avail_update if we successfully
+			 * cleared a poll event.
+			 */
+			if (snd_pcm_direct_clear_timer_queue(dmix))
+				goto timer_changed;
 			events &= ~(POLLOUT|POLLIN);
 			/* additional check */
 			switch (__snd_pcm_state(pcm)) {
@@ -660,6 +817,29 @@ static int hw_param_interval_refine_minmax(snd_pcm_hw_params_t *params,
 	return hw_param_interval_refine_one(params, var, &t);
 }
 
+/* this code is used 'as-is' from the alsa kernel code */
+static int snd_interval_step(struct snd_interval *i, unsigned int min,
+			     unsigned int step)
+{
+	unsigned int n;
+	int changed = 0;
+	n = (i->min - min) % step;
+	if (n != 0 || i->openmin) {
+		i->min += step - n;
+		changed = 1;
+	}
+	n = (i->max - min) % step;
+	if (n != 0 || i->openmax) {
+		i->max -= n;
+		changed = 1;
+	}
+	if (snd_interval_checkempty(i)) {
+		i->empty = 1;
+		return -EINVAL;
+	}
+	return changed;
+}
+
 #undef REFINE_DEBUG
 
 int snd_pcm_direct_hw_refine(snd_pcm_t *pcm, snd_pcm_hw_params_t *params)
@@ -710,15 +890,16 @@ int snd_pcm_direct_hw_refine(snd_pcm_t *pcm, snd_pcm_hw_params_t *params)
 					   &dshare->shmptr->hw.rate);
 	if (err < 0)
 		return err;
-	err = hw_param_interval_refine_one(params, SND_PCM_HW_PARAM_PERIOD_SIZE,
-					   &dshare->shmptr->hw.period_size);
-	if (err < 0)
-		return err;
-	err = hw_param_interval_refine_one(params, SND_PCM_HW_PARAM_PERIOD_TIME,
-					   &dshare->shmptr->hw.period_time);
-	if (err < 0)
-		return err;
+
 	if (dshare->max_periods < 0) {
+		err = hw_param_interval_refine_one(params, SND_PCM_HW_PARAM_PERIOD_SIZE,
+						   &dshare->shmptr->hw.period_size);
+		if (err < 0)
+			return err;
+		err = hw_param_interval_refine_one(params, SND_PCM_HW_PARAM_PERIOD_TIME,
+						   &dshare->shmptr->hw.period_time);
+		if (err < 0)
+			return err;
 		err = hw_param_interval_refine_one(params, SND_PCM_HW_PARAM_BUFFER_SIZE,
 						   &dshare->shmptr->hw.buffer_size);
 		if (err < 0)
@@ -730,11 +911,38 @@ int snd_pcm_direct_hw_refine(snd_pcm_t *pcm, snd_pcm_hw_params_t *params)
 	} else if (params->rmask & ((1<<SND_PCM_HW_PARAM_PERIODS)|
 				    (1<<SND_PCM_HW_PARAM_BUFFER_BYTES)|
 				    (1<<SND_PCM_HW_PARAM_BUFFER_SIZE)|
-				    (1<<SND_PCM_HW_PARAM_BUFFER_TIME))) {
+				    (1<<SND_PCM_HW_PARAM_BUFFER_TIME)|
+				    (1<<SND_PCM_HW_PARAM_PERIOD_TIME)|
+				    (1<<SND_PCM_HW_PARAM_PERIOD_SIZE)|
+				    (1<<SND_PCM_HW_PARAM_PERIOD_BYTES))) {
+		snd_interval_t period_size = dshare->shmptr->hw.period_size;
+		snd_interval_t period_time = dshare->shmptr->hw.period_time;
 		int changed;
 		unsigned int max_periods = dshare->max_periods;
 		if (max_periods < 2)
 			max_periods = dshare->slave_buffer_size / dshare->slave_period_size;
+
+		/* make sure buffer size does not exceed slave buffer size */
+		err = hw_param_interval_refine_minmax(params, SND_PCM_HW_PARAM_BUFFER_SIZE,
+					2 * dshare->slave_period_size, dshare->slave_buffer_size);
+		if (err < 0)
+			return err;
+		if (dshare->var_periodsize) {
+			/* more tolerant settings... */
+			if (dshare->shmptr->hw.buffer_size.max / 2 > period_size.max)
+				period_size.max = dshare->shmptr->hw.buffer_size.max / 2;
+			if (dshare->shmptr->hw.buffer_time.max / 2 > period_time.max)
+				period_time.max = dshare->shmptr->hw.buffer_time.max / 2;
+		}
+
+		err = hw_param_interval_refine_one(params, SND_PCM_HW_PARAM_PERIOD_SIZE,
+						   &period_size);
+		if (err < 0)
+			return err;
+		err = hw_param_interval_refine_one(params, SND_PCM_HW_PARAM_PERIOD_TIME,
+						   &period_time);
+		if (err < 0)
+			return err;
 		do {
 			changed = 0;
 			err = hw_param_interval_refine_minmax(params, SND_PCM_HW_PARAM_PERIODS,
@@ -746,8 +954,16 @@ int snd_pcm_direct_hw_refine(snd_pcm_t *pcm, snd_pcm_hw_params_t *params)
 			if (err < 0)
 				return err;
 			changed |= err;
+			err = snd_interval_step(hw_param_interval(params, SND_PCM_HW_PARAM_PERIOD_SIZE),
+								0, dshare->slave_period_size);
+			if (err < 0)
+				return err;
+			changed |= err;
+			if (err)
+				params->rmask |= (1 << SND_PCM_HW_PARAM_PERIOD_SIZE);
 		} while (changed);
 	}
+	dshare->timer_ticks = hw_param_interval(params, SND_PCM_HW_PARAM_PERIOD_SIZE)->max / dshare->slave_period_size;
 	params->info = dshare->shmptr->s.info;
 #ifdef REFINE_DEBUG
 	snd_output_puts(log, "DMIX REFINE (end):\n");
@@ -1102,7 +1318,8 @@ int snd_pcm_direct_initialize_slave(snd_pcm_direct_t *dmix, snd_pcm_t *spcm, str
 		return ret;
 	}
 
-	if (dmix->type != SND_PCM_TYPE_DMIX)
+	if (dmix->type != SND_PCM_TYPE_DMIX &&
+	    dmix->type != SND_PCM_TYPE_DSHARE)
 		goto __skip_silencing;
 
 	ret = snd_pcm_sw_params_set_silence_threshold(spcm, &sw_params, 0);
@@ -1183,6 +1400,7 @@ int snd_pcm_direct_initialize_poll_fd(snd_pcm_direct_t *dmix)
 
 	dmix->tread = 1;
 	dmix->timer_need_poll = 0;
+	dmix->timer_ticks = 1;
 	ret = snd_pcm_info(dmix->spcm, &info);
 	if (ret < 0) {
 		SNDERR("unable to info for slave pcm");
@@ -1305,7 +1523,7 @@ int snd_pcm_direct_open_secondary_client(snd_pcm_t **spcmp, snd_pcm_direct_t *dm
 	int ret;
 	snd_pcm_t *spcm;
 
-	ret = snd_pcm_hw_open_fd(spcmp, client_name, dmix->hw_fd, 0, 0);
+	ret = snd_pcm_hw_open_fd(spcmp, client_name, dmix->hw_fd, 0);
 	if (ret < 0) {
 		SNDERR("unable to open hardware");
 		return ret;
@@ -1321,6 +1539,7 @@ int snd_pcm_direct_open_secondary_client(snd_pcm_t **spcmp, snd_pcm_direct_t *dm
 	dmix->slave_buffer_size = spcm->buffer_size;
 	dmix->slave_period_size = dmix->shmptr->s.period_size;
 	dmix->slave_boundary = spcm->boundary;
+	dmix->recoveries = dmix->shmptr->s.recoveries;
 
 	ret = snd_pcm_mmap(spcm);
 	if (ret < 0) {
@@ -1366,11 +1585,11 @@ int snd_pcm_direct_set_timer_params(snd_pcm_direct_t *dmix)
 	snd_timer_params_set_auto_start(&params, 1);
 	if (dmix->type != SND_PCM_TYPE_DSNOOP)
 		snd_timer_params_set_early_event(&params, 1);
-	snd_timer_params_set_ticks(&params, 1);
+	snd_timer_params_set_ticks(&params, dmix->timer_ticks);
 	if (dmix->tread) {
 		filter = (1<<SND_TIMER_EVENT_TICK) |
 			 dmix->timer_events;
-		snd_timer_params_set_filter(&params, filter);
+		INTERNAL(snd_timer_params_set_filter)(&params, filter);
 	}
 	ret = snd_timer_params(dmix->timer, &params);
 	if (ret < 0) {
@@ -1656,6 +1875,8 @@ int snd_pcm_direct_parse_open_conf(snd_config_t *root, snd_config_t *conf,
 	rec->ipc_gid = -1;
 	rec->slowptr = 1;
 	rec->max_periods = 0;
+	rec->var_periodsize = 0;
+	rec->direct_memory_access = 1;
 
 	/* read defaults */
 	if (snd_config_search(root, "defaults.pcm.dmix_max_periods", &n) >= 0) {
@@ -1760,6 +1981,20 @@ int snd_pcm_direct_parse_open_conf(snd_config_t *root, snd_config_t *conf,
 			if (err < 0)
 				return err;
 			rec->max_periods = val;
+			continue;
+		}
+		if (strcmp(id, "var_periodsize") == 0) {
+			err = snd_config_get_bool(n);
+			if (err < 0)
+				return err;
+			rec->var_periodsize = err;
+			continue;
+		}
+		if (strcmp(id, "direct_memory_access") == 0) {
+			err = snd_config_get_bool(n);
+			if (err < 0)
+				return err;
+			rec->direct_memory_access = err;
 			continue;
 		}
 		SNDERR("Unknown field %s", id);

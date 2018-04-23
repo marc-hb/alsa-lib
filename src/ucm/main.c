@@ -11,7 +11,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software  
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  *  Support for the verb/device/modifier core logic and API,
  *  command line tool and file parser was kindly sponsored by
@@ -486,9 +486,9 @@ static int execute_sequence(snd_use_case_mgr_t *uc_mgr,
  */
 static int execute_component_seq(snd_use_case_mgr_t *uc_mgr,
 				 struct component_sequence *cmpt_seq,
-				 struct list_head *value_list1,
-				 struct list_head *value_list2,
-				 struct list_head *value_list3,
+				 struct list_head *value_list1 ATTRIBUTE_UNUSED,
+				 struct list_head *value_list2 ATTRIBUTE_UNUSED,
+				 struct list_head *value_list3 ATTRIBUTE_UNUSED,
 				 char *cdev)
 {
 	struct use_case_device *device = cmpt_seq->device;
@@ -1528,6 +1528,20 @@ int snd_use_case_get(snd_use_case_mgr_t *uc_mgr,
                         goto __end;
                 }
 	        err = 0;
+	} else if (strcmp(identifier, "_file") == 0) {
+		/* get the conf file name of the opened card */
+		if ((uc_mgr->card_name == NULL)
+		    || (uc_mgr->conf_file_name[0] == '\0')) {
+			err = -ENOENT;
+			goto __end;
+		}
+		*value = strndup(uc_mgr->conf_file_name, MAX_FILE);
+		if (*value == NULL) {
+			err = -ENOMEM;
+			goto __end;
+		}
+		err = 0;
+
 	} else if (identifier[0] == '_') {
 		err = -ENOENT;
 		goto __end;

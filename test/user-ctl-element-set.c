@@ -9,6 +9,7 @@
 
 #include "../include/asoundlib.h"
 #include <sound/tlv.h>
+#include <stdbool.h>
 
 struct elem_set_trial {
 	snd_ctl_t *handle;
@@ -18,7 +19,6 @@ struct elem_set_trial {
 	unsigned int element_count;
 
 	snd_ctl_elem_id_t *id;
-	int dimension[4];
 
 	int (*add_elem_set)(struct elem_set_trial *trial,
 			    snd_ctl_elem_info_t *info);
@@ -28,6 +28,8 @@ struct elem_set_trial {
 				    snd_ctl_elem_value_t *elem_data);
 	int (*allocate_elem_set_tlv)(struct elem_set_trial *trial,
 				     unsigned int **tlv);
+
+	bool tlv_readable;
 };
 
 struct chmap_entry {
@@ -124,33 +126,39 @@ static void change_int_elem_members(struct elem_set_trial *trial,
 static int allocate_int_elem_set_tlv(struct elem_set_trial *trial,
 				     unsigned int **tlv)
 {
-	unsigned int len, pos;
+	unsigned int count, pos;
 	unsigned int i, j;
 	struct chmap_entry *entry;
 
 	/* Calculate size of TLV packet for channel-mapping information. */
-	len = 0;
+	count = 0;
 	for (i = 1; i <= 25; ++i) {
-		len += sizeof(struct chmap_entry);
-		len += i * sizeof(unsigned int);
+		count += 2; /* sizeof(struct chmap_entry). */
+		count += i; /* struct chmap_entry.maps. */
 	}
 
-	*tlv = malloc(len);
-	if (*tlv == NULL)
+	*tlv = malloc((2 + count) * sizeof(unsigned int));
+	if (!*tlv)
 		return -ENOMEM;
 
 	/*
 	 * Emulate channel-mapping information in in-kernel implementation.
 	 * Here, 25 entries are for each different channel.
 	 */
-	pos = 0;
-	for (i = 1; i <= 25 && pos < len; ++i) {
+	(*tlv)[0] = SNDRV_CTL_TLVT_CONTAINER;
+	(*tlv)[1] = count * sizeof(unsigned int);
+	pos = 2;
+
+	for (i = 1; i <= 25 && pos < count; ++i) {
 		entry = (struct chmap_entry *)&(*tlv)[pos];
+
 		entry->type = SNDRV_CTL_TLVT_CHMAP_FIXED;
 		entry->length = i * sizeof(unsigned int);
+		pos += 2;
+
 		for (j = 0; j < i; ++j)
 			entry->maps[j] = SND_CHMAP_MONO + j;
-		pos += sizeof(struct chmap_entry) + i * sizeof(unsigned int);
+		pos += i;
 	}
 
 	return 0;
@@ -370,7 +378,6 @@ static int add_elem_set(struct elem_set_trial *trial)
 	snd_ctl_elem_info_alloca(&info);
 	snd_ctl_elem_info_set_interface(info, SND_CTL_ELEM_IFACE_MIXER);
 	snd_ctl_elem_info_set_name(info, name);
-	snd_ctl_elem_info_set_dimension(info, trial->dimension);
 
 	err = trial->add_elem_set(trial, info);
 	if (err >= 0)
@@ -420,9 +427,9 @@ static int check_event(struct elem_set_trial *trial, unsigned int mask,
 			continue;
 		/*
 		 * I expect each event is generated separately to the same
-		 * element.
+		 * element or several events are generated at once.
 		 */
-		if (!(snd_ctl_event_elem_get_mask(event) & mask))
+		if ((snd_ctl_event_elem_get_mask(event) & mask) != mask)
 			continue;
 		--expected_count;
 	}
@@ -431,6 +438,78 @@ static int check_event(struct elem_set_trial *trial, unsigned int mask,
 		return -EIO;
 
 	return 0;
+}
+
+static int check_elem_list(struct elem_set_trial *trial)
+{
+	snd_ctl_elem_list_t *list;
+	snd_ctl_elem_id_t *id;
+	int e;
+	unsigned int i;
+	int err;
+
+	snd_ctl_elem_list_alloca(&list);
+	snd_ctl_elem_id_alloca(&id);
+
+	err = snd_ctl_elem_list(trial->handle, list);
+	if (err < 0)
+		return err;
+
+	/* Certainly some elements are already added. */
+	if (snd_ctl_elem_list_get_count(list) == 0)
+		return -EIO;
+
+	err = snd_ctl_elem_list_alloc_space(list,
+					    snd_ctl_elem_list_get_count(list));
+	if (err < 0)
+		return err;
+
+	err = snd_ctl_elem_list(trial->handle, list);
+	if (err < 0)
+		goto end;
+
+	if (trial->element_count > snd_ctl_elem_list_get_count(list)) {
+		err = -EIO;
+		goto end;
+	}
+
+	i = 0;
+	for (e = 0; e < snd_ctl_elem_list_get_count(list); ++e) {
+		snd_ctl_elem_list_get_id(list, e, id);
+
+		if (strcmp(snd_ctl_elem_id_get_name(id),
+			   snd_ctl_elem_id_get_name(trial->id)) != 0)
+			continue;
+		if (snd_ctl_elem_id_get_interface(id) !=
+		    snd_ctl_elem_id_get_interface(trial->id))
+			continue;
+		if (snd_ctl_elem_id_get_device(id) !=
+		    snd_ctl_elem_id_get_device(trial->id))
+			continue;
+		if (snd_ctl_elem_id_get_subdevice(id) !=
+		    snd_ctl_elem_id_get_subdevice(trial->id))
+			continue;
+
+		/*
+		 * Here, I expect the list includes element ID data in numerical
+		 * order. Actually, it does.
+		 */
+		if (snd_ctl_elem_id_get_numid(id) !=
+		    snd_ctl_elem_id_get_numid(trial->id) + i)
+			continue;
+		if (snd_ctl_elem_id_get_index(id) !=
+		    snd_ctl_elem_id_get_index(trial->id) + i)
+			continue;
+
+		++i;
+	}
+
+	if (i != trial->element_count)
+		err = -EIO;
+end:
+	snd_ctl_elem_list_free_space(list);
+
+	return err;
 }
 
 static int check_elem_set_props(struct elem_set_trial *trial)
@@ -469,11 +548,6 @@ static int check_elem_set_props(struct elem_set_trial *trial)
 			return -EIO;
 		if (snd_ctl_elem_info_get_count(info) != trial->member_count)
 			return -EIO;
-		for (j = 0; j < 4; ++j) {
-			if (snd_ctl_elem_info_get_dimension(info, j) !=
-							trial->dimension[j])
-				return -EIO;
-		}
 
 		/*
 		 * In a case of IPC, this is the others. But in this case,
@@ -489,6 +563,16 @@ static int check_elem_set_props(struct elem_set_trial *trial)
 		if (!snd_ctl_elem_info_is_locked(info))
 			return -EIO;
 
+		/*
+		 * In initial state, any application can register TLV data for
+		 * user-defined element set except for IEC 958 type, thus
+		 * elements in any user-defined set should allow any write
+		 * operation.
+		 */
+		if (trial->type != SND_CTL_ELEM_TYPE_IEC958 &&
+		    !snd_ctl_elem_info_is_tlv_writable(info))
+			return -EIO;
+
 		/* Check type-specific properties. */
 		if (trial->check_elem_props != NULL) {
 			err = trial->check_elem_props(trial, info);
@@ -500,6 +584,25 @@ static int check_elem_set_props(struct elem_set_trial *trial)
 		err = snd_ctl_elem_unlock(trial->handle, id);
 		if (err < 0)
 			return err;
+
+		/*
+		 * Till kernel v4.14, ALSA control core allows elements in any
+		 * user-defined set to have TLV_READ flag even if they have no
+		 * TLV data in their initial state. In this case, any read
+		 * operation for TLV data should return -ENXIO.
+		 */
+		if (snd_ctl_elem_info_is_tlv_readable(info)) {
+			unsigned int data[32];
+			err = snd_ctl_elem_tlv_read(trial->handle, trial->id,
+						    data, sizeof(data));
+			if (err >= 0)
+				return -EIO;
+			if (err != -ENXIO)
+				return err;
+
+			trial->tlv_readable = true;
+		}
+
 	}
 
 	return 0;
@@ -547,6 +650,8 @@ static int check_elems(struct elem_set_trial *trial)
 static int check_tlv(struct elem_set_trial *trial)
 {
 	unsigned int *tlv;
+	int mask;
+	unsigned int count;
 	unsigned int len;
 	unsigned int *curr;
 	int err;
@@ -571,6 +676,36 @@ static int check_tlv(struct elem_set_trial *trial)
 				     (const unsigned int *)tlv);
 	if (err < 0)
 		goto end;
+
+	/*
+	 * Since kernel v4.14, any write operation to an element in user-defined
+	 * set can change state of the other elements in the same set. In this
+	 * case, any TLV data is firstly available after the operation.
+	 */
+	if (!trial->tlv_readable) {
+		mask = SND_CTL_EVENT_MASK_INFO | SND_CTL_EVENT_MASK_TLV;
+		count = trial->element_count;
+	} else {
+		mask = SND_CTL_EVENT_MASK_TLV;
+		count = 1;
+	}
+	err = check_event(trial, mask, count);
+	if (err < 0)
+		goto end;
+	if (!trial->tlv_readable) {
+		snd_ctl_elem_info_t *info;
+		snd_ctl_elem_info_alloca(&info);
+
+		snd_ctl_elem_info_set_id(info, trial->id);
+		err = snd_ctl_elem_info(trial->handle, info);
+		if (err < 0)
+			return err;
+		if (!snd_ctl_elem_info_is_tlv_readable(info))
+			return -EIO;
+
+		/* Now TLV data is available for this element set. */
+		trial->tlv_readable = true;
+	}
 
 	err = snd_ctl_elem_tlv_read(trial->handle, trial->id, curr, len);
 	if (err < 0)
@@ -609,79 +744,61 @@ int main(void)
 		case SND_CTL_ELEM_TYPE_BOOLEAN:
 			trial.element_count = 900;
 			trial.member_count = 128;
-			trial.dimension[0] = 4;
-			trial.dimension[1] = 4;
-			trial.dimension[2] = 8;
-			trial.dimension[3] = 0;
 			trial.add_elem_set = add_bool_elem_set;
 			trial.check_elem_props = NULL;
 			trial.change_elem_members = change_bool_elem_members;
 			trial.allocate_elem_set_tlv =
 						allocate_bool_elem_set_tlv;
+			trial.tlv_readable = false;
 			break;
 		case SND_CTL_ELEM_TYPE_INTEGER:
 			trial.element_count = 900;
 			trial.member_count = 128;
-			trial.dimension[0] = 128;
-			trial.dimension[1] = 0;
-			trial.dimension[2] = 0;
-			trial.dimension[3] = 0;
 			trial.add_elem_set = add_int_elem_set;
 			trial.check_elem_props = check_int_elem_props;
 			trial.change_elem_members = change_int_elem_members;
 			trial.allocate_elem_set_tlv =
 						allocate_int_elem_set_tlv;
+			trial.tlv_readable = false;
 			break;
 		case SND_CTL_ELEM_TYPE_ENUMERATED:
 			trial.element_count = 900;
 			trial.member_count = 128;
-			trial.dimension[0] = 16;
-			trial.dimension[1] = 8;
-			trial.dimension[2] = 0;
-			trial.dimension[3] = 0;
 			trial.add_elem_set = add_enum_elem_set;
 			trial.check_elem_props = check_enum_elem_props;
 			trial.change_elem_members = change_enum_elem_members;
 			trial.allocate_elem_set_tlv = NULL;
+			trial.tlv_readable = false;
 			break;
 		case SND_CTL_ELEM_TYPE_BYTES:
 			trial.element_count = 900;
 			trial.member_count = 512;
-			trial.dimension[0] = 8;
-			trial.dimension[1] = 4;
-			trial.dimension[2] = 8;
-			trial.dimension[3] = 2;
 			trial.add_elem_set = add_bytes_elem_set;
 			trial.check_elem_props = NULL;
 			trial.change_elem_members = change_bytes_elem_members;
 			trial.allocate_elem_set_tlv =
 						allocate_bytes_elem_set_tlv;
+			trial.tlv_readable = false;
 			break;
 		case SND_CTL_ELEM_TYPE_IEC958:
 			trial.element_count = 1;
 			trial.member_count = 1;
-			trial.dimension[0] = 0;
-			trial.dimension[1] = 0;
-			trial.dimension[2] = 0;
-			trial.dimension[3] = 0;
 			trial.add_elem_set = add_iec958_elem_set;
 			trial.check_elem_props = NULL;
 			trial.change_elem_members = change_iec958_elem_members;
 			trial.allocate_elem_set_tlv = NULL;
+			trial.tlv_readable = false;
 			break;
 		case SND_CTL_ELEM_TYPE_INTEGER64:
 		default:
 			trial.element_count = 900;
 			trial.member_count = 64;
-			trial.dimension[0] = 0;
-			trial.dimension[1] = 0;
-			trial.dimension[2] = 0;
-			trial.dimension[3] = 0;
 			trial.add_elem_set = add_int64_elem_set;
 			trial.check_elem_props = check_int64_elem_props;
 			trial.change_elem_members = change_int64_elem_members;
 			trial.allocate_elem_set_tlv =
 						allocate_int64_elem_set_tlv;
+			trial.tlv_readable = false;
 			break;
 		}
 
@@ -701,10 +818,18 @@ int main(void)
 			break;
 		}
 
+		/* Check added elements are retrieved in a list. */
+		err = check_elem_list(&trial);
+		if (err < 0) {
+			printf("Fail to list each element with %s type.\n",
+			       snd_ctl_elem_type_name(trial.type));
+			break;
+		}
+
 		/* Check properties of each element in this element set. */
 		err = check_elem_set_props(&trial);
 		if (err < 0) {
-			printf("Fail to check propetries of each element with "
+			printf("Fail to check properties of each element with "
 			       "%s type.\n",
 			       snd_ctl_elem_type_name(trial.type));
 			break;
@@ -739,14 +864,6 @@ int main(void)
 			if (err < 0) {
 				printf("Fail to change TLV data of an element "
 				       "set with %s type.\n",
-				       snd_ctl_elem_type_name(trial.type));
-				break;
-			}
-			err = check_event(&trial, SND_CTL_EVENT_MASK_TLV, 1);
-			if (err < 0) {
-				printf("Fail to check an event to change TLV"
-				       "data of an an element set with %s "
-				       "type.\n",
 				       snd_ctl_elem_type_name(trial.type));
 				break;
 			}

@@ -2,14 +2,15 @@
   Copyright(c) 2014-2015 Intel Corporation
   All rights reserved.
 
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of version 2 of the GNU General Public License as
-  published by the Free Software Foundation.
+  This library is free software; you can redistribute it and/or modify
+  it under the terms of the GNU Lesser General Public License as
+  published by the Free Software Foundation; either version 2.1 of
+  the License, or (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful, but
-  WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  General Public License for more details.
+  This program is distributed in the hope that it will be useful,
+  but WITHOUT ANY WARRANTY; without even the implied warranty of
+  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  GNU Lesser General Public License for more details.
 
   Authors: Mengdong Lin <mengdong.lin@intel.com>
            Yao Jin <yao.jin@intel.com>
@@ -18,6 +19,26 @@
 
 #include "list.h"
 #include "tplg_local.h"
+
+#define RATE(v) [SND_PCM_RATE_##v] = #v
+
+static const char *const snd_pcm_rate_names[] = {
+	RATE(5512),
+	RATE(8000),
+	RATE(11025),
+	RATE(16000),
+	RATE(22050),
+	RATE(32000),
+	RATE(44100),
+	RATE(48000),
+	RATE(64000),
+	RATE(88200),
+	RATE(96000),
+	RATE(176400),
+	RATE(192000),
+	RATE(CONTINUOUS),
+	RATE(KNOT),
+};
 
 struct tplg_elem *lookup_pcm_dai_stream(struct list_head *base, const char* id)
 {
@@ -41,7 +62,7 @@ struct tplg_elem *lookup_pcm_dai_stream(struct list_head *base, const char* id)
 }
 
 /* copy referenced caps to the parent (pcm or be dai) */
-static void copy_stream_caps(const char *id,
+static void copy_stream_caps(const char *id ATTRIBUTE_UNUSED,
 	struct snd_soc_tplg_stream_caps *caps, struct tplg_elem *ref_elem)
 {
 	struct snd_soc_tplg_stream_caps *ref_caps = ref_elem->stream_caps;
@@ -54,14 +75,14 @@ static void copy_stream_caps(const char *id,
 
 /* find and copy the referenced stream caps */
 static int tplg_build_stream_caps(snd_tplg_t *tplg,
-	const char *id, struct snd_soc_tplg_stream_caps *caps)
+	const char *id, int index, struct snd_soc_tplg_stream_caps *caps)
 {
 	struct tplg_elem *ref_elem = NULL;
 	unsigned int i;
 
 	for (i = 0; i < 2; i++) {
 		ref_elem = tplg_elem_lookup(&tplg->pcm_caps_list,
-			caps[i].name, SND_TPLG_TYPE_STREAM_CAPS);
+			caps[i].name, SND_TPLG_TYPE_STREAM_CAPS, index);
 
 		if (ref_elem != NULL)
 			copy_stream_caps(id, &caps[i], ref_elem);
@@ -77,9 +98,10 @@ static int build_pcm(snd_tplg_t *tplg, struct tplg_elem *elem)
 	struct list_head *base, *pos;
 	int err;
 
-	err = tplg_build_stream_caps(tplg, elem->id, elem->pcm->caps);
-		if (err < 0)
-			return err;
+	err = tplg_build_stream_caps(tplg, elem->id, elem->index,
+						elem->pcm->caps);
+	if (err < 0)
+		return err;
 
 	/* merge private data from the referenced data elements */
 	base = &elem->ref_list;
@@ -95,8 +117,7 @@ static int build_pcm(snd_tplg_t *tplg, struct tplg_elem *elem)
 			SNDERR("error: cannot find '%s' referenced by"
 				" PCM '%s'\n", ref->id, elem->id);
 			return -EINVAL;
-		} else if (err < 0)
-			return err;
+		}
 	}
 
 	return 0;
@@ -137,7 +158,8 @@ static int tplg_build_dai(snd_tplg_t *tplg, struct tplg_elem *elem)
 	int err = 0;
 
 	/* get playback & capture stream caps */
-	err = tplg_build_stream_caps(tplg, elem->id, elem->dai->caps);
+	err = tplg_build_stream_caps(tplg, elem->id, elem->index,
+						elem->dai->caps);
 	if (err < 0)
 		return err;
 
@@ -185,7 +207,7 @@ int tplg_build_dais(snd_tplg_t *tplg, unsigned int type)
 }
 
 static int tplg_build_stream_cfg(snd_tplg_t *tplg,
-	struct snd_soc_tplg_stream *stream, int num_streams)
+	struct snd_soc_tplg_stream *stream, int num_streams, int index)
 {
 	struct snd_soc_tplg_stream *strm;
 	struct tplg_elem *ref_elem;
@@ -194,7 +216,7 @@ static int tplg_build_stream_cfg(snd_tplg_t *tplg,
 	for (i = 0; i < num_streams; i++) {
 		strm = stream + i;
 		ref_elem = tplg_elem_lookup(&tplg->pcm_config_list,
-			strm->name, SND_TPLG_TYPE_STREAM_CONFIG);
+			strm->name, SND_TPLG_TYPE_STREAM_CONFIG, index);
 
 		if (ref_elem && ref_elem->stream_cfg)
 			*strm = *ref_elem->stream_cfg;
@@ -211,7 +233,7 @@ static int build_link(snd_tplg_t *tplg, struct tplg_elem *elem)
 	int num_hw_configs = 0, err = 0;
 
 	err = tplg_build_stream_cfg(tplg, link->stream,
-				    link->num_streams);
+				    link->num_streams, elem->index);
 	if (err < 0)
 		return err;
 
@@ -224,7 +246,7 @@ static int build_link(snd_tplg_t *tplg, struct tplg_elem *elem)
 		switch (ref->type) {
 		case SND_TPLG_TYPE_HW_CONFIG:
 			ref->elem = tplg_elem_lookup(&tplg->hw_cfg_list,
-					ref->id, SND_TPLG_TYPE_HW_CONFIG);
+				ref->id, SND_TPLG_TYPE_HW_CONFIG, elem->index);
 			if (!ref->elem) {
 				SNDERR("error: cannot find HW config '%s'"
 				" referenced by link '%s'\n",
@@ -307,6 +329,42 @@ static int split_format(struct snd_soc_tplg_stream_caps *caps, char *str)
 	return 0;
 }
 
+static int get_rate_value(const char* name)
+{
+	int rate;
+	for (rate = 0; rate <= SND_PCM_RATE_LAST; rate++) {
+		if (snd_pcm_rate_names[rate] &&
+		    strcasecmp(name, snd_pcm_rate_names[rate]) == 0) {
+			return rate;
+		}
+	}
+
+	return SND_PCM_RATE_UNKNOWN;
+}
+
+static int split_rate(struct snd_soc_tplg_stream_caps *caps, char *str)
+{
+	char *s = NULL;
+	snd_pcm_rates_t rate;
+	int i = 0;
+
+	s = strtok(str, ",");
+	while (s) {
+		rate = get_rate_value(s);
+
+		if (rate == SND_PCM_RATE_UNKNOWN) {
+			SNDERR("error: unsupported stream rate %s\n", s);
+			return -EINVAL;
+		}
+
+		caps->rates |= 1 << rate;
+		s = strtok(NULL, ", ");
+		i++;
+	}
+
+	return 0;
+}
+
 /* Parse pcm stream capabilities */
 int tplg_parse_stream_caps(snd_tplg_t *tplg,
 	snd_config_t *cfg, void *private ATTRIBUTE_UNUSED)
@@ -358,6 +416,21 @@ int tplg_parse_stream_caps(snd_tplg_t *tplg,
 			continue;
 		}
 
+		if (strcmp(id, "rates") == 0) {
+			s = strdup(val);
+			if (!s)
+				return -ENOMEM;
+
+			err = split_rate(sc, s);
+			free(s);
+
+			if (err < 0)
+				return err;
+
+			tplg_dbg("\t\t%s: %s\n", id, val);
+			continue;
+		}
+
 		if (strcmp(id, "rate_min") == 0) {
 			sc->rate_min = atoi(val);
 			tplg_dbg("\t\t%s: %d\n", id, sc->rate_min);
@@ -381,6 +454,49 @@ int tplg_parse_stream_caps(snd_tplg_t *tplg,
 			tplg_dbg("\t\t%s: %d\n", id, sc->channels_max);
 			continue;
 		}
+
+		if (strcmp(id, "periods_min") == 0) {
+			sc->periods_min = atoi(val);
+			tplg_dbg("\t\t%s: %d\n", id, sc->periods_min);
+			continue;
+		}
+
+		if (strcmp(id, "periods_max") == 0) {
+			sc->periods_max = atoi(val);
+			tplg_dbg("\t\t%s: %d\n", id, sc->periods_max);
+			continue;
+		}
+
+		if (strcmp(id, "period_size_min") == 0) {
+			sc->period_size_min = atoi(val);
+			tplg_dbg("\t\t%s: %d\n", id, sc->period_size_min);
+			continue;
+		}
+
+		if (strcmp(id, "period_size_max") == 0) {
+			sc->period_size_max = atoi(val);
+			tplg_dbg("\t\t%s: %d\n", id, sc->period_size_max);
+			continue;
+		}
+
+		if (strcmp(id, "buffer_size_min") == 0) {
+			sc->buffer_size_min = atoi(val);
+			tplg_dbg("\t\t%s: %d\n", id, sc->buffer_size_min);
+			continue;
+		}
+
+		if (strcmp(id, "buffer_size_max") == 0) {
+			sc->buffer_size_max = atoi(val);
+			tplg_dbg("\t\t%s: %d\n", id, sc->buffer_size_max);
+			continue;
+		}
+
+		if (strcmp(id, "sig_bits") == 0) {
+			sc->sig_bits = atoi(val);
+			tplg_dbg("\t\t%s: %d\n", id, sc->sig_bits);
+			continue;
+		}
+
 	}
 
 	return 0;
@@ -553,15 +669,6 @@ int tplg_parse_pcm(snd_tplg_t *tplg,
 		if (id[0] == '#')
 			continue;
 
-		if (strcmp(id, "index") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
-				return -EINVAL;
-
-			elem->index = atoi(val);
-			tplg_dbg("\t%s: %d\n", id, elem->index);
-			continue;
-		}
-
 		if (strcmp(id, "id") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
@@ -576,6 +683,17 @@ int tplg_parse_pcm(snd_tplg_t *tplg,
 				tplg_parse_streams, elem);
 			if (err < 0)
 				return err;
+			continue;
+		}
+
+		if (strcmp(id, "compress") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			if (strcmp(val, "true") == 0)
+				pcm->compress = 1;
+
+			tplg_dbg("\t%s: %s\n", id, val);
 			continue;
 		}
 
@@ -653,15 +771,6 @@ int tplg_parse_dai(snd_tplg_t *tplg,
 		if (id[0] == '#')
 			continue;
 
-		if (strcmp(id, "index") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
-				return -EINVAL;
-
-			elem->index = atoi(val);
-			tplg_dbg("\t%s: %d\n", id, elem->index);
-			continue;
-		}
-
 		if (strcmp(id, "id") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
@@ -670,6 +779,26 @@ int tplg_parse_dai(snd_tplg_t *tplg,
 			tplg_dbg("\t%s: %d\n", id, dai->dai_id);
 			continue;
 		}
+
+		if (strcmp(id, "playback") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			dai->playback = atoi(val);
+			tplg_dbg("\t%s: %d\n", id, dai->playback);
+			continue;
+		}
+
+
+		if (strcmp(id, "capture") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			dai->capture = atoi(val);
+			tplg_dbg("\t%s: %d\n", id, dai->capture);
+			continue;
+		}
+
 
 		/* stream capabilities */
 		if (strcmp(id, "pcm") == 0) {
@@ -723,7 +852,8 @@ int tplg_parse_dai(snd_tplg_t *tplg,
 }
 
 /* parse physical link runtime supported HW configs in text conf file */
-static int parse_hw_config_refs(snd_tplg_t *tplg, snd_config_t *cfg,
+static int parse_hw_config_refs(snd_tplg_t *tplg ATTRIBUTE_UNUSED,
+				snd_config_t *cfg,
 				struct tplg_elem *elem)
 {
 	struct snd_soc_tplg_link_config *link = elem->link;
@@ -753,6 +883,7 @@ static int parse_hw_config_refs(snd_tplg_t *tplg, snd_config_t *cfg,
 	/* refer to a list of HW configs */
 	snd_config_for_each(i, next, cfg) {
 		const char *val;
+		int err;
 
 		n = snd_config_iterator_entry(i);
 		if (snd_config_get_string(n, &val) < 0)
@@ -764,7 +895,9 @@ static int parse_hw_config_refs(snd_tplg_t *tplg, snd_config_t *cfg,
 		}
 
 		link->num_hw_configs++;
-		return tplg_ref_add(elem, SND_TPLG_TYPE_HW_CONFIG, val);
+		err = tplg_ref_add(elem, SND_TPLG_TYPE_HW_CONFIG, val);
+		if (err < 0)
+			return err;
 	}
 
 	return 0;
@@ -802,15 +935,6 @@ int tplg_parse_link(snd_tplg_t *tplg,
 			continue;
 		if (id[0] == '#')
 			continue;
-
-		if (strcmp(id, "index") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
-				return -EINVAL;
-
-			elem->index = atoi(val);
-			tplg_dbg("\t%s: %d\n", id, elem->index);
-			continue;
-		}
 
 		if (strcmp(id, "id") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
@@ -917,15 +1041,6 @@ int tplg_parse_cc(snd_tplg_t *tplg,
 		if (id[0] == '#')
 			continue;
 
-		if (strcmp(id, "index") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
-				return -EINVAL;
-
-			elem->index = atoi(val);
-			tplg_dbg("\t%s: %d\n", id, elem->index);
-			continue;
-		}
-
 		if (strcmp(id, "id") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
@@ -957,7 +1072,7 @@ static int get_audio_hw_format(const char *val)
 	if (!strcmp(val, "DSP_A"))
 		return SND_SOC_DAI_FORMAT_DSP_A;
 
-	if (!strcmp(val, "LEFT_B"))
+	if (!strcmp(val, "DSP_B"))
 		return SND_SOC_DAI_FORMAT_DSP_B;
 
 	if (!strcmp(val, "AC97"))
@@ -1031,6 +1146,23 @@ int tplg_parse_hw_config(snd_tplg_t *tplg, snd_config_t *cfg,
 			continue;
 		}
 
+		if (strcmp(id, "bclk_freq") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			hw_cfg->bclk_rate = atoi(val);
+			continue;
+		}
+
+		if (strcmp(id, "bclk_invert") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			if (!strcmp(val, "true"))
+				hw_cfg->invert_bclk = true;
+			continue;
+		}
+
 		if (strcmp(id, "fsync") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
@@ -1039,6 +1171,98 @@ int tplg_parse_hw_config(snd_tplg_t *tplg, snd_config_t *cfg,
 				hw_cfg->fsync_master = true;
 			continue;
 		}
+
+		if (strcmp(id, "fsync_invert") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			if (!strcmp(val, "true"))
+				hw_cfg->invert_fsync = true;
+			continue;
+		}
+
+		if (strcmp(id, "fsync_freq") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			hw_cfg->fsync_rate = atoi(val);
+			continue;
+		}
+
+		if (strcmp(id, "mclk_freq") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			hw_cfg->mclk_rate = atoi(val);
+			continue;
+		}
+
+		if (strcmp(id, "mclk") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			if (!strcmp(val, "master"))
+				hw_cfg->mclk_direction = true;
+			continue;
+		}
+
+		if (strcmp(id, "pm_gate_clocks") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			if (!strcmp(val, "true"))
+				hw_cfg->clock_gated = true;
+			continue;
+		}
+
+		if (strcmp(id, "tdm_slots") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			hw_cfg->tdm_slots = atoi(val);
+			continue;
+		}
+
+		if (strcmp(id, "tdm_slot_width") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			hw_cfg->tdm_slot_width = atoi(val);
+			continue;
+		}
+
+		if (strcmp(id, "tx_slots") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			hw_cfg->tx_slots = atoi(val);
+			continue;
+		}
+
+		if (strcmp(id, "rx_slots") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			hw_cfg->rx_slots = atoi(val);
+			continue;
+		}
+
+		if (strcmp(id, "tx_channels") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			hw_cfg->tx_channels = atoi(val);
+			continue;
+		}
+
+		if (strcmp(id, "rx_channels") == 0) {
+			if (snd_config_get_string(n, &val) < 0)
+				return -EINVAL;
+
+			hw_cfg->rx_channels = atoi(val);
+			continue;
+		}
+
 	}
 
 	return 0;
@@ -1147,7 +1371,7 @@ int tplg_add_pcm_object(snd_tplg_t *tplg, snd_tplg_obj_template_t *t)
 static int set_link_hw_config(struct snd_soc_tplg_hw_config *cfg,
 			struct snd_tplg_hw_config_template *tpl)
 {
-	int i;
+	unsigned int i;
 
 	cfg->size = sizeof(*cfg);
 	cfg->id = tpl->id;
@@ -1190,7 +1414,7 @@ int tplg_add_link_object(snd_tplg_t *tplg, snd_tplg_obj_template_t *t)
 	struct snd_tplg_link_template *link_tpl = t->link;
 	struct snd_soc_tplg_link_config *link, *_link;
 	struct tplg_elem *elem;
-	int i;
+	unsigned int i;
 
 	if (t->type != SND_TPLG_TYPE_LINK && t->type != SND_TPLG_TYPE_BE
 	    && t->type != SND_TPLG_TYPE_CC)
@@ -1207,12 +1431,10 @@ int tplg_add_link_object(snd_tplg_t *tplg, snd_tplg_obj_template_t *t)
 
 	/* ID and names */
 	link->id = link_tpl->id;
-	if (link->name)
-		elem_copy_text(link->name, link_tpl->name,
-			       SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
-	if (link->stream_name)
-		elem_copy_text(link->stream_name, link_tpl->stream_name,
-			       SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
+	elem_copy_text(link->name, link_tpl->name,
+		       SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
+	elem_copy_text(link->stream_name, link_tpl->stream_name,
+		       SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
 
 	/* stream configs */
 	if (link_tpl->num_streams > SND_SOC_TPLG_STREAM_CONFIG_MAX)

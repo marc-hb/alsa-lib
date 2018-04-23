@@ -15,7 +15,7 @@
  *
  *   You should have received a copy of the GNU Lesser General Public
  *   License along with this library; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  */
 
@@ -100,3 +100,8 @@ int snd_ctl_shm_open(snd_ctl_t **handlep, const char *name, const char *sockname
 int snd_ctl_async(snd_ctl_t *ctl, int sig, pid_t pid);
 
 #define CTLINABORT(x) ((x)->nonblock == 2)
+
+#ifdef INTERNAL
+int INTERNAL(snd_ctl_elem_info_get_dimensions)(const snd_ctl_elem_info_t *obj);
+int INTERNAL(snd_ctl_elem_info_get_dimension)(const snd_ctl_elem_info_t *obj, unsigned int idx);
+#endif /* INTERNAL */

@@ -11,7 +11,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software  
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  *  Support for the verb/device/modifier core logic and API,
  *  command line tool and file parser was kindly sponsored by
@@ -41,7 +41,7 @@
 #include "use-case.h"
 
 #define MAX_FILE		256
-#define ALSA_USE_CASE_DIR	ALSA_CONFIG_DIR "/ucm"
+#define MAX_CARD_LONG_NAME	80
 
 #define SEQUENCE_ELEMENT_TYPE_CDEV	1
 #define SEQUENCE_ELEMENT_TYPE_CSET	2
@@ -190,6 +190,8 @@ struct use_case_verb {
  */
 struct snd_use_case_mgr {
 	char *card_name;
+	char card_long_name[MAX_CARD_LONG_NAME];
+	char conf_file_name[MAX_CARD_LONG_NAME];
 	char *comment;
 
 	/* use case verb, devices and modifier configs parsed from files */

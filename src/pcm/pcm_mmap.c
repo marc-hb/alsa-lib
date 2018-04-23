@@ -14,7 +14,7 @@
  *
  *   You should have received a copy of the GNU Lesser General Public
  *   License along with this library; if not, write to the Free Software
- *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  */
 
@@ -22,7 +22,7 @@
 #include <stdio.h>
 #include <malloc.h>
 #include <string.h>
-#include <sys/poll.h>
+#include <poll.h>
 #include <sys/mman.h>
 #ifdef HAVE_SYS_SHM_H
 #include <sys/shm.h>
@@ -417,7 +417,7 @@ int snd_pcm_mmap(snd_pcm_t *pcm)
 			case SND_PCM_AREA_SHM:
 				if (i1->u.shm.shmid != i->u.shm.shmid)
 					continue;
-				/* follow thru */
+				/* fall through */
 			case SND_PCM_AREA_LOCAL:
 				if (pcm->access != SND_PCM_ACCESS_MMAP_INTERLEAVED &&
 				    pcm->access != SND_PCM_ACCESS_RW_INTERLEAVED)

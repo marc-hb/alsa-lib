@@ -12,7 +12,7 @@
  *
  *  You should have received a copy of the GNU Lesser General Public
  *  License along with this library; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
+ *  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
  *
  *  Copyright (C) 2015 Intel Corporation
  *
@@ -214,6 +214,20 @@ extern "C" {
  * The keyword tuples is to define vendor specific tuples. Please refer to
  * section Vendor Tokens and Vendor tuples.
  *
+ * It's easy to use a vendor tuples object to define a C structure instance.
+ * And a data section can include multiple vendor tuples objects:
+ *
+ * <pre>
+ * SectionData."data element name" {
+ *	index "1"	#Index number
+ *	tuples [
+ *		"id of the 1st vendor tuples section"
+ *		"id of the 2nd vendor tuples section"
+ *		...
+ *	]
+ * };
+ * </pre>
+ *
  * <h5>How to define an element with private data</h5>
  * An element can refer to a single data section or multiple data
  * sections.
@@ -356,9 +370,10 @@ extern "C" {
  * </pre>
  *
  * The section name is used to define the mixer name. The index number can be
- * used to identify topology objects groups. This allows driver operations on
- * objects with index number N and can be used to add/remove pipelines of
- * objects whilst other objects are unaffected.
+ * used to identify topology objects groups(index "0" is common, fit for all
+ * user cases).This allows driver operations on objects with index number N and
+ * can be used to add/remove pipelines of objects whilst other objects are
+ * unaffected.
  *
  * <h5>Byte Controls</h5>
  * A byte control is defined as a new section that can include channel mapping,
@@ -519,6 +534,7 @@ extern "C" {
  * SectionPCMCapabilities."name" {
  *
  *	formats "S24_LE,S16_LE"		# Supported formats
+ *	rates "48000"			# Supported rates
  *	rate_min "48000"		# Max supported sample rate
  *	rate_max "48000"		# Min supported sample rate
  *	channels_min "2"		# Min number of channels
@@ -751,6 +767,9 @@ enum snd_tplg_type {
 	SND_TPLG_TYPE_HW_CONFIG,	/*!< Link HW config */
 	SND_TPLG_TYPE_DAI,		/*!< Physical DAI */
 };
+
+/** Fit for all user cases */
+#define SND_TPLG_INDEX_ALL  0
 
 /**
  * \brief Create a new topology parser instance.
