@@ -14,6 +14,7 @@ alsa-lib (1.1.6-1) UNRELEASED; urgency=medium
   * Switch from dh_install --list-missing to dh_missing --list-missing.
   * Update FSF address in copyright file.
   * Update libasound2-doc content references to new default location.
+  * Move lintian-overrides to preferred location under debian/source.
 
  -- Jordi Mallach <jordi@debian.org>  Thu, 12 Apr 2018 02:29:59 +0200
 
