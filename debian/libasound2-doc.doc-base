@@ -7,5 +7,5 @@ Abstract: The Advanced Linux Sound Architecture (ALSA) comes
 Section: Sound
 
 Format: HTML
-Index: /usr/share/doc/libasound2-doc/html/index.html
-Files: /usr/share/doc/libasound2-doc/html/*.html
+Index: /usr/share/doc/libasound2/html/index.html
+Files: /usr/share/doc/libasound2/html/*.html
