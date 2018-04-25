@@ -11,6 +11,7 @@ alsa-lib (1.1.6-1) UNRELEASED; urgency=medium
   * Switch to python3-dev, per configure.ac.
   * Explicitly enable python mixer modules at configure.
   * Update libasound2's symbols list.
+  * Switch from dh_install --list-missing to dh_missing --list-missing.
 
  -- Jordi Mallach <jordi@debian.org>  Thu, 12 Apr 2018 02:29:59 +0200
 

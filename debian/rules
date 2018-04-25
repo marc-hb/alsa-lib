@@ -31,8 +31,8 @@ override_dh_strip:
 override_dh_makeshlibs:
 	dh_makeshlibs --exclude=usr/lib/$(DEB_HOST_MULTIARCH)/alsa-lib/smixer -V'libasound2 (>= 1.1.2)' --add-udeb=libasound2-udeb -- -c4
 
-override_dh_install:
-	dh_install --list-missing
+override_dh_missing:
+	dh_missing --list-missing
 
 override_dh_installchangelogs:
 	dh_installchangelogs debian/changelog.ALSA
