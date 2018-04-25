@@ -18,6 +18,7 @@ alsa-lib (1.1.6-1) UNRELEASED; urgency=medium
   * Bump shlibs to 1.1.6.
   * Add a dh_install override to get rid of *.la files, and also add
     usr/bin/aserver to debian/not-installed.
+  * Switch to dh_missing --fail-missing.
 
  -- Jordi Mallach <jordi@debian.org>  Thu, 12 Apr 2018 02:29:59 +0200
 

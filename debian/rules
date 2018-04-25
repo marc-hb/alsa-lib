@@ -36,7 +36,7 @@ override_dh_install:
 	dh_install
 
 override_dh_missing:
-	dh_missing --list-missing
+	dh_missing --fail-missing
 
 override_dh_installchangelogs:
 	dh_installchangelogs debian/changelog.ALSA
