@@ -50,8 +50,8 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-subdir = src/conf/alsa.conf.d
-DIST_COMMON = README $(srcdir)/Makefile.am $(srcdir)/Makefile.in
+subdir = src/conf/ucm/bytcr-rt5640-stereo-spk-dmic1-mic
+DIST_COMMON = $(srcdir)/Makefile.am $(srcdir)/Makefile.in
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/acinclude.m4 \
 	$(top_srcdir)/configure.ac
@@ -107,8 +107,8 @@ am__uninstall_files_from_dir = { \
     || { echo " ( cd '$$dir' && rm -f" $$files ")"; \
          $(am__cd) "$$dir" && rm -f $$files; }; \
   }
-am__installdirs = "$(DESTDIR)$(alsadir)"
-DATA = $(alsa_DATA)
+am__installdirs = "$(DESTDIR)$(ucmdir)"
+DATA = $(ucm_DATA)
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ALSA_CONFIG_DIR = @ALSA_CONFIG_DIR@
@@ -239,12 +239,9 @@ top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 alsaconfigdir = @ALSA_CONFIG_DIR@
-alsadir = $(alsaconfigdir)/alsa.conf.d
-cfg_files = README
-alsa_DATA = $(cfg_files)
-EXTRA_DIST = \
-	$(cfg_files)
-
+ucmdir = $(alsaconfigdir)/ucm/bytcr-rt5640-stereo-spk-dmic1-mic
+ucm_DATA = bytcr-rt5640-stereo-spk-dmic1-mic.conf HiFi.conf
+EXTRA_DIST = $(ucm_DATA)
 all: all-am
 
 .SUFFIXES:
@@ -257,9 +254,9 @@ $(srcdir)/Makefile.in: @MAINTAINER_MODE_TRUE@ $(srcdir)/Makefile.am  $(am__confi
 	      exit 1;; \
 	  esac; \
 	done; \
-	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/conf/alsa.conf.d/Makefile'; \
+	echo ' cd $(top_srcdir) && $(AUTOMAKE) --foreign src/conf/ucm/bytcr-rt5640-stereo-spk-dmic1-mic/Makefile'; \
 	$(am__cd) $(top_srcdir) && \
-	  $(AUTOMAKE) --foreign src/conf/alsa.conf.d/Makefile
+	  $(AUTOMAKE) --foreign src/conf/ucm/bytcr-rt5640-stereo-spk-dmic1-mic/Makefile
 .PRECIOUS: Makefile
 Makefile: $(srcdir)/Makefile.in $(top_builddir)/config.status
 	@case '$?' in \
@@ -284,27 +281,27 @@ mostlyclean-libtool:
 
 clean-libtool:
 	-rm -rf .libs _libs
-install-alsaDATA: $(alsa_DATA)
+install-ucmDATA: $(ucm_DATA)
 	@$(NORMAL_INSTALL)
-	@list='$(alsa_DATA)'; test -n "$(alsadir)" || list=; \
+	@list='$(ucm_DATA)'; test -n "$(ucmdir)" || list=; \
 	if test -n "$$list"; then \
-	  echo " $(MKDIR_P) '$(DESTDIR)$(alsadir)'"; \
-	  $(MKDIR_P) "$(DESTDIR)$(alsadir)" || exit 1; \
+	  echo " $(MKDIR_P) '$(DESTDIR)$(ucmdir)'"; \
+	  $(MKDIR_P) "$(DESTDIR)$(ucmdir)" || exit 1; \
 	fi; \
 	for p in $$list; do \
 	  if test -f "$$p"; then d=; else d="$(srcdir)/"; fi; \
 	  echo "$$d$$p"; \
 	done | $(am__base_list) | \
 	while read files; do \
-	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(alsadir)'"; \
-	  $(INSTALL_DATA) $$files "$(DESTDIR)$(alsadir)" || exit $$?; \
+	  echo " $(INSTALL_DATA) $$files '$(DESTDIR)$(ucmdir)'"; \
+	  $(INSTALL_DATA) $$files "$(DESTDIR)$(ucmdir)" || exit $$?; \
 	done
 
-uninstall-alsaDATA:
+uninstall-ucmDATA:
 	@$(NORMAL_UNINSTALL)
-	@list='$(alsa_DATA)'; test -n "$(alsadir)" || list=; \
+	@list='$(ucm_DATA)'; test -n "$(ucmdir)" || list=; \
 	files=`for p in $$list; do echo $$p; done | sed -e 's|^.*/||'`; \
-	dir='$(DESTDIR)$(alsadir)'; $(am__uninstall_files_from_dir)
+	dir='$(DESTDIR)$(ucmdir)'; $(am__uninstall_files_from_dir)
 tags: TAGS
 TAGS:
 
@@ -348,7 +345,7 @@ check-am: all-am
 check: check-am
 all-am: Makefile $(DATA)
 installdirs:
-	for dir in "$(DESTDIR)$(alsadir)"; do \
+	for dir in "$(DESTDIR)$(ucmdir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
 install: install-am
@@ -401,7 +398,7 @@ info: info-am
 
 info-am:
 
-install-data-am: install-alsaDATA
+install-data-am: install-ucmDATA
 
 install-dvi: install-dvi-am
 
@@ -445,21 +442,21 @@ ps: ps-am
 
 ps-am:
 
-uninstall-am: uninstall-alsaDATA
+uninstall-am: uninstall-ucmDATA
 
 .MAKE: install-am install-strip
 
 .PHONY: all all-am check check-am clean clean-generic clean-libtool \
 	distclean distclean-generic distclean-libtool distdir dvi \
-	dvi-am html html-am info info-am install install-alsaDATA \
-	install-am install-data install-data-am install-dvi \
-	install-dvi-am install-exec install-exec-am install-html \
-	install-html-am install-info install-info-am install-man \
-	install-pdf install-pdf-am install-ps install-ps-am \
-	install-strip installcheck installcheck-am installdirs \
+	dvi-am html html-am info info-am install install-am \
+	install-data install-data-am install-dvi install-dvi-am \
+	install-exec install-exec-am install-html install-html-am \
+	install-info install-info-am install-man install-pdf \
+	install-pdf-am install-ps install-ps-am install-strip \
+	install-ucmDATA installcheck installcheck-am installdirs \
 	maintainer-clean maintainer-clean-generic mostlyclean \
 	mostlyclean-generic mostlyclean-libtool pdf pdf-am ps ps-am \
-	uninstall uninstall-alsaDATA uninstall-am
+	uninstall uninstall-am uninstall-ucmDATA
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

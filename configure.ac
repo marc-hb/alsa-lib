@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.59)
-AC_INIT(alsa-lib, 1.1.6)
+AC_INIT(alsa-lib, 1.1.7)
 
 AC_CONFIG_SRCDIR([src/control/control.c])
 AC_CONFIG_MACRO_DIR([m4])
@@ -713,24 +713,47 @@ AC_OUTPUT(Makefile doc/Makefile doc/pictures/Makefile doc/doxygen.cfg \
 	  src/rawmidi/Makefile src/timer/Makefile \
           src/hwdep/Makefile src/seq/Makefile src/ucm/Makefile \
           src/alisp/Makefile src/topology/Makefile \
-	  src/conf/Makefile src/conf/alsa.conf.d/Makefile \
+	  src/conf/Makefile \
 	  src/conf/cards/Makefile \
 	  src/conf/pcm/Makefile \
 	  src/conf/ucm/Makefile \
+	  src/conf/ucm/ASUSTeKCOMPUTERINC.-T100HAN-1.0-T100HAN/Makefile \
 	  src/conf/ucm/broadwell-rt286/Makefile \
 	  src/conf/ucm/broxton-rt298/Makefile \
+	  src/conf/ucm/bytcr/Makefile \
+	  src/conf/ucm/bytcr-rt5640/Makefile \
+	  src/conf/ucm/bytcr-rt5640-mono-spk-dmic1-mic/Makefile \
+	  src/conf/ucm/bytcr-rt5640-mono-spk-in1-mic/Makefile \
+	  src/conf/ucm/bytcr-rt5640-mono-spk-in3-mic/Makefile \
+	  src/conf/ucm/bytcr-rt5640-stereo-spk-dmic1-mic/Makefile \
+	  src/conf/ucm/bytcr-rt5640-stereo-spk-in1-mic/Makefile \
+	  src/conf/ucm/bytcr-rt5640-stereo-spk-in3-mic/Makefile \
 	  src/conf/ucm/bytcr-rt5651/Makefile \
+	  src/conf/ucm/bytcr-rt5651-mono-spk-in1-mic/Makefile \
+	  src/conf/ucm/bytcr-rt5651-mono-spk-in2-mic/Makefile \
+	  src/conf/ucm/bytcr-rt5651-mono-spk-in2-mic-hp-swapped/Makefile \
+	  src/conf/ucm/bytcr-rt5651-stereo-spk-in1-mic/Makefile \
+	  src/conf/ucm/bytcr-rt5651-stereo-spk-in2-mic/Makefile \
+	  src/conf/ucm/bytcr-rt5651-stereo-spk-in12-mic/Makefile \
+	  src/conf/ucm/chtnau8824/Makefile \
 	  src/conf/ucm/chtrt5645/Makefile \
 	  src/conf/ucm/chtrt5645-mono-speaker-analog-mic/Makefile \
+	  src/conf/ucm/cube-i1_TF-Defaultstring-CherryTrailCR/Makefile \
 	  src/conf/ucm/DAISY-I2S/Makefile \
 	  src/conf/ucm/DB410c/Makefile \
+	  src/conf/ucm/Dell-WD15-Dock/Makefile \
 	  src/conf/ucm/GoogleNyan/Makefile \
 	  src/conf/ucm/gpd-win-pocket-rt5645/Makefile \
 	  src/conf/ucm/HDAudio-Gigabyte-ALC1220DualCodecs/Makefile \
 	  src/conf/ucm/HDAudio-Lenovo-DualCodecs/Makefile \
+	  src/conf/ucm/LENOVO-80XF-LenovoMIIX320_10ICR-LNVNB161216/Makefile \
+	  src/conf/ucm/nau8824/Makefile \
 	  src/conf/ucm/PandaBoard/Makefile \
 	  src/conf/ucm/PandaBoardES/Makefile \
 	  src/conf/ucm/PAZ00/Makefile \
+	  src/conf/ucm/PIPO-W2S-Defaultstring-CherryTrailCR/Makefile \
+	  src/conf/ucm/rt5640/Makefile \
+	  src/conf/ucm/rt5651/Makefile \
 	  src/conf/ucm/SDP4430/Makefile \
 	  src/conf/ucm/skylake-rt286/Makefile \
 	  src/conf/ucm/TECLAST-X80Pro-Defaultstring-CherryTrailCR/Makefile \

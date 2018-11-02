@@ -533,6 +533,7 @@ static int snd_pcm_ioplug_drain(snd_pcm_t *pcm)
 	case SND_PCM_STATE_OPEN:
 	case SND_PCM_STATE_DISCONNECTED:
 	case SND_PCM_STATE_SUSPENDED:
+		snd_pcm_unlock(pcm);
 		return -EBADFD;
 	case SND_PCM_STATE_PREPARED:
 		if (pcm->stream == SND_PCM_STREAM_PLAYBACK) {
@@ -544,6 +545,8 @@ static int snd_pcm_ioplug_drain(snd_pcm_t *pcm)
 		break;
 	case SND_PCM_STATE_RUNNING:
 		io->data->state = SND_PCM_STATE_DRAINING;
+		break;
+	default:
 		break;
 	}
 
@@ -713,6 +716,8 @@ static snd_pcm_sframes_t snd_pcm_ioplug_avail_update(snd_pcm_t *pcm)
 	snd_pcm_ioplug_hw_ptr_update(pcm);
 	if (io->data->state == SND_PCM_STATE_XRUN)
 		return -EPIPE;
+
+	avail = snd_pcm_mmap_avail(pcm);
 	if (pcm->stream == SND_PCM_STREAM_CAPTURE &&
 	    pcm->access != SND_PCM_ACCESS_RW_INTERLEAVED &&
 	    pcm->access != SND_PCM_ACCESS_RW_NONINTERLEAVED) {
@@ -725,9 +730,19 @@ static snd_pcm_sframes_t snd_pcm_ioplug_avail_update(snd_pcm_t *pcm)
 			result = io->data->callback->transfer(io->data, areas, offset, size);
 			if (result < 0)
 				return result;
+
+			/* If the available data doesn't fit in the
+			   contiguous area at the end of the mmap we
+			   must transfer the remaining data to the
+			   beginning of the mmap. */
+			if (size < avail) {
+				result = io->data->callback->transfer(io->data, areas,
+								      0, avail - size);
+				if (result < 0)
+					return result;
+			}
 		}
 	}
-	avail = snd_pcm_mmap_avail(pcm);
 	if (avail > io->avail_max)
 		io->avail_max = avail;
 	return (snd_pcm_sframes_t)avail;
@@ -1218,6 +1233,21 @@ int snd_pcm_ioplug_set_state(snd_pcm_ioplug_t *ioplug, snd_pcm_state_t state)
  * \param ioplug the ioplug handle
  * \param hw_ptr hardware pointer in frames
  * \param appl_ptr application pointer in frames
+ * \return available frames for the application
+ */
+snd_pcm_uframes_t snd_pcm_ioplug_avail(const snd_pcm_ioplug_t * const ioplug,
+				       const snd_pcm_uframes_t hw_ptr,
+				       const snd_pcm_uframes_t appl_ptr)
+{
+	return __snd_pcm_avail(ioplug->pcm, hw_ptr, appl_ptr);
+}
+
+/**
+ * \brief Get the available frames. This function can be used to calculate the
+ * the available frames before calling #snd_pcm_avail_update()
+ * \param ioplug the ioplug handle
+ * \param hw_ptr hardware pointer in frames
+ * \param appl_ptr application pointer in frames
  * \return available frames for the hardware
  */
 snd_pcm_uframes_t snd_pcm_ioplug_hw_avail(const snd_pcm_ioplug_t * const ioplug,
@@ -1227,8 +1257,9 @@ snd_pcm_uframes_t snd_pcm_ioplug_hw_avail(const snd_pcm_ioplug_t * const ioplug,
 	/* available data/space which can be transferred by the user
 	 * application
 	 */
-	const snd_pcm_uframes_t user_avail = __snd_pcm_avail(ioplug->pcm,
-							     hw_ptr, appl_ptr);
+	const snd_pcm_uframes_t user_avail = snd_pcm_ioplug_avail(ioplug,
+								  hw_ptr,
+								  appl_ptr);
 
 	if (user_avail > ioplug->pcm->buffer_size) {
 		/* there was an Xrun */

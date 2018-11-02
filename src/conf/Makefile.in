@@ -127,7 +127,7 @@ AM_RECURSIVE_TARGETS = $(RECURSIVE_TARGETS:-recursive=) \
 	distdir
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = cards pcm alsa.conf.d ucm topology
+DIST_SUBDIRS = cards pcm ucm topology
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 am__relativize = \
   dir0=`pwd`; \
@@ -282,7 +282,7 @@ target_alias = @target_alias@
 top_build_prefix = @top_build_prefix@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-SUBDIRS = cards pcm alsa.conf.d $(am__append_1) $(am__append_2)
+SUBDIRS = cards pcm $(am__append_1) $(am__append_2)
 cfg_files = alsa.conf $(am__append_3) $(am__append_4)
 EXTRA_DIST = $(cfg_files)
 alsaconfigdir = @ALSA_CONFIG_DIR@
