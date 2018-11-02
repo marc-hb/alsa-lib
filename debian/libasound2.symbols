@@ -1080,6 +1080,7 @@ libasound.so.2 libasound2 #MINVER#
  snd_pcm_info_set_stream@ALSA_0.9 1.0.16
  snd_pcm_info_set_subdevice@ALSA_0.9 1.0.16
  snd_pcm_info_sizeof@ALSA_0.9 1.0.16
+ snd_pcm_ioplug_avail@ALSA_0.9 1.1.7
  snd_pcm_ioplug_create@ALSA_0.9 1.0.16
  snd_pcm_ioplug_delete@ALSA_0.9 1.0.16
  snd_pcm_ioplug_hw_avail@ALSA_0.9 1.1.6
