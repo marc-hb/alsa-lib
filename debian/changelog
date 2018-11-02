@@ -4,6 +4,8 @@ alsa-lib (1.1.7-1) UNRELEASED; urgency=medium
   * Update watch file to version 4.
   * Bump shlibs to 1.1.7.
   * Set Rules-Requires-Root to no.
+  * Drop debian/changelog.ALSA and associated dh_installchangelogs
+    override.
 
  -- Jordi Mallach <jordi@debian.org>  Fri, 02 Nov 2018 01:55:42 +0100
 
