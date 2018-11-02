@@ -31,6 +31,8 @@
 #include "pcm_local.h"
 #include "pcm_plugin.h"
 
+#include <sound/tlv.h>
+
 #ifndef PIC
 /* entry for static linking */
 const char *_snd_module_pcm_softvol = "";
@@ -59,7 +61,11 @@ typedef struct {
 #define PRESET_RESOLUTION	256
 #define PRESET_MIN_DB		-51.0
 #define ZERO_DB                  0.0
-#define MAX_DB_UPPER_LIMIT      50
+/*
+ * The gain algorithm as it stands supports gain factors up to 32767, which
+ * is a fraction more than 90 dB, so set 90 dB as the maximum possible gain.
+ */
+#define MAX_DB_UPPER_LIMIT      90
 
 static const unsigned int preset_dB_value[PRESET_RESOLUTION] = {
 	0x00b8, 0x00bd, 0x00c1, 0x00c5, 0x00ca, 0x00cf, 0x00d4, 0x00d9,
@@ -704,10 +710,11 @@ static void snd_pcm_softvol_dump(snd_pcm_t *pcm, snd_output_t *out)
 static int add_tlv_info(snd_pcm_softvol_t *svol, snd_ctl_elem_info_t *cinfo)
 {
 	unsigned int tlv[4];
-	tlv[0] = SND_CTL_TLVT_DB_SCALE;
-	tlv[1] = 2 * sizeof(int);
-	tlv[2] = (int)(svol->min_dB * 100);
-	tlv[3] = (int)((svol->max_dB - svol->min_dB) * 100 / svol->max_val);
+	tlv[SNDRV_CTL_TLVO_TYPE] = SND_CTL_TLVT_DB_SCALE;
+	tlv[SNDRV_CTL_TLVO_LEN] = 2 * sizeof(int);
+	tlv[SNDRV_CTL_TLVO_DB_SCALE_MIN] = (int)(svol->min_dB * 100);
+	tlv[SNDRV_CTL_TLVO_DB_SCALE_MUTE_AND_STEP] =
+		(int)((svol->max_dB - svol->min_dB) * 100 / svol->max_val);
 	return snd_ctl_elem_tlv_write(svol->ctl, &cinfo->id, tlv);
 }
 

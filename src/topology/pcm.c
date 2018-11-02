@@ -1126,7 +1126,8 @@ int tplg_parse_hw_config(snd_tplg_t *tplg, snd_config_t *cfg,
 			continue;
 		}
 
-		if (strcmp(id, "format") == 0) {
+		if (strcmp(id, "format") == 0 ||
+		    strcmp(id, "fmt") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
 
@@ -1137,16 +1138,29 @@ int tplg_parse_hw_config(snd_tplg_t *tplg, snd_config_t *cfg,
 			continue;
 		}
 
-		if (strcmp(id, "bclk") == 0) {
+		if (strcmp(id, "bclk") == 0 ||
+		    strcmp(id, "bclk_master") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
 
-			if (!strcmp(val, "master"))
-				hw_cfg->bclk_master = true;
+			if (!strcmp(val, "master")) {
+				/* For backwards capability,
+				 * "master" == "codec is slave"
+				 */
+				SNDERR("warning: deprecated bclk value '%s'\n",
+				       val);
+
+				hw_cfg->bclk_master = SND_SOC_TPLG_BCLK_CS;
+			} else if (!strcmp(val, "codec_slave")) {
+				hw_cfg->bclk_master = SND_SOC_TPLG_BCLK_CS;
+			} else if (!strcmp(val, "codec_master")) {
+				hw_cfg->bclk_master = SND_SOC_TPLG_BCLK_CM;
+			}
 			continue;
 		}
 
-		if (strcmp(id, "bclk_freq") == 0) {
+		if (strcmp(id, "bclk_freq") == 0 ||
+		    strcmp(id, "bclk_rate") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
 
@@ -1154,7 +1168,8 @@ int tplg_parse_hw_config(snd_tplg_t *tplg, snd_config_t *cfg,
 			continue;
 		}
 
-		if (strcmp(id, "bclk_invert") == 0) {
+		if (strcmp(id, "bclk_invert") == 0 ||
+		    strcmp(id, "invert_bclk") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
 
@@ -1163,16 +1178,29 @@ int tplg_parse_hw_config(snd_tplg_t *tplg, snd_config_t *cfg,
 			continue;
 		}
 
-		if (strcmp(id, "fsync") == 0) {
+		if (strcmp(id, "fsync") == 0 ||
+		    strcmp(id, "fsync_master") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
 
-			if (!strcmp(val, "master"))
-				hw_cfg->fsync_master = true;
+			if (!strcmp(val, "master")) {
+				/* For backwards capability,
+				 * "master" == "codec is slave"
+				 */
+				SNDERR("warning: deprecated fsync value '%s'\n",
+				       val);
+
+				hw_cfg->fsync_master = SND_SOC_TPLG_FSYNC_CS;
+			} else if (!strcmp(val, "codec_slave")) {
+				hw_cfg->fsync_master = SND_SOC_TPLG_FSYNC_CS;
+			} else if (!strcmp(val, "codec_master")) {
+				hw_cfg->fsync_master = SND_SOC_TPLG_FSYNC_CM;
+			}
 			continue;
 		}
 
-		if (strcmp(id, "fsync_invert") == 0) {
+		if (strcmp(id, "fsync_invert") == 0 ||
+		    strcmp(id, "invert_fsync") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
 
@@ -1181,7 +1209,8 @@ int tplg_parse_hw_config(snd_tplg_t *tplg, snd_config_t *cfg,
 			continue;
 		}
 
-		if (strcmp(id, "fsync_freq") == 0) {
+		if (strcmp(id, "fsync_freq") == 0 ||
+		    strcmp(id, "fsync_rate") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
 
@@ -1189,7 +1218,8 @@ int tplg_parse_hw_config(snd_tplg_t *tplg, snd_config_t *cfg,
 			continue;
 		}
 
-		if (strcmp(id, "mclk_freq") == 0) {
+		if (strcmp(id, "mclk_freq") == 0 ||
+		    strcmp(id, "mclk_rate") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
 
@@ -1197,21 +1227,38 @@ int tplg_parse_hw_config(snd_tplg_t *tplg, snd_config_t *cfg,
 			continue;
 		}
 
-		if (strcmp(id, "mclk") == 0) {
+		if (strcmp(id, "mclk") == 0 ||
+		    strcmp(id, "mclk_direction") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
 
-			if (!strcmp(val, "master"))
-				hw_cfg->mclk_direction = true;
+			if (!strcmp(val, "master")) {
+				/* For backwards capability,
+				 * "master" == "for codec, mclk is input"
+				 */
+				SNDERR("warning: deprecated mclk value '%s'\n",
+				       val);
+
+				hw_cfg->mclk_direction = SND_SOC_TPLG_MCLK_CI;
+			} else if (!strcmp(val, "codec_mclk_in")) {
+				hw_cfg->mclk_direction = SND_SOC_TPLG_MCLK_CI;
+			} else if (!strcmp(val, "codec_mclk_out")) {
+				hw_cfg->mclk_direction = SND_SOC_TPLG_MCLK_CO;
+			}
 			continue;
 		}
 
-		if (strcmp(id, "pm_gate_clocks") == 0) {
+		if (strcmp(id, "pm_gate_clocks") == 0 ||
+		    strcmp(id, "clock_gated") == 0) {
 			if (snd_config_get_string(n, &val) < 0)
 				return -EINVAL;
 
 			if (!strcmp(val, "true"))
-				hw_cfg->clock_gated = true;
+				hw_cfg->clock_gated =
+					SND_SOC_TPLG_DAI_CLK_GATE_GATED;
+			else
+				hw_cfg->clock_gated =
+					SND_SOC_TPLG_DAI_CLK_GATE_CONT;
 			continue;
 		}
 
