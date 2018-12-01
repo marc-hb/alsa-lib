@@ -1,3 +1,10 @@
+alsa-lib (1.1.7-2) unstable; urgency=medium
+
+  * Cherry picked 0008-pcm-interval-Interpret-x-x-1-correctly-and-return-x-.patch.
+    Thanks to Rob Gibson for the hint. (Closes: #915079)
+
+ -- Elimar Riesebieter <riesebie@lxtec.de>  Sat, 01 Dec 2018 09:57:47 +0100
+
 alsa-lib (1.1.7-1) unstable; urgency=medium
 
   * New upstream release.
