@@ -34,9 +34,6 @@
 #include <dirent.h>
 #include <limits.h>
 
-/** The name of the environment variable containing the UCM directory */
-#define ALSA_CONFIG_UCM_VAR "ALSA_CONFIG_UCM"
-
 /* Directories to store UCM configuration files for components, like
  * off-soc codecs or embedded DSPs. Components can define their own
  * devices and sequences, to be reused by sound cards/machines. UCM
@@ -53,6 +50,7 @@
 static const char * const component_dir[] = {
 	"codecs",	/* for off-soc codecs */
 	"dsps",		/* for DSPs embedded in SoC */
+	"platforms",	/* for common platform implementations */
 	NULL,		/* terminator */
 };
 
