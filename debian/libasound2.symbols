@@ -806,6 +806,7 @@ libasound.so.2 libasound2 #MINVER#
  snd_pcm_extplug_delete@ALSA_0.9 1.0.16
  snd_pcm_extplug_params_reset@ALSA_0.9 1.0.16
  snd_pcm_extplug_set_param_list@ALSA_0.9 1.0.16
+ snd_pcm_extplug_set_param_link@ALSA_0.9 1.1.8
  snd_pcm_extplug_set_param_minmax@ALSA_0.9 1.0.16
  snd_pcm_extplug_set_slave_param_list@ALSA_0.9 1.0.16
  snd_pcm_extplug_set_slave_param_minmax@ALSA_0.9 1.0.16
