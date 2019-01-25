@@ -7,11 +7,11 @@ Subject: [PATCH] Enabled extended namehints in alsa.conf
  src/conf/alsa.conf | 4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/src/conf/alsa.conf b/src/conf/alsa.conf
-index f22918fb..090af971 100644
---- a/src/conf/alsa.conf
-+++ b/src/conf/alsa.conf
-@@ -59,11 +59,11 @@ cards.@hooks [
+Index: alsa-lib/src/conf/alsa.conf
+===================================================================
+--- alsa-lib.orig/src/conf/alsa.conf
++++ alsa-lib/src/conf/alsa.conf
+@@ -53,11 +53,11 @@ cards.@hooks [
  #
  
  # show all name hints also for definitions without hint {} section
@@ -25,6 +25,3 @@ index f22918fb..090af971 100644
  #
  defaults.ctl.card 0
  defaults.pcm.card 0
--- 
-2.11.0
-

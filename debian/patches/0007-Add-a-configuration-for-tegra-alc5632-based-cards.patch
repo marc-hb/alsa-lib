@@ -9,11 +9,11 @@ Subject: [PATCH] Add a configuration for tegra-alc5632 based cards.
  2 files changed, 24 insertions(+)
  create mode 100644 src/conf/cards/tegra-alc5632.conf
 
-diff --git a/src/conf/cards/Makefile.am b/src/conf/cards/Makefile.am
-index 008d399f..3706041e 100644
---- a/src/conf/cards/Makefile.am
-+++ b/src/conf/cards/Makefile.am
-@@ -46,6 +46,7 @@ cfg_files = aliases.conf \
+Index: alsa-lib/src/conf/cards/Makefile.am
+===================================================================
+--- alsa-lib.orig/src/conf/cards/Makefile.am
++++ alsa-lib/src/conf/cards/Makefile.am
+@@ -48,6 +48,7 @@ cfg_files = aliases.conf \
  	RME9652.conf \
  	SI7018.conf \
  	SB-XFi.conf \
@@ -21,11 +21,10 @@ index 008d399f..3706041e 100644
  	TRID4DWAVENX.conf \
  	USB-Audio.conf \
  	YMF744.conf \
-diff --git a/src/conf/cards/tegra-alc5632.conf b/src/conf/cards/tegra-alc5632.conf
-new file mode 100644
-index 00000000..86dd104f
+Index: alsa-lib/src/conf/cards/tegra-alc5632.conf
+===================================================================
 --- /dev/null
-+++ b/src/conf/cards/tegra-alc5632.conf
++++ alsa-lib/src/conf/cards/tegra-alc5632.conf
 @@ -0,0 +1,23 @@
 +# default with dmix/dsnoop
 +tegra-alc5632.pcm.default {
@@ -50,6 +49,3 @@ index 00000000..86dd104f
 +       }
 +}
 +
--- 
-2.11.0
-
