@@ -71,9 +71,9 @@ static int snd_pcm_null_info(snd_pcm_t *pcm, snd_pcm_info_t * info)
 	info->stream = pcm->stream;
 	info->card = -1;
 	if (pcm->name) {
-		strncpy((char *)info->id, pcm->name, sizeof(info->id));
-		strncpy((char *)info->name, pcm->name, sizeof(info->name));
-		strncpy((char *)info->subname, pcm->name, sizeof(info->subname));
+		snd_strlcpy((char *)info->id, pcm->name, sizeof(info->id));
+		snd_strlcpy((char *)info->name, pcm->name, sizeof(info->name));
+		snd_strlcpy((char *)info->subname, pcm->name, sizeof(info->subname));
 	}
 	info->subdevices_count = 1;
 	return 0;
@@ -261,7 +261,17 @@ static snd_pcm_sframes_t snd_pcm_null_mmap_commit(snd_pcm_t *pcm,
 
 static int snd_pcm_null_hw_refine(snd_pcm_t *pcm ATTRIBUTE_UNUSED, snd_pcm_hw_params_t *params)
 {
-	int err = snd_pcm_hw_refine_soft(pcm, params);
+	int err;
+
+	/* Do not return a period size of 0 because for example portaudio cannot
+	 * handle it.
+	 */
+	err = _snd_pcm_hw_param_set_min(params, SND_PCM_HW_PARAM_PERIOD_SIZE, 1,
+					0);
+	if (err < 0)
+		return err;
+
+	err = snd_pcm_hw_refine_soft(pcm, params);
 	params->info = SND_PCM_INFO_MMAP | SND_PCM_INFO_MMAP_VALID |
 		       SND_PCM_INFO_RESUME | SND_PCM_INFO_PAUSE;
 	params->fifo_size = 0;
