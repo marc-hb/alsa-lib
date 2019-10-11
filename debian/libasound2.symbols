@@ -1574,6 +1574,7 @@ libasound.so.2 libasound2 #MINVER#
  snd_spcm_init_duplex@ALSA_0.9 1.0.16
  snd_spcm_init_get_params@ALSA_0.9 1.0.16
  snd_strerror@ALSA_0.9 1.0.16
+ snd_strlcpy@ALSA_0.9 1.1.9
  snd_timer_async@ALSA_0.9 1.0.16
  snd_timer_close@ALSA_0.9 1.0.16
  snd_timer_continue@ALSA_0.9 1.0.16
