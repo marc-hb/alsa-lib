@@ -3,6 +3,8 @@ alsa-lib (1.1.8-2) UNRELEASED; urgency=medium
   * Get rid of old, unused patches.
   * Backport necessary ucm changes to fix audio on Lenovo X1 Carbon Gen 7
     using the whiskeylake processor (thanks, Héctor Orón; closes: #940730).
+  * Use cross-compatible python3-dev Build-Depends to fix FTCBFS
+    (thanks, Helmut Grohne; closes: #854213).
 
  -- Jordi Mallach <jordi@debian.org>  Fri, 11 Oct 2019 11:58:43 +0200
 
