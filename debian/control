@@ -5,7 +5,8 @@ Maintainer: Debian ALSA Maintainers <pkg-alsa-devel@lists.alioth.debian.org>
 Uploaders: Jordi Mallach <jordi@debian.org>,
            Elimar Riesebieter <riesebie@lxtec.de>,
            Luke Yelavich <themuso@ubuntu.com>
-Build-Depends: debhelper (>= 11), python3-dev:native
+Build-Depends: debhelper-compat (= 12),
+               python3-dev:native
 Build-Depends-Indep: doxygen, graphviz
 Standards-Version: 4.3.0
 Homepage: https://www.alsa-project.org/

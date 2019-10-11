@@ -2,6 +2,7 @@ alsa-lib (1.1.9-1) UNRELEASED; urgency=medium
 
   * New upstream release.
   * Update symbols list.
+  * Update to debhelper compat v12 and switch to debhelper-compat B-D.
 
  -- Jordi Mallach <jordi@debian.org>  Fri, 11 Oct 2019 13:10:03 +0200
 
