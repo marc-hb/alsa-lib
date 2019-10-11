@@ -1,2 +1,3 @@
 0001-Enabled-extended-namehints-in-alsa.conf.patch
 0002-Add-a-configuration-for-tegra-alc5632-based-cards.patch
+0003-conf-ucm-sof-skl_hda_card-backport.patch
