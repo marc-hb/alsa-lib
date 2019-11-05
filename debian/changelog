@@ -1,4 +1,4 @@
-alsa-lib (1.1.9-1) UNRELEASED; urgency=medium
+alsa-lib (1.1.9-1) unstable; urgency=medium
 
   * New upstream release (closes: #930827).
   * Update symbols list.
@@ -6,7 +6,7 @@ alsa-lib (1.1.9-1) UNRELEASED; urgency=medium
   * Update Standards-Version to 4.4.1.
   * Add Multi-Arch fields to -doc and -plugin-smixer.
 
- -- Jordi Mallach <jordi@debian.org>  Fri, 11 Oct 2019 13:10:03 +0200
+ -- Jordi Mallach <jordi@debian.org>  Tue, 05 Nov 2019 15:50:20 +0100
 
 alsa-lib (1.1.8-2) unstable; urgency=medium
 
