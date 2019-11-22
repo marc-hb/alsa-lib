@@ -1,6 +1,9 @@
 alsa-lib (1.2.1.1-1) UNRELEASED; urgency=medium
 
   * New upstream release.
+  * Remove now irrelevant patches for ucm and topology configurations.
+    ucm profiles and topology API configuration have moved to new source
+    packages upstream.
 
  -- Jordi Mallach <jordi@debian.org>  Fri, 22 Nov 2019 21:23:26 +0100
 
