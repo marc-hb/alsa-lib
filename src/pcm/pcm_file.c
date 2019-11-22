@@ -77,6 +77,7 @@ typedef struct {
 	snd_pcm_uframes_t appl_ptr;
 	snd_pcm_uframes_t file_ptr_bytes;
 	snd_pcm_uframes_t wbuf_size;
+	snd_pcm_uframes_t rbuf_size;
 	size_t wbuf_size_bytes;
 	size_t wbuf_used_bytes;
 	char *wbuf;
@@ -87,6 +88,7 @@ typedef struct {
 	size_t buffer_bytes;
 	struct wav_fmt wav_header;
 	size_t filelen;
+	char ifmmap_overwritten;
 } snd_pcm_file_t;
 
 #if __BYTE_ORDER == __LITTLE_ENDIAN
@@ -225,7 +227,14 @@ static int snd_pcm_file_open_output_file(snd_pcm_file_t *file)
 					file->final_fname);
 			return -errno;
 		}
-		fd = fileno(pipe);
+		fd = dup(fileno(pipe));
+		err = -errno;
+		pclose(pipe);
+		if (fd < 0) {
+			SYSERR("unable to dup pipe file handle for command %s",
+					file->final_fname);
+			return err;
+		}
 	} else {
 		if (file->trunc)
 			fd = open(file->final_fname, O_WRONLY|O_CREAT|O_TRUNC,
@@ -266,6 +275,42 @@ static int snd_pcm_file_open_output_file(snd_pcm_file_t *file)
 	return 0;
 }
 
+/* fill areas with data from input file, return bytes red */
+static int snd_pcm_file_areas_read_infile(snd_pcm_t *pcm,
+					  const snd_pcm_channel_area_t *areas,
+					  snd_pcm_uframes_t offset,
+					  snd_pcm_uframes_t frames)
+{
+	snd_pcm_file_t *file = pcm->private_data;
+	snd_pcm_channel_area_t areas_if[pcm->channels];
+	ssize_t bytes;
+
+	if (file->ifd < 0)
+		return -EBADF;
+
+	if (file->rbuf == NULL)
+		return -ENOMEM;
+
+	if (file->rbuf_size < frames) {
+		SYSERR("requested more frames than pcm buffer");
+		return -ENOMEM;
+	}
+
+	bytes = snd_pcm_frames_to_bytes(pcm, frames);
+	if (bytes < 0)
+		return bytes;
+	bytes = read(file->ifd, file->rbuf, bytes);
+	if (bytes < 0) {
+		SYSERR("read from file failed, error: %d", bytes);
+		return bytes;
+	}
+
+	snd_pcm_areas_from_buf(pcm, areas_if, file->rbuf);
+	snd_pcm_areas_copy(areas, offset, areas_if, 0, pcm->channels, snd_pcm_bytes_to_frames(pcm, bytes), pcm->format);
+
+	return bytes;
+}
+
 static void setup_wav_header(snd_pcm_t *pcm, struct wav_fmt *fmt)
 {
 	fmt->fmt = TO_LE16(0x01);
@@ -282,6 +327,8 @@ static void setup_wav_header(snd_pcm_t *pcm, struct wav_fmt *fmt)
 static int write_wav_header(snd_pcm_t *pcm)
 {
 	snd_pcm_file_t *file = pcm->private_data;
+	ssize_t res;
+
 	static const char header[] = {
 		'R', 'I', 'F', 'F',
 		0x24, 0, 0, 0,
@@ -296,15 +343,35 @@ static int write_wav_header(snd_pcm_t *pcm)
 	
 	setup_wav_header(pcm, &file->wav_header);
 
-	if (write(file->fd, header, sizeof(header)) != sizeof(header) ||
-	    write(file->fd, &file->wav_header, sizeof(file->wav_header)) !=
-	    sizeof(file->wav_header) ||
-	    write(file->fd, header2, sizeof(header2)) != sizeof(header2)) {
-		int err = errno;
-		SYSERR("Write error.\n");
-		return -err;
-	}
+	res = write(file->fd, header, sizeof(header));
+	if (res != sizeof(header))
+		goto write_error;
+
+	res = write(file->fd, &file->wav_header, sizeof(file->wav_header));
+	if (res != sizeof(file->wav_header))
+		goto write_error;
+
+	res = write(file->fd, header2, sizeof(header2));
+	if (res != sizeof(header2))
+		goto write_error;
+
 	return 0;
+
+write_error:
+	/*
+	 * print real errno if available and return EIO, reason for this is
+	 * to block possible EPIPE in case file->fd is a pipe. EPIPE from
+	 * file->fd conflicts with EPIPE from playback stream which should
+	 * be used to signal XRUN on playback device
+	 */
+	if (res < 0)
+		SYSERR("%s write header failed, file data may be corrupt", file->fname);
+	else
+		SNDERR("%s write header incomplete, file data may be corrupt", file->fname);
+
+	memset(&file->wav_header, 0, sizeof(struct wav_fmt));
+
+	return -EIO;
 }
 
 /* fix up the length fields in WAV header */
@@ -336,27 +403,35 @@ static void fixup_wav_header(snd_pcm_t *pcm)
 
 
 
-static void snd_pcm_file_write_bytes(snd_pcm_t *pcm, size_t bytes)
+/* return error code in case write failed */
+static int snd_pcm_file_write_bytes(snd_pcm_t *pcm, size_t bytes)
 {
 	snd_pcm_file_t *file = pcm->private_data;
+	snd_pcm_sframes_t err = 0;
 	assert(bytes <= file->wbuf_used_bytes);
 
 	if (file->format == SND_PCM_FILE_FORMAT_WAV &&
 	    !file->wav_header.fmt) {
-		if (write_wav_header(pcm) < 0)
-			return;
+		err = write_wav_header(pcm);
+		if (err < 0) {
+			file->wbuf_used_bytes = 0;
+			file->file_ptr_bytes = 0;
+			return err;
+		}
 	}
 
 	while (bytes > 0) {
-		snd_pcm_sframes_t err;
 		size_t n = bytes;
 		size_t cont = file->wbuf_size_bytes - file->file_ptr_bytes;
 		if (n > cont)
 			n = cont;
 		err = write(file->fd, file->wbuf + file->file_ptr_bytes, n);
 		if (err < 0) {
-			SYSERR("write failed");
-			break;
+			err = -errno;
+			file->wbuf_used_bytes = 0;
+			file->file_ptr_bytes = 0;
+			SYSERR("%s write failed, file data may be corrupt", file->fname);
+			return err;
 		}
 		bytes -= err;
 		file->wbuf_used_bytes -= err;
@@ -367,15 +442,17 @@ static void snd_pcm_file_write_bytes(snd_pcm_t *pcm, size_t bytes)
 		if ((snd_pcm_uframes_t)err != n)
 			break;
 	}
+	return 0;
 }
 
-static void snd_pcm_file_add_frames(snd_pcm_t *pcm, 
-				    const snd_pcm_channel_area_t *areas,
-				    snd_pcm_uframes_t offset,
-				    snd_pcm_uframes_t frames)
+static int snd_pcm_file_add_frames(snd_pcm_t *pcm,
+				   const snd_pcm_channel_area_t *areas,
+				   snd_pcm_uframes_t offset,
+				   snd_pcm_uframes_t frames)
 {
 	snd_pcm_file_t *file = pcm->private_data;
 	while (frames > 0) {
+		int err = 0;
 		snd_pcm_uframes_t n = frames;
 		snd_pcm_uframes_t cont = file->wbuf_size - file->appl_ptr;
 		snd_pcm_uframes_t avail = file->wbuf_size - snd_pcm_bytes_to_frames(pcm, file->wbuf_used_bytes);
@@ -392,10 +469,14 @@ static void snd_pcm_file_add_frames(snd_pcm_t *pcm,
 		if (file->appl_ptr == file->wbuf_size)
 			file->appl_ptr = 0;
 		file->wbuf_used_bytes += snd_pcm_frames_to_bytes(pcm, n);
-		if (file->wbuf_used_bytes > file->buffer_bytes)
-			snd_pcm_file_write_bytes(pcm, file->wbuf_used_bytes - file->buffer_bytes);
+		if (file->wbuf_used_bytes > file->buffer_bytes) {
+			err = snd_pcm_file_write_bytes(pcm, file->wbuf_used_bytes - file->buffer_bytes);
+			if (err < 0)
+				return err;
+		}
 		assert(file->wbuf_used_bytes < file->wbuf_size_bytes);
 	}
+	return 0;
 }
 
 static int snd_pcm_file_close(snd_pcm_t *pcm)
@@ -519,7 +600,10 @@ static snd_pcm_sframes_t snd_pcm_file_writei(snd_pcm_t *pcm, const void *buffer,
 	if (n > 0) {
 		snd_pcm_areas_from_buf(pcm, areas, (void*) buffer);
 		__snd_pcm_lock(pcm);
-		snd_pcm_file_add_frames(pcm, areas, 0, n);
+		if (snd_pcm_file_add_frames(pcm, areas, 0, n) < 0) {
+			__snd_pcm_unlock(pcm);
+			return -EIO;
+		}
 		__snd_pcm_unlock(pcm);
 	}
 	return n;
@@ -534,7 +618,10 @@ static snd_pcm_sframes_t snd_pcm_file_writen(snd_pcm_t *pcm, void **bufs, snd_pc
 	if (n > 0) {
 		snd_pcm_areas_from_bufs(pcm, areas, bufs);
 		__snd_pcm_lock(pcm);
-		snd_pcm_file_add_frames(pcm, areas, 0, n);
+		if (snd_pcm_file_add_frames(pcm, areas, 0, n) < 0) {
+			__snd_pcm_unlock(pcm);
+			return -EIO;
+		}
 		__snd_pcm_unlock(pcm);
 	}
 	return n;
@@ -545,22 +632,23 @@ static snd_pcm_sframes_t snd_pcm_file_readi(snd_pcm_t *pcm, void *buffer, snd_pc
 {
 	snd_pcm_file_t *file = pcm->private_data;
 	snd_pcm_channel_area_t areas[pcm->channels];
-	snd_pcm_sframes_t n;
+	snd_pcm_sframes_t frames;
 
-	n = _snd_pcm_readi(file->gen.slave, buffer, size);
-	if (n <= 0)
-		return n;
-	if (file->ifd >= 0) {
-		__snd_pcm_lock(pcm);
-		n = read(file->ifd, buffer, n * pcm->frame_bits / 8);
-		__snd_pcm_unlock(pcm);
-		if (n < 0)
-			return n;
-		n = n * 8 / pcm->frame_bits;
-	}
+	frames = _snd_pcm_readi(file->gen.slave, buffer, size);
+	if (frames <= 0)
+		return frames;
+
 	snd_pcm_areas_from_buf(pcm, areas, buffer);
-	snd_pcm_file_add_frames(pcm, areas, 0, n);
-	return n;
+	snd_pcm_file_areas_read_infile(pcm, areas, 0, frames);
+	__snd_pcm_lock(pcm);
+	if (snd_pcm_file_add_frames(pcm, areas, 0, frames) < 0) {
+		__snd_pcm_unlock(pcm);
+		return -EIO;
+	}
+
+	__snd_pcm_unlock(pcm);
+
+	return frames;
 }
 
 /* locking */
@@ -568,19 +656,23 @@ static snd_pcm_sframes_t snd_pcm_file_readn(snd_pcm_t *pcm, void **bufs, snd_pcm
 {
 	snd_pcm_file_t *file = pcm->private_data;
 	snd_pcm_channel_area_t areas[pcm->channels];
-	snd_pcm_sframes_t n;
+	snd_pcm_sframes_t frames;
 
-	if (file->ifd >= 0) {
-		SNDERR("DEBUG: Noninterleaved read not yet implemented.\n");
-		return 0;	/* TODO: Noninterleaved read */
+	frames = _snd_pcm_readn(file->gen.slave, bufs, size);
+	if (frames <= 0)
+		return frames;
+
+	snd_pcm_areas_from_bufs(pcm, areas, bufs);
+	snd_pcm_file_areas_read_infile(pcm, areas, 0, frames);
+	__snd_pcm_lock(pcm);
+	if (snd_pcm_file_add_frames(pcm, areas, 0, frames) < 0) {
+		__snd_pcm_unlock(pcm);
+		return -EIO;
 	}
 
-	n = _snd_pcm_readn(file->gen.slave, bufs, size);
-	if (n > 0) {
-		snd_pcm_areas_from_bufs(pcm, areas, bufs);
-		snd_pcm_file_add_frames(pcm, areas, 0, n);
-	}
-	return n;
+	__snd_pcm_unlock(pcm);
+
+	return frames;
 }
 
 static snd_pcm_sframes_t snd_pcm_file_mmap_commit(snd_pcm_t *pcm,
@@ -593,13 +685,40 @@ static snd_pcm_sframes_t snd_pcm_file_mmap_commit(snd_pcm_t *pcm,
 	const snd_pcm_channel_area_t *areas;
 	snd_pcm_sframes_t result;
 
+	file->ifmmap_overwritten = 0;
+
 	result = snd_pcm_mmap_begin(file->gen.slave, &areas, &ofs, &siz);
 	if (result >= 0) {
 		assert(ofs == offset && siz == size);
 		result = snd_pcm_mmap_commit(file->gen.slave, ofs, siz);
-		if (result > 0)
-			snd_pcm_file_add_frames(pcm, areas, ofs, result);
+		if (result > 0) {
+			if (snd_pcm_file_add_frames(pcm, areas, ofs, result) < 0)
+				return -EIO;
+		}
 	}
+	return result;
+}
+
+static int snd_pcm_file_mmap_begin(snd_pcm_t *pcm, const snd_pcm_channel_area_t **areas,
+	snd_pcm_uframes_t *offset, snd_pcm_uframes_t *frames)
+{
+	snd_pcm_file_t *file = pcm->private_data;
+	int result;
+
+	result = snd_pcm_mmap_begin(file->gen.slave, areas, offset, frames);
+	if (result < 0)
+		return result;
+
+	if (pcm->stream != SND_PCM_STREAM_CAPTURE)
+		return result;
+
+	/* user may run mmap_begin without mmap_commit multiple times in row */
+	if (file->ifmmap_overwritten)
+		return result;
+	file->ifmmap_overwritten = 1;
+
+	snd_pcm_file_areas_read_infile(pcm, *areas, *offset, *frames);
+
 	return result;
 }
 
@@ -609,9 +728,11 @@ static int snd_pcm_file_hw_free(snd_pcm_t *pcm)
 	free(file->wbuf);
 	free(file->wbuf_areas);
 	free(file->final_fname);
+	free(file->rbuf);
 	file->wbuf = NULL;
 	file->wbuf_areas = NULL;
 	file->final_fname = NULL;
+	file->rbuf = NULL;
 	return snd_pcm_hw_free(file->gen.slave);
 }
 
@@ -627,6 +748,7 @@ static int snd_pcm_file_hw_params(snd_pcm_t *pcm, snd_pcm_hw_params_t * params)
 	file->wbuf_size = slave->buffer_size * 2;
 	file->wbuf_size_bytes = snd_pcm_frames_to_bytes(slave, file->wbuf_size);
 	file->wbuf_used_bytes = 0;
+	file->ifmmap_overwritten = 0;
 	assert(!file->wbuf);
 	file->wbuf = malloc(file->wbuf_size_bytes);
 	if (file->wbuf == NULL) {
@@ -635,6 +757,15 @@ static int snd_pcm_file_hw_params(snd_pcm_t *pcm, snd_pcm_hw_params_t * params)
 	}
 	file->wbuf_areas = malloc(sizeof(*file->wbuf_areas) * slave->channels);
 	if (file->wbuf_areas == NULL) {
+		snd_pcm_file_hw_free(pcm);
+		return -ENOMEM;
+	}
+	assert(!file->rbuf);
+	file->rbuf_size = slave->buffer_size;
+	file->rbuf_size_bytes = snd_pcm_frames_to_bytes(slave, file->rbuf_size);
+	file->rbuf_used_bytes = 0;
+	file->rbuf = malloc(file->rbuf_size_bytes);
+	if (file->rbuf == NULL) {
 		snd_pcm_file_hw_free(pcm);
 		return -ENOMEM;
 	}
@@ -729,6 +860,7 @@ static const snd_pcm_fast_ops_t snd_pcm_file_fast_ops = {
 	.poll_descriptors = snd_pcm_generic_poll_descriptors,
 	.poll_revents = snd_pcm_generic_poll_revents,
 	.htimestamp = snd_pcm_generic_htimestamp,
+	.mmap_begin = snd_pcm_file_mmap_begin,
 };
 
 /**

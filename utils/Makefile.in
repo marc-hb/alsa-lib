@@ -100,7 +100,7 @@ am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
 DIST_COMMON = $(srcdir)/Makefile.am $(am__DIST_COMMON)
 mkinstalldirs = $(install_sh) -d
 CONFIG_HEADER = $(top_builddir)/include/config.h
-CONFIG_CLEAN_FILES = alsa-lib.spec alsa.pc
+CONFIG_CLEAN_FILES = alsa-lib.spec alsa.pc alsa-topology.pc
 CONFIG_CLEAN_VPATH_FILES =
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
@@ -153,7 +153,7 @@ am__installdirs = "$(DESTDIR)$(aclocaldir)" \
 DATA = $(aclocal_DATA) $(pkgconfig_DATA)
 am__tagged_files = $(HEADERS) $(SOURCES) $(TAGS_FILES) $(LISP)
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/alsa-lib.spec.in \
-	$(srcdir)/alsa.pc.in
+	$(srcdir)/alsa-topology.pc.in $(srcdir)/alsa.pc.in
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 ACLOCAL = @ACLOCAL@
 ALSA_CONFIG_DIR = @ALSA_CONFIG_DIR@
@@ -290,7 +290,7 @@ top_srcdir = @top_srcdir@
 EXTRA_DIST = alsa.m4 buildrpm alsa.pc.in
 alsapkgconfdir = @ALSA_PKGCONF_DIR@
 pkgconfigdir = $(alsapkgconfdir)
-pkgconfig_DATA = alsa.pc
+pkgconfig_DATA = alsa.pc alsa-topology.pc
 AM_CPPFLAGS = -I$(top_srcdir)/include
 all: all-am
 
@@ -327,6 +327,8 @@ $(am__aclocal_m4_deps):
 alsa-lib.spec: $(top_builddir)/config.status $(srcdir)/alsa-lib.spec.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 alsa.pc: $(top_builddir)/config.status $(srcdir)/alsa.pc.in
+	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
+alsa-topology.pc: $(top_builddir)/config.status $(srcdir)/alsa-topology.pc.in
 	cd $(top_builddir) && $(SHELL) ./config.status $(subdir)/$@
 
 mostlyclean-libtool:

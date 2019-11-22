@@ -1171,7 +1171,7 @@ static void __fill_chmap_ctl_id(snd_ctl_elem_id_t *id, int dev, int subdev,
 static void fill_chmap_ctl_id(snd_pcm_t *pcm, snd_ctl_elem_id_t *id)
 {
 	snd_pcm_hw_t *hw = pcm->private_data;
-	return __fill_chmap_ctl_id(id, hw->device, hw->subdevice, pcm->stream);
+	__fill_chmap_ctl_id(id, hw->device, hw->subdevice, pcm->stream);
 }
 
 static int is_chmap_type(int type)
@@ -1724,12 +1724,15 @@ int snd_pcm_hw_open(snd_pcm_t **pcmp, const char *name,
 		}
 		if (info.subdevice != (unsigned int) subdevice) {
 			close(fd);
+			fd = -1;
 			goto __again;
 		}
 	}
 	snd_ctl_close(ctl);
 	return snd_pcm_hw_open_fd(pcmp, name, fd, sync_ptr_ioctl);
        _err:
+	if (fd >= 0)
+		close(fd);
 	snd_ctl_close(ctl);
 	return ret;
 }

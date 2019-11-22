@@ -237,8 +237,9 @@ static int tplg_load_config(const char *file, snd_config_t **cfg)
 
 	ret = snd_input_stdio_attach(&in, fp, 1);
 	if (ret < 0) {
+		fclose(fp);
 		SNDERR("error: could not attach stdio %s", file);
-		goto err;
+		return ret;
 	}
 	ret = snd_config_top(&top);
 	if (ret < 0)
@@ -252,8 +253,10 @@ static int tplg_load_config(const char *file, snd_config_t **cfg)
 	}
 
 	ret = snd_input_close(in);
-	if (ret < 0)
+	if (ret < 0) {
+		in = NULL;
 		goto err_load;
+	}
 
 	*cfg = top;
 	return 0;
@@ -261,7 +264,8 @@ static int tplg_load_config(const char *file, snd_config_t **cfg)
 err_load:
 	snd_config_delete(top);
 err:
-	fclose(fp);
+	if (in)
+		snd_input_close(in);
 	return ret;
 }
 

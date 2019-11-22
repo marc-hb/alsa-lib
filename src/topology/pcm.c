@@ -321,7 +321,7 @@ static int split_format(struct snd_soc_tplg_stream_caps *caps, char *str)
 			return -EINVAL;
 		}
 
-		caps->formats |= 1 << format;
+		caps->formats |= 1ull << format;
 		s = strtok(NULL, ", ");
 		i++;
 	}
@@ -728,6 +728,14 @@ int tplg_parse_pcm(snd_tplg_t *tplg,
 			err = parse_flag(n,
 				SND_SOC_TPLG_LNK_FLGBIT_SYMMETRIC_SAMPLEBITS,
 				&pcm->flag_mask, &pcm->flags);
+			if (err < 0)
+				return err;
+			continue;
+		}
+
+		/* private data */
+		if (strcmp(id, "data") == 0) {
+			err = tplg_parse_data_refs(n, elem);
 			if (err < 0)
 				return err;
 			continue;

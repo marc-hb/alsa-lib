@@ -87,9 +87,10 @@ PRE_UNINSTALL = :
 POST_UNINSTALL = :
 build_triplet = @build@
 host_triplet = @host@
-@BUILD_MODULES_TRUE@am__append_1 = modules
-@BUILD_PCM_PLUGIN_SHM_TRUE@am__append_2 = aserver
-@BUILD_ALISP_TRUE@@BUILD_MIXER_TRUE@am__append_3 = alsalisp
+@BUILD_TOPOLOGY_TRUE@am__append_1 = src/topology
+@BUILD_MODULES_TRUE@am__append_2 = modules
+@BUILD_PCM_PLUGIN_SHM_TRUE@am__append_3 = aserver
+@BUILD_ALISP_TRUE@@BUILD_MIXER_TRUE@am__append_4 = alsalisp
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/attributes.m4 \
@@ -162,7 +163,8 @@ am__define_uniq_tagged_files = \
 ETAGS = etags
 CTAGS = ctags
 CSCOPE = cscope
-DIST_SUBDIRS = doc include src modules aserver alsalisp test utils
+DIST_SUBDIRS = doc include src src/topology modules aserver alsalisp \
+	test utils
 am__DIST_COMMON = $(srcdir)/Makefile.in COPYING ChangeLog INSTALL TODO \
 	compile config.guess config.sub install-sh ltconfig ltmain.sh \
 	missing
@@ -340,7 +342,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 ACLOCAL_AMFLAGS = -I m4
 SUBDIRS = doc include src $(am__append_1) $(am__append_2) \
-	$(am__append_3) test utils
+	$(am__append_3) $(am__append_4) test utils
 EXTRA_DIST = ChangeLog INSTALL TODO NOTES configure gitcompile libtool \
 	   depcomp version MEMORY-LEAK m4/attributes.m4
 

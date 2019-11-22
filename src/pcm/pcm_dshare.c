@@ -334,15 +334,17 @@ static int snd_pcm_dshare_reset(snd_pcm_t *pcm)
 	dshare->hw_ptr %= pcm->period_size;
 	dshare->appl_ptr = dshare->last_appl_ptr = dshare->hw_ptr;
 	dshare->slave_appl_ptr = dshare->slave_hw_ptr = *dshare->spcm->hw.ptr;
+	snd_pcm_direct_reset_slave_ptr(pcm, dshare);
 	return 0;
 }
 
-static int snd_pcm_dshare_start_timer(snd_pcm_direct_t *dshare)
+static int snd_pcm_dshare_start_timer(snd_pcm_t *pcm, snd_pcm_direct_t *dshare)
 {
 	int err;
 
 	snd_pcm_hwsync(dshare->spcm);
 	dshare->slave_appl_ptr = dshare->slave_hw_ptr = *dshare->spcm->hw.ptr;
+	snd_pcm_direct_reset_slave_ptr(pcm, dshare);
 	err = snd_timer_start(dshare->timer);
 	if (err < 0)
 		return err;
@@ -364,7 +366,8 @@ static int snd_pcm_dshare_start(snd_pcm_t *pcm)
 	else if (avail < 0)
 		return 0;
 	else {
-		if ((err = snd_pcm_dshare_start_timer(dshare)) < 0)
+		err = snd_pcm_dshare_start_timer(pcm, dshare);
+		if (err < 0)
 			return err;
 		snd_pcm_dshare_sync_area(pcm);
 	}
@@ -505,7 +508,8 @@ static int snd_pcm_dshare_close(snd_pcm_t *pcm)
 
 	if (dshare->timer)
 		snd_timer_close(dshare->timer);
-	do_silence(pcm);
+	if (dshare->bindings)
+		do_silence(pcm);
 	snd_pcm_direct_semaphore_down(dshare, DIRECT_IPC_SEM_CLIENT);
 	dshare->shmptr->u.dshare.chn_mask &= ~dshare->u.dshare.chn_mask;
 	snd_pcm_close(dshare->spcm);
@@ -547,7 +551,8 @@ static snd_pcm_sframes_t snd_pcm_dshare_mmap_commit(snd_pcm_t *pcm,
 		return 0;
 	snd_pcm_mmap_appl_forward(pcm, size);
 	if (dshare->state == STATE_RUN_PENDING) {
-		if ((err = snd_pcm_dshare_start_timer(dshare)) < 0)
+		err = snd_pcm_dshare_start_timer(pcm, dshare);
+		if (err < 0)
 			return err;
 	} else if (dshare->state == SND_PCM_STATE_RUNNING ||
 		   dshare->state == SND_PCM_STATE_DRAINING) {
@@ -616,6 +621,12 @@ static void snd_pcm_dshare_dump(snd_pcm_t *pcm, snd_output_t *out)
 	if (dshare->spcm)
 		snd_pcm_dump(dshare->spcm, out);
 }
+
+static const snd_pcm_ops_t snd_pcm_dshare_dummy_ops = {
+	.close = snd_pcm_dshare_close,
+};
+
+static const snd_pcm_fast_ops_t snd_pcm_dshare_fast_dummy_ops;
 
 static const snd_pcm_ops_t snd_pcm_dshare_ops = {
 	.close = snd_pcm_dshare_close,
@@ -708,13 +719,7 @@ int snd_pcm_dshare_open(snd_pcm_t **pcmp, const char *name,
 	ret = snd_pcm_direct_parse_bindings(dshare, params, opts->bindings);
 	if (ret < 0)
 		goto _err_nosem;
-		
-	if (!dshare->bindings) {
-		SNDERR("dshare: specify bindings!!!");
-		ret = -EINVAL;
-		goto _err_nosem;
-	}
-	
+
 	dshare->ipc_key = opts->ipc_key;
 	dshare->ipc_perm = opts->ipc_perm;
 	dshare->ipc_gid = opts->ipc_gid;
@@ -747,14 +752,20 @@ int snd_pcm_dshare_open(snd_pcm_t **pcmp, const char *name,
 		SNDERR("unable to create IPC shm instance");
 		goto _err;
 	}
-		
-	pcm->ops = &snd_pcm_dshare_ops;
-	pcm->fast_ops = &snd_pcm_dshare_fast_ops;
+
+	if (!dshare->bindings) {
+		pcm->ops = &snd_pcm_dshare_dummy_ops;
+		pcm->fast_ops = &snd_pcm_dshare_fast_dummy_ops;
+	} else {
+		pcm->ops = &snd_pcm_dshare_ops;
+		pcm->fast_ops = &snd_pcm_dshare_fast_ops;
+	}
 	pcm->private_data = dshare;
 	dshare->state = SND_PCM_STATE_OPEN;
 	dshare->slowptr = opts->slowptr;
 	dshare->max_periods = opts->max_periods;
 	dshare->var_periodsize = opts->var_periodsize;
+	dshare->hw_ptr_alignment = opts->hw_ptr_alignment;
 	dshare->sync_ptr = snd_pcm_dshare_sync_ptr;
 
  retry:
@@ -838,7 +849,7 @@ int snd_pcm_dshare_open(snd_pcm_t **pcmp, const char *name,
 		dshare->spcm = spcm;
 	}
 
-	for (chn = 0; chn < dshare->channels; chn++) {
+	for (chn = 0; dshare->bindings && (chn < dshare->channels); chn++) {
 		unsigned int dchn = dshare->bindings ? dshare->bindings[chn] : chn;
 		if (dchn != UINT_MAX)
 			dshare->u.dshare.chn_mask |= (1ULL << dchn);
@@ -912,6 +923,12 @@ pcm.name {
 	ipc_key INT		# unique IPC key
 	ipc_key_add_uid BOOL	# add current uid to unique IPC key
 	ipc_perm INT		# IPC permissions (octal, default 0600)
+	hw_ptr_alignment STR	# Slave application and hw pointer alignment type
+		# STR can be one of the below strings :
+		# no
+		# roundup
+		# rounddown
+		# auto (default)
 	slave STR
 	# or
 	slave {			# Slave definition
@@ -923,10 +940,10 @@ pcm.name {
 		channels INT
 		period_time INT	# in usec
 		# or
-		period_size INT	# in bytes
+		period_size INT	# in frames
 		buffer_time INT	# in usec
 		# or
-		buffer_size INT # in bytes
+		buffer_size INT # in frames
 		periods INT	# when buffer_size or buffer_time is not specified
 	}
 	bindings {		# note: this is client independent!!!
@@ -935,6 +952,27 @@ pcm.name {
 	slowptr BOOL		# slow but more precise pointer updates
 }
 \endcode
+
+<code>hw_ptr_alignment</code> specifies slave application and hw
+pointer alignment type. By default hw_ptr_alignment is auto. Below are
+the possible configurations:
+- no: minimal latency with minimal frames dropped at startup. But
+  wakeup of application (return from snd_pcm_wait() or poll()) can
+  take up to 2 * period.
+- roundup: It is guaranteed that all frames will be played at
+  startup. But the latency will increase upto period-1 frames.
+- rounddown: It is guaranteed that a wakeup will happen for each
+  period and frames can be written from application. But on startup
+  upto period-1 frames will be dropped.
+- auto: Selects the best approach depending on the used period and
+  buffer size.
+  If the application buffer size is < 2 * application period,
+  "roundup" will be selected to avoid under runs. If the slave_period
+  is < 10ms we could expect that there are low latency
+  requirements. Therefore "rounddown" will be chosen to avoid long
+  wakeup times. Such wakeup delay could otherwise end up with Xruns in
+  case of a dependency to another sound device (e.g. forwarding of
+  microphone to speaker). Else "no" will be chosen.
 
 \subsection pcm_plugins_dshare_funcref Function reference
 
