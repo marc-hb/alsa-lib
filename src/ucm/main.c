@@ -41,9 +41,10 @@
  * misc
  */
 
-static int get_value1(char **value, struct list_head *value_list,
-                      const char *identifier);
-static int get_value3(char **value,
+static int get_value1(snd_use_case_mgr_t *uc_mgr, char **value,
+                      struct list_head *value_list, const char *identifier);
+static int get_value3(snd_use_case_mgr_t *uc_mgr,
+                      char **value,
 		      const char *identifier,
 		      struct list_head *value_list1,
 		      struct list_head *value_list2,
@@ -135,37 +136,6 @@ int snd_use_case_free_list(const char *list[], int items)
         for (i = 0; i < items; i++)
 		free((void *)list[i]);
         free(list);
-	return 0;
-}
-
-static int open_ctl(snd_use_case_mgr_t *uc_mgr,
-		    snd_ctl_t **ctl,
-		    const char *ctl_dev)
-{
-	int err;
-
-	/* FIXME: add a list of ctl devices to uc_mgr structure and
-           cache accesses for multiple opened ctl devices */
-	if (uc_mgr->ctl_dev != NULL && strcmp(ctl_dev, uc_mgr->ctl_dev) == 0) {
-		*ctl = uc_mgr->ctl;
-		return 0;
-	}
-	if (uc_mgr->ctl_dev) {
-		free(uc_mgr->ctl_dev);
-		uc_mgr->ctl_dev = NULL;
-		snd_ctl_close(uc_mgr->ctl);
-		uc_mgr->ctl = NULL;
-	
-	}
-	err = snd_ctl_open(ctl, ctl_dev, 0);
-	if (err < 0)
-		return err;
-	uc_mgr->ctl_dev = strdup(ctl_dev);
-	if (uc_mgr->ctl_dev == NULL) {
-		snd_ctl_close(*ctl);
-		return -ENOMEM;
-	}
-	uc_mgr->ctl = *ctl;
 	return 0;
 }
 
@@ -390,7 +360,7 @@ static int execute_sequence(snd_use_case_mgr_t *uc_mgr,
 				char *playback_ctl = NULL;
 				char *capture_ctl = NULL;
 
-				err = get_value3(&playback_ctl, "PlaybackCTL",
+				err = get_value3(uc_mgr, &playback_ctl, "PlaybackCTL",
 						 value_list1,
 						 value_list2,
 						 value_list3);
@@ -398,7 +368,7 @@ static int execute_sequence(snd_use_case_mgr_t *uc_mgr,
 					uc_error("cdev is not defined!");
 					return err;
 				}
-				err = get_value3(&capture_ctl, "CaptureCTL",
+				err = get_value3(uc_mgr, &capture_ctl, "CaptureCTL",
 						 value_list1,
 						 value_list2,
 						 value_list3);
@@ -417,17 +387,18 @@ static int execute_sequence(snd_use_case_mgr_t *uc_mgr,
 				    strcmp(playback_ctl, capture_ctl) != 0) {
 					free(playback_ctl);
 					free(capture_ctl);
-					uc_error("cdev is not defined!");
+					uc_error("cdev is not equal for playback and capture!");
 					return -EINVAL;
 				}
 				if (playback_ctl != NULL) {
 					cdev = playback_ctl;
 					free(capture_ctl);
-				} else
+				} else {
 					cdev = capture_ctl;
+				}
 			}
 			if (ctl == NULL) {
-				err = open_ctl(uc_mgr, &ctl, cdev);
+				err = uc_mgr_open_ctl(uc_mgr, &ctl, cdev);
 				if (err < 0) {
 					uc_error("unable to open ctl device '%s'", cdev);
 					goto __fail;
@@ -911,6 +882,45 @@ static int set_device(snd_use_case_mgr_t *uc_mgr,
 	return err;
 }
 
+static int add_auto_value(snd_use_case_mgr_t *uc_mgr, const char *key, char *value)
+{
+	char *s;
+	int err;
+
+	err = get_value1(uc_mgr, &value, &uc_mgr->value_list, key);
+	if (err == -ENOENT) {
+		s = strdup(value);
+		if (s == NULL)
+			return -ENOMEM;
+		return uc_mgr_add_value(&uc_mgr->value_list, key, s);
+	} else if (err < 0) {
+		return err;
+	}
+	free(value);
+	return 0;
+}
+
+static int add_auto_values(snd_use_case_mgr_t *uc_mgr)
+{
+	struct ctl_list *ctl_list;
+	const char *id;
+	char buf[40];
+	int err;
+
+	ctl_list = uc_mgr_get_one_ctl(uc_mgr);
+	if (ctl_list) {
+		id = snd_ctl_card_info_get_id(ctl_list->ctl_info);
+		snprintf(buf, sizeof(buf), "hw:%s", id);
+		err = add_auto_value(uc_mgr, "PlaybackCTL", buf);
+		if (err < 0)
+			return err;
+		err = add_auto_value(uc_mgr, "CaptureCTL", buf);
+		if (err < 0)
+			return err;
+	}
+	return 0;
+}
+
 /**
  * \brief Init sound card use case manager.
  * \param uc_mgr Returned use case manager pointer
@@ -932,6 +942,7 @@ int snd_use_case_mgr_open(snd_use_case_mgr_t **uc_mgr,
 	INIT_LIST_HEAD(&mgr->value_list);
 	INIT_LIST_HEAD(&mgr->active_modifiers);
 	INIT_LIST_HEAD(&mgr->active_devices);
+	INIT_LIST_HEAD(&mgr->ctl_list);
 	pthread_mutex_init(&mgr->mutex, NULL);
 
 	mgr->card_name = strdup(card_name);
@@ -947,6 +958,10 @@ int snd_use_case_mgr_open(snd_use_case_mgr_t **uc_mgr,
 			card_name, err);
 		goto err;
 	}
+
+	err = add_auto_values(mgr);
+	if (err < 0)
+		goto err;
 
 	*uc_mgr = mgr;
 	return 0;
@@ -1381,8 +1396,8 @@ int snd_use_case_get_list(snd_use_case_mgr_t *uc_mgr,
 	return err;
 }
 
-static int get_value1(char **value, struct list_head *value_list,
-                      const char *identifier)
+static int get_value1(snd_use_case_mgr_t *uc_mgr, char **value,
+		      struct list_head *value_list, const char *identifier)
 {
         struct ucm_value *val;
         struct list_head *pos;
@@ -1391,18 +1406,22 @@ static int get_value1(char **value, struct list_head *value_list,
 		return -ENOENT;
 
         list_for_each(pos, value_list) {
-              val = list_entry(pos, struct ucm_value, list);
-              if (check_identifier(identifier, val->name)) {
-                      *value = strdup(val->data);
-                      if (*value == NULL)
-                              return -ENOMEM;
-                      return 0;
-              }
+		val = list_entry(pos, struct ucm_value, list);
+		if (check_identifier(identifier, val->name)) {
+			if (uc_mgr->conf_format < 2) {
+				*value = strdup(val->data);
+				if (*value == NULL)
+					return -ENOMEM;
+				return 0;
+			}
+			return uc_mgr_get_substituted_value(uc_mgr, value, val->data);
+		}
         }
         return -ENOENT;
 }
 
-static int get_value3(char **value,
+static int get_value3(snd_use_case_mgr_t *uc_mgr,
+		      char **value,
 		      const char *identifier,
 		      struct list_head *value_list1,
 		      struct list_head *value_list2,
@@ -1410,13 +1429,13 @@ static int get_value3(char **value,
 {
 	int err;
 
-	err = get_value1(value, value_list1, identifier);
+	err = get_value1(uc_mgr, value, value_list1, identifier);
 	if (err >= 0 || err != -ENOENT)
 		return err;
-	err = get_value1(value, value_list2, identifier);
+	err = get_value1(uc_mgr, value, value_list2, identifier);
 	if (err >= 0 || err != -ENOENT)
 		return err;
-	err = get_value1(value, value_list3, identifier);
+	err = get_value1(uc_mgr, value, value_list3, identifier);
 	if (err >= 0 || err != -ENOENT)
 		return err;
 	return -ENOENT;
@@ -1453,7 +1472,7 @@ static int get_value(snd_use_case_mgr_t *uc_mgr,
 				mod = find_modifier(uc_mgr, verb,
 						    mod_dev_name, 0);
 				if (mod) {
-					err = get_value1(value,
+					err = get_value1(uc_mgr, value,
 							 &mod->value_list,
 							 identifier);
 					if (err >= 0 || err != -ENOENT)
@@ -1463,7 +1482,7 @@ static int get_value(snd_use_case_mgr_t *uc_mgr,
 				dev = find_device(uc_mgr, verb,
 						  mod_dev_name, 0);
 				if (dev) {
-					err = get_value1(value,
+					err = get_value1(uc_mgr, value,
 							 &dev->value_list,
 							 identifier);
 					if (err >= 0 || err != -ENOENT)
@@ -1474,7 +1493,7 @@ static int get_value(snd_use_case_mgr_t *uc_mgr,
 					return -ENOENT;
 			}
 
-			err = get_value1(value, &verb->value_list, identifier);
+			err = get_value1(uc_mgr, value, &verb->value_list, identifier);
 			if (err >= 0 || err != -ENOENT)
 				return err;
 		}
@@ -1483,7 +1502,7 @@ static int get_value(snd_use_case_mgr_t *uc_mgr,
 			return -ENOENT;
 	}
 
-	err = get_value1(value, &uc_mgr->value_list, identifier);
+	err = get_value1(uc_mgr, value, &uc_mgr->value_list, identifier);
 	if (err >= 0 || err != -ENOENT)
 		return err;
 
@@ -1900,4 +1919,53 @@ int snd_use_case_set(snd_use_case_mgr_t *uc_mgr,
       __end:
 	pthread_mutex_unlock(&uc_mgr->mutex);
         return err;
+}
+
+/**
+ * \brief Parse control element identifier
+ * \param elem_id Element identifier
+ * \param ucm_id Use case identifier
+ * \param value String value to be parsed
+ * \return Zero if success, otherwise a negative error code
+ */
+int snd_use_case_parse_ctl_elem_id(snd_ctl_elem_id_t *dst,
+				   const char *ucm_id,
+				   const char *value)
+{
+	snd_ctl_elem_iface_t iface;
+	int jack_control;
+
+	jack_control = strcmp(ucm_id, "JackControl") == 0;
+	if (!jack_control &&
+	    strcmp(ucm_id, "PlaybackVolume") &&
+	    strcmp(ucm_id, "PlaybackSwitch") &&
+	    strcmp(ucm_id, "CaptureVolume") &&
+	    strcmp(ucm_id, "CaptureSwitch"))
+		return -EINVAL;
+	snd_ctl_elem_id_clear(dst);
+	if (strcasestr(ucm_id, "name="))
+		return __snd_ctl_ascii_elem_id_parse(dst, value, NULL);
+	iface = SND_CTL_ELEM_IFACE_MIXER;
+	if (jack_control)
+		iface = SND_CTL_ELEM_IFACE_CARD;
+	snd_ctl_elem_id_set_interface(dst, iface);
+	snd_ctl_elem_id_set_name(dst, value);
+	return 0;
+}
+
+/**
+ * \brief Parse mixer element identifier
+ * \param dst Simple mixer element identifier
+ * \param ucm_id Use case identifier
+ * \param value String value to be parsed
+ * \return Zero if success, otherwise a negative error code
+ */
+int snd_use_case_parse_selem_id(snd_mixer_selem_id_t *dst,
+				const char *ucm_id,
+				const char *value)
+{
+	if (strcmp(ucm_id, "PlaybackMixerId") == 0 ||
+	    strcmp(ucm_id, "CaptureMixerId") == 0)
+		return snd_mixer_selem_id_parse(dst, value);
+	return -EINVAL;
 }

@@ -40,7 +40,10 @@
 #include <pthread.h>
 #include "use-case.h"
 
+#define SYNTAX_VERSION_MAX	2
+
 #define MAX_FILE		256
+#define MAX_CARD_SHORT_NAME	32
 #define MAX_CARD_LONG_NAME	80
 
 #define SEQUENCE_ELEMENT_TYPE_CDEV	1
@@ -101,6 +104,18 @@ struct dev_list_node {
 struct dev_list {
 	enum dev_list_type type;
 	struct list_head list;
+};
+
+struct ctl_dev {
+	struct list_head list;
+	char *device;
+};
+
+struct ctl_list {
+	struct list_head list;
+	struct list_head dev_list;
+	snd_ctl_t *ctl;
+	snd_ctl_card_info_t *ctl_info;
 };
 
 /*
@@ -190,9 +205,9 @@ struct use_case_verb {
  */
 struct snd_use_case_mgr {
 	char *card_name;
-	char card_long_name[MAX_CARD_LONG_NAME];
 	char conf_file_name[MAX_CARD_LONG_NAME];
 	char *comment;
+	int conf_format;
 
 	/* use case verb, devices and modifier configs parsed from files */
 	struct list_head verb_list;
@@ -211,9 +226,8 @@ struct snd_use_case_mgr {
 	/* locking */
 	pthread_mutex_t mutex;
 
-	/* change to list of ctl handles */
-	snd_ctl_t *ctl;
-	char *ctl_dev;
+	/* list of opened control devices */
+	struct list_head ctl_list;
 
 	/* Components don't define cdev, the card device. When executing
 	 * a sequence of a component device, ucm manager enters component
@@ -235,7 +249,7 @@ struct snd_use_case_mgr {
 void uc_mgr_error(const char *fmt, ...);
 void uc_mgr_stdout(const char *fmt, ...);
 
-int uc_mgr_config_load(const char *file, snd_config_t **cfg);
+int uc_mgr_config_load(int format, const char *file, snd_config_t **cfg);
 int uc_mgr_import_master_config(snd_use_case_mgr_t *uc_mgr);
 int uc_mgr_scan_master_configs(const char **_list[]);
 
@@ -244,5 +258,26 @@ void uc_mgr_free_transition_element(struct transition_sequence *seq);
 void uc_mgr_free_verb(snd_use_case_mgr_t *uc_mgr);
 void uc_mgr_free(snd_use_case_mgr_t *uc_mgr);
 
+int uc_mgr_open_ctl(snd_use_case_mgr_t *uc_mgr,
+                    snd_ctl_t **ctl,
+                    const char *device);
+
+struct ctl_list *uc_mgr_get_one_ctl(snd_use_case_mgr_t *uc_mgr);
+snd_ctl_t *uc_mgr_get_ctl(snd_use_case_mgr_t *uc_mgr);
+void uc_mgr_free_ctl_list(snd_use_case_mgr_t *uc_mgr);
+
+int uc_mgr_add_value(struct list_head *base, const char *key, char *val);
+
+int uc_mgr_get_substituted_value(snd_use_case_mgr_t *uc_mgr,
+				 char **_rvalue,
+				 const char *value);
+
+int uc_mgr_evaluate_condition(snd_use_case_mgr_t *uc_mgr,
+			      snd_config_t *parent,
+			      snd_config_t *cond);
+
 /** The name of the environment variable containing the UCM directory */
 #define ALSA_CONFIG_UCM_VAR "ALSA_CONFIG_UCM"
+
+/** The name of the environment variable containing the UCM directory (new syntax) */
+#define ALSA_CONFIG_UCM2_VAR "ALSA_CONFIG_UCM2"

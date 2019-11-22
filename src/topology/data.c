@@ -53,6 +53,9 @@ struct snd_soc_tplg_private *get_priv_data(struct tplg_elem *elem)
 	case SND_TPLG_TYPE_BE:
 		priv = &elem->link->priv;
 		break;
+	case SND_TPLG_TYPE_PCM:
+		priv = &elem->pcm->priv;
+		break;
 	default:
 		SNDERR("error: '%s': no support for private data for type %d\n",
 			elem->id, elem->type);
@@ -88,8 +91,7 @@ static int tplg_parse_data_file(snd_config_t *cfg, struct tplg_elem *elem)
 	if (fp == NULL) {
 		SNDERR("error: invalid data file path '%s'\n",
 			filename);
-		ret = -errno;
-		goto err;
+		return -errno;
 	}
 
 	fseek(fp, 0L, SEEK_END);
@@ -124,12 +126,12 @@ static int tplg_parse_data_file(snd_config_t *cfg, struct tplg_elem *elem)
 
 	if (fclose(fp) == EOF) {
 		SNDERR("Cannot close data file.");
-		ret = -errno;
-		goto err;
+		return -errno;
 	}
 	return 0;
 
 err:
+	fclose(fp);
 	if (priv)
 		free(priv);
 	return ret;
@@ -422,7 +424,7 @@ static unsigned int get_tuple_size(int type)
 static int copy_tuples(struct tplg_elem *elem,
 	struct tplg_vendor_tuples *tuples, struct tplg_vendor_tokens *tokens)
 {
-	struct snd_soc_tplg_private *priv = elem->data;
+	struct snd_soc_tplg_private *priv = elem->data, *priv2;
 	struct tplg_tuple_set *tuple_set;
 	struct tplg_tuple *tuple;
 	struct snd_soc_tplg_vendor_array *array;
@@ -447,15 +449,23 @@ static int copy_tuples(struct tplg_elem *elem,
 			return -EINVAL;
 		}
 
-		if (priv != NULL)
-			priv = realloc(priv, sizeof(*priv) + size);
-		else
+		if (priv != NULL) {
+			priv2 = realloc(priv, sizeof(*priv) + size);
+			if (priv2 == NULL) {
+				free(priv);
+				priv = NULL;
+			} else {
+				priv = priv2;
+			}
+		} else {
 			priv = calloc(1, sizeof(*priv) + size);
+		}
 		if (!priv)
 			return -ENOMEM;
 
 		off = priv->size;
 		priv->size = size; /* update private data size */
+		elem->data = priv;
 
 		array = (struct snd_soc_tplg_vendor_array *)(priv->data + off);
 		array->size = set_size;
@@ -492,7 +502,6 @@ static int copy_tuples(struct tplg_elem *elem,
 		}
 	}
 
-	elem->data = priv;
 	return 0;
 }
 

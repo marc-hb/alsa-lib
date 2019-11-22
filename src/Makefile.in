@@ -100,10 +100,8 @@ host_triplet = @host@
 @BUILD_SEQ_TRUE@am__append_10 = seq/libseq.la
 @BUILD_UCM_TRUE@am__append_11 = ucm
 @BUILD_UCM_TRUE@am__append_12 = ucm/libucm.la
-@BUILD_TOPOLOGY_TRUE@am__append_13 = topology
-@BUILD_TOPOLOGY_TRUE@am__append_14 = topology/libtopology.la
-@BUILD_ALISP_TRUE@am__append_15 = alisp
-@BUILD_ALISP_TRUE@am__append_16 = alisp/libalisp.la
+@BUILD_ALISP_TRUE@am__append_13 = alisp
+@BUILD_ALISP_TRUE@am__append_14 = alisp/libalisp.la
 subdir = src
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/attributes.m4 \
@@ -149,8 +147,7 @@ am__installdirs = "$(DESTDIR)$(libdir)"
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libasound_la_DEPENDENCIES = control/libcontrol.la $(am__append_2) \
 	$(am__append_4) $(am__append_6) $(am__append_8) \
-	$(am__append_10) $(am__append_12) $(am__append_14) \
-	$(am__append_16)
+	$(am__append_10) $(am__append_12) $(am__append_14)
 am_libasound_la_OBJECTS = conf.lo confmisc.lo input.lo output.lo \
 	async.lo error.lo dlmisc.lo socket.lo shmarea.lo userfile.lo \
 	names.lo
@@ -244,8 +241,8 @@ am__define_uniq_tagged_files = \
   done | $(am__uniquify_input)`
 ETAGS = etags
 CTAGS = ctags
-DIST_SUBDIRS = control mixer pcm timer rawmidi hwdep seq ucm topology \
-	alisp conf
+DIST_SUBDIRS = control mixer pcm timer rawmidi hwdep seq ucm alisp \
+	conf
 am__DIST_COMMON = $(srcdir)/Makefile.in $(srcdir)/Versions.in \
 	$(top_srcdir)/depcomp
 DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
@@ -414,11 +411,11 @@ lib_LTLIBRARIES = libasound.la
 libasound_la_SOURCES = conf.c confmisc.c input.c output.c async.c error.c dlmisc.c socket.c shmarea.c userfile.c names.c
 SUBDIRS = control $(am__append_1) $(am__append_3) $(am__append_5) \
 	$(am__append_7) $(am__append_9) $(am__append_11) \
-	$(am__append_13) $(am__append_15) conf
+	$(am__append_13) conf
 libasound_la_LIBADD = control/libcontrol.la $(am__append_2) \
 	$(am__append_4) $(am__append_6) $(am__append_8) \
 	$(am__append_10) $(am__append_12) $(am__append_14) \
-	$(am__append_16) @ALSA_DEPLIBS@
+	@ALSA_DEPLIBS@ $(am__empty)
 libasound_la_LDFLAGS = -version-info $(COMPATNUM) $(VSYMS) $(SYMFUNCS) $(LDFLAGS_NOUNDEFINED)
 AM_CPPFLAGS = -I$(top_srcdir)/include
 all: all-recursive

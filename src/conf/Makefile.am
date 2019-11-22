@@ -1,12 +1,5 @@
 SUBDIRS=cards pcm
 
-if BUILD_UCM
-SUBDIRS += ucm
-endif
-if BUILD_TOPOLOGY
-SUBDIRS += topology
-endif
-
 cfg_files = alsa.conf
 if BUILD_ALISP
 cfg_files += sndo-mixer.alisp

@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.59)
-AC_INIT(alsa-lib, 1.1.9)
+AC_INIT(alsa-lib, 1.2.1.1)
 
 AC_CONFIG_SRCDIR([src/control/control.c])
 AC_CONFIG_MACRO_DIR([m4])
@@ -716,70 +716,10 @@ AC_OUTPUT(Makefile doc/Makefile doc/pictures/Makefile doc/doxygen.cfg \
 	  src/conf/Makefile \
 	  src/conf/cards/Makefile \
 	  src/conf/pcm/Makefile \
-	  src/conf/ucm/Makefile \
-	  src/conf/ucm/ASUSTeKCOMPUTERINC.-T100HAN-1.0-T100HAN/Makefile \
-	  src/conf/ucm/broadwell-rt286/Makefile \
-	  src/conf/ucm/broxton-rt298/Makefile \
-	  src/conf/ucm/bytcht-es8316/Makefile \
-	  src/conf/ucm/bytcht-es8316-mono-spk-in1-mic/Makefile \
-	  src/conf/ucm/bytcht-es8316-mono-spk-in2-mic/Makefile \
-	  src/conf/ucm/bytcht-es8316-stereo-spk-in1-mic/Makefile \
-	  src/conf/ucm/bytcht-es8316-stereo-spk-in2-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5640/Makefile \
-	  src/conf/ucm/bytcr-rt5640-mono-spk-dmic1-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5640-mono-spk-in1-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5640-mono-spk-in3-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5640-stereo-spk-dmic1-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5640-stereo-spk-in1-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5640-stereo-spk-in3-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5651/Makefile \
-	  src/conf/ucm/bytcr-rt5651-mono-spk-in1-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5651-mono-spk-in2-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5651-mono-spk-in2-mic-hp-swapped/Makefile \
-	  src/conf/ucm/bytcr-rt5651-stereo-spk-dmic-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5651-stereo-spk-in1-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5651-stereo-spk-in2-mic/Makefile \
-	  src/conf/ucm/bytcr-rt5651-stereo-spk-in12-mic/Makefile \
-	  src/conf/ucm/chtnau8824/Makefile \
-	  src/conf/ucm/chtrt5645/Makefile \
-	  src/conf/ucm/chtrt5645-mono-speaker-analog-mic/Makefile \
-	  src/conf/ucm/chtrt5650/Makefile \
-	  src/conf/ucm/cube-i1_TF-Defaultstring-CherryTrailCR/Makefile \
-	  src/conf/ucm/DAISY-I2S/Makefile \
-	  src/conf/ucm/DB410c/Makefile \
-	  src/conf/ucm/DB820c/Makefile \
-	  src/conf/ucm/Dell-WD15-Dock/Makefile \
-	  src/conf/ucm/GoogleNyan/Makefile \
-	  src/conf/ucm/gpd-win-pocket-rt5645/Makefile \
-	  src/conf/ucm/HDAudio-Gigabyte-ALC1220DualCodecs/Makefile \
-	  src/conf/ucm/HDAudio-Lenovo-DualCodecs/Makefile \
-	  src/conf/ucm/kblrt5660/Makefile \
-	  src/conf/ucm/LENOVO-80XF-LenovoMIIX320_10ICR-LNVNB161216/Makefile \
-	  src/conf/ucm/PandaBoard/Makefile \
-	  src/conf/ucm/PandaBoardES/Makefile \
-	  src/conf/ucm/PAZ00/Makefile \
-	  src/conf/ucm/PIPO-W2S-Defaultstring-CherryTrailCR/Makefile \
-	  src/conf/ucm/SDP4430/Makefile \
-	  src/conf/ucm/skylake-rt286/Makefile \
-	  src/conf/ucm/TECLAST-X80Pro-Defaultstring-CherryTrailCR/Makefile \
-	  src/conf/ucm/tegraalc5632/Makefile \
-	  src/conf/ucm/VEYRON-I2S/Makefile \
-	  src/conf/ucm/codecs/Makefile \
-	  src/conf/ucm/codecs/es8316/Makefile \
-	  src/conf/ucm/codecs/nau8824/Makefile \
-	  src/conf/ucm/codecs/rt5640/Makefile \
-	  src/conf/ucm/codecs/rt5645/Makefile \
-	  src/conf/ucm/codecs/rt5651/Makefile \
-	  src/conf/ucm/platforms/Makefile \
-	  src/conf/ucm/platforms/bytcr/Makefile \
-	  src/conf/topology/Makefile \
-	  src/conf/topology/broadwell/Makefile \
 	  modules/Makefile modules/mixer/Makefile modules/mixer/simple/Makefile \
-	  src/conf/topology/sklrt286/Makefile \
-	  src/conf/topology/bxtrt298/Makefile \
 	  alsalisp/Makefile aserver/Makefile \
 	  test/Makefile test/lsb/Makefile \
-	  utils/Makefile utils/alsa-lib.spec utils/alsa.pc)
+	  utils/Makefile utils/alsa-lib.spec utils/alsa.pc utils/alsa-topology.pc)
 
 dnl Create asoundlib.h dynamically according to configure options
 echo "Creating asoundlib.h..."
@@ -825,3 +765,13 @@ test "$build_seq" = "yes" && echo "#include <alsa/seqmid.h>" >> include/asoundli
 test "$build_seq" = "yes" && echo "#include <alsa/seq_midi_event.h>" >> include/asoundlib.h
 cat "$srcdir"/include/asoundlib-tail.h >> include/asoundlib.h
 
+dnl Taken from https://wiki.debian.org/RpathIssue
+case $host in
+   *-*-linux-gnu)
+   AC_MSG_RESULT([Fixing libtool for -rpath problems.])
+   sed < libtool > libtool-2 \
+     's/^hardcode_libdir_flag_spec.*$'/'hardcode_libdir_flag_spec=" -D__LIBTOOL_IS_A_FOOL__ "/'
+   mv libtool-2 libtool
+   chmod 755 libtool
+ ;;
+esac

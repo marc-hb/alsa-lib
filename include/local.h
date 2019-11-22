@@ -244,8 +244,8 @@ size_t snd_strlcpy(char *dst, const char *src, size_t size);
 #ifndef NDEBUG
 #define CHECK_SANITY(x) x
 extern snd_lib_error_handler_t snd_err_msg;
-#define SNDMSG(args...) snd_err_msg(__FILE__, __LINE__, __FUNCTION__, 0, ##args)
-#define SYSMSG(args...) snd_err_msg(__FILE__, __LINE__, __FUNCTION__, errno, ##args)
+#define SNDMSG(args...) snd_err_msg(__FILE__, __LINE__, __func__, 0, ##args)
+#define SYSMSG(args...) snd_err_msg(__FILE__, __LINE__, __func__, errno, ##args)
 #else
 #define CHECK_SANITY(x) 0 /* not evaluated */
 #define SNDMSG(args...) /* nop */
@@ -328,6 +328,8 @@ static inline int snd_open_device(const char *filename, int fmode)
 /* make local functions really local */
 #define snd_dlobj_cache_get \
 	snd1_dlobj_cache_get
+#define snd_dlobj_cache_get2 \
+	snd1_dlobj_cache_get2
 #define snd_dlobj_cache_put \
 	snd1_dlobj_cache_put
 #define snd_dlobj_cache_cleanup \
@@ -341,6 +343,7 @@ static inline int snd_open_device(const char *filename, int fmode)
 
 /* dlobj cache */
 void *snd_dlobj_cache_get(const char *lib, const char *name, const char *version, int verbose);
+void *snd_dlobj_cache_get2(const char *lib, const char *name, const char *version, int verbose);
 int snd_dlobj_cache_put(void *open_func);
 void snd_dlobj_cache_cleanup(void);
 
@@ -356,7 +359,7 @@ int snd_config_search_alias_hooks(snd_config_t *config,
 int _snd_conf_generic_id(const char *id);
 
 int _snd_config_load_with_include(snd_config_t *config, snd_input_t *in,
-				  int override, char *default_include_path);
+				  int override, const char * const *default_include_path);
 
 /* convenience macros */
 #define ARRAY_SIZE(x) (sizeof(x) / sizeof(x[0]))

@@ -525,15 +525,31 @@ static inline void snd_config_unlock(void) { }
  * The direcotry should be a subdiretory of top configuration directory
  * "/usr/share/alsa/".
  */
-static int add_include_path(struct filedesc *fd, char *dir)
+static int add_include_path(struct filedesc *fd, const char *dir)
 {
 	struct include_path *path;
+	struct filedesc *fd1;
+	struct list_head *pos;
+
+	/* check, if dir is already registered (also in parents) */
+	for (fd1 = fd; fd1; fd1 = fd1->next) {
+		list_for_each(pos, &fd1->include_paths) {
+			path = list_entry(pos, struct include_path, list);
+			if (strcmp(path->dir, dir) == 0)
+				return 0;
+		}
+	}
 
 	path = calloc(1, sizeof(*path));
 	if (!path)
 		return -ENOMEM;
 
-	path->dir = dir;
+	path->dir = strdup(dir);
+	if (path->dir == NULL) {
+		free(path);
+		return -ENOMEM;
+	}
+
 	list_add_tail(&path->list, &fd->include_paths);
 	return 0;
 }
@@ -598,41 +614,29 @@ static char *_snd_config_path(const char *name)
  *
  * This function will search and open the file in the following order
  * of priority:
- * 1. directly open the file by its name;
- * 2. search for the file name in top configuration directory
- *     "/usr/share/alsa/";
- * 3. search for the file name in in additional configuration directories
- *     specified by users, via alsaconf syntax
- *     <searchdir:relative-path/to/user/share/alsa>;
- *     These directories should be subdirectories of /usr/share/alsa.
+ * 1. directly open the file by its name (only if absolute)
+ * 2. search for the file name in in additional configuration directories
+ *    specified by users, via alsaconf syntax
+ *    <searchdir:relative-path/to/user/share/alsa>;
+ *    These directories should be subdirectories of /usr/share/alsa.
  */
 static int input_stdio_open(snd_input_t **inputp, const char *file,
-			    struct list_head *include_paths)
+			    struct filedesc *current)
 {
-	struct list_head *pos, *base;
+	struct list_head *pos;
 	struct include_path *path;
-	char full_path[PATH_MAX + 1];
-	int err = 0;
+	char full_path[PATH_MAX];
+	int err;
 
-	err = snd_input_stdio_open(inputp, file, "r");
-	if (err == 0)
-		goto out;
-
-	if (file[0] == '/') /* not search file with absolute path */
-		return err;
-
-	/* search file in top configuration directory /usr/share/alsa */
-	snprintf(full_path, PATH_MAX, "%s/%s", snd_config_topdir(), file);
-	err = snd_input_stdio_open(inputp, full_path, "r");
-	if (err == 0)
-		goto out;
+	if (file[0] == '/')
+		return snd_input_stdio_open(inputp, file, "r");
 
 	/* search file in user specified include paths. These directories
 	 * are subdirectories of /usr/share/alsa.
 	 */
-	if (include_paths) {
-		base = include_paths;
-		list_for_each(pos, base) {
+	err = -ENOENT;
+	while (current) {
+		list_for_each(pos, &current->include_paths) {
 			path = list_entry(pos, struct include_path, list);
 			if (!path->dir)
 				continue;
@@ -640,11 +644,11 @@ static int input_stdio_open(snd_input_t **inputp, const char *file,
 			snprintf(full_path, PATH_MAX, "%s/%s", path->dir, file);
 			err = snd_input_stdio_open(inputp, full_path, "r");
 			if (err == 0)
-				goto out;
+				return 0;
 		}
+		current = current->next;
 	}
 
-out:
 	return err;
 }
 
@@ -798,9 +802,9 @@ static int get_char_skip_comments(input_t *input)
 				closedir(dirp);
 
 				err = add_include_path(input->current, str);
+				free(str);
 				if (err < 0) {
 					SNDERR("Cannot add search dir %s", str);
-					free(str);
 					return err;
 				}
 				continue;
@@ -815,8 +819,7 @@ static int get_char_skip_comments(input_t *input)
 				str = tmp;
 				err = snd_input_stdio_open(&in, str, "r");
 			} else { /* absolute or relative file path */
-				err = input_stdio_open(&in, str,
-						&input->current->include_paths);
+				err = input_stdio_open(&in, str, input->current);
 			}
 
 			if (err < 0) {
@@ -888,7 +891,8 @@ static int get_quotedchar(input_t *input)
 		return '\r';
 	case 'f':
 		return '\f';
-	case '0' ... '7':
+	case '0': case '1': case '2': case '3':
+	case '4': case '5': case '6': case '7':
 	{
 		int num = c - '0';
 		int i = 1;
@@ -1479,7 +1483,8 @@ static void string_print(char *str, int id, snd_output_t *out)
 	}
 	if (!id) {
 		switch (*p) {
-		case '0' ... '9':
+		case '0': case '1': case '2': case '3': case '4':
+		case '5': case '6': case '7': case '8': case '9':
 		case '-':
 			goto quoted;
 		}
@@ -1488,8 +1493,6 @@ static void string_print(char *str, int id, snd_output_t *out)
 	switch (*p) {
 	case 0:
 		goto nonquoted;
-	case 1 ... 31:
-	case 127 ... 255:
 	case ' ':
 	case '=':
 	case ';':
@@ -1501,6 +1504,8 @@ static void string_print(char *str, int id, snd_output_t *out)
 	case '"':
 		goto quoted;
 	default:
+		if (*p <= 31 || *p >= 127)
+			goto quoted;
 		p++;
 		goto loop;
 	}
@@ -1542,12 +1547,11 @@ static void string_print(char *str, int id, snd_output_t *out)
 			snd_output_putc(out, '\\');
 			snd_output_putc(out, c);
 			break;
-		case 32 ... '\'' - 1:
-		case '\'' + 1 ... 126:
-			snd_output_putc(out, c);
-			break;
 		default:
-			snd_output_printf(out, "\\%04o", c);
+			if (c >= 32 && c <= 126 && c != '\'')
+				snd_output_putc(out, c);
+			else
+				snd_output_printf(out, "\\%04o", c);
 			break;
 		}
 		p++;
@@ -1834,28 +1838,32 @@ int snd_config_top(snd_config_t **config)
 
 #ifndef DOC_HIDDEN
 int _snd_config_load_with_include(snd_config_t *config, snd_input_t *in,
-                                  int override, char *default_include_path)
+				  int override, const char * const *include_paths)
 {
 	int err;
 	input_t input;
 	struct filedesc *fd, *fd_next;
+
 	assert(config && in);
 	fd = malloc(sizeof(*fd));
-	if (!fd) {
-		err = -ENOMEM;
-		goto _end_inc;
-	}
+	if (!fd)
+		return -ENOMEM;
 	fd->name = NULL;
 	fd->in = in;
 	fd->line = 1;
 	fd->column = 0;
 	fd->next = NULL;
 	INIT_LIST_HEAD(&fd->include_paths);
-	if (default_include_path) {
-		err = add_include_path(fd, default_include_path);
+	if (include_paths) {
+		for (; *include_paths; include_paths++) {
+			err = add_include_path(fd, *include_paths);
+			if (err < 0)
+				goto _end;
+		}
+	} else {
+		err = add_include_path(fd, snd_config_topdir());
 		if (err < 0)
 			goto _end;
-		default_include_path = NULL;
 	}
 	input.current = fd;
 	input.unget = 0;
@@ -1904,8 +1912,6 @@ int _snd_config_load_with_include(snd_config_t *config, snd_input_t *in,
 
 	free_include_paths(fd);
 	free(fd);
- _end_inc:
-	free(default_include_path);
 	return err;
 }
 #endif
@@ -1983,6 +1989,88 @@ int snd_config_add(snd_config_t *parent, snd_config_t *child)
 	}
 	child->parent = parent;
 	list_add_tail(&child->list, &parent->u.compound.fields);
+	return 0;
+}
+
+/**
+ * \brief Adds a child after another child configuration node.
+ * \param after Handle to the start configuration node.
+ * \param child Handle to the configuration node to be added.
+ * \return Zero if successful, otherwise a negative error code.
+ *
+ * This function makes the node \a child a child of the parent of
+ * the node \a after.
+ *
+ * The parent node then owns the child node, i.e., the child node gets
+ * deleted together with its parent.
+ *
+ * \a child must have an id.
+ *
+ * \par Errors:
+ * <dl>
+ * <dt>-EINVAL<dd>\a child does not have an id.
+ * <dt>-EINVAL<dd>\a child already has a parent.
+ * <dt>-EEXIST<dd>\a parent already contains a child node with the same
+ *                id as \a child.
+ * </dl>
+ */
+int snd_config_add_after(snd_config_t *after, snd_config_t *child)
+{
+	snd_config_iterator_t i, next;
+	snd_config_t *parent;
+	assert(after && child);
+	parent = after->parent;
+	assert(parent);
+	if (!child->id || child->parent)
+		return -EINVAL;
+	snd_config_for_each(i, next, parent) {
+		snd_config_t *n = snd_config_iterator_entry(i);
+		if (strcmp(child->id, n->id) == 0)
+			return -EEXIST;
+	}
+	child->parent = parent;
+	list_insert(&child->list, &after->list, after->list.next);
+	return 0;
+}
+
+/**
+ * \brief Adds a child before another child configuration node.
+ * \param before Handle to the start configuration node.
+ * \param child Handle to the configuration node to be added.
+ * \return Zero if successful, otherwise a negative error code.
+ *
+ * This function makes the node \a child a child of the parent of
+ * the node \a before.
+ *
+ * The parent node then owns the child node, i.e., the child node gets
+ * deleted together with its parent.
+ *
+ * \a child must have an id.
+ *
+ * \par Errors:
+ * <dl>
+ * <dt>-EINVAL<dd>\a child does not have an id.
+ * <dt>-EINVAL<dd>\a child already has a parent.
+ * <dt>-EEXIST<dd>\a parent already contains a child node with the same
+ *                id as \a child.
+ * </dl>
+ */
+int snd_config_add_before(snd_config_t *before, snd_config_t *child)
+{
+	snd_config_iterator_t i, next;
+	snd_config_t *parent;
+	assert(before && child);
+	parent = before->parent;
+	assert(parent);
+	if (!child->id || child->parent)
+		return -EINVAL;
+	snd_config_for_each(i, next, parent) {
+		snd_config_t *n = snd_config_iterator_entry(i);
+		if (strcmp(child->id, n->id) == 0)
+			return -EEXIST;
+	}
+	child->parent = parent;
+	list_insert(&child->list, before->list.prev, &before->list);
 	return 0;
 }
 
@@ -3034,8 +3122,10 @@ int snd_config_save(snd_config_t *config, snd_output_t *out)
 		if (!k) \
 			break; \
 		err = fcn(config, k, &n); \
-		if (err < 0) \
+		if (err < 0) { \
+			va_end(arg); \
 			return err; \
+		} \
 		config = n; \
 	} \
 	va_end(arg); \
@@ -3056,8 +3146,10 @@ int snd_config_save(snd_config_t *config, snd_output_t *out)
 		if (!k) \
 			break; \
 		err = fcn(root, config, k, &n); \
-		if (err < 0) \
+		if (err < 0) { \
+			va_end(arg); \
 			return err; \
+		} \
 		config = n; \
 	} \
 	va_end(arg); \
@@ -4683,7 +4775,8 @@ static int parse_char(const char **ptr)
 	case 'f':
 		c = '\f';
 		break;
-	case '0' ... '7':
+	case '0': case '1': case '2': case '3':
+	case '4': case '5': case '6': case '7':
 	{
 		int num = c - '0';
 		int i = 1;
@@ -4743,8 +4836,11 @@ static int parse_string(const char **ptr, char **val)
 			return -EINVAL;
 		case '\\':
 			c = parse_char(ptr);
-			if (c < 0)
+			if (c < 0) {
+				if (alloc > bufsize)
+					free(buf);
 				return c;
+			}
 			break;
 		default:
 			(*ptr)++;
@@ -4764,12 +4860,17 @@ static int parse_string(const char **ptr, char **val)
 			alloc *= 2;
 			if (old_alloc == bufsize) {
 				buf = malloc(alloc);
+				if (!buf)
+					return -ENOMEM;
 				memcpy(buf, _buf, old_alloc);
 			} else {
-				buf = realloc(buf, alloc);
+				char *buf2 = realloc(buf, alloc);
+				if (!buf2) {
+					free(buf);
+					return -ENOMEM;
+				}
+				buf = buf2;
 			}
-			if (!buf)
-				return -ENOMEM;
 		}
 		buf[idx++] = c;
 	}
