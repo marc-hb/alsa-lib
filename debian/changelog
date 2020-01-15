@@ -5,7 +5,9 @@ alsa-lib (1.2.1.1-1) UNRELEASED; urgency=medium
     ucm profiles and topology API configuration have moved to new source
     packages upstream.
   * Update symbols file. snd_tplg symbols have moved to a new
-    libatopology.so.2 lib, included in libasound2.
+    libatopology.so.2 lib, included in new binaries libatopology2 and -dev.
+  * Add Breaks: alsa-utils (<< 1.2.1) to libasound2, due to the snd_tplg_*
+    ABI break, which is used only by a tool in alsa-utils.
 
  -- Jordi Mallach <jordi@debian.org>  Fri, 22 Nov 2019 21:23:26 +0100
 
