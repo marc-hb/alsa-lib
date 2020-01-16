@@ -1,6 +1,7 @@
 alsa-lib (1.2.1.2-1) UNRELEASED; urgency=medium
 
   * New upstream release.
+  * Let libasound2-data Recommend: alsa-ucm-conf and alsa-topology-conf.
 
  -- Jordi Mallach <jordi@debian.org>  Thu, 16 Jan 2020 12:33:09 +0100
 

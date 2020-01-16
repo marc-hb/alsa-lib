@@ -45,13 +45,13 @@ Description: shared library for ALSA applications -- development files
 Package: libasound2-data
 Architecture: all
 Depends: ${misc:Depends}
+Recommends: alsa-ucm-conf, alsa-topology-conf
 Suggests: alsa-utils
 Breaks: libasound2 (<< ${source:Version})
 Replaces: libasound2 (<< ${source:Version})
 Multi-Arch: foreign
 Description: Configuration files and profiles for ALSA drivers
- This package contains configuration files for ALSA drivers and UCM
- profiles for use with alsaucm.
+ This package contains configuration files for ALSA drivers.
  .
  ALSA is the Advanced Linux Sound Architecture.
 
