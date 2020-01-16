@@ -42,6 +42,8 @@
 extern "C" {
 #endif
 
+#include <alsa/asoundlib.h>
+
 /**
  *  \defgroup ucm Use Case Interface
  *  The ALSA Use Case manager interface.
@@ -84,7 +86,7 @@ extern "C" {
  *  + Get the TQ parameter for each use case verb, use case device and
  *     modifier.
  *  + Get the ALSA master playback and capture volume/switch kcontrols
- *     for each use case.
+ *     or mixer elements for each use case.
  */
 
 
@@ -280,11 +282,13 @@ int snd_use_case_get_list(snd_use_case_mgr_t *uc_mgr,
  *   - PlaybackCTL
  *      - playback control device name
  *   - PlaybackVolume
- *      - playback control volume ID string
+ *      - playback control volume identifier string
  *	- can be parsed using snd_use_case_parse_ctl_elem_id()
  *   - PlaybackSwitch
- *      - playback control switch ID string
+ *      - playback control switch identifier string
  *	- can be parsed using snd_use_case_parse_ctl_elem_id()
+ *   - PlaybackPriority
+ *      - priority value (1-10000), default value is 100, higher value means lower priority
  *   - CaptureRate
  *      - capture device sample rate
  *   - CaptureChannels
@@ -292,21 +296,33 @@ int snd_use_case_get_list(snd_use_case_mgr_t *uc_mgr,
  *   - CaptureCTL
  *      - capture control device name
  *   - CaptureVolume
- *      - capture control volume ID string
+ *      - capture control volume identifier string
  *	- can be parsed using snd_use_case_parse_ctl_elem_id()
  *   - CaptureSwitch
- *      - capture control switch ID string
+ *      - capture control switch identifier string
  *	- can be parsed using snd_use_case_parse_ctl_elem_id()
+ *   - CapturePriority
+ *      - priority value (1-10000), default value is 100, higher value means lower priority
  *   - PlaybackMixer
  *      - name of playback mixer
- *   - PlaybackMixerID
- *      - mixer playback ID
+ *   - PlaybackMixerElem
+ *      - mixer element playback identifier
  *	- can be parsed using snd_use_case_parse_selem_id()
+ *   - PlaybackMasterElem
+ *      - mixer element playback identifier for the master control
+ *   - PlaybackMasterType
+ *      - type of the master volume control
+ *      - Valid values: "soft" (software attenuation)
  *   - CaptureMixer
  *      - name of capture mixer
- *   - CaptureMixerID
+ *   - CaptureMixerElem
+ *      - mixer element capture identifier
  *	- can be parsed using snd_use_case_parse_selem_id()
- *      - mixer capture ID
+ *   - CaptureMasterElem
+ *      - mixer element playback identifier for the master control
+ *   - CaptureMasterType
+ *      - type of the master volume control
+ *      - Valid values: "soft" (software attenuation)
  *   - EDIDFile
  *      - Path to EDID file for HDMI devices
  *   - JackControl, JackDev, JackHWMute

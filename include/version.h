@@ -11,5 +11,5 @@
 				 (SND_LIB_MINOR<<8)|\
 				  SND_LIB_SUBMINOR)
 /** library version (string) */
-#define SND_LIB_VERSION_STR	"1.2.1.1"
+#define SND_LIB_VERSION_STR	"1.2.1.2"
 
