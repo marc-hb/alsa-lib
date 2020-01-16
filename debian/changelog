@@ -1,4 +1,4 @@
-alsa-lib (1.2.1.1-1) UNRELEASED; urgency=medium
+alsa-lib (1.2.1.1-1) unstable; urgency=medium
 
   * New upstream release.
   * Remove now irrelevant patches for ucm and topology configurations.
@@ -13,7 +13,7 @@ alsa-lib (1.2.1.1-1) UNRELEASED; urgency=medium
     package.
   * Add Build-Depends-Package to symbols files (via lintian).
 
- -- Jordi Mallach <jordi@debian.org>  Fri, 22 Nov 2019 21:23:26 +0100
+ -- Jordi Mallach <jordi@debian.org>  Thu, 16 Jan 2020 11:05:32 +0100
 
 alsa-lib (1.1.9-1) unstable; urgency=medium
 
