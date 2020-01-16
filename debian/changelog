@@ -9,6 +9,8 @@ alsa-lib (1.2.1.1-1) UNRELEASED; urgency=medium
   * Add Breaks: alsa-utils (<< 1.2.1) to libasound2, due to the snd_tplg_*
     ABI break, which is used only by a tool in alsa-utils.
   * Drop obsolete Breaks+Replaces on ancient versions of other packages.
+  * Drop obsolete dh_makeshlibs override, now that smixer is in its own
+    package.
 
  -- Jordi Mallach <jordi@debian.org>  Fri, 22 Nov 2019 21:23:26 +0100
 
