@@ -11,6 +11,7 @@ alsa-lib (1.2.1.1-1) UNRELEASED; urgency=medium
   * Drop obsolete Breaks+Replaces on ancient versions of other packages.
   * Drop obsolete dh_makeshlibs override, now that smixer is in its own
     package.
+  * Add Build-Depends-Package to symbols files (via lintian).
 
  -- Jordi Mallach <jordi@debian.org>  Fri, 22 Nov 2019 21:23:26 +0100
 

@@ -1,4 +1,5 @@
 libasound.so.2 libasound2 #MINVER#
+* Build-Depends-Package: libasound2-dev
  ALSA_0.9.0@ALSA_0.9.0 1.0.16
  ALSA_0.9.0rc4@ALSA_0.9.0rc4 1.0.16
  ALSA_0.9.0rc8@ALSA_0.9.0rc8 1.0.16
