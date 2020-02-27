@@ -61,11 +61,13 @@ static int check_identifier(const char *identifier, const char *prefix)
 {
 	int len;
 
-	if (strcmp(identifier, prefix) == 0)
-		return 1;
 	len = strlen(prefix);
-	if (memcmp(identifier, prefix, len) == 0 && identifier[len] == '/')
+	if (strncmp(identifier, prefix, len) != 0)
+		return 0;
+
+	if (identifier[len] == 0 || identifier[len] == '/')
 		return 1;
+
 	return 0;
 }
 
@@ -1070,7 +1072,6 @@ int snd_use_case_mgr_reset(snd_use_case_mgr_t *uc_mgr)
 /**
  * \brief Get list of verbs in pair verbname+comment
  * \param list Returned list
- * \param verbname For verb (NULL = current)
  * \return Number of list entries if success, otherwise a negative error code
  */
 static int get_verb_list(snd_use_case_mgr_t *uc_mgr, const char **list[])
@@ -1158,8 +1159,10 @@ static int get_supcon_device_list(snd_use_case_mgr_t *uc_mgr,
 
 	modifier = find_modifier(uc_mgr, verb, name, 0);
 	if (modifier) {
-		if (modifier->dev_list.type != type)
+		if (modifier->dev_list.type != type) {
+			*list = NULL;
 			return 0;
+		}
 		return get_list(&modifier->dev_list.list, list,
 				struct dev_list_node, list,
 				name);
@@ -1167,15 +1170,16 @@ static int get_supcon_device_list(snd_use_case_mgr_t *uc_mgr,
 
 	device = find_device(uc_mgr, verb, name, 0);
 	if (device) {
-		if (device->dev_list.type != type)
+		if (device->dev_list.type != type) {
+			*list = NULL;
 			return 0;
+		}
 		return get_list(&device->dev_list.list, list,
 				struct dev_list_node, list,
 				name);
 	}
 
 	return -ENOENT;
-
 }
 
 /**
@@ -1204,41 +1208,201 @@ static int get_conflicting_device_list(snd_use_case_mgr_t *uc_mgr,
 
 #ifndef DOC_HIDDEN
 struct myvalue {
-        struct list_head list;
-        char *value;
+	struct list_head list;
+	const char *text;
 };
 #endif
 
+/**
+ * \brief Convert myvalue list string list
+ * \param list myvalue list
+ * \param res string list
+ * \retval Number of list entries if success, otherwise a negativer error code
+ */
+static int myvalue_to_str_list(struct list_head *list, char ***res)
+{
+	struct list_head *pos;
+	struct myvalue *value;
+	char **p;
+	int cnt;
+
+	cnt = alloc_str_list(list, 1, res);
+	if (cnt < 0)
+		return cnt;
+	p = *res;
+	list_for_each(pos, list) {
+		value = list_entry(pos, struct myvalue, list);
+		*p = strdup(value->text);
+		if (*p == NULL) {
+			snd_use_case_free_list((const char **)p, cnt);
+			return -ENOMEM;
+		}
+		p++;
+	}
+	return cnt;
+}
+
+/**
+ * \brief Free myvalue list
+ * \param list myvalue list
+ */
+static void myvalue_list_free(struct list_head *list)
+{
+	struct list_head *pos, *npos;
+	struct myvalue *value;
+
+	list_for_each_safe(pos, npos, list) {
+		value = list_entry(pos, struct myvalue, list);
+		list_del(&value->list);
+		free(value);
+	}
+}
+
+/**
+ * \brief Merge one value to the myvalue list
+ * \param list The list with values
+ * \param value The value to be merged (without duplicates)
+ * \return 1 if dup, 0 if success, otherwise a negative error code
+ */
+static int merge_value(struct list_head *list, const char *text)
+{
+	struct list_head *pos;
+	struct myvalue *value;
+
+	list_for_each(pos, list) {
+		value = list_entry(pos, struct myvalue, list);
+		if (strcmp(value->text, text) == 0)
+			return 1;
+	}
+	value = malloc(sizeof(*value));
+	if (value == NULL)
+		return -ENOMEM;
+	value->text = text;
+	list_add_tail(&value->list, list);
+	return 0;
+}
+
+/**
+ * \brief Find all values for given identifier
+ * \param list Returned list
+ * \param source Source list with ucm_value structures
+ * \return Zero if success, otherwise a negative error code
+ */
+static int add_identifiers(struct list_head *list,
+			   struct list_head *source)
+{
+	struct ucm_value *v;
+	struct list_head *pos;
+	int err;
+
+	list_for_each(pos, source) {
+		v = list_entry(pos, struct ucm_value, list);
+		err = merge_value(list, v->name);
+		if (err < 0)
+			return err;
+	}
+	return 0;
+}
+
+/**
+ * \brief Find all values for given identifier
+ * \param list Returned list
+ * \param identifier Identifier
+ * \param source Source list with ucm_value structures
+ */
 static int add_values(struct list_head *list,
                       const char *identifier,
                       struct list_head *source)
 {
-        struct ucm_value *v;
-        struct myvalue *val;
-        struct list_head *pos, *pos1;
-        int match;
+	struct ucm_value *v;
+	struct list_head *pos;
+	int err;
         
-        list_for_each(pos, source) {
-                v = list_entry(pos, struct ucm_value, list);
-                if (check_identifier(identifier, v->name)) {
-                        match = 0;
-                        list_for_each(pos1, list) {
-                                val = list_entry(pos1, struct myvalue, list);
-                                if (strcmp(val->value, v->data) == 0) {
-                                        match = 1;
-                                        break;
-                                }
-                        }
-                        if (!match) {
-                                val = malloc(sizeof(struct myvalue));
-                                if (val == NULL)
-                                        return -ENOMEM;
-				val->value = v->data;
-                                list_add_tail(&val->list, list);
-                        }
-                }
-        }
-        return 0;
+	list_for_each(pos, source) {
+		v = list_entry(pos, struct ucm_value, list);
+		if (check_identifier(identifier, v->name)) {
+			err = merge_value(list, v->data);
+			if (err < 0)
+				return err;
+		}
+	}
+	return 0;
+}
+
+/**
+ * \brief compare two identifiers
+ */
+static int identifier_cmp(const void *_a, const void *_b)
+{
+	const char * const *a = _a;
+	const char * const *b = _b;
+	return strcmp(*a, *b);
+}
+
+/**
+ * \brief Get list of available identifiers
+ * \param list Returned list
+ * \param name Name of verb or modifier to query
+ * \return Number of list entries if success, otherwise a negative error code
+ */
+static int get_identifiers_list(snd_use_case_mgr_t *uc_mgr,
+				const char **list[], char *name)
+{
+	struct use_case_verb *verb;
+	struct use_case_modifier *modifier;
+	struct use_case_device *device;
+	struct list_head mylist;
+	struct list_head *value_list;
+	char *str, **res;
+	int err;
+
+	if (!name)
+		return -ENOENT;
+
+	str = strchr(name, '/');
+	if (str) {
+		*str = '\0';
+		verb = find_verb(uc_mgr, str + 1);
+	}
+	else {
+		verb = uc_mgr->active_verb;
+	}
+	if (!verb)
+		return -ENOENT;
+
+	value_list = NULL;
+	modifier = find_modifier(uc_mgr, verb, name, 0);
+	if (modifier) {
+		value_list = &modifier->value_list;
+	} else {
+		device = find_device(uc_mgr, verb, name, 0);
+		if (device)
+			value_list = &device->value_list;
+	}
+	if (value_list == NULL)
+		return -ENOENT;
+
+	INIT_LIST_HEAD(&mylist);
+	err = add_identifiers(&mylist, &uc_mgr->value_list);
+	if (err < 0)
+		goto __fail;
+	err = add_identifiers(&mylist, &verb->value_list);
+	if (err < 0)
+		goto __fail;
+	err = add_identifiers(&mylist, value_list);
+	if (err < 0)
+		goto __fail;
+	err = myvalue_to_str_list(&mylist, &res);
+	if (err > 0)
+		*list = (const char **)res;
+	else if (err == 0)
+		*list = NULL;
+__fail:
+	myvalue_list_free(&mylist);
+	if (err <= 0)
+		return err;
+	qsort(*list, err, sizeof(char *), identifier_cmp);
+	return err;
 }
 
 /**
@@ -1252,8 +1416,7 @@ static int get_value_list(snd_use_case_mgr_t *uc_mgr,
                           const char **list[],
                           char *verbname)
 {
-        struct list_head mylist, *pos, *npos;
-        struct myvalue *val;
+	struct list_head mylist, *pos;
         struct use_case_verb *verb;
         struct use_case_device *dev;
         struct use_case_modifier *mod;
@@ -1286,26 +1449,13 @@ static int get_value_list(snd_use_case_mgr_t *uc_mgr,
                 if (err < 0)
                         goto __fail;
         }
-        err = alloc_str_list(&mylist, 1, &res);
-        if (err >= 0) {
+	err = myvalue_to_str_list(&mylist, &res);
+	if (err > 0)
 	        *list = (const char **)res;
-                list_for_each(pos, &mylist) {
-                        val = list_entry(pos, struct myvalue, list);
-                        *res = strdup(val->value);
-                        if (*res == NULL) {
-                                snd_use_case_free_list((const char **)res, err);
-                                err = -ENOMEM;
-                                goto __fail;
-                        }
-                        res++;
-                }
-        }
+	else if (err == 0)
+		*list = NULL;
       __fail:
-        list_for_each_safe(pos, npos, &mylist) {
-                val = list_entry(pos, struct myvalue, list);
-                list_del(&val->list);
-                free(val);
-        }
+	myvalue_list_free(&mylist);
         return err;
 }
 
@@ -1375,21 +1525,23 @@ int snd_use_case_get_list(snd_use_case_mgr_t *uc_mgr,
                 } else {
                         str = NULL;
                 }
-        	if (check_identifier(identifier, "_devices"))
-          		err = get_device_list(uc_mgr, list, str);
+		if (check_identifier(identifier, "_devices"))
+			err = get_device_list(uc_mgr, list, str);
                 else if (check_identifier(identifier, "_modifiers"))
-                        err = get_modifier_list(uc_mgr, list, str);
-                else if (check_identifier(identifier, "_supporteddevs"))
-                        err = get_supported_device_list(uc_mgr, list, str);
-                else if (check_identifier(identifier, "_conflictingdevs"))
-                        err = get_conflicting_device_list(uc_mgr, list, str);
+			err = get_modifier_list(uc_mgr, list, str);
+		else if (check_identifier(identifier, "_identifiers"))
+			err = get_identifiers_list(uc_mgr, list, str);
+		else if (check_identifier(identifier, "_supporteddevs"))
+			err = get_supported_device_list(uc_mgr, list, str);
+		else if (check_identifier(identifier, "_conflictingdevs"))
+			err = get_conflicting_device_list(uc_mgr, list, str);
 		else if (identifier[0] == '_')
 			err = -ENOENT;
-                else
-                        err = get_value_list(uc_mgr, identifier, list, str);
-        	if (str)
-        		free(str);
-        }
+		else
+			err = get_value_list(uc_mgr, identifier, list, str);
+		if (str)
+			free(str);
+	}
       __end:
 	pthread_mutex_unlock(&uc_mgr->mutex);
 	return err;
@@ -1548,12 +1700,13 @@ int snd_use_case_get(snd_use_case_mgr_t *uc_mgr,
 	        err = 0;
 	} else if (strcmp(identifier, "_file") == 0) {
 		/* get the conf file name of the opened card */
-		if ((uc_mgr->card_name == NULL)
-		    || (uc_mgr->conf_file_name[0] == '\0')) {
+		if ((uc_mgr->card_name == NULL) ||
+		    (uc_mgr->conf_file_name == NULL) ||
+		    (uc_mgr->conf_file_name[0] == '\0')) {
 			err = -ENOENT;
 			goto __end;
 		}
-		*value = strndup(uc_mgr->conf_file_name, MAX_FILE);
+		*value = strdup(uc_mgr->conf_file_name);
 		if (*value == NULL) {
 			err = -ENOMEM;
 			goto __end;
@@ -1963,8 +2116,10 @@ int snd_use_case_parse_selem_id(snd_mixer_selem_id_t *dst,
 				const char *ucm_id,
 				const char *value)
 {
+#ifdef BUILD_MIXER
 	if (strcmp(ucm_id, "PlaybackMixerId") == 0 ||
 	    strcmp(ucm_id, "CaptureMixerId") == 0)
 		return snd_mixer_selem_id_parse(dst, value);
+#endif
 	return -EINVAL;
 }

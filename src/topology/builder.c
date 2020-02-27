@@ -20,31 +20,23 @@
 #include "list.h"
 #include "tplg_local.h"
 
-/* verbose output detailing each object size and file position */
-static void verbose(snd_tplg_t *tplg, const char *fmt, ...)
+/* write a block, track the position */
+static ssize_t twrite(snd_tplg_t *tplg, void *data, size_t data_size)
 {
-	int offset;
-	va_list va;
-
-	if (!tplg->verbose)
-		return;
-
-	offset = lseek(tplg->out_fd, 0, SEEK_CUR);
-
-	va_start(va, fmt);
-	fprintf(stdout, "0x%6.6x/%6.6d -", offset, offset);
-	vfprintf(stdout, fmt, va);
-	va_end(va);
+	if (tplg->bin_pos + data_size > tplg->bin_size)
+		return -EIO;
+	memcpy(tplg->bin + tplg->bin_pos, data, data_size);
+	tplg->bin_pos += data_size;
+	return data_size;
 }
 
 /* write out block header to output file */
-static int write_block_header(snd_tplg_t *tplg, unsigned int type,
-	unsigned int vendor_type, unsigned int version, unsigned int index,
-	size_t payload_size, int count)
+static ssize_t write_block_header(snd_tplg_t *tplg, unsigned int type,
+				  unsigned int vendor_type,
+				  unsigned int version, unsigned int index,
+				  size_t payload_size, int count)
 {
 	struct snd_soc_tplg_hdr hdr;
-	size_t bytes;
-	int offset = lseek(tplg->out_fd, 0, SEEK_CUR);
 
 	memset(&hdr, 0, sizeof(hdr));
 	hdr.magic = SND_SOC_TPLG_MAGIC;
@@ -58,38 +50,34 @@ static int write_block_header(snd_tplg_t *tplg, unsigned int type,
 	hdr.count = count;
 
 	/* make sure file offset is aligned with the calculated HDR offset */
-	if ((unsigned int)offset != tplg->next_hdr_pos) {
-		SNDERR("error: New header is at offset 0x%x but file"
-			" offset 0x%x is %s by %d bytes\n",
-			tplg->next_hdr_pos, offset,
-			(unsigned int)offset > tplg->next_hdr_pos ? "ahead" : "behind",
-			abs(offset - tplg->next_hdr_pos));
-		exit(-EINVAL);
+	if (tplg->bin_pos != tplg->next_hdr_pos) {
+		SNDERR("New header is at offset 0x%zx but file"
+			" offset 0x%zx is %s by %ld bytes",
+			tplg->next_hdr_pos, tplg->bin_pos,
+			tplg->bin_pos > tplg->next_hdr_pos ? "ahead" : "behind",
+			labs(tplg->bin_pos - tplg->next_hdr_pos));
+		return -EINVAL;
 	}
 
-	verbose(tplg, " header index %d type %d count %d size 0x%lx/%ld vendor %d "
-		"version %d\n", index, type, count,
-		(long unsigned int)payload_size, (long int)payload_size,
-		vendor_type, version);
+	tplg_log(tplg, 'B', tplg->bin_pos,
+		 "header index %d type %d count %d size 0x%lx/%ld vendor %d "
+		 "version %d", index, type, count,
+		 (long unsigned int)payload_size, (long int)payload_size,
+		 vendor_type, version);
 
 	tplg->next_hdr_pos += hdr.payload_size + sizeof(hdr);
 
-	bytes = write(tplg->out_fd, &hdr, sizeof(hdr));
-	if (bytes != sizeof(hdr)) {
-		SNDERR("error: can't write section header %lu\n",
-			(long unsigned int)bytes);
-		return bytes;
-	}
-
-	return bytes;
+	return twrite(tplg, &hdr, sizeof(hdr));
 }
 
 static int write_elem_block(snd_tplg_t *tplg,
-	struct list_head *base, int size, int tplg_type, const char *obj_name)
+			    struct list_head *base, size_t size,
+			    int tplg_type, const char *obj_name)
 {
 	struct list_head *pos, *sub_pos, *sub_base;
 	struct tplg_elem *elem, *elem_next;
-	int ret, wsize = 0, total_size = 0, count = 0, block_size = 0;
+	size_t total_size = 0, count = 0, block_size = 0;
+	ssize_t ret, wsize;
 
 	sub_base = base;
 	list_for_each(pos, base) {
@@ -108,7 +96,7 @@ static int write_elem_block(snd_tplg_t *tplg,
 			ret = write_block_header(tplg, tplg_type, elem->vendor_type,
 				tplg->version, elem->index, block_size, count);
 			if (ret < 0) {
-				SNDERR("error: failed to write %s block %d\n",
+				SNDERR("failed to write %s block %d",
 					obj_name, ret);
 				return ret;
 			}
@@ -121,20 +109,19 @@ static int write_elem_block(snd_tplg_t *tplg,
 					continue;
 
 				if (elem->type != SND_TPLG_TYPE_DAPM_GRAPH)
-					verbose(tplg, " %s '%s': write %d bytes\n",
-						obj_name, elem->id, elem->size);
+					tplg_log(tplg, 'B', tplg->bin_pos,
+						 "%s '%s': write %d bytes",
+						 obj_name, elem->id, elem->size);
 				else
-					verbose(tplg, " %s '%s -> %s -> %s': write %d bytes\n",
-						obj_name, elem->route->source,
-						elem->route->control,
-						elem->route->sink, elem->size);
+					tplg_log(tplg, 'B', tplg->bin_pos,
+						 "%s '%s -> %s -> %s': write %d bytes",
+						 obj_name, elem->route->source,
+						 elem->route->control,
+						 elem->route->sink, elem->size);
 
-				wsize = write(tplg->out_fd, elem->obj, elem->size);
-				if (wsize < 0) {
-					SNDERR("error: failed to write %s %d\n",
-						obj_name, ret);
-					return ret;
-				}
+				wsize = twrite(tplg, elem->obj, elem->size);
+				if (wsize < 0)
+					return size;
 
 				total_size += wsize;
 				/* get to the end of sub list */
@@ -151,7 +138,7 @@ static int write_elem_block(snd_tplg_t *tplg,
 
 	/* make sure we have written the correct size */
 	if (total_size != size) {
-		SNDERR("error: size mismatch. Expected %d wrote %d\n",
+		SNDERR("size mismatch. Expected %zu wrote %zu",
 			size, total_size);
 		return -EIO;
 	}
@@ -159,11 +146,46 @@ static int write_elem_block(snd_tplg_t *tplg,
 	return 0;
 }
 
-static int calc_block_size(struct list_head *base)
+static size_t calc_manifest_size(snd_tplg_t *tplg)
+{
+	return sizeof(struct snd_soc_tplg_hdr) +
+	       sizeof(tplg->manifest) +
+	       tplg->manifest.priv.size;
+}
+
+static size_t calc_real_size(struct list_head *base)
+{
+	struct list_head *pos;
+	struct tplg_elem *elem, *elem_next;
+	size_t size = 0;
+
+	list_for_each(pos, base) {
+
+		elem = list_entry(pos, struct tplg_elem, list);
+
+		/* compound elems have already been copied to other elems */
+		if (elem->compound_elem)
+			continue;
+
+		if (elem->size <= 0)
+			continue;
+
+		size += elem->size;
+
+		elem_next = list_entry(pos->next, struct tplg_elem, list);
+
+		if ((pos->next == base) || (elem_next->index != elem->index))
+			size += sizeof(struct snd_soc_tplg_hdr);
+	}
+
+	return size;
+}
+
+static size_t calc_block_size(struct list_head *base)
 {
 	struct list_head *pos;
 	struct tplg_elem *elem;
-	int size = 0;
+	size_t size = 0;
 
 	list_for_each(pos, base) {
 
@@ -179,177 +201,98 @@ static int calc_block_size(struct list_head *base)
 	return size;
 }
 
-static int write_block(snd_tplg_t *tplg, struct list_head *base,
-	int type)
-{
-	int size;
-
-	/* calculate the block size in bytes for all elems in this list */
-	size = calc_block_size(base);
-	if (size <= 0)
-		return size;
-
-	verbose(tplg, " block size for type %d is %d\n", type, size);
-
-	/* write each elem for this block */
-	switch (type) {
-	case SND_TPLG_TYPE_MIXER:
-		return write_elem_block(tplg, base, size,
-			SND_SOC_TPLG_TYPE_MIXER, "mixer");
-	case SND_TPLG_TYPE_BYTES:
-		return write_elem_block(tplg, base, size,
-			SND_SOC_TPLG_TYPE_BYTES, "bytes");
-	case SND_TPLG_TYPE_ENUM:
-		return write_elem_block(tplg, base, size,
-			SND_SOC_TPLG_TYPE_ENUM, "enum");
-	case SND_TPLG_TYPE_DAPM_GRAPH:
-		return write_elem_block(tplg, base, size,
-			SND_SOC_TPLG_TYPE_DAPM_GRAPH, "route");
-	case SND_TPLG_TYPE_DAPM_WIDGET:
-		return write_elem_block(tplg, base, size,
-			SND_SOC_TPLG_TYPE_DAPM_WIDGET, "widget");
-	case SND_TPLG_TYPE_PCM:
-		return write_elem_block(tplg, base, size,
-			SND_SOC_TPLG_TYPE_PCM, "pcm");
-	case SND_TPLG_TYPE_BE:
-		return write_elem_block(tplg, base, size,
-			SND_SOC_TPLG_TYPE_BACKEND_LINK, "be");
-	case SND_TPLG_TYPE_CC:
-		return write_elem_block(tplg, base, size,
-			SND_SOC_TPLG_TYPE_CODEC_LINK, "cc");
-	case SND_TPLG_TYPE_DATA:
-		return write_elem_block(tplg, base, size,
-			SND_SOC_TPLG_TYPE_PDATA, "data");
-	case SND_TPLG_TYPE_DAI:
-		return write_elem_block(tplg, base, size,
-			SND_SOC_TPLG_TYPE_DAI, "dai");
-	default:
-		return -EINVAL;
-	}
-
-	return 0;
-}
-
 /* write the manifest including its private data */
-static int write_manifest_data(snd_tplg_t *tplg)
+static ssize_t write_manifest_data(snd_tplg_t *tplg)
 {
-	int ret;
+	ssize_t ret;
 
 	/* write the header for this block */
 	ret = write_block_header(tplg, SND_SOC_TPLG_TYPE_MANIFEST, 0,
 		tplg->version, 0,
 		sizeof(tplg->manifest) + tplg->manifest.priv.size, 1);
 	if (ret < 0) {
-		SNDERR("error: failed to write manifest block %d\n", ret);
+		SNDERR("failed to write manifest block");
 		return ret;
 	}
 
-	verbose(tplg, "manifest : write %d bytes\n", sizeof(tplg->manifest));
-	ret = write(tplg->out_fd, &tplg->manifest, sizeof(tplg->manifest));
-	if (ret < 0) {
-		SNDERR("error: failed to write manifest %d\n", ret);
-		return ret;
+	tplg_log(tplg, 'B', tplg->bin_pos, "manifest: write %d bytes",
+		 sizeof(tplg->manifest));
+	ret = twrite(tplg, &tplg->manifest, sizeof(tplg->manifest));
+	if (ret >= 0) {
+		tplg_log(tplg, 'B', tplg->bin_pos,
+			 "manifest: write %d priv bytes",
+			 tplg->manifest.priv.size);
+		ret = twrite(tplg, tplg->manifest_pdata, tplg->manifest.priv.size);
 	}
-
-	verbose(tplg, "manifest : write %d priv bytes\n", tplg->manifest.priv.size);
-	ret = write(tplg->out_fd, tplg->manifest_pdata, tplg->manifest.priv.size);
-	if (ret < 0) {
-		SNDERR("error: failed to write manifest priv data %d\n", ret);
-		return ret;
-	}
-
-	return 0;
+	return ret;
 }
 
 int tplg_write_data(snd_tplg_t *tplg)
 {
-	int ret;
+	struct tplg_table *tptr;
+	struct list_head *list;
+	ssize_t ret;
+	size_t total_size, size;
+	unsigned int index;
+
+	/* calculate total size */
+	total_size = calc_manifest_size(tplg);
+	for (index = 0; index < tplg_table_items; index++) {
+		tptr = &tplg_table[index];
+		if (!tptr->build)
+			continue;
+		list = (struct list_head *)((void *)tplg + tptr->loff);
+		size = calc_real_size(list);
+		total_size += size;
+	}
+
+	/* allocate new binary output */
+	free(tplg->bin);
+	tplg->bin = malloc(total_size);
+	tplg->bin_pos = 0;
+	tplg->bin_size = total_size;
+	if (tplg->bin == NULL) {
+		tplg->bin_size = 0;
+		return -ENOMEM;
+	}
 
 	/* write manifest */
 	ret = write_manifest_data(tplg);
 	if (ret < 0) {
-		SNDERR("failed to write manifest %d\n", ret);
+		SNDERR("failed to write manifest %d", ret);
 		return ret;
 	}
 
-	/* write mixer elems. */
-	ret = write_block(tplg, &tplg->mixer_list,
-		SND_TPLG_TYPE_MIXER);
-	if (ret < 0) {
-		SNDERR("failed to write control elems %d\n", ret);
-		return ret;
+	/* write all blocks */
+	for (index = 0; index < tplg_table_items; index++) {
+		tptr = &tplg_table[index];
+		if (!tptr->build)
+			continue;
+		list = (struct list_head *)((void *)tplg + tptr->loff);
+		/* calculate the block size in bytes for all elems in this list */
+		size = calc_block_size(list);
+		if (size == 0)
+			continue;
+		tplg_log(tplg, 'B', tplg->bin_pos,
+			 "block size for type %s (%d:%d) is 0x%zx/%zd",
+			 tptr->name, tptr->type,
+			 tptr->tsoc, size, size);
+		ret = write_elem_block(tplg, list, size,
+				       tptr->tsoc, tptr->name);
+		if (ret < 0) {
+			SNDERR("failed to write %s elements: %s",
+						tptr->name, snd_strerror(-ret));
+			return ret;
+		}
 	}
 
-	/* write enum control elems. */
-	ret = write_block(tplg, &tplg->enum_list,
-		SND_TPLG_TYPE_ENUM);
-	if (ret < 0) {
-		SNDERR("failed to write control elems %d\n", ret);
-		return ret;
-	}
+	tplg_log(tplg, 'B', tplg->bin_pos, "total size is 0x%zx/%zd",
+		 tplg->bin_pos, tplg->bin_pos);
 
-	/* write bytes extended control elems. */
-	ret = write_block(tplg, &tplg->bytes_ext_list,
-		SND_TPLG_TYPE_BYTES);
-	if (ret < 0) {
-		SNDERR("failed to write control elems %d\n", ret);
-		return ret;
-	}
-
-	/* write widget elems */
-	ret = write_block(tplg, &tplg->widget_list,
-		SND_TPLG_TYPE_DAPM_WIDGET);
-	if (ret < 0) {
-		SNDERR("failed to write widget elems %d\n", ret);
-		return ret;
-	}
-
-	/* write pcm elems */
-	ret = write_block(tplg, &tplg->pcm_list,
-		SND_TPLG_TYPE_PCM);
-	if (ret < 0) {
-		SNDERR("failed to write pcm elems %d\n", ret);
-		return ret;
-	}
-
-	/* write physical dai elems */
-	ret = write_block(tplg, &tplg->dai_list,
-		SND_TPLG_TYPE_DAI);
-	if (ret < 0) {
-		SNDERR("failed to write physical dai elems %d\n", ret);
-		return ret;
-	}
-
-	/* write be elems */
-	ret = write_block(tplg, &tplg->be_list,
-		SND_TPLG_TYPE_BE);
-	if (ret < 0) {
-		SNDERR("failed to write be elems %d\n", ret);
-		return ret;
-	}
-
-	/* write cc elems */
-	ret = write_block(tplg, &tplg->cc_list,
-		SND_TPLG_TYPE_CC);
-	if (ret < 0) {
-		SNDERR("failed to write cc elems %d\n", ret);
-		return ret;
-	}
-
-	/* write route elems */
-	ret = write_block(tplg, &tplg->route_list,
-		SND_TPLG_TYPE_DAPM_GRAPH);
-	if (ret < 0) {
-		SNDERR("failed to write graph elems %d\n", ret);
-		return ret;
-	}
-
-	/* write private data */
-	ret = write_block(tplg, &tplg->pdata_list,
-		SND_TPLG_TYPE_DATA);
-	if (ret < 0) {
-		SNDERR("failed to write private data %d\n", ret);
-		return ret;
+	if (total_size != tplg->bin_pos) {
+		SNDERR("total size mismatch (%zd != %zd)",
+		       total_size, tplg->bin_pos);
+		return -EINVAL;
 	}
 
 	return 0;

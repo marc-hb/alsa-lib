@@ -73,32 +73,44 @@ static int lookup_channel(const char *c)
 	return -EINVAL;
 }
 
+const char *tplg_channel_name(int type)
+{
+	unsigned int i;
+
+	for (i = 0; i < ARRAY_SIZE(channel_map); i++) {
+		if (channel_map[i].id == type)
+			return channel_map[i].name;
+	}
+
+	return NULL;
+}
+
 /* Parse a channel mapping. */
-int tplg_parse_channel(snd_tplg_t *tplg,
-	snd_config_t *cfg, void *private)
+int tplg_parse_channel(snd_tplg_t *tplg, snd_config_t *cfg,
+		       void *private)
 {
 	snd_config_iterator_t i, next;
 	snd_config_t *n;
 	struct snd_soc_tplg_channel *channel = private;
-	const char *id, *value;
-	int channel_id;
+	const char *id;
+	int channel_id, value;
 
 	if (tplg->channel_idx >= SND_SOC_TPLG_MAX_CHAN)
 		return -EINVAL;
 
 	channel += tplg->channel_idx;
 	snd_config_get_id(cfg, &id);
-	tplg_dbg("\tChannel %s at index %d\n", id, tplg->channel_idx);
+	tplg_dbg("\tChannel %s at index %d", id, tplg->channel_idx);
 
 	channel_id = lookup_channel(id);
 	if (channel_id < 0) {
-		SNDERR("error: invalid channel %s\n", id);
+		SNDERR("invalid channel %s", id);
 		return -EINVAL;
 	}
 
 	channel->id = channel_id;
 	channel->size = sizeof(*channel);
-	tplg_dbg("\tChan %s = %d\n", id, channel->id);
+	tplg_dbg("\tChan %s = %d", id, channel->id);
 
 	snd_config_for_each(i, next, cfg) {
 
@@ -109,17 +121,50 @@ int tplg_parse_channel(snd_tplg_t *tplg,
 			continue;
 
 		/* get value */
-		if (snd_config_get_string(n, &value) < 0)
+		if (tplg_get_integer(n, &value, 0) < 0)
 			continue;
 
 		if (strcmp(id, "reg") == 0)
-			channel->reg = atoi(value);
+			channel->reg = value;
 		else if (strcmp(id, "shift") == 0)
-			channel->shift = atoi(value);
+			channel->shift = value;
 
-		tplg_dbg("\t\t%s = %s\n", id, value);
+		tplg_dbg("\t\t%s = %d", id, value);
 	}
 
 	tplg->channel_idx++;
 	return 0;
+}
+
+int tplg_save_channels(snd_tplg_t *tplg ATTRIBUTE_UNUSED,
+		       struct snd_soc_tplg_channel *channel,
+		       unsigned int count, char **dst, const char *pfx)
+{
+	struct snd_soc_tplg_channel *c;
+	const char *s;
+	unsigned int index;
+	int err;
+
+	if (count == 0)
+		return 0;
+	err = tplg_save_printf(dst, pfx, "channel {\n");
+	for (index = 0; err >= 0 && index < count; index++) {
+		c = channel + index;
+		s = tplg_channel_name(c->id);
+		if (s == NULL)
+			err = tplg_save_printf(dst, pfx, "\t%u", c->id);
+		else
+			err = tplg_save_printf(dst, pfx, "\t%s", s);
+		if (err >= 0)
+			err = tplg_save_printf(dst, NULL, " {\n");
+		if (err >= 0)
+			err = tplg_save_printf(dst, pfx, "\t\treg %d\n", c->reg);
+		if (err >= 0 && c->shift > 0)
+			err = tplg_save_printf(dst, pfx, "\t\tshift %u\n", c->shift);
+		if (err >= 0)
+			err = tplg_save_printf(dst, pfx, "\t}\n");
+	}
+	if (err >= 0)
+		err = tplg_save_printf(dst, pfx, "}\n");
+	return err;
 }

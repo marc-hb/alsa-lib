@@ -32,13 +32,13 @@ static int parse_text_values(snd_config_t *cfg, struct tplg_elem *elem)
 	const char *value = NULL;
 	int j = 0;
 
-	tplg_dbg(" Text Values: %s\n", elem->id);
+	tplg_dbg(" Text Values: %s", elem->id);
 
 	snd_config_for_each(i, next, cfg) {
 		n = snd_config_iterator_entry(i);
 
 		if (j == SND_SOC_TPLG_NUM_TEXTS) {
-			tplg_dbg("error: text string number exceeds %d\n", j);
+			tplg_dbg("text string number exceeds %d", j);
 			return -ENOMEM;
 		}
 
@@ -48,7 +48,7 @@ static int parse_text_values(snd_config_t *cfg, struct tplg_elem *elem)
 
 		snd_strlcpy(&texts->items[j][0], value,
 			SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
-		tplg_dbg("\t%s\n", &texts->items[j][0]);
+		tplg_dbg("\t%s", &texts->items[j][0]);
 
 		j++;
 	}
@@ -59,7 +59,7 @@ static int parse_text_values(snd_config_t *cfg, struct tplg_elem *elem)
 
 /* Parse Text data */
 int tplg_parse_text(snd_tplg_t *tplg, snd_config_t *cfg,
-	void *private ATTRIBUTE_UNUSED)
+		    void *private ATTRIBUTE_UNUSED)
 {
 	snd_config_iterator_t i, next;
 	snd_config_t *n;
@@ -87,5 +87,24 @@ int tplg_parse_text(snd_tplg_t *tplg, snd_config_t *cfg,
 		}
 	}
 
+	return err;
+}
+
+/* save text data */
+int tplg_save_text(snd_tplg_t *tplg ATTRIBUTE_UNUSED,
+		   struct tplg_elem *elem,
+		   char **dst, const char *pfx)
+{
+	struct tplg_texts *texts = elem->texts;
+	unsigned int i;
+	int err;
+
+	if (!texts || texts->num_items == 0)
+		return 0;
+	err = tplg_save_printf(dst, pfx, "'%s'.values [\n", elem->id);
+	for (i = 0; err >= 0 && i < texts->num_items; i++)
+		err = tplg_save_printf(dst, pfx, "\t'%s'\n", texts->items[i][0]);
+	if (err >= 0)
+		err = tplg_save_printf(dst, pfx, "]\n");
 	return err;
 }
