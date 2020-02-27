@@ -5,6 +5,8 @@ alsa-lib (1.2.2-1) UNRELEASED; urgency=medium
   * Update Standards-Version to 4.5.0.
   * Override dh_installchangelogs to avoid installing stale upstream
     ChangeLog (closes: #922060).
+  * Fix FTCBFS: Add B-D on libpython3-dev. Thanks Helmut Grohne for the
+    patch (closes: #942196).
 
   [ Steve Langasek ]
   * Make autopkgtests cross-test-friendly.
