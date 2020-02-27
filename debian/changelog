@@ -1,7 +1,11 @@
 alsa-lib (1.2.2-1) UNRELEASED; urgency=medium
 
+  [ Jordi Mallach ]
   * New upstream release.
   * Update Standards-Version to 4.5.0.
+
+  [ Steve Langasek ]
+  * Make autopkgtests cross-test-friendly.
 
  -- Jordi Mallach <jordi@debian.org>  Thu, 27 Feb 2020 11:33:08 +0100
 
