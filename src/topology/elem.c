@@ -20,6 +20,228 @@
 #include "list.h"
 #include "tplg_local.h"
 
+struct tplg_table tplg_table[] = {
+	{
+		.name  = "manifest",
+		.id    = "SectionManifest",
+		.loff  = offsetof(snd_tplg_t, manifest_list),
+		.type  = SND_TPLG_TYPE_MANIFEST,
+		.tsoc  = SND_SOC_TPLG_TYPE_MANIFEST,
+		.size  = sizeof(struct snd_soc_tplg_manifest),
+		.enew  = 1,
+		.parse = tplg_parse_manifest_data,
+		.save  = tplg_save_manifest_data,
+		.decod = tplg_decode_manifest_data,
+	},
+	{
+		.name  = "control mixer",
+		.id    = "SectionControlMixer",
+		.loff  = offsetof(snd_tplg_t, mixer_list),
+		.type  = SND_TPLG_TYPE_MIXER,
+		.tsoc  = SND_SOC_TPLG_TYPE_MIXER,
+		.size  = sizeof(struct snd_soc_tplg_mixer_control),
+		.build = 1,
+		.enew  = 1,
+		.parse = tplg_parse_control_mixer,
+		.save  = tplg_save_control_mixer,
+		.decod = tplg_decode_control_mixer,
+	},
+	{
+		.name  = "control enum",
+		.id    = "SectionControlEnum",
+		.loff  = offsetof(snd_tplg_t, enum_list),
+		.type  = SND_TPLG_TYPE_ENUM,
+		.tsoc  = SND_SOC_TPLG_TYPE_ENUM,
+		.size  = sizeof(struct snd_soc_tplg_enum_control),
+		.build = 1,
+		.enew  = 1,
+		.parse = tplg_parse_control_enum,
+		.save  = tplg_save_control_enum,
+		.decod = tplg_decode_control_enum,
+	},
+	{
+		.name  = "control extended (bytes)",
+		.id    = "SectionControlBytes",
+		.loff  = offsetof(snd_tplg_t, bytes_ext_list),
+		.type  = SND_TPLG_TYPE_BYTES,
+		.tsoc  = SND_SOC_TPLG_TYPE_BYTES,
+		.size  = sizeof(struct snd_soc_tplg_bytes_control),
+		.build = 1,
+		.enew  = 1,
+		.parse = tplg_parse_control_bytes,
+		.save  = tplg_save_control_bytes,
+		.decod = tplg_decode_control_bytes,
+	},
+	{
+		.name  = "dapm widget",
+		.id    = "SectionWidget",
+		.loff  = offsetof(snd_tplg_t, widget_list),
+		.type  = SND_TPLG_TYPE_DAPM_WIDGET,
+		.tsoc  = SND_SOC_TPLG_TYPE_DAPM_WIDGET,
+		.size  = sizeof(struct snd_soc_tplg_dapm_widget),
+		.build = 1,
+		.enew  = 1,
+		.parse = tplg_parse_dapm_widget,
+		.save  = tplg_save_dapm_widget,
+		.decod = tplg_decode_dapm_widget,
+	},
+	{
+		.name  = "pcm",
+		.id    = "SectionPCM",
+		.loff  = offsetof(snd_tplg_t, pcm_list),
+		.type  = SND_TPLG_TYPE_PCM,
+		.tsoc  = SND_SOC_TPLG_TYPE_PCM,
+		.size  = sizeof(struct snd_soc_tplg_pcm),
+		.build = 1,
+		.enew  = 1,
+		.parse = tplg_parse_pcm,
+		.save  = tplg_save_pcm,
+		.decod = tplg_decode_pcm,
+	},
+	{
+		.name  = "physical dai",
+		.id    = "SectionDAI",
+		.loff  = offsetof(snd_tplg_t, dai_list),
+		.type  = SND_TPLG_TYPE_DAI,
+		.tsoc  = SND_SOC_TPLG_TYPE_DAI,
+		.size  = sizeof(struct snd_soc_tplg_dai),
+		.build = 1,
+		.enew  = 1,
+		.parse = tplg_parse_dai,
+		.save  = tplg_save_dai,
+		.decod = tplg_decode_dai,
+	},
+	{
+		.name  = "be",
+		.id    = "SectionBE",
+		.id2   = "SectionLink",
+		.loff  = offsetof(snd_tplg_t, be_list),
+		.type  = SND_TPLG_TYPE_BE,
+		.tsoc  = SND_SOC_TPLG_TYPE_BACKEND_LINK,
+		.size  = sizeof(struct snd_soc_tplg_link_config),
+		.build = 1,
+		.enew  = 1,
+		.parse = tplg_parse_link,
+		.save  = tplg_save_link,
+		.decod = tplg_decode_link,
+	},
+	{
+		.name  = "cc",
+		.id    = "SectionCC",
+		.loff  = offsetof(snd_tplg_t, cc_list),
+		.type  = SND_TPLG_TYPE_CC,
+		.tsoc  = SND_SOC_TPLG_TYPE_CODEC_LINK,
+		.size  = sizeof(struct snd_soc_tplg_link_config),
+		.build = 1,
+		.enew  = 1,
+		.parse = tplg_parse_cc,
+		.save  = tplg_save_cc,
+		.decod = tplg_decode_cc,
+	},
+	{
+		.name  = "route (dapm graph)",
+		.id = "SectionGraph",
+		.loff  = offsetof(snd_tplg_t, route_list),
+		.type  = SND_TPLG_TYPE_DAPM_GRAPH,
+		.tsoc  = SND_SOC_TPLG_TYPE_DAPM_GRAPH,
+		.build = 1,
+		.parse = tplg_parse_dapm_graph,
+		.gsave = tplg_save_dapm_graph,
+		.decod = tplg_decode_dapm_graph,
+	},
+	{
+		.name  = "private data",
+		.id    = "SectionData",
+		.loff  = offsetof(snd_tplg_t, pdata_list),
+		.type  = SND_TPLG_TYPE_DATA,
+		.tsoc  = SND_SOC_TPLG_TYPE_PDATA,
+		.build = 1,
+		.enew  = 1,
+		.parse = tplg_parse_data,
+		.save  = tplg_save_data,
+		.decod = tplg_decode_data,
+	},
+	{
+		.name  = "text",
+		.id    = "SectionText",
+		.loff  = offsetof(snd_tplg_t, text_list),
+		.type  = SND_TPLG_TYPE_TEXT,
+		.size  = sizeof(struct tplg_texts),
+		.enew  = 1,
+		.parse = tplg_parse_text,
+		.save  = tplg_save_text,
+	},
+	{
+		.name  = "tlv",
+		.id    = "SectionTLV",
+		.loff  = offsetof(snd_tplg_t, tlv_list),
+		.type  = SND_TPLG_TYPE_TLV,
+		.size  = sizeof(struct snd_soc_tplg_ctl_tlv),
+		.enew  = 1,
+		.parse = tplg_parse_tlv,
+		.save  = tplg_save_tlv,
+	},
+	{
+		.name  = "stream config",
+		.loff  = offsetof(snd_tplg_t, pcm_config_list),
+		.type  = SND_TPLG_TYPE_STREAM_CONFIG,
+		.size  = sizeof(struct snd_soc_tplg_stream),
+		.enew  = 1,
+	},
+	{
+		.name  = "stream capabilities",
+		.id    = "SectionPCMCapabilities",
+		.loff  = offsetof(snd_tplg_t, pcm_caps_list),
+		.type  = SND_TPLG_TYPE_STREAM_CAPS,
+		.size  = sizeof(struct snd_soc_tplg_stream_caps),
+		.enew  = 1,
+		.parse = tplg_parse_stream_caps,
+		.save  = tplg_save_stream_caps,
+	},
+	{
+		.name  = "token",
+		.id    = "SectionVendorTokens",
+		.loff  = offsetof(snd_tplg_t, token_list),
+		.type  = SND_TPLG_TYPE_TOKEN,
+		.enew  = 1,
+		.parse = tplg_parse_tokens,
+		.save  = tplg_save_tokens,
+	},
+	{
+		.name  = "tuple",
+		.id    = "SectionVendorTuples",
+		.loff  = offsetof(snd_tplg_t, tuple_list),
+		.type  = SND_TPLG_TYPE_TUPLE,
+		.free  = tplg_free_tuples,
+		.enew  = 1,
+		.parse = tplg_parse_tuples,
+		.save  = tplg_save_tuples,
+	},
+	{
+		.name  = "hw config",
+		.id    = "SectionHWConfig",
+		.loff  = offsetof(snd_tplg_t, hw_cfg_list),
+		.type  = SND_TPLG_TYPE_HW_CONFIG,
+		.size  = sizeof(struct snd_soc_tplg_hw_config),
+		.enew  = 1,
+		.parse = tplg_parse_hw_config,
+		.save  = tplg_save_hw_config,
+	}
+};
+
+unsigned int tplg_table_items = ARRAY_SIZE(tplg_table);
+
+int tplg_get_type(int asoc_type)
+{
+	unsigned int index;
+
+	for (index = 0; index < tplg_table_items; index++)
+		if (tplg_table[index].tsoc == asoc_type)
+			return tplg_table[index].type;
+	SNDERR("uknown asoc type %d", asoc_type);
+	return -EINVAL;
+}
+
 int tplg_ref_add(struct tplg_elem *elem, int type, const char* id)
 {
 	struct tplg_ref *ref;
@@ -79,6 +301,8 @@ struct tplg_elem *tplg_elem_new(void)
 
 void tplg_elem_free(struct tplg_elem *elem)
 {
+	list_del(&elem->list);
+
 	tplg_ref_free_list(&elem->ref_list);
 
 	/* free struct snd_tplg_ object,
@@ -101,13 +325,12 @@ void tplg_elem_free_list(struct list_head *base)
 
 	list_for_each_safe(pos, npos, base) {
 		elem = list_entry(pos, struct tplg_elem, list);
-		list_del(&elem->list);
 		tplg_elem_free(elem);
 	}
 }
 
 struct tplg_elem *tplg_elem_lookup(struct list_head *base, const char* id,
-	unsigned int type, int index)
+				   unsigned int type, int index)
 {
 	struct list_head *pos;
 	struct tplg_elem *elem;
@@ -131,8 +354,38 @@ struct tplg_elem *tplg_elem_lookup(struct list_head *base, const char* id,
 	return NULL;
 }
 
-/* insert a new element into list in the ascending order of index value*/
-static void tplg_elem_insert(struct tplg_elem *elem_p, struct list_head *list)
+/* find an element by type */
+struct tplg_elem *tplg_elem_type_lookup(snd_tplg_t *tplg,
+					enum snd_tplg_type type)
+{
+	struct tplg_table *tptr;
+	struct list_head *pos, *list;
+	struct tplg_elem *elem;
+	unsigned int index;
+
+	for (index = 0; index < tplg_table_items; index++) {
+		tptr = &tplg_table[index];
+		if (!tptr->enew)
+			continue;
+		if ((int)type != tptr->type)
+			continue;
+		break;
+	}
+	if (index >= tplg_table_items)
+		return NULL;
+
+	list = (struct list_head *)((void *)tplg + tptr->loff);
+
+	/* return only first element */
+	list_for_each(pos, list) {
+		elem = list_entry(pos, struct tplg_elem, list);
+		return elem;
+	}
+	return NULL;
+}
+
+/* insert a new element into list in the ascending order of index value */
+void tplg_elem_insert(struct tplg_elem *elem_p, struct list_head *list)
 {
 	struct list_head *pos, *p = &(elem_p->list);
 	struct tplg_elem *elem;
@@ -142,19 +395,22 @@ static void tplg_elem_insert(struct tplg_elem *elem_p, struct list_head *list)
 		if (elem_p->index < elem->index)
 			break;
 	}
-	p->prev = pos->prev;
-	pos->prev->next = p;
-	pos->prev = p;
-	p->next = pos;
+	/* insert item before pos */
+	list_insert(p, pos->prev, pos);
 }
 
 /* create a new common element and object */
 struct tplg_elem* tplg_elem_new_common(snd_tplg_t *tplg,
-	snd_config_t *cfg, const char *name, enum snd_tplg_type type)
+				       snd_config_t *cfg,
+				       const char *name,
+				       enum snd_tplg_type type)
 {
+	struct tplg_table *tptr;
 	struct tplg_elem *elem;
-	const char *id, *val = NULL;
+	struct list_head *list;
+	const char *id;
 	int obj_size = 0;
+	unsigned index;
 	void *obj;
 	snd_config_iterator_t i, next;
 	snd_config_t *n;
@@ -178,88 +434,37 @@ struct tplg_elem* tplg_elem_new_common(snd_tplg_t *tplg,
 			if (snd_config_get_id(n, &id))
 				continue;
 			if (strcmp(id, "index") == 0) {
-				if (snd_config_get_string(n, &val) < 0) {
+				if (tplg_get_integer(n, &elem->index, 0)) {
 					free(elem);
 					return NULL;
 				}
-				elem->index = atoi(val);
+				if (elem->index < 0) {
+					free(elem);
+					return NULL;
+				}
 			}
 		}
 	} else if (name != NULL)
 		snd_strlcpy(elem->id, name, SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
 
-	switch (type) {
-	case SND_TPLG_TYPE_DATA:
-		tplg_elem_insert(elem, &tplg->pdata_list);
+	for (index = 0; index < tplg_table_items; index++) {
+		tptr = &tplg_table[index];
+		if (!tptr->enew)
+			continue;
+		if ((int)type != tptr->type)
+			continue;
 		break;
-	case SND_TPLG_TYPE_MANIFEST:
-		tplg_elem_insert(elem, &tplg->manifest_list);
-		obj_size = sizeof(struct snd_soc_tplg_manifest);
-		break;
-	case SND_TPLG_TYPE_TEXT:
-		tplg_elem_insert(elem, &tplg->text_list);
-		obj_size = sizeof(struct tplg_texts);
-		break;
-	case SND_TPLG_TYPE_TLV:
-		tplg_elem_insert(elem, &tplg->tlv_list);
-		elem->size = sizeof(struct snd_soc_tplg_ctl_tlv);
-		break;
-	case SND_TPLG_TYPE_BYTES:
-		tplg_elem_insert(elem, &tplg->bytes_ext_list);
-		obj_size = sizeof(struct snd_soc_tplg_bytes_control);
-		break;
-	case SND_TPLG_TYPE_ENUM:
-		tplg_elem_insert(elem, &tplg->enum_list);
-		obj_size = sizeof(struct snd_soc_tplg_enum_control);
-		break;
-	case SND_TPLG_TYPE_MIXER:
-		tplg_elem_insert(elem, &tplg->mixer_list);
-		obj_size = sizeof(struct snd_soc_tplg_mixer_control);
-		break;
-	case SND_TPLG_TYPE_DAPM_WIDGET:
-		tplg_elem_insert(elem, &tplg->widget_list);
-		obj_size = sizeof(struct snd_soc_tplg_dapm_widget);
-		break;
-	case SND_TPLG_TYPE_STREAM_CONFIG:
-		tplg_elem_insert(elem, &tplg->pcm_config_list);
-		obj_size = sizeof(struct snd_soc_tplg_stream);
-		break;
-	case SND_TPLG_TYPE_STREAM_CAPS:
-		tplg_elem_insert(elem, &tplg->pcm_caps_list);
-		obj_size = sizeof(struct snd_soc_tplg_stream_caps);
-		break;
-	case SND_TPLG_TYPE_PCM:
-		tplg_elem_insert(elem, &tplg->pcm_list);
-		obj_size = sizeof(struct snd_soc_tplg_pcm);
-		break;
-	case SND_TPLG_TYPE_DAI:
-		tplg_elem_insert(elem, &tplg->dai_list);
-		obj_size = sizeof(struct snd_soc_tplg_dai);
-		break;
-	case SND_TPLG_TYPE_BE:
-	case SND_TPLG_TYPE_LINK:
-		tplg_elem_insert(elem, &tplg->be_list);
-		obj_size = sizeof(struct snd_soc_tplg_link_config);
-		break;
-	case SND_TPLG_TYPE_CC:
-		tplg_elem_insert(elem, &tplg->cc_list);
-		obj_size = sizeof(struct snd_soc_tplg_link_config);
-		break;
-	case SND_TPLG_TYPE_TOKEN:
-		tplg_elem_insert(elem, &tplg->token_list);
-		break;
-	case SND_TPLG_TYPE_TUPLE:
-		tplg_elem_insert(elem, &tplg->tuple_list);
-		elem->free = tplg_free_tuples;
-		break;
-	case SND_TPLG_TYPE_HW_CONFIG:
-		tplg_elem_insert(elem, &tplg->hw_cfg_list);
-		obj_size = sizeof(struct snd_soc_tplg_hw_config);
-		break;
-	default:
+	}
+	if (index >= tplg_table_items) {
 		free(elem);
 		return NULL;
 	}
+
+	list = (struct list_head *)((void *)tplg + tptr->loff);
+	tplg_elem_insert(elem, list);
+	obj_size = tptr->size;
+	elem->free = tptr->free;
+	elem->table = tptr;
 
 	/* create new object too if required */
 	if (obj_size > 0) {
@@ -275,4 +480,32 @@ struct tplg_elem* tplg_elem_new_common(snd_tplg_t *tplg,
 
 	elem->type = type;
 	return elem;
+}
+
+struct tplg_alloc {
+	struct list_head list;
+	void *data[0];
+};
+
+void *tplg_calloc(struct list_head *heap, size_t size)
+{
+	struct tplg_alloc *a;
+
+	a = calloc(1, sizeof(*a) + size);
+	if (a == NULL)
+		return NULL;
+	list_add_tail(&a->list, heap);
+	return a->data;
+}
+
+void tplg_free(struct list_head *heap)
+{
+	struct list_head *pos, *npos;
+	struct tplg_alloc *a;
+
+	list_for_each_safe(pos, npos, heap) {
+		a = list_entry(pos, struct tplg_alloc, list);
+		list_del(&a->list);
+		free(a);
+	}
 }

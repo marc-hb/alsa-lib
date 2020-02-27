@@ -89,6 +89,8 @@ static void configuration_filename(snd_use_case_mgr_t *uc_mgr,
 		env = getenv(ALSA_CONFIG_UCM2_VAR);
 		if (env == NULL) {
 			env = getenv(ALSA_CONFIG_UCM_VAR);
+			if (env)
+				uc_mgr->conf_format = 1;
 		} else {
 			uc_mgr->conf_format = 2;
 		}
@@ -120,6 +122,16 @@ static void configuration_filename(snd_use_case_mgr_t *uc_mgr,
 
 	/* make sure that the error message refers to the new path */
 	configuration_filename2(fn, fn_len, 2, dir, file, suffix);
+}
+
+/*
+ * Replace mallocated string
+ */
+static char *replace_string(char **dst, const char *value)
+{
+	free(*dst);
+	*dst = strdup(value);
+	return *dst;
 }
 
 /*
@@ -664,42 +676,41 @@ static int parse_value(snd_use_case_mgr_t *uc_mgr ATTRIBUTE_UNUSED,
 /*
  * Parse Modifier Use cases
  *
- *	# Each modifier is described in new section. N modifiers are allowed
- *	SectionModifier."Capture Voice" {
+ * # Each modifier is described in new section. N modifiers are allowed
+ * SectionModifier."Capture Voice" {
  *
- *		Comment "Record voice call"
+ *	Comment "Record voice call"
  *
- *		SupportedDevice [
- *			"x"
- *			"y"
- *		]
+ *	SupportedDevice [
+ *		"x"
+ *		"y"
+ *	]
  *
- *		ConflictingDevice [
- *			"x"
- *			"y"
- *		]
+ *	ConflictingDevice [
+ *		"x"
+ *		"y"
+ *	]
  *
- *		EnableSequence [
- *			....
- *		]
+ *	EnableSequence [
+ *		....
+ *	]
  *
- *		DisableSequence [
- *			...
- *		]
+ *	DisableSequence [
+ *		...
+ *	]
  *
- *              TransitionSequence."ToModifierName" [
- *			...
- *		]
+ *      TransitionSequence."ToModifierName" [
+ *		...
+ *	]
  *
- *		# Optional TQ and ALSA PCMs
- *		Value {
- *			TQ Voice
- *			CapturePCM "hw:1"
- *			PlaybackVolume "name='Master Playback Volume',index=2"
- *			PlaybackSwitch "name='Master Playback Switch',index=2"
- *		}
- *
- *	 }
+ *	# Optional TQ and ALSA PCMs
+ *	Value {
+ *		TQ Voice
+ *		CapturePCM "hw:1"
+ *		PlaybackVolume "name='Master Playback Volume',index=2"
+ *		PlaybackSwitch "name='Master Playback Switch',index=2"
+ *	}
+ * }
  *
  * SupportedDevice and ConflictingDevice cannot be specified together.
  * Both are optional.
@@ -824,11 +835,11 @@ static int parse_modifier(snd_use_case_mgr_t *uc_mgr,
 /*
  * Parse Device Use Cases
  *
- *# Each device is described in new section. N devices are allowed
- *SectionDevice."Headphones" {
+ * # Each device is described in new section. N devices are allowed
+ * SectionDevice."Headphones" {
  *	Comment "Headphones connected to 3.5mm jack"
  *
- *	upportedDevice [
+ *	SupportedDevice [
  *		"x"
  *		"y"
  *	]
@@ -974,6 +985,71 @@ static int parse_device(snd_use_case_mgr_t *uc_mgr,
 	return 0;
 }
 
+/*
+ * Parse Device Rename/Delete Command
+ *
+ * # The devices might be renamed to allow the better conditional runtime
+ * # evaluation. Bellow example renames Speaker1 device to Speaker and
+ * # removes Speaker2 device.
+ * RenameDevice."Speaker1" "Speaker"
+ * RemoveDevice."Speaker2" "Speaker2"
+ */
+static int parse_dev_name_list(snd_config_t *cfg,
+			       struct list_head *list)
+{
+	snd_config_t *n;
+	snd_config_iterator_t i, next;
+	const char *id, *name1;
+	char *name2;
+	struct ucm_dev_name *dev;
+	snd_config_iterator_t pos;
+	int err;
+
+	if (snd_config_get_id(cfg, &id) < 0)
+		return -EINVAL;
+
+	if (snd_config_get_type(cfg) != SND_CONFIG_TYPE_COMPOUND) {
+		uc_error("compound type expected for %s", id);
+		return -EINVAL;
+	}
+
+	snd_config_for_each(i, next, cfg) {
+		n = snd_config_iterator_entry(i);
+
+		if (snd_config_get_id(n, &name1) < 0)
+			return -EINVAL;
+
+		err = parse_string(n, &name2);
+		if (err < 0) {
+			uc_error("error: failed to get target device name for '%s'", name1);
+			return err;
+		}
+
+		/* skip duplicates */
+		list_for_each(pos, list) {
+			dev = list_entry(pos, struct ucm_dev_name, list);
+			if (strcmp(dev->name1, name1) == 0) {
+				free(name2);
+				return 0;
+			}
+		}
+
+		dev = calloc(1, sizeof(*dev));
+		if (dev == NULL)
+			return -ENOMEM;
+		dev->name1 = strdup(name1);
+		if (dev->name1 == NULL) {
+			free(dev);
+			free(name2);
+			return -ENOMEM;
+		}
+		dev->name2 = name2;
+		list_add_tail(&dev->list, list);
+	}
+
+	return 0;
+}
+
 static int parse_compound_check_legacy(snd_use_case_mgr_t *uc_mgr,
 	  snd_config_t *cfg,
 	  int (*fcn)(snd_use_case_mgr_t *, snd_config_t *, void *, void *),
@@ -1033,7 +1109,88 @@ static int parse_modifier_name(snd_use_case_mgr_t *uc_mgr,
 			     void *data1,
 			     void *data2 ATTRIBUTE_UNUSED)
 {
-	return parse_compound_check_legacy(uc_mgr, cfg, parse_modifier, data1);
+	return parse_compound(uc_mgr, cfg, parse_modifier, data1, data2);
+}
+
+static int verb_dev_list_add(struct use_case_verb *verb,
+			     enum dev_list_type dst_type,
+			     const char *dst,
+			     const char *src)
+{
+	struct use_case_device *device;
+	struct list_head *pos;
+
+	list_for_each(pos, &verb->device_list) {
+		device = list_entry(pos, struct use_case_device, list);
+		if (strcmp(device->name, dst) != 0)
+			continue;
+		if (device->dev_list.type != dst_type) {
+			if (list_empty(&device->dev_list.list)) {
+				device->dev_list.type = dst_type;
+			} else {
+				uc_error("error: incompatible device list type ('%s', '%s')",
+					 device->name, src);
+				return -EINVAL;
+			}
+		}
+		return uc_mgr_put_to_dev_list(&device->dev_list, src);
+	}
+	uc_error("error: unable to find device '%s'", dst);
+	return -ENOENT;
+}
+
+static int verb_dev_list_check(struct use_case_verb *verb)
+{
+	struct list_head *pos, *pos2;
+	struct use_case_device *device;
+	struct dev_list_node *dlist;
+	int err;
+
+	list_for_each(pos, &verb->device_list) {
+		device = list_entry(pos, struct use_case_device, list);
+		list_for_each(pos2, &device->dev_list.list) {
+			dlist = list_entry(pos2, struct dev_list_node, list);
+			err = verb_dev_list_add(verb, device->dev_list.type,
+						dlist->name, device->name);
+			if (err < 0)
+				return err;
+		}
+	}
+	return 0;
+}
+
+static int verb_device_management(struct use_case_verb *verb)
+{
+	struct list_head *pos;
+	struct ucm_dev_name *dev;
+	int err;
+
+	/* rename devices */
+	list_for_each(pos, &verb->rename_list) {
+		dev = list_entry(pos, struct ucm_dev_name, list);
+		err = uc_mgr_rename_device(verb, dev->name1, dev->name2);
+		if (err < 0) {
+			uc_error("error: cannot rename device '%s' to '%s'", dev->name1, dev->name2);
+			return err;
+		}
+	}
+
+	/* remove devices */
+	list_for_each(pos, &verb->rename_list) {
+		dev = list_entry(pos, struct ucm_dev_name, list);
+		err = uc_mgr_remove_device(verb, dev->name2);
+		if (err < 0) {
+			uc_error("error: cannot remove device '%s'", dev->name2);
+			return err;
+		}
+	}
+
+	/* those lists are no longer used */
+	uc_mgr_free_dev_name_list(&verb->rename_list);
+	uc_mgr_free_dev_name_list(&verb->remove_list);
+
+	/* handle conflicting/supported lists */
+	return verb_dev_list_check(verb);
 }
 
 /*
@@ -1155,7 +1312,7 @@ static int parse_verb_file(snd_use_case_mgr_t *uc_mgr,
 	snd_config_t *n;
 	struct use_case_verb *verb;
 	snd_config_t *cfg;
-	char filename[MAX_FILE];
+	char filename[PATH_MAX];
 	int err;
 
 	/* allocate verb */
@@ -1169,6 +1326,8 @@ static int parse_verb_file(snd_use_case_mgr_t *uc_mgr,
 	INIT_LIST_HEAD(&verb->cmpt_device_list);
 	INIT_LIST_HEAD(&verb->modifier_list);
 	INIT_LIST_HEAD(&verb->value_list);
+	INIT_LIST_HEAD(&verb->rename_list);
+	INIT_LIST_HEAD(&verb->remove_list);
 	list_add_tail(&verb->list, &uc_mgr->verb_list);
 	if (use_case_name == NULL)
 		return -EINVAL;
@@ -1184,7 +1343,7 @@ static int parse_verb_file(snd_use_case_mgr_t *uc_mgr,
 
 	/* open Verb file for reading */
 	configuration_filename(uc_mgr, filename, sizeof(filename),
-			       uc_mgr->conf_file_name, file, "");
+			       uc_mgr->conf_dir_name, file, "");
 	err = uc_mgr_config_load(uc_mgr->conf_format, filename, &cfg);
 	if (err < 0) {
 		uc_error("error: failed to open verb file %s : %d",
@@ -1238,6 +1397,26 @@ static int parse_verb_file(snd_use_case_mgr_t *uc_mgr,
 			}
 			continue;
 		}
+
+		/* device renames */
+		if (strcmp(id, "RenameDevice") == 0) {
+			err = parse_dev_name_list(n, &verb->rename_list);
+			if (err < 0) {
+				uc_error("error: %s failed to parse device rename",
+						file);
+				goto _err;
+			}
+		}
+
+		/* device remove */
+		if (strcmp(id, "RemoveDevice") == 0) {
+			err = parse_dev_name_list(n, &verb->remove_list);
+			if (err < 0) {
+				uc_error("error: %s failed to parse device remove",
+						file);
+				goto _err;
+			}
+		}
 	}
 
 	snd_config_delete(cfg);
@@ -1247,6 +1426,14 @@ static int parse_verb_file(snd_use_case_mgr_t *uc_mgr,
 		uc_error("error: no use case device defined", file);
 		return -EINVAL;
 	}
+
+	/* do device rename and delete */
+	err = verb_device_management(verb);
+	if (err < 0) {
+		uc_error("error: device management error in verb '%s'", verb->name);
+		return err;
+	}
+
 	return 0;
 
        _err:
@@ -1504,7 +1691,7 @@ static int get_card_long_name(snd_use_case_mgr_t *mgr, char *longname)
 	int card, err;
 	snd_ctl_t *ctl;
 	snd_ctl_card_info_t *info;
-	const char *_name, *_long_name;
+	const char *_driver, *_name, *_long_name;
 
 	snd_ctl_card_info_alloca(&info);
 
@@ -1524,9 +1711,11 @@ static int get_card_long_name(snd_use_case_mgr_t *mgr, char *longname)
 		err = get_card_info(mgr, name, &ctl, info);
 
 		if (err == 0) {
+			_driver = snd_ctl_card_info_get_driver(info);
 			_name = snd_ctl_card_info_get_name(info);
 			_long_name = snd_ctl_card_info_get_longname(info);
-			if (!strcmp(card_name, _name) ||
+			if (!strcmp(card_name, _driver) ||
+			    !strcmp(card_name, _name) ||
 			    !strcmp(card_name, _long_name)) {
 				snd_strlcpy(longname, _long_name, MAX_CARD_LONG_NAME);
 				return 0;
@@ -1549,7 +1738,7 @@ static int get_by_card(snd_use_case_mgr_t *mgr, const char *ctl_name, char *long
 {
 	snd_ctl_t *ctl;
 	snd_ctl_card_info_t *info;
-	const char *_name, *_long_name;
+	const char *_driver, *_long_name;
 	int err;
 
 	snd_ctl_card_info_alloca(&info);
@@ -1558,9 +1747,10 @@ static int get_by_card(snd_use_case_mgr_t *mgr, const char *ctl_name, char *long
 	if (err)
 		return err;
 
-	_name = snd_ctl_card_info_get_name(info);
+	_driver = snd_ctl_card_info_get_driver(info);
+	if (replace_string(&mgr->conf_dir_name, _driver) == NULL)
+		return -ENOMEM;
 	_long_name = snd_ctl_card_info_get_longname(info);
-	snd_strlcpy(mgr->conf_file_name, _name, sizeof(mgr->conf_file_name));
 	snd_strlcpy(longname, _long_name, MAX_CARD_LONG_NAME);
 
 	return 0;
@@ -1569,7 +1759,7 @@ static int get_by_card(snd_use_case_mgr_t *mgr, const char *ctl_name, char *long
 static int load_master_config(snd_use_case_mgr_t *uc_mgr,
 			      const char *card_name, snd_config_t **cfg, int longname)
 {
-	char filename[MAX_FILE];
+	char filename[PATH_MAX];
 	int err;
 
 	if (strnlen(card_name, MAX_CARD_LONG_NAME) == MAX_CARD_LONG_NAME) {
@@ -1583,7 +1773,7 @@ static int load_master_config(snd_use_case_mgr_t *uc_mgr,
 		if (getenv(ALSA_CONFIG_UCM2_VAR) || !getenv(ALSA_CONFIG_UCM_VAR)) {
 			uc_mgr->conf_format = 2;
 			configuration_filename(uc_mgr, filename, sizeof(filename),
-					       uc_mgr->conf_file_name, card_name, ".conf");
+					       uc_mgr->conf_dir_name, card_name, ".conf");
 			if (access(filename, R_OK) == 0)
 				goto __load;
 		}
@@ -1605,6 +1795,9 @@ __load:
 				card_name);
 		return err;
 	}
+
+	if (replace_string(&uc_mgr->conf_file_name, card_name) == NULL)
+		return -ENOMEM;
 
 	return 0;
 }
@@ -1630,7 +1823,8 @@ int uc_mgr_import_master_config(snd_use_case_mgr_t *uc_mgr)
 	char longname[MAX_CARD_LONG_NAME];
 	int err;
 
-	snd_strlcpy(uc_mgr->conf_file_name, uc_mgr->card_name, sizeof(uc_mgr->conf_file_name));
+	if (replace_string(&uc_mgr->conf_dir_name, uc_mgr->card_name) == NULL)
+		return -ENOMEM;
 
 	if (strncmp(name, "hw:", 3) == 0) {
 		err = get_by_card(uc_mgr, name, longname);
@@ -1647,13 +1841,15 @@ __longname:
 
 		if (err == 0) {
 			/* got device-specific file that matches the card long name */
-			snd_strlcpy(uc_mgr->conf_file_name, longname, sizeof(uc_mgr->conf_file_name));
+			if (uc_mgr->conf_format < 2)
+				snd_strlcpy(uc_mgr->conf_dir_name, longname,
+					    sizeof(uc_mgr->conf_dir_name));
 			goto __parse;
 		}
 	}
 
 	/* standard path */
-	err = load_master_config(uc_mgr, uc_mgr->conf_file_name, &cfg, 0);
+	err = load_master_config(uc_mgr, uc_mgr->conf_dir_name, &cfg, 0);
 	if (err < 0)
 		goto __error;
 
@@ -1669,7 +1865,7 @@ __parse:
 
 __error:
 	uc_mgr_free_ctl_list(uc_mgr);
-	uc_mgr->conf_file_name[0] = '\0';
+	uc_mgr->conf_dir_name[0] = '\0';
 	return err;
 }
 
@@ -1714,7 +1910,7 @@ static int is_component_directory(const char *dir)
  */
 int uc_mgr_scan_master_configs(const char **_list[])
 {
-	char filename[MAX_FILE], dfl[MAX_FILE];
+	char filename[PATH_MAX], dfl[PATH_MAX];
 	char *env = getenv(ALSA_CONFIG_UCM2_VAR);
 	const char **list, *d_name;
 	snd_config_t *cfg, *c;

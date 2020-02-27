@@ -43,7 +43,6 @@ static const struct map_elem widget_map[] = {
 	{"effect", SND_SOC_TPLG_DAPM_EFFECT},
 	{"siggen", SND_SOC_TPLG_DAPM_SIGGEN},
 	{"src", SND_SOC_TPLG_DAPM_SRC},
-	{"asrc", SND_SOC_TPLG_DAPM_ASRC},
 	{"encoder", SND_SOC_TPLG_DAPM_ENCODER},
 	{"decoder", SND_SOC_TPLG_DAPM_DECODER},
 };
@@ -60,70 +59,16 @@ static int lookup_widget(const char *w)
 	return -EINVAL;
 }
 
-static int tplg_parse_dapm_mixers(snd_config_t *cfg, struct tplg_elem *elem)
+static const char *get_widget_name(unsigned int type)
 {
-	snd_config_iterator_t i, next;
-	snd_config_t *n;
-	const char *value = NULL;
+	unsigned int i;
 
-	tplg_dbg(" DAPM Mixer Controls: %s\n", elem->id);
-
-	snd_config_for_each(i, next, cfg) {
-		n = snd_config_iterator_entry(i);
-
-		/* get value */
-		if (snd_config_get_string(n, &value) < 0)
-			continue;
-
-		tplg_ref_add(elem, SND_TPLG_TYPE_MIXER, value);
-		tplg_dbg("\t\t %s\n", value);
+	for (i = 0; i < ARRAY_SIZE(widget_map); i++) {
+		if ((unsigned int)widget_map[i].id == type)
+			return widget_map[i].name;
 	}
 
-	return 0;
-}
-
-static int tplg_parse_dapm_enums(snd_config_t *cfg, struct tplg_elem *elem)
-{
-	snd_config_iterator_t i, next;
-	snd_config_t *n;
-	const char *value = NULL;
-
-	tplg_dbg(" DAPM Enum Controls: %s\n", elem->id);
-
-	snd_config_for_each(i, next, cfg) {
-		n = snd_config_iterator_entry(i);
-
-		/* get value */
-		if (snd_config_get_string(n, &value) < 0)
-			continue;
-
-		tplg_ref_add(elem, SND_TPLG_TYPE_ENUM, value);
-		tplg_dbg("\t\t %s\n", value);
-	}
-
-	return 0;
-}
-
-static int tplg_parse_dapm_bytes(snd_config_t *cfg, struct tplg_elem *elem)
-{
-	snd_config_iterator_t i, next;
-	snd_config_t *n;
-	const char *value = NULL;
-
-	tplg_dbg(" DAPM Bytes Controls: %s\n", elem->id);
-
-	snd_config_for_each(i, next, cfg) {
-		n = snd_config_iterator_entry(i);
-
-		/* get value */
-		if (snd_config_get_string(n, &value) < 0)
-			continue;
-
-		tplg_ref_add(elem, SND_TPLG_TYPE_BYTES, value);
-		tplg_dbg("\t\t %s\n", value);
-	}
-
-	return 0;
+	return NULL;
 }
 
 /* move referenced controls to the widget */
@@ -131,8 +76,8 @@ static int copy_dapm_control(struct tplg_elem *elem, struct tplg_elem *ref)
 {
 	struct snd_soc_tplg_dapm_widget *widget = elem->widget;
 
-	tplg_dbg("Control '%s' used by '%s'\n", ref->id, elem->id);
-	tplg_dbg("\tparent size: %d + %d -> %d, priv size -> %d\n",
+	tplg_dbg("Control '%s' used by '%s'", ref->id, elem->id);
+	tplg_dbg("\tparent size: %d + %d -> %d, priv size -> %d",
 		elem->size, ref->size, elem->size + ref->size,
 		widget->priv.size);
 
@@ -152,8 +97,7 @@ static int copy_dapm_control(struct tplg_elem *elem, struct tplg_elem *ref)
 }
 
 /* check referenced controls for a widget */
-static int tplg_build_widget(snd_tplg_t *tplg,
-	struct tplg_elem *elem)
+static int tplg_build_widget(snd_tplg_t *tplg, struct tplg_elem *elem)
 {
 	struct tplg_ref *ref;
 	struct list_head *base, *pos;
@@ -164,7 +108,7 @@ static int tplg_build_widget(snd_tplg_t *tplg,
 	/* A widget's private data sits before the embedded controls.
 	 * So merge the private data blocks at first
 	 */
-	 list_for_each(pos, base) {
+	list_for_each(pos, base) {
 		ref = list_entry(pos, struct tplg_ref, list);
 
 		if (ref->type != SND_TPLG_TYPE_DATA)
@@ -210,8 +154,7 @@ static int tplg_build_widget(snd_tplg_t *tplg,
 		}
 
 		if (!ref->elem) {
-			SNDERR("error: cannot find '%s'"
-				" referenced by widget '%s'\n",
+			SNDERR("cannot find '%s' referenced by widget '%s'",
 				ref->id, elem->id);
 			return -EINVAL;
 		}
@@ -235,8 +178,7 @@ int tplg_build_widgets(snd_tplg_t *tplg)
 
 		elem = list_entry(pos, struct tplg_elem, list);
 		if (!elem->widget || elem->type != SND_TPLG_TYPE_DAPM_WIDGET) {
-			SNDERR("error: invalid widget '%s'\n",
-				elem->id);
+			SNDERR("invalid widget '%s'", elem->id);
 			return -EINVAL;
 		}
 
@@ -263,25 +205,23 @@ int tplg_build_routes(snd_tplg_t *tplg)
 		elem = list_entry(pos, struct tplg_elem, list);
 
 		if (!elem->route || elem->type != SND_TPLG_TYPE_DAPM_GRAPH) {
-			SNDERR("error: invalid route '%s'\n",
-				elem->id);
+			SNDERR("invalid route '%s'", elem->id);
 			return -EINVAL;
 		}
 
 		route = elem->route;
-		tplg_dbg("\nCheck route: sink '%s', control '%s', source '%s'\n",
-			route->sink, route->control, route->source);
+		tplg_dbg("Check route: sink '%s', control '%s', source '%s'",
+			 route->sink, route->control, route->source);
 
 		/* validate sink */
 		if (strlen(route->sink) <= 0) {
-			SNDERR("error: no sink\n");
+			SNDERR("no sink");
 			return -EINVAL;
 
 		}
 		if (!tplg_elem_lookup(&tplg->widget_list, route->sink,
 			SND_TPLG_TYPE_DAPM_WIDGET, SND_TPLG_INDEX_ALL)) {
-			SNDERR("warning: undefined sink widget/stream '%s'\n",
-				route->sink);
+			SNDERR("undefined sink widget/stream '%s'", route->sink);
 		}
 
 		/* validate control name */
@@ -290,21 +230,21 @@ int tplg_build_routes(snd_tplg_t *tplg)
 					SND_TPLG_TYPE_MIXER, elem->index) &&
 			!tplg_elem_lookup(&tplg->enum_list, route->control,
 					SND_TPLG_TYPE_ENUM, elem->index)) {
-				SNDERR("warning: Undefined mixer/enum control '%s'\n",
-					route->control);
+				SNDERR("undefined mixer/enum control '%s'",
+				       route->control);
 			}
 		}
 
 		/* validate source */
 		if (strlen(route->source) <= 0) {
-			SNDERR("error: no source\n");
+			SNDERR("no source");
 			return -EINVAL;
 
 		}
 		if (!tplg_elem_lookup(&tplg->widget_list, route->source,
 			SND_TPLG_TYPE_DAPM_WIDGET, SND_TPLG_INDEX_ALL)) {
-			SNDERR("warning: Undefined source widget/stream '%s'\n",
-				route->source);
+			SNDERR("undefined source widget/stream '%s'",
+			       route->source);
 		}
 
 		/* add graph to manifest */
@@ -314,7 +254,7 @@ int tplg_build_routes(snd_tplg_t *tplg)
 	return 0;
 }
 
-struct tplg_elem* tplg_elem_new_route(snd_tplg_t *tplg)
+struct tplg_elem *tplg_elem_new_route(snd_tplg_t *tplg, int index)
 {
 	struct tplg_elem *elem;
 	struct snd_soc_tplg_dapm_graph_elem *line;
@@ -323,7 +263,11 @@ struct tplg_elem* tplg_elem_new_route(snd_tplg_t *tplg)
 	if (!elem)
 		return NULL;
 
-	list_add_tail(&elem->list, &tplg->route_list);
+	elem->index = index;
+	if (tplg->dapm_sort)
+		tplg_elem_insert(elem, &tplg->route_list);
+	else
+		list_add_tail(&elem->list, &tplg->route_list);
 	strcpy(elem->id, "line");
 	elem->type = SND_TPLG_TYPE_DAPM_GRAPH;
 	elem->size = sizeof(*line);
@@ -340,9 +284,9 @@ struct tplg_elem* tplg_elem_new_route(snd_tplg_t *tplg)
 
 #define LINE_SIZE	1024
 
-/* line is defined as '"source, control, sink"' */
+/* line is defined as '"sink, control, source"' */
 static int tplg_parse_line(const char *text,
-	struct snd_soc_tplg_dapm_graph_elem *line)
+			   struct snd_soc_tplg_dapm_graph_elem *line)
 {
 	char buf[LINE_SIZE];
 	unsigned int len, i;
@@ -352,7 +296,7 @@ static int tplg_parse_line(const char *text,
 
 	len = strlen(buf);
 	if (len <= 2) {
-		SNDERR("error: invalid route \"%s\"\n", buf);
+		SNDERR("invalid route \"%s\"", buf);
 		return -EINVAL;
 	}
 
@@ -361,7 +305,7 @@ static int tplg_parse_line(const char *text,
 		if (buf[i] == ',')
 			goto second;
 	}
-	SNDERR("error: invalid route \"%s\"\n", buf);
+	SNDERR("invalid route \"%s\"", buf);
 	return -EINVAL;
 
 second:
@@ -375,7 +319,7 @@ second:
 			goto done;
 	}
 
-	SNDERR("error: invalid route \"%s\"\n", buf);
+	SNDERR("invalid route \"%s\"", buf);
 	return -EINVAL;
 
 done:
@@ -404,17 +348,16 @@ static int tplg_parse_routes(snd_tplg_t *tplg, snd_config_t *cfg, int index)
 		if (snd_config_get_string(n, &val) < 0)
 			continue;
 
-		elem = tplg_elem_new_route(tplg);
+		elem = tplg_elem_new_route(tplg, index);
 		if (!elem)
 			return -ENOMEM;
-		elem->index = index;
 		line = elem->route;
 
 		err = tplg_parse_line(val, line);
 		if (err < 0)
 			return err;
 
-		tplg_dbg("route: sink '%s', control '%s', source '%s'\n",
+		tplg_dbg("route: sink '%s', control '%s', source '%s'",
 				line->sink, line->control, line->source);
 	}
 
@@ -422,16 +365,16 @@ static int tplg_parse_routes(snd_tplg_t *tplg, snd_config_t *cfg, int index)
 }
 
 int tplg_parse_dapm_graph(snd_tplg_t *tplg, snd_config_t *cfg,
-	void *private ATTRIBUTE_UNUSED)
+			  void *private ATTRIBUTE_UNUSED)
 {
 	snd_config_iterator_t i, next;
 	snd_config_t *n;
 	int err;
-	const char *graph_id, *val = NULL;
+	const char *graph_id;
 	int index = -1;
 
 	if (snd_config_get_type(cfg) != SND_CONFIG_TYPE_COMPOUND) {
-		SNDERR("error: compound is expected for dapm graph definition\n");
+		SNDERR("compound is expected for dapm graph definition");
 		return -EINVAL;
 	}
 
@@ -446,20 +389,21 @@ int tplg_parse_dapm_graph(snd_tplg_t *tplg, snd_config_t *cfg,
 		}
 
 		if (strcmp(id, "index") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
+			if (tplg_get_integer(n, &index, 0))
 				return -EINVAL;
-			index = atoi(val);
+			if (index < 0)
+				return -EINVAL;
 		}
 
 		if (strcmp(id, "lines") == 0) {
 			if (index < 0) {
-				SNDERR("error: failed to parse dapm graph %s, missing index\n",
+				SNDERR("failed to parse dapm graph %s, missing index",
 					graph_id);
 				return -EINVAL;
 			}
 			err = tplg_parse_routes(tplg, n, index);
 			if (err < 0) {
-				SNDERR("error: failed to parse dapm graph %s\n",
+				SNDERR("failed to parse dapm graph %s",
 					graph_id);
 				return err;
 			}
@@ -470,22 +414,113 @@ int tplg_parse_dapm_graph(snd_tplg_t *tplg, snd_config_t *cfg,
 	return 0;
 }
 
+/* save DAPM graph */
+int tplg_save_dapm_graph(snd_tplg_t *tplg, int index, char **dst, const char *pfx)
+{
+	struct snd_soc_tplg_dapm_graph_elem *route;
+	struct list_head *pos;
+	struct tplg_elem *elem;
+	int err, first, old_index;
+	unsigned block, count;
+	const char *fmt;
+
+	old_index = -1;
+	block = 0;
+	count = 0;
+	list_for_each(pos, &tplg->route_list) {
+		elem = list_entry(pos, struct tplg_elem, list);
+		if (!elem->route || elem->type != SND_TPLG_TYPE_DAPM_GRAPH)
+			continue;
+		if (index >= 0 && elem->index != index)
+			continue;
+		if (old_index != elem->index) {
+			block++;
+			old_index = elem->index;
+		}
+		count++;
+	}
+	if (count == 0)
+		return 0;
+	if (block < 10) {
+		fmt = "\tset%u {\n";
+	} else if (block < 100) {
+		fmt = "\tset%02u {\n";
+	} else if (block < 1000) {
+		fmt = "\tset%03u {\n";
+	} else {
+		return -EINVAL;
+	}
+	old_index = -1;
+	block = -1;
+	first = 1;
+	err = tplg_save_printf(dst, pfx, "SectionGraph {\n");
+	list_for_each(pos, &tplg->route_list) {
+		elem = list_entry(pos, struct tplg_elem, list);
+		if (!elem->route || elem->type != SND_TPLG_TYPE_DAPM_GRAPH)
+			continue;
+		if (index >= 0 && elem->index != index)
+			continue;
+		if (old_index != elem->index) {
+			if (old_index >= 0) {
+				err = tplg_save_printf(dst, pfx, "\t\t]\n");
+				if (err < 0)
+					return err;
+				err = tplg_save_printf(dst, pfx, "\t}\n");
+				if (err < 0)
+					return err;
+			}
+			old_index = elem->index;
+			block++;
+			first = 1;
+			err = tplg_save_printf(dst, pfx, fmt, block);
+			if (err >= 0)
+				err = tplg_save_printf(dst, pfx, "\t\tindex %u\n",
+						       elem->index);
+			if (err < 0)
+				return err;
+		}
+		if (first) {
+			first = 0;
+			err = tplg_save_printf(dst, pfx, "\t\tlines [\n", elem->index);
+			if (err < 0)
+				return err;
+		}
+		route = elem->route;
+		err = tplg_save_printf(dst, pfx, "\t\t\t'%s, %s, %s'\n",
+					route->sink, route->control,
+					route->source);
+		if (err < 0)
+			return err;
+	}
+
+	if (!first) {
+		if (err >= 0)
+			err = tplg_save_printf(dst, pfx, "\t\t]\n");
+		if (err >= 0)
+			err = tplg_save_printf(dst, pfx, "\t}\n");
+	}
+
+	if (err >= 0)
+		err = tplg_save_printf(dst, pfx, "}\n");
+	return err;
+}
+
 /* DAPM Widget */
 int tplg_parse_dapm_widget(snd_tplg_t *tplg,
-	snd_config_t *cfg, void *private ATTRIBUTE_UNUSED)
+			   snd_config_t *cfg, void *private ATTRIBUTE_UNUSED)
 {
 	struct snd_soc_tplg_dapm_widget *widget;
 	struct tplg_elem *elem;
 	snd_config_iterator_t i, next;
 	snd_config_t *n;
 	const char *id, *val = NULL;
-	int widget_type, err;
+	int widget_type, err, ival;
 
 	elem = tplg_elem_new_common(tplg, cfg, NULL, SND_TPLG_TYPE_DAPM_WIDGET);
 	if (!elem)
 		return -ENOMEM;
 
-	tplg_dbg(" Widget: %s\n", elem->id);
+	tplg_dbg(" Widget: %s", elem->id);
 
 	widget = elem->widget;
 	snd_strlcpy(widget->name, elem->id, SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
@@ -509,13 +544,13 @@ int tplg_parse_dapm_widget(snd_tplg_t *tplg,
 
 			widget_type = lookup_widget(val);
 			if (widget_type < 0){
-				SNDERR("Widget '%s': Unsupported widget type %s\n",
+				SNDERR("widget '%s': Unsupported widget type %s",
 					elem->id, val);
 				return -EINVAL;
 			}
 
 			widget->id = widget_type;
-			tplg_dbg("\t%s: %s\n", id, val);
+			tplg_dbg("\t%s: %s", id, val);
 			continue;
 		}
 
@@ -525,77 +560,77 @@ int tplg_parse_dapm_widget(snd_tplg_t *tplg,
 
 			snd_strlcpy(widget->sname, val,
 				       SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
-			tplg_dbg("\t%s: %s\n", id, val);
+			tplg_dbg("\t%s: %s", id, val);
 			continue;
 		}
 
 		if (strcmp(id, "no_pm") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
+			ival = snd_config_get_bool(n);
+			if (ival < 0)
 				return -EINVAL;
 
-			if (strcmp(val, "true") == 0)
-				widget->reg = -1;
+			widget->reg = ival ? -1 : 0;
 
-			tplg_dbg("\t%s: %s\n", id, val);
+			tplg_dbg("\t%s: %s", id, val);
 			continue;
 		}
 
 		if (strcmp(id, "shift") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
+			if (tplg_get_integer(n, &ival, 0))
 				return -EINVAL;
 
-			widget->shift = atoi(val);
-			tplg_dbg("\t%s: %d\n", id, widget->shift);
+			widget->shift = ival;
+			tplg_dbg("\t%s: %d", id, widget->shift);
 			continue;
 		}
 
 		if (strcmp(id, "reg") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
+			if (tplg_get_integer(n, &ival, 0))
 				return -EINVAL;
 
-			widget->reg = atoi(val);
-			tplg_dbg("\t%s: %d\n", id, widget->reg);
+			widget->reg = ival;
+			tplg_dbg("\t%s: %d", id, widget->reg);
 			continue;
 		}
 
 		if (strcmp(id, "invert") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
+			if (tplg_get_integer(n, &ival, 0))
 				return -EINVAL;
 
-			widget->invert = atoi(val);
-			tplg_dbg("\t%s: %d\n", id, widget->invert);
+			widget->invert = ival;
+			tplg_dbg("\t%s: %d", id, widget->invert);
 			continue;
 		}
 
 		if (strcmp(id, "subseq") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
+			if (tplg_get_integer(n, &ival, 0))
 				return -EINVAL;
 
-			widget->subseq= atoi(val);
-			tplg_dbg("\t%s: %d\n", id, widget->subseq);
+			widget->subseq = ival;
+			tplg_dbg("\t%s: %d", id, widget->subseq);
 			continue;
 		}
 
 		if (strcmp(id, "event_type") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
+			if (tplg_get_integer(n, &ival, 0))
 				return -EINVAL;
 
-			widget->event_type = atoi(val);
-			tplg_dbg("\t%s: %d\n", id, widget->event_type);
+			widget->event_type = ival;
+			tplg_dbg("\t%s: %d", id, widget->event_type);
 			continue;
 		}
 
 		if (strcmp(id, "event_flags") == 0) {
-			if (snd_config_get_string(n, &val) < 0)
+			if (tplg_get_integer(n, &ival, 0))
 				return -EINVAL;
 
-			widget->event_flags = atoi(val);
-			tplg_dbg("\t%s: %d\n", id, widget->event_flags);
+			widget->event_flags = ival;
+			tplg_dbg("\t%s: %d", id, widget->event_flags);
 			continue;
 		}
 
 		if (strcmp(id, "enum") == 0) {
-			err = tplg_parse_dapm_enums(n, elem);
+			err = tplg_parse_refs(n, elem, SND_TPLG_TYPE_ENUM);
 			if (err < 0)
 				return err;
 
@@ -603,7 +638,7 @@ int tplg_parse_dapm_widget(snd_tplg_t *tplg,
 		}
 
 		if (strcmp(id, "mixer") == 0) {
-			err = tplg_parse_dapm_mixers(n, elem);
+			err = tplg_parse_refs(n, elem, SND_TPLG_TYPE_MIXER);
 			if (err < 0)
 				return err;
 
@@ -611,7 +646,7 @@ int tplg_parse_dapm_widget(snd_tplg_t *tplg,
 		}
 
 		if (strcmp(id, "bytes") == 0) {
-			err = tplg_parse_dapm_bytes(n, elem);
+			err = tplg_parse_refs(n, elem, SND_TPLG_TYPE_BYTES);
 			if (err < 0)
 				return err;
 
@@ -619,7 +654,7 @@ int tplg_parse_dapm_widget(snd_tplg_t *tplg,
 		}
 
 		if (strcmp(id, "data") == 0) {
-			err = tplg_parse_data_refs(n, elem);
+			err = tplg_parse_refs(n, elem, SND_TPLG_TYPE_DATA);
 			if (err < 0)
 				return err;
 			continue;
@@ -629,7 +664,67 @@ int tplg_parse_dapm_widget(snd_tplg_t *tplg,
 	return 0;
 }
 
-int tplg_add_route(snd_tplg_t *tplg, struct snd_tplg_graph_elem *t)
+/* save DAPM widget */
+int tplg_save_dapm_widget(snd_tplg_t *tplg ATTRIBUTE_UNUSED,
+			  struct tplg_elem *elem,
+			  char **dst, const char *pfx)
+{
+	struct snd_soc_tplg_dapm_widget *widget = elem->widget;
+	const char *s;
+	char pfx2[16];
+	int err;
+
+	err = tplg_save_printf(dst, NULL, "'%s' {\n", elem->id);
+	if (err >= 0 && elem->index)
+		err = tplg_save_printf(dst, pfx, "\tindex %u\n",
+				       elem->index);
+	if (err >= 0) {
+		s = get_widget_name(widget->id);
+		if (s)
+			err = tplg_save_printf(dst, pfx, "\ttype %s\n", s);
+		else
+			err = tplg_save_printf(dst, pfx, "\ttype %u\n",
+					       widget->id);
+	}
+	if (err >= 0 && widget->sname[0])
+		err = tplg_save_printf(dst, pfx, "\tstream_name '%s'\n",
+				       widget->sname);
+	if (err >= 0 && widget->reg)
+		err = tplg_save_printf(dst, pfx, "\tno_pm 1\n");
+	if (err >= 0 && widget->shift)
+		err = tplg_save_printf(dst, pfx, "\tshift %u\n",
+				       widget->shift);
+	if (err >= 0 && widget->invert)
+		err = tplg_save_printf(dst, pfx, "\tinvert %u\n",
+				       widget->invert);
+	if (err >= 0 && widget->subseq)
+		err = tplg_save_printf(dst, pfx, "\tsubseq %u\n",
+				       widget->subseq);
+	if (err >= 0 && widget->event_type)
+		err = tplg_save_printf(dst, pfx, "\tevent_type %u\n",
+				       widget->event_type);
+	if (err >= 0 && widget->event_flags)
+		err = tplg_save_printf(dst, pfx, "\tevent_flags %u\n",
+				       widget->event_flags);
+	snprintf(pfx2, sizeof(pfx2), "%s\t", pfx ?: "");
+	if (err >= 0)
+		err = tplg_save_refs(tplg, elem, SND_TPLG_TYPE_ENUM,
+				     "enum", dst, pfx2);
+	if (err >= 0)
+		err = tplg_save_refs(tplg, elem, SND_TPLG_TYPE_MIXER,
+				     "mixer", dst, pfx2);
+	if (err >= 0)
+		err = tplg_save_refs(tplg, elem, SND_TPLG_TYPE_BYTES,
+				     "bytes", dst, pfx2);
+	if (err >= 0)
+		err = tplg_save_refs(tplg, elem, SND_TPLG_TYPE_DATA,
+				     "data", dst, pfx2);
+	if (err >= 0)
+		err = tplg_save_printf(dst, pfx, "}\n");
+	return err;
+}
+
+int tplg_add_route(snd_tplg_t *tplg, struct snd_tplg_graph_elem *t, int index)
 {
 	struct tplg_elem *elem;
 	struct snd_soc_tplg_dapm_graph_elem *line;
@@ -637,7 +732,7 @@ int tplg_add_route(snd_tplg_t *tplg, struct snd_tplg_graph_elem *t)
 	if (!t->src || !t->sink)
 		return -EINVAL;
 
-	elem = tplg_elem_new_route(tplg);
+	elem = tplg_elem_new_route(tplg, index);
 	if (!elem)
 		return -ENOMEM;
 
@@ -645,7 +740,7 @@ int tplg_add_route(snd_tplg_t *tplg, struct snd_tplg_graph_elem *t)
 	snd_strlcpy(line->source, t->src, SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
 	if (t->ctl)
 		snd_strlcpy(line->control, t->ctl,
-			SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
+				SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
 	snd_strlcpy(line->sink, t->sink, SNDRV_CTL_ELEM_ID_NAME_MAXLEN);
 
 	return 0;
@@ -657,7 +752,7 @@ int tplg_add_graph_object(snd_tplg_t *tplg, snd_tplg_obj_template_t *t)
 	int i, ret;
 
 	for (i = 0; i < gt->count; i++) {
-		ret = tplg_add_route(tplg, gt->elem + i);
+		ret = tplg_add_route(tplg, gt->elem + i, t->index);
 		if (ret < 0)
 			return ret;
 	}
@@ -672,7 +767,7 @@ int tplg_add_widget_object(snd_tplg_t *tplg, snd_tplg_obj_template_t *t)
 	struct tplg_elem *elem;
 	int i, ret = 0;
 
-	tplg_dbg("Widget: %s\n", wt->name);
+	tplg_dbg("Widget: %s", wt->name);
 
 	elem = tplg_elem_new_common(tplg, NULL, wt->name,
 		SND_TPLG_TYPE_DAPM_WIDGET);
@@ -696,20 +791,14 @@ int tplg_add_widget_object(snd_tplg_t *tplg, snd_tplg_obj_template_t *t)
 	w->event_flags = wt->event_flags;
 	w->event_type = wt->event_type;
 
-	if (wt->priv != NULL) {
-		w = realloc(w,
-			elem->size + wt->priv->size);
-		if (!w) {
+	/* add private data */
+	if (wt->priv != NULL && wt->priv->size > 0) {
+		ret = tplg_add_data(tplg, elem, wt->priv,
+				    sizeof(*wt->priv) + wt->priv->size);
+		if (ret < 0) {
 			tplg_elem_free(elem);
-			return -ENOMEM;
+			return ret;
 		}
-
-		elem->widget = w;
-		elem->size += wt->priv->size;
-
-		memcpy(w->priv.data, wt->priv->data,
-			wt->priv->size);
-		w->priv.size = wt->priv->size;
 	}
 
 	/* add controls to the widget's reference list */
@@ -742,9 +831,8 @@ int tplg_add_widget_object(snd_tplg_t *tplg, snd_tplg_obj_template_t *t)
 			break;
 
 		default:
-			SNDERR("error: widget %s: invalid type %d for ctl %d\n",
+			SNDERR("widget %s: invalid type %d for ctl %d",
 				wt->name, ct->type, i);
-			ret = -EINVAL;
 			break;
 		}
 
@@ -761,4 +849,214 @@ int tplg_add_widget_object(snd_tplg_t *tplg, snd_tplg_obj_template_t *t)
 	}
 
 	return 0;
+}
+
+/* decode dapm widget from the binary input */
+int tplg_decode_dapm_widget(snd_tplg_t *tplg,
+			    size_t pos,
+			    struct snd_soc_tplg_hdr *hdr,
+			    void *bin, size_t size)
+{
+	struct list_head heap;
+	struct snd_soc_tplg_dapm_widget *w;
+	snd_tplg_obj_template_t t;
+	struct snd_tplg_widget_template *wt;
+	struct snd_tplg_mixer_template *mt;
+	struct snd_tplg_enum_template *et;
+	struct snd_tplg_bytes_template *bt;
+	struct snd_soc_tplg_ctl_hdr *chdr;
+	struct snd_soc_tplg_mixer_control *mc;
+	struct snd_soc_tplg_enum_control *ec;
+	struct snd_soc_tplg_bytes_control *bc;
+	size_t size2;
+	unsigned int index;
+	int err;
+
+	err = tplg_decode_template(tplg, pos, hdr, &t);
+	if (err < 0)
+		return err;
+
+next:
+	INIT_LIST_HEAD(&heap);
+	w = bin;
+
+	if (size < sizeof(*w)) {
+		SNDERR("dapm widget: small size %d", size);
+		return -EINVAL;
+	}
+	if (sizeof(*w) != w->size) {
+		SNDERR("dapm widget: unknown element size %d (expected %zd)",
+		       w->size, sizeof(*w));
+		return -EINVAL;
+	}
+	if (w->num_kcontrols > 16) {
+		SNDERR("dapm widget: too many kcontrols %d",
+		       w->num_kcontrols);
+		return -EINVAL;
+	}
+
+	tplg_log(tplg, 'D', pos, "dapm widget: size %d private size %d kcontrols %d",
+		 w->size, w->priv.size, w->num_kcontrols);
+
+	wt = tplg_calloc(&heap, sizeof(*wt) + sizeof(void *) * w->num_kcontrols);
+	if (wt == NULL)
+		return -ENOMEM;
+	wt->id = w->id;
+	wt->name = w->name;
+	wt->sname = w->sname;
+	wt->reg = w->reg;
+	wt->shift = w->shift;
+	wt->mask = w->mask;
+	wt->subseq = w->subseq;
+	wt->invert = w->invert;
+	wt->ignore_suspend = w->ignore_suspend;
+	wt->event_flags = w->event_flags;
+	wt->event_type = w->event_type;
+
+	tplg_log(tplg, 'D', pos, "dapm widget: name '%s' sname '%s'",
+		 wt->name, wt->sname);
+
+	if (sizeof(*w) + w->priv.size > size) {
+		SNDERR("dapm widget: wrong private data size %d",
+		       w->priv.size);
+		return -EINVAL;
+	}
+
+	tplg_log(tplg, 'D', pos + offsetof(struct snd_soc_tplg_dapm_widget, priv),
+		 "dapm widget: private start");
+
+	wt->priv = &w->priv;
+	bin += sizeof(*w) + w->priv.size;
+	size -= sizeof(*w) + w->priv.size;
+	pos += sizeof(*w) + w->priv.size;
+
+	for (index = 0; index < w->num_kcontrols; index++) {
+		chdr = bin;
+		switch (chdr->type) {
+		case SND_SOC_TPLG_TYPE_MIXER:
+			mt = tplg_calloc(&heap, sizeof(*mt));
+			if (mt == NULL) {
+				err = -ENOMEM;
+				goto retval;
+			}
+			wt->ctl[index] = (void *)mt;
+			wt->num_ctls++;
+			mc = bin;
+			size2 = mc->size + mc->priv.size;
+			tplg_log(tplg, 'D', pos, "kcontrol mixer size %zd", size2);
+			if (size2 > size) {
+				SNDERR("dapm widget: small mixer size %d",
+				       size2);
+				err = -EINVAL;
+				goto retval;
+			}
+			err = tplg_decode_control_mixer1(tplg, &heap, mt, pos,
+							 bin, size2);
+			break;
+		case SND_SOC_TPLG_TYPE_ENUM:
+			et = tplg_calloc(&heap, sizeof(*mt));
+			if (et == NULL) {
+				err = -ENOMEM;
+				goto retval;
+			}
+			wt->ctl[index] = (void *)et;
+			wt->num_ctls++;
+			ec = bin;
+			size2 = ec->size + ec->priv.size;
+			tplg_log(tplg, 'D', pos, "kcontrol enum size %zd", size2);
+			if (size2 > size) {
+				SNDERR("dapm widget: small enum size %d",
+				       size2);
+				err = -EINVAL;
+				goto retval;
+			}
+			err = tplg_decode_control_enum1(tplg, &heap, et, pos,
+							bin, size2);
+			break;
+		case SND_SOC_TPLG_TYPE_BYTES:
+			bt = tplg_calloc(&heap, sizeof(*bt));
+			if (bt == NULL) {
+				err = -ENOMEM;
+				goto retval;
+			}
+			wt->ctl[index] = (void *)bt;
+			wt->num_ctls++;
+			bc = bin;
+			size2 = bc->size + bc->priv.size;
+			tplg_log(tplg, 'D', pos, "kcontrol bytes size %zd", size2);
+			if (size2 > size) {
+				SNDERR("dapm widget: small bytes size %d",
+				       size2);
+				err = -EINVAL;
+				goto retval;
+			}
+			err = tplg_decode_control_bytes1(tplg, bt, pos,
+							 bin, size2);
+			break;
+		default:
+			SNDERR("dapm widget: wrong control type %d",
+			       chdr->type);
+			err = -EINVAL;
+			goto retval;
+		}
+		if (err < 0)
+			goto retval;
+		bin += size2;
+		size -= size2;
+		pos += size2;
+	}
+
+	t.widget = wt;
+	err = snd_tplg_add_object(tplg, &t);
+	tplg_free(&heap);
+	if (err < 0)
+		return err;
+	if (size > 0)
+		goto next;
+	return 0;
+
+retval:
+	tplg_free(&heap);
+	return err;
+}
+
+/* decode dapm link from the binary input */
+int tplg_decode_dapm_graph(snd_tplg_t *tplg,
+			   size_t pos,
+			   struct snd_soc_tplg_hdr *hdr,
+			   void *bin, size_t size)
+{
+	struct snd_soc_tplg_dapm_graph_elem *g;
+	snd_tplg_obj_template_t t;
+	struct snd_tplg_graph_template *gt;
+	struct snd_tplg_graph_elem *ge;
+	size_t asize;
+	int err;
+
+	err = tplg_decode_template(tplg, pos, hdr, &t);
+	if (err < 0)
+		return err;
+
+	asize = sizeof(*gt) + (size / sizeof(*g)) * sizeof(*ge);
+	gt = alloca(asize);
+	memset(gt, 0, asize);
+	for (ge = gt->elem; size > 0; ge++) {
+		g = bin;
+		if (size < sizeof(*g)) {
+			SNDERR("dapm graph: small size %d", size);
+			return -EINVAL;
+		}
+		ge->src = g->source;
+		ge->ctl = g->control;
+		ge->sink = g->sink;
+		gt->count++;
+		tplg_log(tplg, 'D', pos, "dapm graph: src='%s' ctl='%s' sink='%s'",
+			ge->src, ge->ctl, ge->sink);
+		bin += sizeof(*g);
+		size -= sizeof(*g);
+		pos += sizeof(*g);
+	}
+
+	t.graph = gt;
+	return snd_tplg_add_object(tplg, &t);
 }

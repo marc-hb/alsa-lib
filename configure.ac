@@ -1,6 +1,6 @@
 dnl Process this file with autoconf to produce a configure script.
 AC_PREREQ(2.59)
-AC_INIT(alsa-lib, 1.2.1.2)
+AC_INIT(alsa-lib, 1.2.2)
 
 AC_CONFIG_SRCDIR([src/control/control.c])
 AC_CONFIG_MACRO_DIR([m4])
@@ -707,7 +707,8 @@ if test ! -L "$srcdir"/include/alsa ; then
 fi
 
 AC_OUTPUT(Makefile doc/Makefile doc/pictures/Makefile doc/doxygen.cfg \
-	  include/Makefile include/sound/Makefile src/Versions src/Makefile \
+	  include/Makefile include/sound/Makefile include/sound/uapi/Makefile \
+	  src/Versions src/Makefile \
           src/control/Makefile src/mixer/Makefile \
 	  src/pcm/Makefile src/pcm/scopes/Makefile \
 	  src/rawmidi/Makefile src/timer/Makefile \
@@ -764,14 +765,3 @@ test "$build_seq" = "yes" && echo "#include <alsa/seq.h>" >> include/asoundlib.h
 test "$build_seq" = "yes" && echo "#include <alsa/seqmid.h>" >> include/asoundlib.h
 test "$build_seq" = "yes" && echo "#include <alsa/seq_midi_event.h>" >> include/asoundlib.h
 cat "$srcdir"/include/asoundlib-tail.h >> include/asoundlib.h
-
-dnl Taken from https://wiki.debian.org/RpathIssue
-case $host in
-   *-*-linux-gnu)
-   AC_MSG_RESULT([Fixing libtool for -rpath problems.])
-   sed < libtool > libtool-2 \
-     's/^hardcode_libdir_flag_spec.*$'/'hardcode_libdir_flag_spec=" -D__LIBTOOL_IS_A_FOOL__ "/'
-   mv libtool-2 libtool
-   chmod 755 libtool
- ;;
-esac

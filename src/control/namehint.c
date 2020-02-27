@@ -348,6 +348,13 @@ static int try_config(snd_config_t *config,
 		goto __cleanup;
 	if (snd_config_search(res, "@args", &cfg) >= 0) {
 		snd_config_for_each(i, next, cfg) {
+			/* skip the argument list */
+			if (snd_config_get_id(snd_config_iterator_entry(i), &str) < 0)
+				continue;
+			while (*str && *str >= '0' && *str <= '9') str++;
+			if (*str == '\0')
+				continue;
+			/* the argument definition must have the default */
 			if (snd_config_search(snd_config_iterator_entry(i),
 					      "default", NULL) < 0) {
 				err = -EINVAL;
