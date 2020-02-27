@@ -3,6 +3,8 @@ alsa-lib (1.2.2-1) UNRELEASED; urgency=medium
   [ Jordi Mallach ]
   * New upstream release.
   * Update Standards-Version to 4.5.0.
+  * Override dh_installchangelogs to avoid installing stale upstream
+    ChangeLog (closes: #922060).
 
   [ Steve Langasek ]
   * Make autopkgtests cross-test-friendly.
