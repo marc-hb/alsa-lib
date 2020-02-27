@@ -9,7 +9,7 @@ alsa-lib (1.2.2-1) UNRELEASED; urgency=medium
     patch (closes: #942196).
 
   [ Steve Langasek ]
-  * Make autopkgtests cross-test-friendly.
+  * Make autopkgtests cross-test-friendly (closes: #949561).
 
  -- Jordi Mallach <jordi@debian.org>  Thu, 27 Feb 2020 11:33:08 +0100
 
