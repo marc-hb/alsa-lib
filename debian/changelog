@@ -1,3 +1,9 @@
+alsa-lib (1.2.3.2-sof1) UNRELEASED; urgency=medium
+
+  * v1.2.3.2-4-g877bdf95
+
+ -- Marc Herbert <Marc.Herbert@intel.com>  Thu, 09 Jul 2020 17:24:42 -0700
+
 alsa-lib (1.2.2-2.1) unstable; urgency=medium
 
   [ Matthias Klose ]
